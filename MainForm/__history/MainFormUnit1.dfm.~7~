@@ -33,8 +33,8 @@ object MyMainForm: TMyMainForm
     ExplicitTop = 25
   end
   object MainMenu1: TMainMenu
-    Left = 248
-    Top = 120
+    Left = 440
+    Top = 152
     object N5: TMenuItem
       Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1079#1072' '#1076#1077#1085#1100
       object HandlyHarvesting: TMenuItem
