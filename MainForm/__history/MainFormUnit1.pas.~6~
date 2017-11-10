@@ -1,0 +1,44 @@
+unit MainFormUnit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, DataEntryUnit1;
+
+type
+  TMyMainForm = class(TForm)
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    BitBtn4: TBitBtn;
+    Label1: TLabel;
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  MyMainForm: TMyMainForm;
+
+implementation
+
+{$R *.dfm}
+
+procedure TMyMainForm.BitBtn1Click(Sender: TObject);
+begin
+  if (not Assigned(DataEntry)) then                   //Проверка на существование формы перед ее созданием
+    DataEntry:=TDataEntry.Create(Self);
+  DataEntry.Show;
+  MyMainForm.Visible:=False;
+end;
+
+procedure TMyMainForm.BitBtn4Click(Sender: TObject);
+begin
+  Close;
+end;
+
+end.

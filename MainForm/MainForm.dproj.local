@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2017.11.10 22:30:17.153.pas,C:\Users\Fm\Documents\RAD Studio\Projects\Unit1.pas=D:\Statistics\MainForm\MainFormUnit1.pas</Transaction>
+    <Transaction>2017.11.10 22:30:17.153.dfm,C:\Users\Fm\Documents\RAD Studio\Projects\Unit1.dfm=D:\Statistics\MainForm\MainFormUnit1.dfm</Transaction>
+    <Transaction>2017.11.10 22:30:29.331.dproj,C:\Users\Fm\Documents\RAD Studio\Projects\Project1.dproj=D:\Statistics\MainForm\MainForm.dproj</Transaction>
+    <Transaction>2017.11.10 23:10:14.843.pas,D:\Statistics\MainForm\Unit1.pas=D:\Statistics\MainForm\DataEntryUnit1.pas</Transaction>
+    <Transaction>2017.11.10 23:10:14.843.dfm,D:\Statistics\MainForm\Unit1.dfm=D:\Statistics\MainForm\DataEntryUnit1.dfm</Transaction>
+    <Transaction>2017.11.10 23:54:16.890.pas,D:\Statistics\MainForm\Unit1.pas=D:\Statistics\MainForm\EntryDaylyInfUnit1.pas</Transaction>
+    <Transaction>2017.11.10 23:54:16.890.dfm,D:\Statistics\MainForm\Unit1.dfm=D:\Statistics\MainForm\EntryDaylyInfUnit1.dfm</Transaction>
+    <Transaction>2017.11.11 00:08:29.472.pas,D:\Statistics\MainForm\Unit1.pas=D:\Statistics\MainForm\EntryDopInformationUnit1.pas</Transaction>
+    <Transaction>2017.11.11 00:08:29.472.dfm,D:\Statistics\MainForm\Unit1.dfm=D:\Statistics\MainForm\EntryDopInformationUnit1.dfm</Transaction>
+    <Transaction>2017.11.11 00:22:42.211.pas,D:\Statistics\MainForm\EntryDopInformationUnit1.pas=</Transaction>
+    <Transaction>2017.11.11 00:22:42.211.dfm,D:\Statistics\MainForm\EntryDopInformationUnit1.dfm=</Transaction>
+    <Transaction>2017.11.11 00:31:33.527.pas,D:\Statistics\MainForm\EntryDaylyInfUnit1.pas=</Transaction>
+    <Transaction>2017.11.11 00:31:33.527.dfm,D:\Statistics\MainForm\EntryDaylyInfUnit1.dfm=</Transaction>
+    <Transaction>2017.11.11 00:31:39.455.pas,D:\Statistics\MainForm\DataEntryUnit1.pas=</Transaction>
+    <Transaction>2017.11.11 00:31:39.455.dfm,D:\Statistics\MainForm\DataEntryUnit1.dfm=</Transaction>
+  </Transactions>
+</BorlandProject>

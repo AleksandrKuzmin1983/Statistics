@@ -1,0 +1,15 @@
+program MainForm;
+
+uses
+  Forms,
+  MainFormUnit1 in 'MainFormUnit1.pas' {MyMainForm},
+  DataEntryUnit1 in 'DataEntryUnit1.pas' {DataEntry};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TMyMainForm, MyMainForm);
+  Application.Run;
+end.
