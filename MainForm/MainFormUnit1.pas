@@ -5,8 +5,9 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
-  ActnMenus, Menus, ConnectingUnit1, Data.DB, Data.Win.ADODB, Vcl.Grids,
-  Vcl.DBGrids;
+  ActnMenus, Menus,  Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
+  Vcl.DBCtrls, ConnectivgUnit1_ver2, Generics.Collections, Contnrs, Bde.DBTables, Query1Unit1,
+  Vcl.ComCtrls;
 
 type
   TMyMainForm = class(TForm)
@@ -41,61 +42,71 @@ type
     N23: TMenuItem;
     N24: TMenuItem;
     N25: TMenuItem;
-    N26: TMenuItem;
-    N27: TMenuItem;
-    N28: TMenuItem;
-    DBGrid1: TDBGrid;
-    Button1: TButton;
+    Query1: TMenuItem;
+    Query2: TMenuItem;
+    Query3: TMenuItem;
+    BitBtn1: TBitBtn;
     Label2: TLabel;
     procedure N4Click(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Query1Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
-    connect: Connecting;
-    fConnecting: Connecting;
-    TableBlood: BloodTable;
-    { Private declarations }
+
   public
     { Public declarations }
 
   end;
-
 var
   MyMainForm: TMyMainForm;
-  MyList: TMyList;
+  QBlood, QPlasma, QTrombo: TADOQuery;
+  QueryX: DataBaseTables;
+  FQuery1: FormQuery1;
+  LabelQuery1_1, LabelQuery1_2: TLabel;
+  CalendarStart, CalendarEnd: TDateTimePicker;
+  BackButton: TBitBtn;
+
+
 implementation
 
 {$R *.dfm}
 
-procedure TMyMainForm.Button1Click(Sender: TObject);
-//var
-//DataSet : TDataSet;
+procedure TMyMainForm.BitBtn1Click(Sender: TObject);
 begin
-  TableBlood:=BloodTable.Create;
-  MyList:= TMyList.Create(true);
-  fConnecting:= Connecting.Create;
-  fConnecting.GetDataQuery('SELECT [КДК] FROM Blood');
-
-  while not fConnecting.GetQuery.DataSet.Eof do
-begin
-  MyList.AddNew(fConnecting.GetQuery.DataSet.Fields.Fields[0].AsInteger);
-  fConnecting.GetQuery.DataSet.next;
-
+    ShowMessage('Я нажата!');
 end;
+
+procedure TMyMainForm.Button1Click(Sender: TObject);
+begin
+  QBlood:=QueryX.GetBlood;
+  QPlasma:=QueryX.GetPlasma;
+  QTrombo:=QueryX.GetTrombo;
 
 end;
 
 procedure TMyMainForm.FormCreate(Sender: TObject);
 begin
-  connect:=connecting.create;
-  //dbGrid1.DataSource:=connect.GetDataSource('SELECT * FROM Blood');
-
+  QueryX:=DataBaseTables.create;
 end;
-
 
 procedure TMyMainForm.N4Click(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TMyMainForm.Query1Click(Sender: TObject);
+begin
+  Label1.Caption:='Количество донаций и заготовленной крови';
+  label1.Font.Size:=25;
+  FQuery1:=FormQuery1.Create;
+  LabelQuery1_1:=FQuery1.GetLabelStartDate(self);
+  LabelQuery1_2:=FQuery1.GetLabelEndDate(self);
+  CalendarStart:=FQuery1.GetCalendarStartDate(self);
+  CalendarEnd:=FQuery1.GetCalendarEndDate(self);
+  BackButton:=FQuery1.GetButtonBack(self);
+  BackButton.OnClick:=FQuery1.ButtonBackClick; //не работает
+
 end;
 
 end.

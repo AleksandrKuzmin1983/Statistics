@@ -2,8 +2,8 @@ object MyMainForm: TMyMainForm
   Left = 0
   Top = 0
   Caption = #1057#1090#1072#1090#1080#1089#1090#1080#1082#1072' '#1087#1086' '#1079#1072#1075#1086#1090#1086#1074#1082#1077' '#1082#1088#1086#1074#1080
-  ClientHeight = 300
-  ClientWidth = 635
+  ClientHeight = 392
+  ClientWidth = 884
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,8 +19,8 @@ object MyMainForm: TMyMainForm
   object Label1: TLabel
     Left = 0
     Top = 0
-    Width = 635
-    Height = 49
+    Width = 884
+    Height = 60
     Align = alTop
     Alignment = taCenter
     AutoSize = False
@@ -31,39 +31,27 @@ object MyMainForm: TMyMainForm
     Font.Name = 'Times New Roman'
     Font.Style = []
     ParentFont = False
-    ExplicitTop = 25
+    ExplicitWidth = 830
   end
   object Label2: TLabel
-    Left = 432
-    Top = 104
+    Left = 488
+    Top = 341
     Width = 31
     Height = 13
     Caption = 'Label2'
   end
-  object DBGrid1: TDBGrid
-    Left = 8
-    Top = 72
-    Width = 320
-    Height = 120
-    TabOrder = 0
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'Tahoma'
-    TitleFont.Style = []
-  end
-  object Button1: TButton
-    Left = 296
-    Top = 248
+  object BitBtn1: TBitBtn
+    Left = 376
+    Top = 336
     Width = 75
     Height = 25
-    Caption = 'Button1'
-    TabOrder = 1
-    OnClick = Button1Click
+    Caption = 'BitBtn1'
+    TabOrder = 0
+    OnClick = BitBtn1Click
   end
   object MainMenu1: TMainMenu
-    Left = 584
-    Top = 104
+    Left = 768
+    Top = 328
     object N5: TMenuItem
       Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1079#1072' '#1076#1077#1085#1100
       object HandlyHarvesting: TMenuItem
@@ -143,13 +131,14 @@ object MyMainForm: TMyMainForm
     end
     object N3: TMenuItem
       Caption = '&'#1047#1072#1087#1088#1086#1089#1099
-      object N26: TMenuItem
+      object Query1: TMenuItem
         Caption = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1076#1086#1085#1072#1094#1080#1081' '#1080' '#1079#1072#1075#1086#1090#1086#1074#1083#1077#1085#1085#1086#1081' '#1082#1088#1086#1074#1080
+        OnClick = Query1Click
       end
-      object N27: TMenuItem
+      object Query2: TMenuItem
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1086#1084#1087#1086#1085#1077#1085#1090#1086#1074' ('#1086#1073#1097#1080#1081')'
       end
-      object N28: TMenuItem
+      object Query3: TMenuItem
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1086#1084#1087#1086#1085#1077#1085#1090#1086#1074' ('#1087#1086' '#1074#1080#1076#1072#1084')'
       end
     end

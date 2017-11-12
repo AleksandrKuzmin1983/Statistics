@@ -4,38 +4,41 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
-  ActnMenus, Menus, Data.DB, Data.Win.ADODB, Contnrs,
+  ActnMenus, Menus, Contnrs, Data.DB, Data.Win.ADODB,
   Generics.Collections;
+
 type
-  Connecting = class
+  Connecting = class  //Создаем запрос, содержащий некоторую таблицу
   private
-    Connect: TADOConnection;
+//    Connect: TADOConnection;
+//    DataSource: TDataSource;
     Query: TADOQuery;
-    DataSource: TDataSource;
   public
-    function GetConnect: TADOConnection;
-    procedure GetDataQuery(SQL: string);
-    function GetQuery: TDataSource;
+//    function GetConnect: TADOConnection;
+//    function GetQuery: TDataSource;
+{    procedure GetDataQuery(SQL: string);     }
     constructor create;
   end;
 
   BloodTable = class
   private
-    //DateK: Tdate;
-    KolDon: integer;
-    //OnConservation: real;
-    //OnLaborIssled: real;
-    //CellBlood: real;
-    //ConservationBloob: real;
+//    DateK: Tlistbox;
+    KolDon: Tlistbox;
+//    OnConservation: Tlistbox;
+//    nLaborIssled: Tlistbox;
+//    CellBlood: Tlistbox;
+//    ConservationBloob: Tlistbox;
+  public
+    procedure GetData;
+//    function AddNew(KD: integer):BloodTable;
 
   end;
 
-   TMyList=class(TObjectList<BloodTable>)
+{   TMyList=class(TObjectList<BloodTable>)
      //fConnecting: Connecting;
-     function AddNew(KolDon: integer):BloodTable;
-
+    // function AddNew(KD: integer):BloodTable;
      //procedure GetTableBlood;
-   end;
+   end;         }
 
 implementation
 
@@ -43,21 +46,26 @@ implementation
 
 constructor Connecting.create;
 begin
-  Connect:=TADOConnection.Create(nil);
-  Connect.ConnectionString:='Provider=Microsoft.Jet.OLEDB.4.0;' +
-  'Data Source=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\db\Stat_rab_ver.mdb;' +
-  'Persist Security Info=False';
-  Connect.LoginPrompt:=False;
-  Connect.Connected:=true;
-
+//  Connect:=TADOConnection.Create(nil);
+//  Connect.ConnectionString:='Provider=Microsoft.ACE.OLEDB.12.0;' +
+//  'Data Source=..\AccesBase\Stat_rab_ver.accdb;Persist Security Info=False';
+//  Connect.LoginPrompt:=False;
+//  Connect.Connected:=true;
+  if not Assigned(Query) then
+    Query := TADOQuery.create(nil);
+  Query.ConnectionString:='Provider=Microsoft.ACE.OLEDB.12.0;' +
+  'Data Source=..\AccesBase\Stat_rab_ver.accdb;Persist Security Info=False';
+  Query.Close;
+  Query.SQL.Clear;
+  Query.SQL.Add('SELECT * FROM Blood');
 end;
 
-function Connecting.GetConnect: TADOConnection;
+{function Connecting.GetConnect: TADOConnection;
 begin
   result:=connect;
-end;
+end;        }
 
-procedure Connecting.GetDataQuery(SQL: string);
+{procedure Connecting.GetDataQuery(SQL: string);
 begin
   if not Assigned(Query) then
     Query := TADOQuery.create(nil);
@@ -70,40 +78,31 @@ begin
   if not Assigned(DataSource) then
     DataSource := TDataSource.create(nil);
   DataSource.DataSet := Query;
-  //result := Query;
-end;
 
-function Connecting.GetQuery: TDataSource;
+
+end;   }
+
+{function Connecting.GetQuery: TDataSource;
 begin
   result := DataSource;
-end;
-
-{ TMyList }
-      {
-procedure TMyList.GetTableBlood;
-var
-  i: integer;
-  DataSource1: TDataSource;
-begin
-  fConnecting := Connecting.create;
-  fConnecting.GetDataQuery('select top 1 551 from Blood;');
-
-  DataSource1:=fConnecting;
-while not DataSource1.DataSet.Eof do
-begin
-  AddNew(DataSet.fieldByName('[КДК]').AsInteger);
-  dataset.next;
-end;
-
-end;  }
+end;           }
 
 { TMyList }
 
-function TMyList.AddNew(KolDon: integer): BloodTable;
+{function TMyList.AddNew(KD: integer): BloodTable;
 begin
-  result := BloodTable.Create;
-  result.KolDon:=KolDon;
+  MyList:=BloodTable.Create;
+  //result := BloodTable.Create;
+  MyList.KolDon:=KD;
+  //result.KolDon:=KD;
   add(result);
+end;       }
+
+{ BloodTable }
+
+procedure BloodTable.GetData;
+begin
+
 end;
 
 end.
