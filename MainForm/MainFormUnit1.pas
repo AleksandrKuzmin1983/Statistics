@@ -6,8 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
   ActnMenus, Menus,  Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
-  Vcl.DBCtrls, ConnectivgUnit1_ver2, Generics.Collections, Contnrs, Bde.DBTables, Query1Unit1,
-  Vcl.ComCtrls;
+  Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables, Query1Unit1,
+  Vcl.ComCtrls, GetDataSoursUnit1;
 
 type
   TMyMainForm = class(TForm)
@@ -47,34 +47,44 @@ type
     Query3: TMenuItem;
     BitBtn1: TBitBtn;
     Label2: TLabel;
+    BitBtn2: TBitBtn;
     procedure N4Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Query1Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
   private
-
+    QBlood, QPlasma, QTrombo: TADOQuery;
+    QueryX: DataBaseTables;
+    FQuery1: FormQuery1;
+    LabelQuery1_1, LabelQuery1_2: TLabel;
+    CalendarStart, CalendarEnd: TDateTimePicker;
+    BackButton: TBitBtn;
   public
+
     { Public declarations }
 
   end;
 var
   MyMainForm: TMyMainForm;
-  QBlood, QPlasma, QTrombo: TADOQuery;
-  QueryX: DataBaseTables;
-  FQuery1: FormQuery1;
-  LabelQuery1_1, LabelQuery1_2: TLabel;
-  CalendarStart, CalendarEnd: TDateTimePicker;
-  BackButton: TBitBtn;
+
 
 
 implementation
 
 {$R *.dfm}
 
+
+
+procedure ButClick(Sender: TObject);
+begin
+  ShowMessage('Я нажата!');
+end;
+
 procedure TMyMainForm.BitBtn1Click(Sender: TObject);
 begin
-    ShowMessage('Я нажата!');
+ // bitbtn2.OnClick:=ButClick;
+  //  ShowMessage('Я нажата!');
 end;
 
 procedure TMyMainForm.Button1Click(Sender: TObject);
@@ -105,7 +115,8 @@ begin
   CalendarStart:=FQuery1.GetCalendarStartDate(self);
   CalendarEnd:=FQuery1.GetCalendarEndDate(self);
   BackButton:=FQuery1.GetButtonBack(self);
-  BackButton.OnClick:=FQuery1.ButtonBackClick; //не работает
+  BackButton.OnClick:=FQuery1.ButtonBackClick;
+  bitbtn1.OnClick:=FQuery1.ButtonBackClick;
 
 end;
 

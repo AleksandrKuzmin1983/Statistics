@@ -49,6 +49,14 @@ object MyMainForm: TMyMainForm
     TabOrder = 0
     OnClick = BitBtn1Click
   end
+  object BitBtn2: TBitBtn
+    Left = 224
+    Top = 328
+    Width = 75
+    Height = 25
+    Caption = 'BitBtn2'
+    TabOrder = 1
+  end
   object MainMenu1: TMainMenu
     Left = 768
     Top = 328

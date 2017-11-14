@@ -21,7 +21,7 @@ type
     function GetCalendarStartDate(NameForm: TwinControl): TDateTimePicker;
     function GetCalendarEndDate(NameForm: TwinControl): TDateTimePicker;
     function GetButtonBack(NameForm: TwinControl): TBitBtn;
-    procedure ButtonBackClick(Sender: TObject); //не работает
+    procedure ButtonBackClick(Sender: TObject);
   end;
 
 implementation
@@ -32,9 +32,10 @@ implementation
 
 { FormQuery1 }
 
-procedure FormQuery1.ButtonBackClick(Sender: TObject); //не работает
+procedure FormQuery1.ButtonBackClick(Sender: TObject);
 begin
   ShowMessage('Я нажата!');
+
 end;
 
 function FormQuery1.GetButtonBack(NameForm: TwinControl): TBitBtn;
@@ -49,6 +50,7 @@ begin
     Font.Size:=12;
     Caption:='Назад';
   end;
+  result:=ButtonBack;
 end;
 
 function FormQuery1.GetCalendarEndDate(NameForm: TwinControl): TDateTimePicker;
@@ -61,6 +63,7 @@ begin
     top:=120;
     Font.Size:=12;
   end;
+  result:=EndDateCal;
 end;
 
 function FormQuery1.GetCalendarStartDate(NameForm: TwinControl): TDateTimePicker;
@@ -73,6 +76,7 @@ begin
     top:=80;
     Font.Size:=12;
   end;
+  result:=StartDateCal;
 end;
 
 function FormQuery1.GetLabelEndDate(NameForm: TwinControl): TLabel;
@@ -87,6 +91,7 @@ begin
     Font.Size:=20;
     Caption:='Конечная дата:';
   end;
+  result:=EndDate;
 end;
 
 function FormQuery1.GetLabelStartDate(NameForm: TwinControl): TLabel;
@@ -101,6 +106,7 @@ begin
     Font.Size:=20;
     Caption:='Начальная дата:';
   end;
+  result:=StartDate;
 end;
 
 end.
