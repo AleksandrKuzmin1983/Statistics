@@ -5,7 +5,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
   ActnMenus, Menus,  Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
-  Vcl.DBCtrls, ConnectivgUnit1_ver2, Generics.Collections, Contnrs, Bde.DBTables, Vcl.ComCtrls ;
+  Vcl.DBCtrls, ConnectivgUnit1_ver2, Generics.Collections, Contnrs, Bde.DBTables, Vcl.ComCtrls;
 
 type
   FormQuery1 = class (TObject)
@@ -15,12 +15,16 @@ type
     StartDateCal: TDateTimePicker;
     EndDateCal: TDateTimePicker;
     ButtonBack: TBitBtn;
+    NameStat1: Tlabel;
+    ResultEdit1: TEdit;
   public
     function GetLabelStartDate(NameForm: TwinControl): TLabel;
     function GetLabelEndDate(NameForm: TwinControl): TLabel;
     function GetCalendarStartDate(NameForm: TwinControl): TDateTimePicker;
     function GetCalendarEndDate(NameForm: TwinControl): TDateTimePicker;
     function GetButtonBack(NameForm: TwinControl): TBitBtn;
+    function GetLabelNameStat1(NameForm: TwinControl): Tlabel;
+    function GenEdit1(NameForm: TwinControl): TEdit;
     procedure ButtonBackClick(Sender: TObject);
   end;
 
@@ -35,7 +39,24 @@ implementation
 procedure FormQuery1.ButtonBackClick(Sender: TObject);
 begin
   ShowMessage('Я нажата!');
+  end;
 
+function FormQuery1.GenEdit1(NameForm: TwinControl): TEdit;
+begin
+  ResultEdit1:=TEdit.create(NameForm);
+  ResultEdit1.parent:=NameForm;
+  with ResultEdit1 do
+  begin
+    left:=400;
+    top:=180;
+    Width:=100;
+    Font.name:='Times New Roman';
+    Font.Size:=12;
+    Alignment:=taRightJustify;
+    ReadOnly:=true;
+    Text:='';
+  end;
+  result:=ResultEdit1;
 end;
 
 function FormQuery1.GetButtonBack(NameForm: TwinControl): TBitBtn;
@@ -92,6 +113,21 @@ begin
     Caption:='Конечная дата:';
   end;
   result:=EndDate;
+end;
+
+function FormQuery1.GetLabelNameStat1(NameForm: TwinControl): Tlabel;
+begin
+  NameStat1:=Tlabel.create(NameForm);
+  NameStat1.parent:=NameForm;
+  with NameStat1 do
+  begin
+    left:=50;
+    top:=180;
+    Font.name:='Times New Roman';
+    Font.Size:=20;
+    Caption:='Количество донаций крови:';
+  end;
+  result:=NameStat1;
 end;
 
 function FormQuery1.GetLabelStartDate(NameForm: TwinControl): TLabel;

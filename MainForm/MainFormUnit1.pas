@@ -45,23 +45,19 @@ type
     Query1: TMenuItem;
     Query2: TMenuItem;
     Query3: TMenuItem;
-    BitBtn1: TBitBtn;
-    Label2: TLabel;
-    BitBtn2: TBitBtn;
     procedure N4Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Query1Click(Sender: TObject);
-    procedure BitBtn1Click(Sender: TObject);
   private
     QBlood, QPlasma, QTrombo: TADOQuery;
     QueryX: DataBaseTables;
-    FQuery1: FormQuery1;
-    LabelQuery1_1, LabelQuery1_2: TLabel;
+    LabelQuery1_1, LabelQuery1_2, LabelQuery1_3: TLabel;
     CalendarStart, CalendarEnd: TDateTimePicker;
+    EditQuery1_1: TEdit;
     BackButton: TBitBtn;
   public
-
+    FQuery1: FormQuery1;
     { Public declarations }
 
   end;
@@ -79,12 +75,6 @@ implementation
 procedure ButClick(Sender: TObject);
 begin
   ShowMessage('Я нажата!');
-end;
-
-procedure TMyMainForm.BitBtn1Click(Sender: TObject);
-begin
- // bitbtn2.OnClick:=ButClick;
-  //  ShowMessage('Я нажата!');
 end;
 
 procedure TMyMainForm.Button1Click(Sender: TObject);
@@ -112,11 +102,13 @@ begin
   FQuery1:=FormQuery1.Create;
   LabelQuery1_1:=FQuery1.GetLabelStartDate(self);
   LabelQuery1_2:=FQuery1.GetLabelEndDate(self);
+  LabelQuery1_3:=FQuery1.GetLabelNameStat1(self);
+  EditQuery1_1:=FQuery1.GenEdit1(self);
   CalendarStart:=FQuery1.GetCalendarStartDate(self);
   CalendarEnd:=FQuery1.GetCalendarEndDate(self);
   BackButton:=FQuery1.GetButtonBack(self);
   BackButton.OnClick:=FQuery1.ButtonBackClick;
-  bitbtn1.OnClick:=FQuery1.ButtonBackClick;
+
 
 end;
 

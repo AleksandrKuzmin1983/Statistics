@@ -33,33 +33,9 @@ object MyMainForm: TMyMainForm
     ParentFont = False
     ExplicitWidth = 830
   end
-  object Label2: TLabel
-    Left = 488
-    Top = 341
-    Width = 31
-    Height = 13
-    Caption = 'Label2'
-  end
-  object BitBtn1: TBitBtn
-    Left = 376
-    Top = 336
-    Width = 75
-    Height = 25
-    Caption = 'BitBtn1'
-    TabOrder = 0
-    OnClick = BitBtn1Click
-  end
-  object BitBtn2: TBitBtn
-    Left = 224
-    Top = 328
-    Width = 75
-    Height = 25
-    Caption = 'BitBtn2'
-    TabOrder = 1
-  end
   object MainMenu1: TMainMenu
-    Left = 768
-    Top = 328
+    Left = 816
+    Top = 16
     object N5: TMenuItem
       Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1079#1072' '#1076#1077#1085#1100
       object HandlyHarvesting: TMenuItem
