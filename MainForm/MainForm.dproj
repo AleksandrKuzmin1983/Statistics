@@ -53,9 +53,9 @@
 			<DCCReference Include="MainFormUnit1.pas">
 				<Form>MyMainForm</Form>
 			</DCCReference>
-			<DCCReference Include="ConnectingUnit1.pas"/>
-			<DCCReference Include="GetDataSoursUnit1.pas"/>
-			<DCCReference Include="Query1Unit1.pas"/>
+			<DCCReference Include="..\Model\GetDataSoursUnit1.pas"/>
+			<DCCReference Include="..\Model\Query1Unit1.pas"/>
+			<DCCReference Include="..\Model\Query2Unit1.pas"/>
 			<None Include="ModelSupport_MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>

@@ -13,7 +13,6 @@ object MyMainForm: TMyMainForm
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poScreenCenter
-  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -116,8 +115,11 @@ object MyMainForm: TMyMainForm
     object N3: TMenuItem
       Caption = '&'#1047#1072#1087#1088#1086#1089#1099
       object Query1: TMenuItem
-        Caption = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1076#1086#1085#1072#1094#1080#1081' '#1080' '#1079#1072#1075#1086#1090#1086#1074#1083#1077#1085#1085#1086#1081' '#1082#1088#1086#1074#1080
+        Caption = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1076#1086#1085#1072#1094#1080#1081
         OnClick = Query1Click
+      end
+      object N26: TMenuItem
+        Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1088#1086#1074#1080
       end
       object Query2: TMenuItem
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1086#1084#1087#1086#1085#1077#1085#1090#1086#1074' ('#1086#1073#1097#1080#1081')'

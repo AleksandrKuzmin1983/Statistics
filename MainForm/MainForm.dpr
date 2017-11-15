@@ -3,9 +3,9 @@ program MainForm;
 uses
   Forms,
   MainFormUnit1 in 'MainFormUnit1.pas' {MyMainForm},
-  ConnectingUnit1 in 'ConnectingUnit1.pas',
-  GetDataSoursUnit1 in 'GetDataSoursUnit1.pas',
-  Query1Unit1 in 'Query1Unit1.pas';
+  GetDataSoursUnit1 in '..\Model\GetDataSoursUnit1.pas',
+  Query1Unit1 in '..\Model\Query1Unit1.pas',
+  Query2Unit1 in '..\Model\Query2Unit1.pas';
 
 {$R *.res}
 
