@@ -1,20 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>2017.11.10 22:30:17.153.pas,C:\Users\Fm\Documents\RAD Studio\Projects\Unit1.pas=D:\Statistics\MainForm\MainFormUnit1.pas</Transaction>
-    <Transaction>2017.11.10 22:30:17.153.dfm,C:\Users\Fm\Documents\RAD Studio\Projects\Unit1.dfm=D:\Statistics\MainForm\MainFormUnit1.dfm</Transaction>
-    <Transaction>2017.11.10 22:30:29.331.dproj,C:\Users\Fm\Documents\RAD Studio\Projects\Project1.dproj=D:\Statistics\MainForm\MainForm.dproj</Transaction>
-    <Transaction>2017.11.10 23:10:14.843.pas,D:\Statistics\MainForm\Unit1.pas=D:\Statistics\MainForm\DataEntryUnit1.pas</Transaction>
-    <Transaction>2017.11.10 23:10:14.843.dfm,D:\Statistics\MainForm\Unit1.dfm=D:\Statistics\MainForm\DataEntryUnit1.dfm</Transaction>
-    <Transaction>2017.11.10 23:54:16.890.pas,D:\Statistics\MainForm\Unit1.pas=D:\Statistics\MainForm\EntryDaylyInfUnit1.pas</Transaction>
-    <Transaction>2017.11.10 23:54:16.890.dfm,D:\Statistics\MainForm\Unit1.dfm=D:\Statistics\MainForm\EntryDaylyInfUnit1.dfm</Transaction>
-    <Transaction>2017.11.11 00:08:29.472.pas,D:\Statistics\MainForm\Unit1.pas=D:\Statistics\MainForm\EntryDopInformationUnit1.pas</Transaction>
-    <Transaction>2017.11.11 00:08:29.472.dfm,D:\Statistics\MainForm\Unit1.dfm=D:\Statistics\MainForm\EntryDopInformationUnit1.dfm</Transaction>
-    <Transaction>2017.11.11 00:22:42.211.pas,D:\Statistics\MainForm\EntryDopInformationUnit1.pas=</Transaction>
-    <Transaction>2017.11.11 00:22:42.211.dfm,D:\Statistics\MainForm\EntryDopInformationUnit1.dfm=</Transaction>
-    <Transaction>2017.11.11 00:31:33.527.pas,D:\Statistics\MainForm\EntryDaylyInfUnit1.pas=</Transaction>
-    <Transaction>2017.11.11 00:31:33.527.dfm,D:\Statistics\MainForm\EntryDaylyInfUnit1.dfm=</Transaction>
-    <Transaction>2017.11.11 00:31:39.455.pas,D:\Statistics\MainForm\DataEntryUnit1.pas=</Transaction>
-    <Transaction>2017.11.11 00:31:39.455.dfm,D:\Statistics\MainForm\DataEntryUnit1.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\Statistics\MainForm\EntryDaylyInfUnit1.dfm=D:\Statistics\MainForm\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.473,=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\ModelSupport_MainForm\default.txaPackage</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.147,=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\ModelSupport_MainForm\MainForm\default.txvpck</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\Statistics\MainForm\EntryDaylyInfUnit1.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\Statistics\MainForm\DataEntryUnit1.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\Statistics\MainForm\DataEntryUnit1.dfm=D:\Statistics\MainForm\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.196,=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\ModelSupport_MainForm\default.txvpck</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.021,=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.859,C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\ConnectingUnit1.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.672,C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\ConnectingUnit1.pas=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.339,=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\ModelSupport_MainForm\ConnectingUnit1\default.txvpck</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dproj,D:\Statistics\MainForm\MainForm.dproj=C:\Users\Fm\Documents\RAD Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.382,C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\Unit1.pas=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\ConnectingUnit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.075,=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.586,=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\Statistics\MainForm\EntryDopInformationUnit1.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\Statistics\MainForm\EntryDopInformationUnit1.pas=D:\Statistics\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\Statistics\MainForm\EntryDopInformationUnit1.dfm=D:\Statistics\MainForm\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\Statistics\MainForm\MainFormUnit1.dfm=C:\Users\Fm\Documents\RAD Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.269,=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\ModelSupport_MainForm\MainFormUnit1\default.txvpck</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\Statistics\MainForm\EntryDopInformationUnit1.dfm=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\Statistics\MainForm\DataEntryUnit1.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\Statistics\MainForm\DataEntryUnit1.pas=D:\Statistics\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\Statistics\MainForm\EntryDaylyInfUnit1.pas=D:\Statistics\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\Statistics\MainForm\MainFormUnit1.pas=C:\Users\Fm\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\Statistics\MainForm\EntryDaylyInfUnit1.pas=</Transaction>
+    <Transaction>2017.11.17 12:47:56.767,C:\Users\студ.k201-09\Documents\77-5\Statistics\Model\Connect\GetDataSoursUnit1.pas=C:\Users\студ.k201-09\Documents\77-5\Statistics\Model\GetDataSoursUnit1.pas</Transaction>
+    <Transaction>2017.11.17 12:48:34.951,C:\Users\студ.k201-09\Documents\77-5\Statistics\Model\Query2Unit1.pas=</Transaction>
+    <Transaction>2017.11.17 12:49:37.687,C:\Users\студ.k201-09\Documents\77-5\Statistics\View\Queries\NumberOfDonations\Query1Unit1.pas=C:\Users\студ.k201-09\Documents\77-5\Statistics\Model\Query1Unit1.pas</Transaction>
+    <Transaction>2017.11.17 12:50:33.183,C:\Users\студ.k201-09\Documents\77-5\Statistics\View\Queries\NumberOfDonations\QNumberOfDonations.pas=C:\Users\студ.k201-09\Documents\77-5\Statistics\View\Queries\NumberOfDonations\Query1Unit1.pas</Transaction>
+    <Transaction>2017.11.17 12:53:00.549,=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\Unit1.pas</Transaction>
+    <Transaction>2017.11.17 12:54:29.050,C:\Users\студ.k201-09\Documents\77-5\Statistics\Model\Queries\NumberOfDonations\UTheNumberOfBloodDonations.pas=C:\Users\студ.k201-09\Documents\77-5\Statistics\MainForm\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

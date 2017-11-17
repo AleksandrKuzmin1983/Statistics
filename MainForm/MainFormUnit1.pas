@@ -4,8 +4,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons,  ToolWin, ActnMan, ActnCtrls,
-  ActnMenus, Menus;
+  Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
+  ActnMenus, Menus,  Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
+  Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
+  Vcl.ComCtrls, GetDataSoursUnit1, QNumberOfDonations;
 
 type
   TMyMainForm = class(TForm)
@@ -40,26 +42,123 @@ type
     N23: TMenuItem;
     N24: TMenuItem;
     N25: TMenuItem;
+    Query1: TMenuItem;
+    Query2: TMenuItem;
+    Query3: TMenuItem;
     N26: TMenuItem;
-    N27: TMenuItem;
-    N28: TMenuItem;
     procedure N4Click(Sender: TObject);
+    procedure Query1Click(Sender: TObject);
+    procedure BackClick(Sender: TObject);
+    procedure ActionBut(Sender: TObject);
   private
-    { Private declarations }
+    QBlood: TADOQuery;
+    QueryX: DataBaseTables;
+    NumberOfDonations: TNumberOfDonations;
+    LabelQueryStartDate, LabelQueryEndDate, LabelQueryStat1, LabelQueryStat2, LabelQueryStat3: TLabel;
+    LabelQueryStat4, LabelQueryStat5, LabelQueryStat6, LabelQueryStat7: TLabel;
+    CalendarStart, CalendarEnd: TDateTimePicker;
+    EditQueryStat1, EditQueryStat2, EditQueryStat3, EditQueryStat4: TEdit;
+    EditQueryStat5, EditQueryStat6, EditQueryStat7: TEdit;
+    BackButton, ActionButton: TBitBtn;
+    //FQuery1: TNumberOfDonations;
+    SQL: string;
   public
-    { Public declarations }
-  end;
 
+    { Public declarations }
+
+  end;
 var
   MyMainForm: TMyMainForm;
+
+
 
 implementation
 
 {$R *.dfm}
 
+//Запросы/Количество донаций
+
+procedure TMyMainForm.ActionBut(Sender: TObject);
+//var
+//  ColDon: integer;
+begin
+  if CalendarStart.Date>=CalendarEnd.Date then
+  begin
+    ShowMessage('Конечная дата должна быть больше начальной');
+    exit;
+  end;
+  if not Assigned(QueryX) then
+    QueryX:=DataBaseTables.create;
+  SQL:='SELECT SUM(Blood.КДК) FROM Blood WHERE (Blood.ДатаК) Between #' + FormatDateTime( 'mm''/''dd''/''yyyy', CalendarStart.Date) + '# And #' +
+                                                                          FormatDateTime( 'mm''/''dd''/''yyyy', CalendarEnd.Date) + '#';
+  QBlood:=QueryX.GetSQL(SQL);
+  QBlood.Open;
+  EditQueryStat1.Text:=VarToStr(QBlood.Fields[0].Value);
+  QBlood.Close;
+
+
+  SQL:='SELECT SUM(Plasma.КДП) FROM Plasma WHERE (Plasma.ДатаП) Between #' + FormatDateTime( 'mm''/''dd''/''yyyy', CalendarStart.Date) + '# And #' +
+                                                                          FormatDateTime( 'mm''/''dd''/''yyyy', CalendarEnd.Date) + '#';
+  QBlood:=QueryX.GetSQL(SQL);
+  QBlood.Open;
+  EditQueryStat2.Text:=VarToStr(QBlood.Fields[0].Value);
+  QBlood.Close;
+
+  SQL:='SELECT SUM(Tromb.КДТ) FROM Tromb WHERE (Tromb.ДатаТ) Between #' + FormatDateTime( 'mm''/''dd''/''yyyy', CalendarStart.Date) + '# And #' +
+                                                                          FormatDateTime( 'mm''/''dd''/''yyyy', CalendarEnd.Date) + '#';
+  QBlood:=QueryX.GetSQL(SQL);
+  QBlood.Open;
+  EditQueryStat3.Text:=VarToStr(QBlood.Fields[0].Value);
+  QBlood.Close;
+end;
+
+procedure TMyMainForm.Query1Click(Sender: TObject);
+begin
+  Label1.Caption:='Количество донаций и заготовленной крови';
+  label1.Font.Size:=25;
+  if Assigned(NumberOfDonations) then
+    NumberOfDonations:=nil;
+  NumberOfDonations:=TNumberOfDonations.Create(self);
+  {FQuery1:=TNumberOfDonations.Create;
+  LabelQueryStartDate:=FQuery1.GetLabelStartDate(self);
+  LabelQueryEndDate:=FQuery1.GetLabelEndDate(self);
+  LabelQueryStat1:=FQuery1.GetLabelNameStat1(self);
+  LabelQueryStat2:=FQuery1.GetLabelNameStat2(self);
+  LabelQueryStat3:=FQuery1.GetLabelNameStat3(self);
+  EditQueryStat1:=FQuery1.GenEdit1(self);
+  EditQueryStat2:=FQuery1.GenEdit2(self);
+  EditQueryStat3:=FQuery1.GenEdit3(self);
+  CalendarStart:=FQuery1.GetCalendarStartDate(self);
+  CalendarEnd:=FQuery1.GetCalendarEndDate(self);
+  BackButton:=FQuery1.GetButtonBack(self);
+  BackButton.OnClick:=BackClick;
+  ActionButton:=FQuery1.GetButtonAction(self);
+  ActionButton.OnClick:=ActionBut;}
+end;
+
+procedure TMyMainForm.BackClick(Sender: TObject);
+begin
+  Label1.Caption:='СТАТИСТИКА';
+  label1.Font.Size:=40;
+  //FQuery1.Free;;
+  LabelQueryStartDate.Free;
+  LabelQueryEndDate.Free;
+  LabelQueryStat1.Free;
+  LabelQueryStat2.Free;
+  LabelQueryStat3.Free;
+  EditQueryStat1.Free;
+  EditQueryStat2.Free;
+  EditQueryStat3.Free;
+  CalendarStart.Free;
+  CalendarEnd.Free;
+  ActionButton.Free;
+  BackButton.Free;
+end;
+
+//Запросы/Заготовка крови
+
 procedure TMyMainForm.N4Click(Sender: TObject);
 begin
   Close;
 end;
-
 end.
