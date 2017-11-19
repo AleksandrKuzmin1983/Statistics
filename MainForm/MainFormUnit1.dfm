@@ -114,9 +114,9 @@ object MyMainForm: TMyMainForm
     end
     object N3: TMenuItem
       Caption = '&'#1047#1072#1087#1088#1086#1089#1099
-      object Query1: TMenuItem
+      object QueryNumberOfDonations: TMenuItem
         Caption = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1076#1086#1085#1072#1094#1080#1081
-        OnClick = Query1Click
+        OnClick = QueryNumberOfDonationsClick
       end
       object N26: TMenuItem
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1088#1086#1074#1080
@@ -134,9 +134,9 @@ object MyMainForm: TMyMainForm
     object Help1: TMenuItem
       Caption = '&'#1055#1086#1084#1086#1097#1100
     end
-    object N4: TMenuItem
+    object CloseButton: TMenuItem
       Caption = #1042#1099#1093#1086#1076
-      OnClick = N4Click
+      OnClick = CloseButtonClick
     end
   end
 end

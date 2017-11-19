@@ -2,10 +2,16 @@ program MainForm;
 
 uses
   Forms,
-  MainFormUnit1 in 'MainFormUnit1.pas' {MyMainForm},
+  MainFormUnit1 in 'MainFormUnit1.pas' {MyMainForm} ,
   GetDataSoursUnit1 in '..\Model\Connect\GetDataSoursUnit1.pas',
-  QNumberOfDonations in '..\View\Queries\NumberOfDonations\QNumberOfDonations.pas',
-  UTheNumberOfBloodDonations in '..\Model\Queries\NumberOfDonations\UTheNumberOfBloodDonations.pas';
+  VQNNumberOfDonations
+    in '..\View\Queries\NumberOfDonations\VQNNumberOfDonations.pas',
+  MQNTheNumberOfBloodDonations
+    in '..\Model\Queries\NumberOfDonations\MQNTheNumberOfBloodDonations.pas',
+  MQNTheNumberOfPlasmaDonations
+    in '..\Model\Queries\NumberOfDonations\MQNTheNumberOfPlasmaDonations.pas',
+  MQNTheNumberOfTromboDonations
+    in '..\Model\Queries\NumberOfDonations\MQNTheNumberOfTromboDonations.pas';
 
 {$R *.res}
 

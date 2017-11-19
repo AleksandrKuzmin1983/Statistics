@@ -54,8 +54,10 @@
 				<Form>MyMainForm</Form>
 			</DCCReference>
 			<DCCReference Include="..\Model\Connect\GetDataSoursUnit1.pas"/>
-			<DCCReference Include="..\View\Queries\NumberOfDonations\QNumberOfDonations.pas"/>
-			<DCCReference Include="..\Model\Queries\NumberOfDonations\UTheNumberOfBloodDonations.pas"/>
+			<DCCReference Include="..\View\Queries\NumberOfDonations\VQNNumberOfDonations.pas"/>
+			<DCCReference Include="..\Model\Queries\NumberOfDonations\MQNTheNumberOfBloodDonations.pas"/>
+			<DCCReference Include="..\Model\Queries\NumberOfDonations\MQNTheNumberOfPlasmaDonations.pas"/>
+			<DCCReference Include="..\Model\Queries\NumberOfDonations\MQNTheNumberOfTromboDonations.pas"/>
 			<None Include="ModelSupport_MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>
