@@ -7,10 +7,16 @@ uses
   Dialogs, Data.Win.ADODB, GetDataSoursUnit1;
 
 type
-  TTheNumberOfBloodDonations = class
+  ITheNumberOfBloodDonations = interface
+    function GetValue: string;
+    procedure free;
+  end;
+
+  TTheNumberOfBloodDonations = class(TInterfacedObject,
+    ITheNumberOfBloodDonations)
   private
     NumberOfBD: string;
-    TempConnect: DataBaseTables;
+    TempConnect: IDataBaseTables;
     TempQuery: TADOQuery;
   public
     function GetValue: string;
@@ -24,7 +30,7 @@ implementation
 constructor TTheNumberOfBloodDonations.create(DateStart, DateEnd: TDate);
 begin
   if not Assigned(TempConnect) then
-    TempConnect := DataBaseTables.create;
+    TempConnect := TDataBaseTables.create;
   if not Assigned(TempQuery) then
     TempQuery := TADOQuery.create(nil);
   TempQuery.Connection := TempConnect.GetConnect;

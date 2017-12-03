@@ -15,26 +15,9 @@ object MyMainForm: TMyMainForm
   Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 0
-    Top = 0
-    Width = 884
-    Height = 60
-    Align = alTop
-    Alignment = taCenter
-    AutoSize = False
-    Caption = #1057#1058#1040#1058#1048#1057#1058#1048#1050#1040
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -53
-    Font.Name = 'Times New Roman'
-    Font.Style = []
-    ParentFont = False
-    ExplicitWidth = 830
-  end
   object MainMenu1: TMainMenu
-    Left = 816
-    Top = 16
+    Left = 376
+    Top = 152
     object N5: TMenuItem
       Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1079#1072' '#1076#1077#1085#1100
       object HandlyHarvesting: TMenuItem
@@ -118,8 +101,9 @@ object MyMainForm: TMyMainForm
         Caption = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1076#1086#1085#1072#1094#1080#1081
         OnClick = QueryNumberOfDonationsClick
       end
-      object N26: TMenuItem
+      object BloodProduction: TMenuItem
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1088#1086#1074#1080
+        OnClick = BloodProductionClick
       end
       object Query2: TMenuItem
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1086#1084#1087#1086#1085#1077#1085#1090#1086#1074' ('#1086#1073#1097#1080#1081')'

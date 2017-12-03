@@ -7,11 +7,14 @@ uses
   Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
   ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
   Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
-  Vcl.ComCtrls, GetDataSoursUnit1, VQNNumberOfDonations;
+  Vcl.ComCtrls,
+  GetDataSoursUnit1,
+  VQNNumberOfDonations,
+  VQBBloodProduct,
+  UMSMoldCleaning;
 
 type
   TMyMainForm = class(TForm)
-    Label1: TLabel;
     MainMenu1: TMainMenu;
     N2: TMenuItem;
     N3: TMenuItem;
@@ -45,11 +48,15 @@ type
     QueryNumberOfDonations: TMenuItem;
     Query2: TMenuItem;
     Query3: TMenuItem;
-    N26: TMenuItem;
+    BloodProduction: TMenuItem;
     procedure CloseButtonClick(Sender: TObject);
     procedure QueryNumberOfDonationsClick(Sender: TObject);
+    procedure BloodProductionClick(Sender: TObject);
+    procedure N4Click(Sender: TObject);
   private
     NumberOfDonations: TNumberOfDonations;
+    BloodProduct: TBloodProduct;
+    CleanForm1: TMSMoldCleaning;
   public
 
     { Public declarations }
@@ -64,18 +71,46 @@ implementation
 {$R *.dfm}
 // Запросы/Количество донаций
 
+procedure TMyMainForm.BloodProductionClick(Sender: TObject);
+begin
+
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(BloodProduct) then
+    BloodProduct.Free;
+  BloodProduct := TBloodProduct.Create(self);
+end;
+
 procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
 begin
-  Label1.Caption := 'Количество донаций и заготовленной крови';
-  Label1.Font.Size := 25;
-  if Assigned(NumberOfDonations) then
-    NumberOfDonations := nil;
+
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(NumberOfDonations) then
+    NumberOfDonations.Free;
   NumberOfDonations := TNumberOfDonations.Create(self);
+
 end;
+
+
 
 procedure TMyMainForm.CloseButtonClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TMyMainForm.N4Click(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
 end;
 
 end.
