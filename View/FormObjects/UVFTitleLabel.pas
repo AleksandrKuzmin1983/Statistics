@@ -34,6 +34,8 @@ begin
   begin
     Align := alTop;
     Alignment := taCenter;
+    Layout := tlCenter;
+    AutoSize := False;
     Height := 60;
     Font.name := 'Times New Roman';
     Font.Size := 25;

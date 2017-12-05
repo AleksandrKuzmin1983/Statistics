@@ -3,7 +3,7 @@ unit UVFEdit;
 interface
 
 uses
-  StdCtrls, Forms, Classes, Controls;
+  Graphics, StdCtrls, Forms, Classes, Controls;
 
 type
   IEditTag5 = interface
@@ -35,9 +35,10 @@ begin
     Width := CWidth;
     Font.Size := FontSize;
     Font.name := 'Times New Roman';
+    Font.Style:=[fsbold];
     Alignment := taRightJustify;
     ReadOnly := true;
-    Text := '';
+    Text := '0';
     Tag := 5;
   end;
   result := TempEdit;

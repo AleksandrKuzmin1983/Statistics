@@ -3,8 +3,9 @@ unit MQNTheNumberOfPlasmaDonations;
 interface
 
 uses
-  SysUtils, Variants,
-  Data.Win.ADODB, GetDataSoursUnit1;
+  SysUtils, Variants, Data.Win.ADODB,
+  UCheckNull,
+  GetDataSoursUnit1;
 
 type
   ITheNumberOfPlasmaDonations = interface
@@ -18,6 +19,7 @@ type
     NumberOfPD: string;
     TempConnect: IDataBaseTables;
     TempQuery: TADOQuery;
+    CheckNull: TCheckNull;
   public
     function GetValue: string;
     // procedure Free;
@@ -30,6 +32,8 @@ implementation
 
 constructor TTheNumberOfPlasmaDonations.create(DateStart, DateEnd: TDate);
 begin
+  if not Assigned(CheckNull) then
+    CheckNull := TCheckNull.create;
   if not Assigned(TempConnect) then
     TempConnect := TDataBaseTables.create;
   if not Assigned(TempQuery) then
@@ -42,7 +46,7 @@ begin
     FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '#');
   TempQuery.Open;
-  NumberOfPD := VarToStr(TempQuery.Fields[0].Value);
+  NumberOfPD := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
   TempQuery.Close;
 end;
 

@@ -3,8 +3,9 @@ unit MQNTheNumberOfBloodDonations;
 interface
 
 uses
-  SysUtils, Variants,
-  Dialogs, Data.Win.ADODB, GetDataSoursUnit1;
+  SysUtils, Variants, Dialogs, Data.Win.ADODB,
+  UCheckNull,
+  GetDataSoursUnit1;
 
 type
   ITheNumberOfBloodDonations = interface
@@ -18,6 +19,7 @@ type
     NumberOfBD: string;
     TempConnect: IDataBaseTables;
     TempQuery: TADOQuery;
+    CheckNull: TCheckNull;
   public
     function GetValue: string;
     constructor create(DateStart, DateEnd: TDate);
@@ -29,6 +31,8 @@ implementation
 
 constructor TTheNumberOfBloodDonations.create(DateStart, DateEnd: TDate);
 begin
+  if not Assigned(CheckNull) then
+    CheckNull := TCheckNull.create;
   if not Assigned(TempConnect) then
     TempConnect := TDataBaseTables.create;
   if not Assigned(TempQuery) then
@@ -41,7 +45,7 @@ begin
     FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '#');
   TempQuery.Open;
-  NumberOfBD := VarToStr(TempQuery.Fields[0].Value);
+  NumberOfBD := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
   TempQuery.Close;
 end;
 

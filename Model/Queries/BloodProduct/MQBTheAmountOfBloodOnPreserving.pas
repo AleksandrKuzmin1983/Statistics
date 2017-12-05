@@ -1,4 +1,4 @@
-unit MQBTheNumberOfWholeBlood;
+unit MQBTheAmountOfBloodOnPreserving;
 
 interface
 
@@ -9,27 +9,26 @@ uses
   UCheckNull;
 
 type
-  ITheNumberOfWholeBlood = interface
+  ITheAmountOfBloodOnPreserving = interface
     function GetValue: string;
   end;
 
-  TTheNumberOfWholeBlood = class(TInterfacedObject, ITheNumberOfWholeBlood)
+  TTheAmountOfBloodOnPreserving = class(TInterfacedObject, ITheAmountOfBloodOnPreserving)
   private
-    NumberOfWB: string;
+    AmountOfBP: string;
     TempConnect: IDataBaseTables;
     TempQuery: TADOQuery;
     CheckNull: ICheckNull;
   public
     function GetValue: string;
     constructor create(DateStart, DateEnd: TDate);
-    // procedure free;
   end;
 
 implementation
 
 { TTheNumberOfBloodDonations }
 
-constructor TTheNumberOfWholeBlood.create(DateStart, DateEnd: TDate);
+constructor TTheAmountOfBloodOnPreserving.create(DateStart, DateEnd: TDate);
 begin
   if not Assigned(TempConnect) then
     TempConnect := TDataBaseTables.create;
@@ -41,8 +40,8 @@ begin
   TempQuery.Close;
   TempQuery.SQL.Clear;
   TempQuery.SQL.Add
-    ('SELECT Sum(Blood.ЦелК) AS [Sum-ЦелК], Sum(Plasma.ЦелП) AS [Sum-ЦелП], ' +
-    'Sum(Tromb.ЦелТ) AS [Sum-ЦелТ] ' +
+    ('SELECT Sum(Blood.НаКонК) AS [Sum-НаКонК], Sum(Plasma.НаКонП) AS [Sum-НаКонП], '
+    + 'Sum(Tromb.НаКонТ) AS [Sum-НаКонТ] ' +
     'FROM ((FactoryCal LEFT JOIN Blood ON FactoryCal.День = Blood.ДатаК) ' +
     'LEFT JOIN Plasma ON FactoryCal.День = Plasma.ДатаП) ' +
     'LEFT JOIN Tromb ON FactoryCal.День = Tromb.ДатаТ ' +
@@ -50,15 +49,15 @@ begin
     DateStart) + '# And #' + FormatDateTime('mm''/''dd''/''yyyy',
     DateEnd) + '#');
   TempQuery.Open;
-  NumberOfWB := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[2].value) +
+  AmountOfBP := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[2].value) +
     CheckNull.CheckedValue(TempQuery.Fields[1].value) + CheckNull.CheckedValue
     (TempQuery.Fields[0].value));
   TempQuery.Close;
 end;
 
-function TTheNumberOfWholeBlood.GetValue: string;
+function TTheAmountOfBloodOnPreserving.GetValue: string;
 begin
-  result := NumberOfWB;
+  result := AmountOfBP;
 end;
 
 end.

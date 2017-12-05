@@ -31,11 +31,12 @@ begin
     with TempBitBtn do
     begin
       left := 385;
-      top := 350;
+      top := 510;
       Font.name := 'Times New Roman';
-      Font.Size := 12;
+      Font.Size := 14;
       Caption := '—формировать';
-      Width := 130;
+      Width := 150;
+      Height:=30;
       Tag := 5;
       OnClick:=ProcedureOnClick;
     end;

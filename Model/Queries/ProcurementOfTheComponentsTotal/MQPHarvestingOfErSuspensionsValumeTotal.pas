@@ -1,4 +1,4 @@
-unit MQNTheNumberOfTromboDonations;
+unit MQPHarvestingOfErSuspensionsValumeTotal;
 
 interface
 
@@ -8,14 +8,14 @@ uses
   GetDataSoursUnit1;
 
 type
-  ITheNumberOfTromboDonations = interface
+  IHarvestingOfErSuspensionsValumeTotal = interface
     function GetValue: string;
   end;
 
-  TTheNumberOfTromboDonations = class(TInterfacedObject,
-    ITheNumberOfTromboDonations)
+  THarvestingOfErSuspensionsValumeTotal = class(TInterfacedObject,
+    IHarvestingOfErSuspensionsValumeTotal)
   private
-    NumberOfTD: string;
+    ErSuspVolumeTotal: string;
     TempConnect: IDataBaseTables;
     TempQuery: TADOQuery;
     CheckNull: TCheckNull;
@@ -28,7 +28,7 @@ implementation
 
 { TTheNumberOfTromboDonations }
 
-constructor TTheNumberOfTromboDonations.create(DateStart, DateEnd: TDate);
+constructor THarvestingOfErSuspensionsValumeTotal.create(DateStart, DateEnd: TDate);
 begin
   if not Assigned(CheckNull) then
     CheckNull := TCheckNull.create;
@@ -39,18 +39,20 @@ begin
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
-  TempQuery.SQL.Add
-    ('SELECT SUM(Tromb.КДТ) FROM Tromb WHERE (Tromb.ДатаТ) Between #' +
+  TempQuery.SQL.Add('SELECT Sum(BloodErSusp.КЭВ) ' +
+    'FROM (Blood INNER JOIN BloodDoza ON Blood.ДатаК = BloodDoza.ДатаК) ' +
+    'INNER JOIN BloodErSusp ON BloodDoza.КодД = BloodErSusp.Код ' +
+    'WHERE (Blood.ДатаК) Between #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
-    FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '#');
+    FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '#;');
   TempQuery.Open;
-  NumberOfTD := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
+  ErSuspVolumeTotal := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
   TempQuery.Close;
 end;
 
-function TTheNumberOfTromboDonations.GetValue: string;
+function THarvestingOfErSuspensionsValumeTotal.GetValue: string;
 begin
-  result := NumberOfTD;
+  result := ErSuspVolumeTotal;
 end;
 
 end.

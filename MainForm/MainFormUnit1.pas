@@ -11,6 +11,7 @@ uses
   GetDataSoursUnit1,
   VQNNumberOfDonations,
   VQBBloodProduct,
+  VQPProcurementOfTheComponentsTotal,
   UMSMoldCleaning;
 
 type
@@ -46,16 +47,17 @@ type
     N24: TMenuItem;
     N25: TMenuItem;
     QueryNumberOfDonations: TMenuItem;
-    Query2: TMenuItem;
     Query3: TMenuItem;
     BloodProduction: TMenuItem;
     procedure CloseButtonClick(Sender: TObject);
     procedure QueryNumberOfDonationsClick(Sender: TObject);
     procedure BloodProductionClick(Sender: TObject);
     procedure N4Click(Sender: TObject);
+    procedure ProcurementOfComponentsTotalClick(Sender: TObject);
   private
-    NumberOfDonations: TNumberOfDonations;
-    BloodProduct: TBloodProduct;
+    NumberOfDonations: IVQNNumberOfDonations;
+    BloodProduct: IBloodProduct;
+    ProcurementOfTheComponentsTotal: IProcurementOfTheComponentsTotal;
     CleanForm1: TMSMoldCleaning;
   public
 
@@ -80,7 +82,7 @@ begin
   CleanForm1.Free;
 
   if not Assigned(BloodProduct) then
-    BloodProduct.Free;
+    BloodProduct:=nil;
   BloodProduct := TBloodProduct.Create(self);
 end;
 
@@ -93,7 +95,7 @@ begin
   CleanForm1.Free;
 
   if not Assigned(NumberOfDonations) then
-    NumberOfDonations.Free;
+    NumberOfDonations:=nil;
   NumberOfDonations := TNumberOfDonations.Create(self);
 
 end;
@@ -111,6 +113,20 @@ begin
     CleanForm1.Free;
   CleanForm1 := TMSMoldCleaning.Create(self);
   CleanForm1.Free;
+end;
+
+procedure TMyMainForm.ProcurementOfComponentsTotalClick(Sender: TObject);
+begin
+
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(ProcurementOfTheComponentsTotal) then
+    ProcurementOfTheComponentsTotal := nil;
+  ProcurementOfTheComponentsTotal := TProcurementOfTheComponentsTotal.Create(self);
+
 end;
 
 end.

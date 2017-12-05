@@ -2,7 +2,7 @@ object MyMainForm: TMyMainForm
   Left = 0
   Top = 0
   Caption = #1057#1090#1072#1090#1080#1089#1090#1080#1082#1072' '#1087#1086' '#1079#1072#1075#1086#1090#1086#1074#1082#1077' '#1082#1088#1086#1074#1080
-  ClientHeight = 392
+  ClientHeight = 554
   ClientWidth = 884
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -105,8 +105,9 @@ object MyMainForm: TMyMainForm
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1088#1086#1074#1080
         OnClick = BloodProductionClick
       end
-      object Query2: TMenuItem
+      object ProcurementOfComponentsTotal: TMenuItem
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1086#1084#1087#1086#1085#1077#1085#1090#1086#1074' ('#1086#1073#1097#1080#1081')'
+        OnClick = ProcurementOfComponentsTotalClick
       end
       object Query3: TMenuItem
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1086#1084#1087#1086#1085#1077#1085#1090#1086#1074' ('#1087#1086' '#1074#1080#1076#1072#1084')'
