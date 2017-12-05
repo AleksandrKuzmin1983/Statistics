@@ -66,6 +66,9 @@ __history/
 __recovery/
 *.~*
 
+#AccessBase
+AccesBase/
+
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
 *.stat
 
