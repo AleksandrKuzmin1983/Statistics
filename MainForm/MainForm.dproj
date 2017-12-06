@@ -88,6 +88,12 @@
 			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfTromboPacetsTotal.pas"/>
 			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfFiltratVolumeTotal.pas"/>
 			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfFiltratDosesTotal.pas"/>
+			<DCCReference Include="..\View\Queries\HarvestingOfBloodComponentsByTypes\VQHHarvestingOfBloodComponentsByTypes.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFStringGrid.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponents.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponentsPlasma.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHPlasmaAPA.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHTrombo.pas"/>
 			<None Include="ModelSupport_MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>

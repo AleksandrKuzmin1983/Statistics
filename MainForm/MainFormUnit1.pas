@@ -7,11 +7,11 @@ uses
   Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
   ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
   Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
-  Vcl.ComCtrls,
-  GetDataSoursUnit1,
+  Vcl.ComCtrls, GetDataSoursUnit1,
   VQNNumberOfDonations,
   VQBBloodProduct,
   VQPProcurementOfTheComponentsTotal,
+  VQHHarvestingOfBloodComponentsByTypes,
   UMSMoldCleaning;
 
 type
@@ -47,17 +47,19 @@ type
     N24: TMenuItem;
     N25: TMenuItem;
     QueryNumberOfDonations: TMenuItem;
-    Query3: TMenuItem;
+    HarvestingBloodComponentsByTypes: TMenuItem;
     BloodProduction: TMenuItem;
     procedure CloseButtonClick(Sender: TObject);
     procedure QueryNumberOfDonationsClick(Sender: TObject);
     procedure BloodProductionClick(Sender: TObject);
     procedure N4Click(Sender: TObject);
     procedure ProcurementOfComponentsTotalClick(Sender: TObject);
+    procedure HarvestingBloodComponentsByTypesClick(Sender: TObject);
   private
     NumberOfDonations: IVQNNumberOfDonations;
     BloodProduct: IBloodProduct;
     ProcurementOfTheComponentsTotal: IProcurementOfTheComponentsTotal;
+    HarvestingOfBloodComponentsByTypes: IHarvestingOfBloodComponentsByTypes;
     CleanForm1: TMSMoldCleaning;
   public
 
@@ -86,6 +88,19 @@ begin
   BloodProduct := TBloodProduct.Create(self);
 end;
 
+procedure TMyMainForm.HarvestingBloodComponentsByTypesClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(HarvestingOfBloodComponentsByTypes) then
+    HarvestingOfBloodComponentsByTypes:=nil;
+  HarvestingOfBloodComponentsByTypes := THarvestingOfBloodComponentsByTypes.Create(self);
+
+end;
+
 procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
 begin
 
@@ -99,8 +114,6 @@ begin
   NumberOfDonations := TNumberOfDonations.Create(self);
 
 end;
-
-
 
 procedure TMyMainForm.CloseButtonClick(Sender: TObject);
 begin

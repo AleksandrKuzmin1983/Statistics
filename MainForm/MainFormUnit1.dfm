@@ -16,8 +16,8 @@ object MyMainForm: TMyMainForm
   PixelsPerInch = 96
   TextHeight = 13
   object MainMenu1: TMainMenu
-    Left = 376
-    Top = 152
+    Left = 656
+    Top = 24
     object N5: TMenuItem
       Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1079#1072' '#1076#1077#1085#1100
       object HandlyHarvesting: TMenuItem
@@ -109,8 +109,9 @@ object MyMainForm: TMyMainForm
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1086#1084#1087#1086#1085#1077#1085#1090#1086#1074' ('#1086#1073#1097#1080#1081')'
         OnClick = ProcurementOfComponentsTotalClick
       end
-      object Query3: TMenuItem
+      object HarvestingBloodComponentsByTypes: TMenuItem
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1086#1084#1087#1086#1085#1077#1085#1090#1086#1074' ('#1087#1086' '#1074#1080#1076#1072#1084')'
+        OnClick = HarvestingBloodComponentsByTypesClick
       end
     end
     object N8: TMenuItem

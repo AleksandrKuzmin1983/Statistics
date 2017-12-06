@@ -35,7 +35,13 @@ uses
   MQPHarvestingOfTromboDosesTotal in '..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfTromboDosesTotal.pas',
   MQPHarvestingOfTromboPacetsTotal in '..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfTromboPacetsTotal.pas',
   MQPHarvestingOfFiltratVolumeTotal in '..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfFiltratVolumeTotal.pas',
-  MQPHarvestingOfFiltratDosesTotal in '..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfFiltratDosesTotal.pas';
+  MQPHarvestingOfFiltratDosesTotal in '..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfFiltratDosesTotal.pas',
+  VQHHarvestingOfBloodComponentsByTypes in '..\View\Queries\HarvestingOfBloodComponentsByTypes\VQHHarvestingOfBloodComponentsByTypes.pas',
+  UVFStringGrid in '..\View\FormObjects\UVFStringGrid.pas',
+  MQHBloodComponents in '..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponents.pas',
+  MQHBloodComponentsPlasma in '..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponentsPlasma.pas',
+  MQHPlasmaAPA in '..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHPlasmaAPA.pas',
+  MQHTrombo in '..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHTrombo.pas';
 
 {$R *.res}
 
