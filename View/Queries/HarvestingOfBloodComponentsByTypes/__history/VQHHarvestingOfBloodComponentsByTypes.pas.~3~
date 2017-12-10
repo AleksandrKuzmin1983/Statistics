@@ -1,0 +1,177 @@
+unit VQHHarvestingOfBloodComponentsByTypes;
+
+interface
+
+uses
+  SysUtils, StdCtrls, Buttons,
+  Vcl.ComCtrls, DateUtils, Forms, Dialogs, Vcl.ExtCtrls,
+  UVFStringGrid,
+  UVFLabel,
+  UVFTitleLabel,
+  UVFDateTimePicker,
+  UVFBitBtn,
+
+type
+  IHarvestingOfBloodComponentsByTypes = interface
+    function GetLabelStartDate(NameForm: TForm): TLabel;
+    function GetLabelEndDate(NameForm: TForm): TLabel;
+
+    function GetLabelTitle(NameForm: TForm): TLabel;
+
+    function GetCalendarStartDate(NameForm: TForm): TDateTimePicker;
+    function GetCalendarEndDate(NameForm: TForm): TDateTimePicker;
+
+    function GetButtonAction(NameForm: TForm): TBitBtn;
+    procedure ButtonAct(Sender: TObject);
+  end;
+
+  THarvestingOfBloodComponentsByTypes = class(TInterfacedObject, IHarvestingOfBloodComponentsByTypes)
+  private
+    StartDate: ITempLabelTag5;
+    EndDate: ITempLabelTag5;
+
+    Title: ITitleLabelTag5;
+
+    StartDateCal: IDTPickerTag5;
+    EndDateCal: IDTPickerTag5;
+
+    TempStringGrid: IStringGridTag5;
+
+    ButtonAction: IBitBtnTag5;
+
+    CurrentForm: TForm;
+
+   // HarvestingOfErSuspensionsValumeTotal: IHarvestingOfErSuspensionsValumeTotal;
+  public
+    function GetLabelStartDate(NameForm: TForm): TLabel;
+    function GetLabelEndDate(NameForm: TForm): TLabel;
+
+    function GetLabelTitle(NameForm: TForm): TLabel;
+
+    function GetCalendarStartDate(NameForm: TForm): TDateTimePicker;
+    function GetCalendarEndDate(NameForm: TForm): TDateTimePicker;
+
+    function GetStringGrid(NameForm: TForm): TStringGrid;
+
+    function GetButtonAction(NameForm: TForm): TBitBtn;
+    procedure ButtonAct(Sender: TObject);
+
+    constructor create(form: TForm);
+  end;
+
+implementation
+
+{ TProcurementOfTheComponentsTotal }
+
+procedure THarvestingOfBloodComponentsByTypes.ButtonAct(Sender: TObject);
+begin
+  if StartDateCal.GetData > EndDateCal.GetData then
+  begin
+    ShowMessage('Конечная дата не может быть меньше начальной');
+    exit;
+  end
+  else
+  begin
+  {  if not Assigned(HarvestingOfErSuspensionsValumeTotal) then
+      HarvestingOfErSuspensionsValumeTotal := THarvestingOfErSuspensionsValumeTotal.create
+        (StartDateCal.GetData, EndDateCal.GetData);
+    ErSuspVolume.WriteText(HarvestingOfErSuspensionsValumeTotal.GetValue);
+    HarvestingOfErSuspensionsValumeTotal := nil;   }
+
+    ShowMessage('Запрос выполнен!');
+  end;
+end;
+
+constructor THarvestingOfBloodComponentsByTypes.create(form: TForm);
+begin
+  CurrentForm := form;
+
+  GetLabelStartDate(CurrentForm);
+  GetLabelEndDate(CurrentForm);
+
+  GetLabelTitle(CurrentForm);
+
+  GetCalendarStartDate(CurrentForm);
+  GetCalendarEndDate(CurrentForm);
+
+  GetButtonAction(CurrentForm);
+end;
+
+//Button
+
+function THarvestingOfBloodComponentsByTypes.GetButtonAction(NameForm: TForm): TBitBtn;
+begin
+  if not Assigned(ButtonAction) then
+    ButtonAction := TBitBtnTag5.create;
+  Result:=ButtonAction.GetBitBtn(ButtonAct, NameForm);
+end;
+
+//DataTimePicker
+
+function THarvestingOfBloodComponentsByTypes.GetCalendarStartDate(NameForm: TForm)
+  : TDateTimePicker;
+begin
+  if not Assigned(StartDateCal) then
+    StartDateCal:=TDTPickerTag5.Create;
+  result:=StartDateCal.GetDTPicker(250, 80, EncodeDate(YearOf(Now), MonthOf(Now) - 1, 1), NameForm);
+end;
+
+function THarvestingOfBloodComponentsByTypes.GetCalendarEndDate(NameForm: TForm)
+  : TDateTimePicker;
+begin
+  if not Assigned(EndDateCal) then
+    EndDateCal:=TDTPickerTag5.Create;
+  result:=EndDateCal.GetDTPicker(250, 120, EncodeDate(YearOf(Now), MonthOf(Now), 1) - 1, NameForm);
+end;
+
+//Edit
+
+{function THarvestingOfBloodComponentsByTypes.GetErSuspDoses(
+  NameForm: TForm): TEdit;
+begin
+  if not Assigned(ErSuspDoses) then
+    ErSuspDoses := TEditTag5.create;
+  Result:=ErSuspDoses.GetEdit(450, 220, 80, 12, NameForm);
+end;                                                            }
+
+//Label
+
+{function THarvestingOfBloodComponentsByTypes.GetLabelNameStat1(NameForm: TForm): TLabel;
+begin
+  if not Assigned(NameStat1) then
+    NameStat1 := TTempLabelTag5.create;
+  Result:=NameStat1.GetTempLabel(50, 220, 16, 'Эр. взвесь:', NameForm);
+end;               }
+
+function THarvestingOfBloodComponentsByTypes.GetLabelStartDate(NameForm: TForm): TLabel;
+begin
+  if not Assigned(StartDate) then
+    StartDate := TTempLabelTag5.create;
+  Result:=StartDate.GetTempLabel(50, 80, 20, 'Начальная дата:', NameForm);
+end;
+
+function THarvestingOfBloodComponentsByTypes.GetLabelEndDate(NameForm: TForm): TLabel;
+begin
+  if not Assigned(EndDate) then
+    EndDate := TTempLabelTag5.create;
+  Result:=EndDate.GetTempLabel(50, 120, 20, 'Конечная дата:', NameForm);
+end;
+
+function THarvestingOfBloodComponentsByTypes.GetLabelTitle(NameForm: TForm): TLabel;
+begin
+  if not Assigned(Title) then
+    Title := TTitleLabelTag5.create;
+  Result:=Title.GetTitleLabel(25, 'Заготовка компонентов крови (по видам)', NameForm);
+end;
+
+//StringGrid
+
+function THarvestingOfBloodComponentsByTypes.GetStringGrid(
+  NameForm: TForm): TStringGrid;
+begin
+  if not Assigned(TempStringGrid) then
+    TempStringGrid := TStringGridTag5.create;
+  Result:=TempStringGrid.GetTitleLabel(25, 'Заготовка компонентов крови (по видам)', NameForm);
+end;
+
+end.

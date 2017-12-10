@@ -1,0 +1,63 @@
+unit MQBTheNumberOfConservedBlood;
+
+interface
+
+uses
+  SysUtils, Variants,
+  Dialogs, Data.Win.ADODB, GetDataSoursUnit1;
+
+type
+
+  TTheNumberOfConservedBlood = class(TObject)
+  private
+    TempResult1,TempResult2,TempResult3: Integer;
+    NumberOfCB: string;
+    TempConnect: DataBaseTables;
+    TempQuery: TADOQuery;
+  public
+    function GetValue: string;
+    constructor create(DateStart, DateEnd: TDate);
+//    procedure free;
+  end;
+
+implementation
+
+{ TTheNumberOfBloodDonations }
+
+constructor TTheNumberOfConservedBlood.create(DateStart, DateEnd: TDate);
+begin
+  if not Assigned(TempConnect) then
+    TempConnect := DataBaseTables.create;
+  if not Assigned(TempQuery) then
+    TempQuery := TADOQuery.create(nil);
+  TempQuery.Connection := TempConnect.GetConnect;
+  TempQuery.Close;
+  TempQuery.SQL.Clear;
+  TempQuery.SQL.Add
+    ('SELECT Sum(Blood.НаКонК) AS [Sum-НаКонК], Sum(Plasma.НаКонП) AS [Sum-НаКонП], ' +
+    'Sum(Tromb.НаКонТ) AS [Sum-НаКонТ] ' +
+    'FROM ((FactoryCal LEFT JOIN Blood ON FactoryCal.День = Blood.ДатаК) ' +
+    'LEFT JOIN Plasma ON FactoryCal.День = Plasma.ДатаП) ' +
+    'LEFT JOIN Tromb ON FactoryCal.День = Tromb.ДатаТ ' +
+    'WHERE (Blood.ДатаК) Between #' +
+    FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
+    FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '#');
+  TempQuery.Open;
+{  TempResult3:=0;
+  //TempResult1:=Class1(TempQuery.Fields[0].Value).testnull
+  if TempQuery.Fields[0].Value=null then TempResult1:=0 else TempResult1:=TempQuery.Fields[0].Value;
+  if TempQuery.Fields[1].Value=null then TempResult2:=0 else TempResult2:=TempQuery.Fields[1].Value;
+//  if TempQuery.Fields[2].Value=null then TempResult3:=0 else TempResult3:=TempQuery.Fields[2].Value;
+  TempResult3:=TempQuery.Fields[2].Value;
+  if Assigned(TempResult3) then
+    TempResult3:=0;}
+  NumberOfCB := VarToStr(TempResult1+TempResult2+TempResult3);
+  TempQuery.Close;
+end;
+
+function TTheNumberOfConservedBlood.GetValue: string;
+begin
+  result := NumberOfCB;
+end;
+
+end.

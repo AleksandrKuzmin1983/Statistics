@@ -1,0 +1,33 @@
+unit UCheckNull;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
+  ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
+  Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
+  Vcl.ComCtrls;
+
+type
+  TCheckNull = class
+  private
+    IncomingValue: variant;
+  published
+    function CheckedValue(CheckValue: variant): variant;
+
+  end;
+
+implementation
+
+{ TCheckNull }
+
+function TCheckNull.CheckedValue(CheckValue: variant): variant;
+begin
+  IncomingValue := 0;
+  if CheckValue <> null then
+    IncomingValue := CheckValue;
+  result := IncomingValue;
+end;
+
+end.

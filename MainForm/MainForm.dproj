@@ -53,7 +53,7 @@
 			<DCCReference Include="MainFormUnit1.pas">
 				<Form>MyMainForm</Form>
 			</DCCReference>
-			<DCCReference Include="..\Model\Connect\GetDataSoursUnit1.pas"/>
+			<DCCReference Include="..\Model\Connect\GetAdoQuery.pas"/>
 			<DCCReference Include="..\View\Queries\NumberOfDonations\VQNNumberOfDonations.pas"/>
 			<DCCReference Include="..\Model\Queries\NumberOfDonations\MQNTheNumberOfBloodDonations.pas"/>
 			<DCCReference Include="..\Model\Queries\NumberOfDonations\MQNTheNumberOfPlasmaDonations.pas"/>
@@ -94,6 +94,19 @@
 			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponentsPlasma.pas"/>
 			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHPlasmaAPA.pas"/>
 			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHTrombo.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFComboBox.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnSave.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnDelete.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnBlock.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnAdd.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFDBGrid.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFDBNavigator.pas"/>
+			<DCCReference Include="..\Model\System\GetContent\UMSGContentOfTheList.pas"/>
+			<DCCReference Include="..\Model\Connect\UMCGetDataSource.pas"/>
+			<DCCReference Include="..\Model\System\UMSDestroyVariables.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnEdit.pas"/>
+			<DCCReference Include="..\Model\System\UMSBlockMainMenu.pas"/>
 			<None Include="ModelSupport_MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>
@@ -118,6 +131,8 @@
 			<None Include="ModelSupport_MainForm\MQBTheNumberOfWholeBlood\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\VQBBloodProduct\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\VQBBloodProduct\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\UMSBlockMainMenu\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\UMSBlockMainMenu\default.txaPackage"/>
 			<BuildConfiguration Include="Debug">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>

@@ -1,0 +1,54 @@
+unit MQPHarvestingOfErSuspensionsDosesTotal;
+
+interface
+
+uses
+  SysUtils, Variants,
+  Data.Win.ADODB, GetDataSoursUnit1;
+
+type
+  IHarvestingOfErSuspensionsDosesTotal = interface
+    function GetValue: string;
+  end;
+
+  THarvestingOfErSuspensionsDosesTotal = class(TInterfacedObject,
+    IHarvestingOfErSuspensionsDosesTotal)
+  private
+    ErSuspDosesTotal: string;
+    TempConnect: IDataBaseTables;
+    TempQuery: TADOQuery;
+  public
+    function GetValue: string;
+    constructor create(DateStart, DateEnd: TDate);
+  end;
+
+implementation
+
+{ TTheNumberOfTromboDonations }
+
+constructor THarvestingOfErSuspensionsDosesTotal.create(DateStart, DateEnd: TDate);
+begin
+  if not Assigned(TempConnect) then
+    TempConnect := TDataBaseTables.create;
+  if not Assigned(TempQuery) then
+    TempQuery := TADOQuery.create(nil);
+  TempQuery.Connection := TempConnect.GetConnect;
+  TempQuery.Close;
+  TempQuery.SQL.Clear;
+  TempQuery.SQL.Add('SELECT Sum(BloodErSusp.КЭВ) ' +
+    'FROM (Blood INNER JOIN BloodDoza ON Blood.ДатаК = BloodDoza.ДатаК) ' +
+    'INNER JOIN BloodErSusp ON BloodDoza.КодД = BloodErSusp.Код ' +
+    'WHERE (Blood.ДатаК) Between #' +
+    FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
+    FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '#;');
+  TempQuery.Open;
+  ErSuspVolumeTotal := VarToStr(TempQuery.Fields[0].Value);
+  TempQuery.Close;
+end;
+
+function THarvestingOfErSuspensionsDosesTotal.GetValue: string;
+begin
+  result := ErSuspVolumeTotal;
+end;
+
+end.

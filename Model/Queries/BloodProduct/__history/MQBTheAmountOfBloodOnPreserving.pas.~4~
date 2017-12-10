@@ -1,0 +1,64 @@
+unit MQBTheAmountOfBloodOnPreserving;
+
+interface
+
+uses
+  SysUtils, Variants,
+  Dialogs, Data.Win.ADODB,
+  GetDataSoursUnit1,
+  UCheckNull;
+
+type
+  ITheAmountOfBloodOnPreserving = interface
+    function GetValue: string;
+  end;
+
+  TTheAmountOfBloodOnPreserving = class(TInterfacedObject, ITheAmountOfBloodOnPreserving)
+  private
+    TempResult1, TempResult2, TempResult3: Integer;
+    AmountOfBP: string;
+    TempConnect: IDataBaseTables;
+    TempQuery: TADOQuery;
+    CheckNull: ICheckNull;
+  public
+    function GetValue: string;
+    constructor create(DateStart, DateEnd: TDate);
+  end;
+
+implementation
+
+{ TTheNumberOfBloodDonations }
+
+constructor TTheAmountOfBloodOnPreserving.create(DateStart, DateEnd: TDate);
+begin
+  if not Assigned(TempConnect) then
+    TempConnect := TDataBaseTables.create;
+  if not Assigned(CheckNull) then
+    CheckNull := TCheckNull.create;
+  if not Assigned(TempQuery) then
+    TempQuery := TADOQuery.create(nil);
+  TempQuery.Connection := TempConnect.GetConnect;
+  TempQuery.Close;
+  TempQuery.SQL.Clear;
+  TempQuery.SQL.Add
+    ('SELECT Sum(Blood.НаКонК) AS [Sum-НаКонК], Sum(Plasma.НаКонП) AS [Sum-НаКонП], '
+    + 'Sum(Tromb.НаКонТ) AS [Sum-НаКонТ] ' +
+    'FROM ((FactoryCal LEFT JOIN Blood ON FactoryCal.День = Blood.ДатаК) ' +
+    'LEFT JOIN Plasma ON FactoryCal.День = Plasma.ДатаП) ' +
+    'LEFT JOIN Tromb ON FactoryCal.День = Tromb.ДатаТ ' +
+    'WHERE (Blood.ДатаК) Between #' + FormatDateTime('mm''/''dd''/''yyyy',
+    DateStart) + '# And #' + FormatDateTime('mm''/''dd''/''yyyy',
+    DateEnd) + '#');
+  TempQuery.Open;
+  AmountOfBP := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[2].value) +
+    CheckNull.CheckedValue(TempQuery.Fields[1].value) + CheckNull.CheckedValue
+    (TempQuery.Fields[0].value));
+  TempQuery.Close;
+end;
+
+function TTheAmountOfBloodOnPreserving.GetValue: string;
+begin
+  result := AmountOfBP;
+end;
+
+end.

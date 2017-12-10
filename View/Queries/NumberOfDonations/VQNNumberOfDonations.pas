@@ -143,28 +143,28 @@ function TNumberOfDonations.GetEdit1(NameForm: TForm): TEdit;
 begin
   if not Assigned(ResultEdit1) then
     ResultEdit1 := TEditTag5.create;
-  Result:=ResultEdit1.GetEdit(440, 180, 100, 12, NameForm);
+  Result:=ResultEdit1.GetEdit(440, 180, 100, 12, True, NameForm);
 end;
 
 function TNumberOfDonations.GetEdit2(NameForm: TForm): TEdit;
 begin
   if not Assigned(ResultEdit2) then
     ResultEdit2 := TEditTag5.create;
-  Result:=ResultEdit2.GetEdit(440, 220, 100, 12, NameForm);
+  Result:=ResultEdit2.GetEdit(440, 220, 100, 12, True, NameForm);
 end;
 
 function TNumberOfDonations.GetEdit3(NameForm: TForm): TEdit;
 begin
   if not Assigned(ResultEdit3) then
     ResultEdit3 := TEditTag5.create;
-  Result:=ResultEdit3.GetEdit(440, 260, 100, 12, NameForm);
+  Result:=ResultEdit3.GetEdit(440, 260, 100, 12, True, NameForm);
 end;
 
 function TNumberOfDonations.GetButtonAction(NameForm: TForm): TBitBtn;
 begin
   if not Assigned(ButtonAction) then
     ButtonAction := TBitBtnTag5.create;
-  Result:=ButtonAction.GetBitBtn(ButtonAct, NameForm);
+  Result:=ButtonAction.GetBitBtn(385, 510, '—формировать', ButtonAct, NameForm);
 end;
 
 function TNumberOfDonations.GetCalendarStartDate(NameForm: TForm)

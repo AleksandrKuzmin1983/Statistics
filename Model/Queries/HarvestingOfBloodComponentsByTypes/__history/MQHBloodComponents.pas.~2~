@@ -1,0 +1,102 @@
+unit MQHBloodComponents;
+
+interface
+
+uses
+  SysUtils, Variants, Data.Win.ADODB,
+  UCheckNull,
+  GetDataSoursUnit1;
+
+type
+  IBloodComponents = interface
+    function GetValue: string;
+  end;
+
+  TTestRecord=Record
+    Name: String;
+    Volume: integer;
+    Numeric: integer;
+  end;
+
+  TBloodComponents = class(TInterfacedObject,
+    IBloodComponents)
+  private
+    TempVar2: integer;
+    TempVar: string;
+    TempConnect: IDataBaseTables;
+    TempQuery: TADOQuery;
+    CheckNull: TCheckNull;
+    TestMass: array of TTestRecord;
+  public
+    function GetValue: string;
+    constructor create(DateStart, DateEnd: TDate);
+  end;
+
+implementation
+
+{ TTheNumberOfTromboDonations }
+
+constructor TBloodComponents.create(DateStart, DateEnd: TDate);
+var i: integer;
+begin
+  if not Assigned(CheckNull) then
+    CheckNull := TCheckNull.create;
+  if not Assigned(TempConnect) then
+    TempConnect := TDataBaseTables.create;
+  if not Assigned(TempQuery) then
+    TempQuery := TADOQuery.create(nil);
+  TempQuery.Connection := TempConnect.GetConnect;
+  TempQuery.Close;
+  TempQuery.SQL.Clear;
+  TempQuery.SQL.Add
+  ('SELECT BloodErSusp.ВидЭВ, Sum(BloodErSusp.КЭВ) AS [Sum-КЭВ], Sum(BloodErSusp.ДЭВ) ' +
+     'FROM BloodDoza INNER JOIN BloodErSusp ON BloodDoza.КодД = BloodErSusp.Код ' +
+     'WHERE (((BloodDoza.ДатаК) Between #' +
+    FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
+    FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '#)) GROUP BY BloodErSusp.ВидЭВ;');
+
+{  ('SELECT Sum(BloodErSusp.КЭВ) ' +
+    'FROM (Blood INNER JOIN BloodDoza ON Blood.ДатаК = BloodDoza.ДатаК) ' +
+    'INNER JOIN BloodErSusp ON BloodDoza.КодД = BloodErSusp.Код ' +
+    'WHERE (Blood.ДатаК) Between #' +
+    FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
+    FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '#;'); }
+  TempQuery.Open;
+  SetLength(TestMass, TempQuery.RecordCount);
+  for i:=0 to TempQuery.RecordCount-1 do
+  begin
+
+  end;
+
+  //TestMass[]
+  TempVar := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
+  TempQuery.Close;
+
+{  ADOQuery1.Open;
+  stringgrid1.ColWidths[0]:=200;
+  stringgrid1.Cells[1, 0]:='Объем';
+  stringgrid1.Cells[2, 0]:='Дозы';
+
+  if (ADOQuery1.Recordset.EOF<>true) and (ADOQuery1.Recordset.BOF<>true) then
+  begin
+  adoquery1.Recordset.MoveFirst;
+  while not ADOQuery1.Recordset.EOF do
+  begin
+    if stringgrid1.Cells[0, 1]<>'' then stringgrid1.RowCount:=stringgrid1.RowCount+1;
+    stringgrid1.Cells[0, stringgrid1.RowCount-1]:=VarToStr(ADOQuery1.Fields[0].value);
+    stringgrid1.Cells[1, stringgrid1.RowCount-1]:=VarToStr(ADOQuery1.Fields[1].value);
+    stringgrid1.Cells[2, stringgrid1.RowCount-1]:=VarToStr(ADOQuery1.Fields[2].value);
+    adoquery1.Next;
+  end;
+  end;
+  ADOQuery1.Close;}
+
+
+end;
+
+function TBloodComponents.GetValue: string;
+begin
+  result := TempVar;
+end;
+
+end.

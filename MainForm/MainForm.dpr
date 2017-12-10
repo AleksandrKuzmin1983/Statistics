@@ -3,7 +3,7 @@ program MainForm;
 uses
   Forms,
   MainFormUnit1 in 'MainFormUnit1.pas' {MyMainForm},
-  GetDataSoursUnit1 in '..\Model\Connect\GetDataSoursUnit1.pas',
+  GetAdoQuery in '..\Model\Connect\GetAdoQuery.pas',
   VQNNumberOfDonations in '..\View\Queries\NumberOfDonations\VQNNumberOfDonations.pas',
   MQNTheNumberOfBloodDonations in '..\Model\Queries\NumberOfDonations\MQNTheNumberOfBloodDonations.pas',
   MQNTheNumberOfPlasmaDonations in '..\Model\Queries\NumberOfDonations\MQNTheNumberOfPlasmaDonations.pas',
@@ -41,7 +41,20 @@ uses
   MQHBloodComponents in '..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponents.pas',
   MQHBloodComponentsPlasma in '..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponentsPlasma.pas',
   MQHPlasmaAPA in '..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHPlasmaAPA.pas',
-  MQHTrombo in '..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHTrombo.pas';
+  MQHTrombo in '..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHTrombo.pas',
+  VIOATheAmountOfUsableErSusp in '..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSusp.pas',
+  UVFComboBox in '..\View\FormObjects\UVFComboBox.pas',
+  UVFBitBtnSave in '..\View\FormObjects\UVFBitBtnSave.pas',
+  UVFBitBtnDelete in '..\View\FormObjects\UVFBitBtnDelete.pas',
+  UVFBitBtnBlock in '..\View\FormObjects\UVFBitBtnBlock.pas',
+  UVFBitBtnAdd in '..\View\FormObjects\UVFBitBtnAdd.pas',
+  UVFDBGrid in '..\View\FormObjects\UVFDBGrid.pas',
+  UVFDBNavigator in '..\View\FormObjects\UVFDBNavigator.pas',
+  UMSGContentOfTheList in '..\Model\System\GetContent\UMSGContentOfTheList.pas',
+  UMCGetDataSource in '..\Model\Connect\UMCGetDataSource.pas',
+  UMSDestroyVariables in '..\Model\System\UMSDestroyVariables.pas',
+  UVFBitBtnEdit in '..\View\FormObjects\UVFBitBtnEdit.pas',
+  UMSBlockMainMenu in '..\Model\System\UMSBlockMainMenu.pas';
 
 {$R *.res}
 

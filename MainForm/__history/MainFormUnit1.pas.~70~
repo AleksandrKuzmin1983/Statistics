@@ -1,0 +1,247 @@
+unit MainFormUnit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls, DateUtils,
+  ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
+  Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
+  Vcl.ComCtrls, Vcl.ExtCtrls,
+  GetAdoQuery,
+  VQNNumberOfDonations,
+  VQBBloodProduct,
+  VQPProcurementOfTheComponentsTotal,
+  VQHHarvestingOfBloodComponentsByTypes,
+  VIOATheAmountOfUsableErSusp,
+  UMSMoldCleaning,
+  UMSDestroyVariables;
+
+type
+  TMyMainForm = class(TForm)
+    MainMenu1: TMainMenu;
+    N2: TMenuItem;
+    N3: TMenuItem;
+    Help1: TMenuItem;
+    CloseButton: TMenuItem;
+    N5: TMenuItem;
+    N6: TMenuItem;
+    N8: TMenuItem;
+    HandlyHarvesting: TMenuItem;
+    AutoAferez: TMenuItem;
+    Citoferez: TMenuItem;
+    N9: TMenuItem;
+    N10: TMenuItem;
+    N11: TMenuItem;
+    N12: TMenuItem;
+    N13: TMenuItem;
+    N14: TMenuItem;
+    AmountUsableErSusp: TMenuItem;
+    N16: TMenuItem;
+    N17: TMenuItem;
+    N7: TMenuItem;
+    N18: TMenuItem;
+    N19: TMenuItem;
+    N20: TMenuItem;
+    N21: TMenuItem;
+    N1: TMenuItem;
+    N22: TMenuItem;
+    N23: TMenuItem;
+    N24: TMenuItem;
+    N25: TMenuItem;
+    QueryNumberOfDonations: TMenuItem;
+    HarvestingBloodComponentsByTypes: TMenuItem;
+    BloodProduction: TMenuItem;
+    DBGrid1: TDBGrid;
+    ADOQuery1: TADOQuery;
+    DataSource1: TDataSource;
+    ADOConnection1: TADOConnection;
+    BitBtn1: TBitBtn;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    DateTimePicker1: TDateTimePicker;
+    procedure CloseButtonClick(Sender: TObject);
+    procedure QueryNumberOfDonationsClick(Sender: TObject);
+    procedure BloodProductionClick(Sender: TObject);
+    procedure ProcurementOfComponentsTotalClick(Sender: TObject);
+    procedure HarvestingBloodComponentsByTypesClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure AmountUsableErSuspClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+   private
+    NumberOfDonations: IVQNNumberOfDonations;
+    BloodProduct: IBloodProduct;
+    ProcurementOfTheComponentsTotal: IProcurementOfTheComponentsTotal;
+    HarvestingOfBloodComponentsByTypes: IHarvestingOfBloodComponentsByTypes;
+    TheAmountOfUsableErSusp: TTheAmountOfUsableErSusp;
+    CleanForm1: TMSMoldCleaning;
+  public
+
+    { Public declarations }
+
+  end;
+
+var
+  MyMainForm: TMyMainForm;
+
+implementation
+
+{$R *.dfm}
+// Запросы/Количество донаций
+
+procedure TMyMainForm.AmountUsableErSuspClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(TheAmountOfUsableErSusp) then
+    BloodProduct:=nil;
+  TheAmountOfUsableErSusp := TTheAmountOfUsableErSusp.Create(self);
+end;
+
+procedure TMyMainForm.BitBtn1Click(Sender: TObject);
+begin
+  if bitbtn1.Caption='Изменить' then
+  begin
+    DateTimePicker1.DateTime:=dbgrid1.DataSource.DataSet.Fields[1].AsDateTime;
+    edit2.Text:=dbgrid1.DataSource.DataSet.Fields[2].AsString;
+    edit3.Text:=dbgrid1.DataSource.DataSet.Fields[3].AsString;
+    dbgrid1.Enabled:=false;
+  end;
+  if bitbtn1.Caption='Сохранить езменения' then
+  begin
+  try
+    if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+    begin
+      with MyMainForm.dbgrid1.DataSource.DataSet do
+      begin
+        edit;
+        fields[1].Value:=DateTimePicker1.DateTime;
+        fields[2].AsString:=Edit2.Text;
+        fields[3].Value:=StrToInt(Edit3.Text);
+        post;
+      end;
+      dbgrid1.Enabled:=true;
+    end
+    else
+    begin
+      dbgrid1.Enabled:=true;
+      //edit1.Text:='';
+      edit2.Text:='';
+      edit3.Text:='';
+      bitbtn1.Caption:='Изменить';
+      exit;
+    end;
+  except
+    ShowMessage('Не обновлено');
+  end;
+   // edit1.Text:='';
+    edit2.Text:='';
+    edit3.Text:='';
+  end;
+  if bitbtn1.Caption='Изменить' then bitbtn1.Caption:='Сохранить езменения' else bitbtn1.Caption:='Изменить';
+end;
+
+procedure TMyMainForm.BitBtn2Click(Sender: TObject);
+begin
+  dbgrid1.Columns[0].Visible:=false;
+
+end;
+
+procedure TMyMainForm.BitBtn3Click(Sender: TObject);
+begin
+  with MyMainForm.ADOQuery1 do
+    begin
+     edit;
+//     fields[0].Value:=StrToDate(edit1.Text);
+     fields[2].AsString:=Edit2.Text;
+//     fields[2].Value:=StrToInt(Edit3.Text);
+     post;
+    end;
+  //edit1.Text:='';
+  edit2.Text:='';
+  edit3.Text:='';
+ // DbGrid1.ReadOnly:=true;
+end;
+
+procedure TMyMainForm.BitBtn4Click(Sender: TObject);
+begin
+     adoquery1.SQL.Add('UPDATE Exped SET Exped.НС="123" where Exped.Код=673');
+end;
+
+procedure TMyMainForm.BloodProductionClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(BloodProduct) then
+    BloodProduct:=nil;
+  BloodProduct := TBloodProduct.Create(self);
+end;
+
+procedure TMyMainForm.HarvestingBloodComponentsByTypesClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(HarvestingOfBloodComponentsByTypes) then
+    HarvestingOfBloodComponentsByTypes:=nil;
+  HarvestingOfBloodComponentsByTypes := THarvestingOfBloodComponentsByTypes.Create(self);
+
+end;
+
+procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
+begin
+
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(NumberOfDonations) then
+    NumberOfDonations:=nil;
+  NumberOfDonations := TNumberOfDonations.Create(self);
+
+end;
+
+procedure TMyMainForm.CloseButtonClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TMyMainForm.FormCreate(Sender: TObject);
+var
+  SysMenu:HMENU;
+begin
+  SysMenu := GetSystemMenu(Handle, false);
+  Windows.EnableMenuItem(SysMenu, SC_CLOSE, MF_DISABLED or MF_GRAYED);
+  GetSystemMenu(Handle, false);
+  Perform(WM_NCPAINT, Handle, 0);
+
+end;
+
+procedure TMyMainForm.ProcurementOfComponentsTotalClick(Sender: TObject);
+begin
+  if Assigned(TheAmountOfUsableErSusp) then
+    TheAmountOfUsableErSusp.destroy;
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(ProcurementOfTheComponentsTotal) then
+    ProcurementOfTheComponentsTotal := nil;
+  ProcurementOfTheComponentsTotal := TProcurementOfTheComponentsTotal.Create(self);
+
+end;
+
+end.

@@ -301,7 +301,7 @@ function TProcurementOfTheComponentsTotal.GetButtonAction(NameForm: TForm): TBit
 begin
   if not Assigned(ButtonAction) then
     ButtonAction := TBitBtnTag5.create;
-  Result:=ButtonAction.GetBitBtn(ButtonAct, NameForm);
+  Result:=ButtonAction.GetBitBtn(385, 510, '—формировать', ButtonAct, NameForm);
 end;
 
 //DataTimePicker
@@ -329,7 +329,7 @@ function TProcurementOfTheComponentsTotal.GetErSuspDoses(
 begin
   if not Assigned(ErSuspDoses) then
     ErSuspDoses := TEditTag5.create;
-  Result:=ErSuspDoses.GetEdit(450, 220, 80, 12, NameForm);
+  Result:=ErSuspDoses.GetEdit(450, 220, 80, 12, True, NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetErSuspVolume(
@@ -337,7 +337,7 @@ function TProcurementOfTheComponentsTotal.GetErSuspVolume(
 begin
   if not Assigned(ErSuspVolume) then
     ErSuspVolume := TEditTag5.create;
-  Result:=ErSuspVolume.GetEdit(290, 220, 110, 12, NameForm);
+  Result:=ErSuspVolume.GetEdit(290, 220, 110, 12, True, NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetFiltratDoses(
@@ -345,7 +345,7 @@ function TProcurementOfTheComponentsTotal.GetFiltratDoses(
 begin
   if not Assigned(FiltratDoses) then
     FiltratDoses := TEditTag5.create;
-  Result:=FiltratDoses.GetEdit(450, 420, 80, 12, NameForm);
+  Result:=FiltratDoses.GetEdit(450, 420, 80, 12, True, NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetFiltratVolume(
@@ -353,7 +353,7 @@ function TProcurementOfTheComponentsTotal.GetFiltratVolume(
 begin
   if not Assigned(FiltratVolume) then
     FiltratVolume := TEditTag5.create;
-  Result:=FiltratVolume.GetEdit(290, 420, 110, 12, NameForm);
+  Result:=FiltratVolume.GetEdit(290, 420, 110, 12, True, NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetPlasmaAPADoses(
@@ -361,7 +361,7 @@ function TProcurementOfTheComponentsTotal.GetPlasmaAPADoses(
 begin
   if not Assigned(PlasmaAPADoses) then
     PlasmaAPADoses := TEditTag5.create;
-  Result:=PlasmaAPADoses.GetEdit(450, 340, 80, 12, NameForm);
+  Result:=PlasmaAPADoses.GetEdit(450, 340, 80, 12, True, NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetPlasmaAPAVolume(
@@ -369,7 +369,7 @@ function TProcurementOfTheComponentsTotal.GetPlasmaAPAVolume(
 begin
   if not Assigned(PlasmaAPAVolume) then
     PlasmaAPAVolume := TEditTag5.create;
-  Result:=PlasmaAPAVolume.GetEdit(290, 340, 110, 12, NameForm);
+  Result:=PlasmaAPAVolume.GetEdit(290, 340, 110, 12, True, NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetPlasmaBloodDoses(
@@ -377,7 +377,7 @@ function TProcurementOfTheComponentsTotal.GetPlasmaBloodDoses(
 begin
   if not Assigned(PlasmaBloodDoses) then
     PlasmaBloodDoses := TEditTag5.create;
-  Result:=PlasmaBloodDoses.GetEdit(450, 300, 80, 12, NameForm);
+  Result:=PlasmaBloodDoses.GetEdit(450, 300, 80, 12, True, NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetPlasmaBloodVolume(
@@ -385,7 +385,7 @@ function TProcurementOfTheComponentsTotal.GetPlasmaBloodVolume(
 begin
   if not Assigned(PlasmaBloodVolume) then
     PlasmaBloodVolume := TEditTag5.create;
-  Result:=PlasmaBloodVolume.GetEdit(290, 300, 110, 12, NameForm);
+  Result:=PlasmaBloodVolume.GetEdit(290, 300, 110, 12, True, NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetPlasmaTotalDoses(
@@ -393,7 +393,7 @@ function TProcurementOfTheComponentsTotal.GetPlasmaTotalDoses(
 begin
   if not Assigned(PlasmaTotalDoses) then
     PlasmaTotalDoses := TEditTag5.create;
-  Result:=PlasmaTotalDoses.GetEdit(450, 260, 80, 12, NameForm);
+  Result:=PlasmaTotalDoses.GetEdit(450, 260, 80, 12, True, NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetPlasmaTotalVolume(
@@ -401,7 +401,7 @@ function TProcurementOfTheComponentsTotal.GetPlasmaTotalVolume(
 begin
   if not Assigned(PlasmaTotalVolume) then
     PlasmaTotalVolume := TEditTag5.create;
-  Result:=PlasmaTotalVolume.GetEdit(290, 260, 110, 12, NameForm);
+  Result:=PlasmaTotalVolume.GetEdit(290, 260, 110, 12, True, NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetTromboDoses(
@@ -409,7 +409,7 @@ function TProcurementOfTheComponentsTotal.GetTromboDoses(
 begin
   if not Assigned(TromboDoses) then
     TromboDoses := TEditTag5.create;
-  Result:=TromboDoses.GetEdit(450, 380, 80, 12, NameForm);
+  Result:=TromboDoses.GetEdit(450, 380, 80, 12, True, NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetTromboPacets(
@@ -417,7 +417,7 @@ function TProcurementOfTheComponentsTotal.GetTromboPacets(
 begin
   if not Assigned(TromboPacets) then
     TromboPacets := TEditTag5.create;
-  Result:=TromboPacets.GetEdit(580, 380, 80, 12, NameForm);
+  Result:=TromboPacets.GetEdit(580, 380, 80, 12, True, NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetTromboVolume(
@@ -425,7 +425,7 @@ function TProcurementOfTheComponentsTotal.GetTromboVolume(
 begin
   if not Assigned(TromboVolume) then
     TromboVolume := TEditTag5.create;
-  Result:=TromboVolume.GetEdit(290, 380, 110, 12, NameForm);
+  Result:=TromboVolume.GetEdit(290, 380, 110, 12, True, NameForm);
 end;
 
 //Label

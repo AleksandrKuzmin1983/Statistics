@@ -1,0 +1,41 @@
+unit UMSMoldCleaning;
+
+interface
+Uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
+  ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
+  Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
+  Vcl.ComCtrls,
+  GetDataSoursUnit1,
+  VQNNumberOfDonations,
+  VQBBloodProduct;
+
+
+type
+  TMSMoldCleaning =class
+    public
+      constructor Create(Form: TForm);
+  end;
+
+implementation
+
+{ TMSMoldCleaning }
+
+//Удаляем с формы все компоненты с тагом 5
+
+constructor TMSMoldCleaning.Create(Form: TForm);
+var
+  TempVar: integer;  // в цикле должна быть именно локальная переменная
+begin
+For TempVar:=Form.ComponentCount - 1 downto 1 do
+  begin
+    if  Form.components[TempVar].Tag = 5 then
+    begin
+      Form.components[TempVar].Free;
+      continue;
+    end;
+  end;
+end;
+
+end.

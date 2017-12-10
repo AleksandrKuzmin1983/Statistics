@@ -1,0 +1,48 @@
+unit UVFEdit;
+
+interface
+
+uses
+  StdCtrls, Forms, Classes, Controls;
+
+type
+  IEditTag5 = interface
+    function GetEdit(FontSize: integer;
+      CCaption: String; CurrentForm: TForm): TLabel;
+  end;
+
+
+  TEditTag5 = class(TInterfacedObject, IEditTag5)
+  private
+    TempEdit: TEdit;
+  public
+    function GetEdit(FontSize: integer;
+      CCaption: String; CurrentForm: TForm): TLabel;
+  end;
+
+implementation
+
+{ TTempLabelTag5 }
+
+function TEditTag5.GetEdit(Cleft, Ñtop, Width, FontSize: integer;
+  CurrentForm: TForm): TEdit;
+begin
+  if not Assigned(TempEdit) then
+    TempEdit := TEdit.create(CurrentForm);
+  TempEdit.parent := CurrentForm;
+  with TempEdit do
+  begin
+    left := Cleft;
+    top := Ñtop;
+    Width := 100;
+    Font.name := 'Times New Roman';
+    Font.Size := 12;
+    Alignment := taRightJustify;
+    ReadOnly := true;
+    Text := '';
+    Tag := 5;
+  end;
+  result := TempEdit;
+end;
+
+end.

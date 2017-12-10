@@ -1,0 +1,77 @@
+unit UVFBitBtn;
+
+interface
+
+uses
+  Windows, Messages,  Variants, Classes, Graphics, Controls,
+  Dialogs, StdCtrls,  ToolWin, ActnMan, ActnCtrls,
+  ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
+  Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
+
+  DateUtils, SysUtils, Vcl.ComCtrls, Forms, Buttons;
+
+type
+  IBitBtnTag5 = interface
+    function GetBitBtn(CurrentForm: TForm): TBitBtn;
+    procedure GetOnClick(ProcedureOnClick: TNotifyEvent);
+ //   function GetData: Extended;
+  end;
+
+  TBitBtnTag5 = class(TInterfacedObject, IBitBtnTag5)
+  private
+    TempBitBtn: TBitBtn;
+  public
+    function GetBitBtn(CurrentForm: TForm): TBitBtn;
+    procedure GetOnClick(ProcedureOnClick: TNotifyEvent);
+  end;
+
+implementation
+
+{ TTempLabelTag5 }
+
+
+function TBitBtnTag5.GetBitBtn(CurrentForm: TForm): TBitBtn;
+begin
+  if not Assigned(TempBitBtn) then
+  begin
+    TempBitBtn := TBitBtn.create(CurrentForm);
+    TempBitBtn.parent := CurrentForm;
+    with TempBitBtn do
+    begin
+      left := 385;
+      top := 350;
+      Font.name := 'Times New Roman';
+      Font.Size := 12;
+      Caption := '—формировать';
+      Width := 130;
+      Tag := 5;
+    end;
+  end;
+  result := TempBitBtn;
+
+
+{  if not Assigned(ButtonAction) then
+    ButtonAction := TBitBtn.create(NameForm);
+  ButtonAction.parent := NameForm;
+  with ButtonAction do
+  begin
+    left := 385;
+    top := 350;
+    Font.name := 'Times New Roman';
+    Font.Size := 12;
+    Caption := '—формировать';
+    Width := 130;
+    Tag := 5;
+  end;
+  ButtonAction.OnClick := ButtonAct;
+  result := ButtonAction; }
+
+end;
+
+procedure TBitBtnTag5.GetOnClick(ProcedureOnClick: TNotifyEvent);
+begin
+  //: TObject
+  TempBitBtn.OnClick:=ProcedureOnClick;
+end;
+
+end.

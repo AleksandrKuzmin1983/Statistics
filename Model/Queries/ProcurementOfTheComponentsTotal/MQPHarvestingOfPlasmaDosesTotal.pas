@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Variants, Data.Win.ADODB,
-  GetDataSoursUnit1,
+  GetAdoQuery,
   UCheckNull;
 
 type
@@ -17,7 +17,7 @@ type
   private
     TempValue: Integer;
     PlasmaDosesTotal: string;
-    TempConnect: IDataBaseTables;
+    TempConnect: ITempAdoQuery;
     TempQuery: TADOQuery;
     CheckNull: TCheckNull;
   public
@@ -34,7 +34,7 @@ begin
   if not Assigned(CheckNull) then
     CheckNull := TCheckNull.create;
   if not Assigned(TempConnect) then
-    TempConnect := TDataBaseTables.create;
+    TempConnect := TTempAdoQuery.create;
   if not Assigned(TempQuery) then
     TempQuery := TADOQuery.create(nil);
   TempQuery.Connection := TempConnect.GetConnect;

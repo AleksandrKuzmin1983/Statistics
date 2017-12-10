@@ -1,0 +1,42 @@
+unit UMSMoldCleaning;
+
+interface
+Uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
+  ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
+  Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
+  Vcl.ComCtrls,
+  GetDataSoursUnit1,
+  VQNNumberOfDonations,
+  VQBBloodProduct;
+
+
+type
+  TMSMoldCleaning =class
+    private
+      TempVar: integer;
+      CurrentForm: TForm;
+    public
+      procedure CleanForm(Form: TForm);
+  end;
+
+implementation
+
+{ TMSMoldCleaning }
+
+//Удаляем с формы все компоненты с тагом 5
+
+procedure TMSMoldCleaning.CleanForm(Form: TForm);
+begin
+For TempVar:=Form.ComponentCount - 1 downto 1 do
+  begin
+    if Form.components[TempVar].Tag = 5 then
+    begin
+      Form.components[TempVar].Free;
+      continue;
+    end;
+  end;
+end;
+
+end.

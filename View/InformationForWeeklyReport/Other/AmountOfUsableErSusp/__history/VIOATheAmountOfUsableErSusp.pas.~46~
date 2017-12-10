@@ -1,0 +1,301 @@
+unit VIOATheAmountOfUsableErSusp;
+
+interface
+
+uses
+  Vcl.DBGrids, SysUtils, StdCtrls, Buttons,
+  Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
+  UVFComboBox,
+  UVFLabel,
+  UVFTitleLabel,
+  UVFEdit,
+  UVFDateTimePicker,
+  UVFBitBtnAdd,
+  UVFBitBtnDelete,
+  UVFBitBtnEdit,
+  UVFBitBtnBlock,
+  UVFDBGrid;
+
+type
+  ITheAmountOfUsableErSusp = interface
+//    function GetLabelReportDate(NameForm: TForm): TLabel;
+//    function GetLabelProductList(NameForm: TForm): TLabel;
+//    function GetLabelVolume(NameForm: TForm): TLabel;
+//    function GetLabelTitle(NameForm: TForm): TLabel;
+
+//    function GetGridDB(NameForm: TForm): TDBGrid;
+
+//    function GetEditVolume(NameForm: TForm): TEdit;
+//    function GetProductList(NameForm: TForm): TComboBox;
+//    function GetCalendarReportDateCal(NameForm: TForm): TDateTimePicker;
+
+//    function GetButtonSave(NameForm: TForm): TBitBtn;
+//    procedure ButtonSaved(Sender: TObject);
+//    function GetButtonAdd(NameForm: TForm): TBitBtn;
+//    procedure ButtonAdded(Sender: TObject);
+//    function GetButtonDelete(NameForm: TForm): TBitBtn;
+//    procedure ButtonDeleted(Sender: TObject);
+//    function GetButtonBlock(NameForm: TForm): TBitBtn;
+//    procedure ButtonBlocked(Sender: TObject);
+  end;
+
+  TTheAmountOfUsableErSusp = class(TInterfacedObject, ITheAmountOfUsableErSusp)
+  private
+    LabelReportDate: ITempLabelTag5;
+    LabelProductList: ITempLabelTag5;
+    LabelVolume: ITempLabelTag5;
+    Title: ITitleLabelTag5;
+    SQL: String;
+
+    GridDB: IGridDB;
+
+    EditVolume: IEditTag5;
+    ProductList: IComboboxTag5;
+
+    ReportDateCal: IDTPickerTag5;
+
+    ButtonAdd: IBitBtnAddTag5;
+    ButtonDelete: IBitBtnDeleteTag5;
+    ButtonEdit: IBitBtnEditTag5;
+    ButtonBlock: IBitBtnBlockTag5;
+    CurrentForm: TForm;
+    function GetLabelReportDate(NameForm: TForm): TLabel;
+    function GetLabelProductList(NameForm: TForm): TLabel;
+    function GetLabelVolume(NameForm: TForm): TLabel;
+    function GetLabelTitle(NameForm: TForm): TLabel;
+
+    function GetGridDB(NameForm: TForm): TDBGrid;
+
+    function GetEditVolume(NameForm: TForm): TEdit;
+    function GetProductList(NameForm: TForm): TComboBox;
+    function GetCalendarReportDateCal(NameForm: TForm): TDateTimePicker;
+
+    function GetButtonEdit(NameForm: TForm): TBitBtn;
+    procedure ButtonEdited(Sender: TObject);
+    function GetButtonAdd(NameForm: TForm): TBitBtn;
+    procedure ButtonAdded(Sender: TObject);
+    function GetButtonDelete(NameForm: TForm): TBitBtn;
+    procedure ButtonDeleted(Sender: TObject);
+    function GetButtonBlock(NameForm: TForm): TBitBtn;
+    procedure ButtonBlocked(Sender: TObject);
+  public
+    constructor create(form: TForm);
+    destructor destroy;
+  end;
+
+implementation
+
+{ TBloodProduct }
+
+constructor TTheAmountOfUsableErSusp.create(form: TForm);
+begin
+  CurrentForm:=Form;
+
+  GetLabelReportDate(form);
+  GetLabelProductList(form);
+  GetLabelVolume(form);
+  GetLabelTitle(form);
+
+  GetGridDB(form);
+
+  GetCalendarReportDateCal(form);
+
+  GetEditVolume(form);
+
+  GetProductList(form);
+  GetButtonEdit(form);
+  GetButtonAdd(form);
+  GetButtonDelete(form);
+  GetButtonBlock(form);
+end;
+
+destructor TTheAmountOfUsableErSusp.destroy;
+begin
+  GridDB.CloseConnect;
+end;
+
+//Button
+
+procedure TTheAmountOfUsableErSusp.ButtonAdded(Sender: TObject);
+begin
+ //
+end;
+
+procedure TTheAmountOfUsableErSusp.ButtonBlocked(Sender: TObject);
+begin
+  if ButtonBlock.GetCaption then
+  begin
+    ButtonEdit.ChangeEnabled(True);
+    ButtonAdd.ChangeEnabled(True);
+    ButtonDelete.ChangeEnabled(True);
+    ButtonBlock.ChangeCaption(True);
+  end else
+  begin
+    ButtonEdit.ChangeEnabled(False);
+    ButtonAdd.ChangeEnabled(False);
+    ButtonDelete.ChangeEnabled(False);
+    ButtonBlock.ChangeCaption(False);
+  end;
+end;
+
+procedure TTheAmountOfUsableErSusp.ButtonDeleted(Sender: TObject);
+begin
+    ShowMessage('Удалено!');
+end;
+
+procedure TTheAmountOfUsableErSusp.ButtonEdited(Sender: TObject);
+var
+ i: integer;
+begin
+  if ButtonEdit.GetCaption='Изменить' then
+  begin
+    EditVolume.WriteText(VarToStr(GridDB.GetValue(2)));
+    ReportDateCal.WriteData(GridDB.GetValue(0));
+    for i:=0 to ProductList.GetItemsCount-1 do
+      if VarToStr(GridDB.GetValue(1))=ProductList.GetItemsValue(i) then  ProductList.WriteItemIndex(i);
+    if ProductList.GetItemIndex=-1 then ShowMessage('Название продукции для данной записи задано не верно!');
+    GridDB.Enable(False);
+  end;
+  if ButtonEdit.GetCaption='Сохранить изменения' then
+  begin
+  try
+    if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+    begin
+      with GridDB do
+      begin
+        EditValue;
+        WriteValue(2, StrToInt(EditVolume.ReadText));
+        WriteValue(1, ProductList.GetItemsValue(ProductList.GetItemIndex));
+        WriteValue(0, ReportDateCal.GetData);
+        PostValue;
+      end;
+      GridDB.Enable(True);
+    end
+    else
+    begin
+     GridDB.Enable(True);
+     EditVolume.WriteText('');
+     ProductList.WriteItemIndex(-1);
+     ReportDateCal.WriteData(StartOfTheWeek(Date)-7);
+     ButtonEdit.ChangeCaption('Изменить');
+     exit;
+    end;
+  except
+    ShowMessage('Не обновлено');
+  end;
+    EditVolume.WriteText('');
+    ProductList.WriteItemIndex(-1);
+    ReportDateCal.WriteData(StartOfTheWeek(Date)-7);
+  end;
+  if ButtonEdit.GetCaption='Изменить' then ButtonEdit.ChangeCaption('Сохранить изменения') else ButtonEdit.ChangeCaption('Изменить');
+end;
+
+function TTheAmountOfUsableErSusp.GetButtonAdd(NameForm: TForm): TBitBtn;
+begin
+  if not Assigned(ButtonAdd) then
+    ButtonAdd := TBitBtnAddTag5.create;
+  Result:=ButtonAdd.GetBitBtnAdd(0, 0, ButtonAdded, NameForm);
+end;
+
+function TTheAmountOfUsableErSusp.GetButtonBlock(NameForm: TForm): TBitBtn;
+begin
+  if not Assigned(ButtonBlock) then
+    ButtonBlock := TBitBtnBlockTag5.create;
+  Result:=ButtonBlock.GetBitBtnBlock(0, 0, ButtonBlocked, NameForm);
+end;
+
+function TTheAmountOfUsableErSusp.GetButtonDelete(NameForm: TForm): TBitBtn;
+begin
+  if not Assigned(ButtonDelete) then
+    ButtonDelete := TBitBtnDeleteTag5.create;
+  Result:=ButtonDelete.GetBitBtnDelete(0, 0, ButtonDeleted, NameForm);
+end;
+
+function TTheAmountOfUsableErSusp.GetButtonEdit(NameForm: TForm): TBitBtn;
+begin
+  if not Assigned(ButtonEdit) then
+    ButtonEdit := TBitBtnEditTag5.create;
+  Result:=ButtonEdit.GetBitBtnEdit(0, 0, ButtonEdited, NameForm);
+end;
+
+//TDateTimePicker
+
+function TTheAmountOfUsableErSusp.GetCalendarReportDateCal(NameForm: TForm)
+  : TDateTimePicker;
+begin
+  if not Assigned(ReportDateCal) then
+    ReportDateCal:=TDTPickerTag5.Create;
+  result:=ReportDateCal.GetDTPicker(400, 80, StartOfTheWeek(Date)-7, NameForm);
+end;
+
+//Edit
+
+function TTheAmountOfUsableErSusp.GetEditVolume(NameForm: TForm): TEdit;
+begin
+  if not Assigned(EditVolume) then
+    EditVolume := TEditTag5.create;
+  Result:=EditVolume.GetEdit(400, 180, 185, 12, False, NameForm);
+  EditVolume.NumberOnly(True);
+end;
+
+//DBGrid
+
+function TTheAmountOfUsableErSusp.GetGridDB(NameForm: TForm): TDBGrid;
+begin
+  if not Assigned(GridDB) then
+    GridDB := TGridDB.create;
+  Result:=GridDB.GetGridDB(50, 280, 800, 240, 12, NameForm);
+  SQL:='SELECT Exped.ДАТАЛЗ, Exped.НС, Sum(Exped.ПГЭС) AS [Sum-ПГЭС] ' +
+  'FROM Exped GROUP BY Exped.ДАТАЛЗ, Exped.НС HAVING (((Sum(Exped.ПГЭС))>0)) ORDER BY Exped.ДАТАЛЗ desc;';
+  GridDB.OpenConnect(SQL);
+  GridDB.TitleColumn(0, 'Дата');
+  GridDB.TitleColumn(1, 'Наименование продукции');
+  GridDB.TitleColumn(2, 'Объем, мл');
+  GridDB.WidthColumn(0, 100);
+  GridDB.WidthColumn(1, 300);
+  GridDB.WidthColumn(2, 100);
+end;
+
+//Label
+
+function TTheAmountOfUsableErSusp.GetLabelReportDate(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelReportDate) then
+    LabelReportDate := TTempLabelTag5.create;
+  result := LabelReportDate.GetTempLabel(50, 80, 16, 'Отчетная неделя: ', NameForm);
+end;
+
+function TTheAmountOfUsableErSusp.GetLabelProductList(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelProductList) then
+    LabelProductList := TTempLabelTag5.create;
+  result := LabelProductList.GetTempLabel(50, 130, 16, 'Название продукци: ', NameForm);
+end;
+
+function TTheAmountOfUsableErSusp.GetLabelVolume(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelVolume) then
+    LabelVolume := TTempLabelTag5.create;
+  result := LabelVolume.GetTempLabel(50, 180, 16, 'Произведено годной продукции, мл: ', NameForm);
+end;
+
+function TTheAmountOfUsableErSusp.GetLabelTitle(NameForm: TForm): TLabel;
+begin
+  if not Assigned(Title) then
+    Title := TTitleLabelTag5.create;
+  result := Title.GetTitleLabel(18, 'Объем годных эритроцитарных сред заготовленных за отчетную неделю', NameForm);
+end;
+
+//ComboBox
+
+function TTheAmountOfUsableErSusp.GetProductList(NameForm: TForm): TComboBox;
+begin
+  if not Assigned(ProductList) then
+    ProductList := TComboboxTag5.create;
+  result := ProductList.GetComboBox(400, 130, 185, 14, NameForm);
+  SQL:='SELECT NameProducts.ShortName, NameProducts.id FROM NameProducts ' +
+  'WHERE (((NameProducts.TypeProduct)="Эр взвесь") And NameProducts.Production=True);';
+  ProductList.TheContentOfTheList(SQL);
+end;
+
+end.

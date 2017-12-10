@@ -1,0 +1,52 @@
+unit UVFDateTimePicker;
+
+interface
+
+uses
+  DateUtils, SysUtils, Vcl.ComCtrls, Forms;
+
+type
+  IDTPickerTag5 = interface
+
+  end;
+
+  TDTPickerTag5 = class(TInterfacedObject, IDTPickerTag5)
+  private
+    TempDTPicker: TDateTimePicker;
+  public
+    function GetDTPicker(Cleft, Ñtop: integer; CurrentForm: TForm): TDateTimePicker;
+//    procedure WriteText(Text: String);
+  end;
+
+implementation
+
+{ TTempLabelTag5 }
+
+function TDTPickerTag5.GetDTPicker(Cleft, Ñtop: integer; CurrentForm: TForm): TDateTimePicker;
+begin
+  if not Assigned(TempDTPicker) then
+    TempDTPicker := TDateTimePicker.create(CurrentForm);
+  TempDTPicker.parent := CurrentForm;
+  with TempDTPicker do
+  begin
+    TempDTPicker := TDateTimePicker.create(CurrentForm);
+    TempDTPicker.parent := CurrentForm;
+    with TempDTPicker do
+    begin
+      left := Cleft;
+      top := Ñtop;
+      Font.Size := 12;
+      Tag := 5;
+      Date := EncodeDate(YearOf(Now), MonthOf(Now), 1) - 1;
+    end;
+  end;
+  result := TempDTPicker;
+end;
+
+
+{procedure TEditTag5.WriteText(Text: String);
+begin
+  TempEdit.Text:=Text;
+end;    }
+
+end.

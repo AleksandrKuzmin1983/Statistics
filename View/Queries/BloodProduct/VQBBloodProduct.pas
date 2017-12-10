@@ -162,42 +162,42 @@ function TBloodProduct.GetEdit1(NameForm: TForm): TEdit;
 begin
   if not Assigned(ResultEdit1) then
     ResultEdit1 := TEditTag5.create;
-  Result:=ResultEdit1.GetEdit(520, 180, 100, 12, NameForm);
+  Result:=ResultEdit1.GetEdit(520, 180, 100, 12, True, NameForm);
 end;
 
 function TBloodProduct.GetEdit2(NameForm: TForm): TEdit;
 begin
   if not Assigned(ResultEdit2) then
     ResultEdit2 := TEditTag5.create;
-  Result:=ResultEdit2.GetEdit(520, 220, 100, 12, NameForm);
+  Result:=ResultEdit2.GetEdit(520, 220, 100, 12, True, NameForm);
 end;
 
 function TBloodProduct.GetEdit3(NameForm: TForm): TEdit;
 begin
   if not Assigned(ResultEdit3) then
     ResultEdit3 := TEditTag5.create;
-  Result:=ResultEdit3.GetEdit(520, 260, 100, 12, NameForm);
+  Result:=ResultEdit3.GetEdit(520, 260, 100, 12, True, NameForm);
 end;
 
 function TBloodProduct.GetEdit4(NameForm: TForm): TEdit;
 begin
   if not Assigned(ResultEdit4) then
     ResultEdit4 := TEditTag5.create;
-  Result:=ResultEdit4.GetEdit(520, 300, 100, 12, NameForm);
+  Result:=ResultEdit4.GetEdit(520, 300, 100, 12, True, NameForm);
 end;
 
 function TBloodProduct.GetEdit5(NameForm: TForm): TEdit;
 begin
   if not Assigned(ResultEdit5) then
     ResultEdit5 := TEditTag5.create;
-  Result:=ResultEdit5.GetEdit(520, 340, 100, 12, NameForm);
+  Result:=ResultEdit5.GetEdit(520, 340, 100, 12, True, NameForm);
 end;
 
 function TBloodProduct.GetButtonAction(NameForm: TForm): TBitBtn;
 begin
   if not Assigned(ButtonAction) then
     ButtonAction := TBitBtnTag5.create;
-  Result:=ButtonAction.GetBitBtn(ButtonAct, NameForm);
+  Result:=ButtonAction.GetBitBtn(385, 510, '—формировать', ButtonAct, NameForm);
 end;
 
 function TBloodProduct.GetCalendarStartDate(NameForm: TForm)

@@ -1,0 +1,92 @@
+unit UVFComboBox;
+
+interface
+
+uses
+  Graphics, StdCtrls, Forms, Classes, Controls, Data.Win.ADODB, Variants,
+  UCheckNull,
+  GetDataSoursUnit1;
+
+type
+  IComboboxTag5 = interface
+    function GetComboBox(Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TComboBox;
+    procedure WriteText(Text: String);
+    procedure TheContentOfTheList(SQL: String);
+  end;
+
+  TComboboxTag5 = class(TInterfacedObject, IComboboxTag5)
+  private
+    TempComboBox: TComboBox;
+    TempConnect: IDataBaseTables;
+    TempQuery: TADOQuery;
+    CheckNull: TCheckNull;
+  public
+    function GetComboBox(Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TComboBox;
+    procedure TheContentOfTheList(SQL: String);
+    procedure WriteText(Text: String);
+    constructor Create(SQL: String);
+  end;
+
+implementation
+
+{ TTempLabelTag5 }
+
+constructor TComboboxTag5.Create(SQL: String);
+begin
+  if not Assigned(TempComboBox) then
+    TempComboBox := TComboBox.create;
+  if not Assigned(TempConnect) then
+    TempConnect := TDataBaseTables.create;
+  if not Assigned(CheckNull) then
+    CheckNull := TCheckNull.create;
+  if not Assigned(TempQuery) then
+    TempQuery := TADOQuery.create(nil);
+  TempQuery.Connection := TempConnect.GetConnect;
+  TempQuery.Close;
+  TempQuery.SQL.Clear;
+  TempQuery.SQL.Add
+    ('SELECT NameProducts.ShortName, NameProducts.id FROM NameProducts ' +
+     'WHERE (((NameProducts.TypeProduct)="Ýð âçâåñü") And NameProducts.Production=True);');
+  TempQuery.Open;
+  if not TempQuery.IsEmpty then
+  begin
+    TempQuery.Recordset.MoveFirst;
+    while not TempQuery.Eof do
+    begin
+      TempComboBox.Items.Add(VarToStr(TempQuery.Fields[0].Value));
+    end;
+  end;
+  TempQuery.Close;
+end;
+
+function TComboboxTag5.GetComboBox(Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TComboBox;
+begin
+  if not Assigned(TempComboBox) then
+    TempComboBox := TComboBox.create(CurrentForm);
+  TempComboBox.parent := CurrentForm;
+  with TempComboBox do
+  begin
+    left := Cleft;
+    top := Ñtop;
+    Width := CWidth;
+    Font.Size := FontSize;
+    Font.name := 'Times New Roman';
+//    Font.Style:=[fsbold];
+    Style:=csOwnerDrawFixed;
+    Tag := 5;
+  end;
+  result := TempComboBox;
+end;
+
+
+procedure TComboboxTag5.TheContentOfTheList(SQL: String);
+begin
+//
+end;
+
+procedure TComboboxTag5.WriteText(Text: String);
+begin
+  TempComboBox.Text:=Text;
+end;
+
+end.

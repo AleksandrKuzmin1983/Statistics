@@ -174,7 +174,7 @@ function THarvestingOfBloodComponentsByTypes.GetButtonAction(NameForm: TForm): T
 begin
   if not Assigned(ButtonAction) then
     ButtonAction := TBitBtnTag5.create;
-  Result:=ButtonAction.GetBitBtn(ButtonAct, NameForm);
+  Result:=ButtonAction.GetBitBtn(385, 510, '—формировать', ButtonAct, NameForm);
 end;
 
 //DataTimePicker

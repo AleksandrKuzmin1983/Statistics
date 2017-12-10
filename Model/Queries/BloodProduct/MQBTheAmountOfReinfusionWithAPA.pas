@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Variants,
   Dialogs, Data.Win.ADODB,
-  GetDataSoursUnit1,
+  GetAdoQuery,
   UCheckNull;
 
 type
@@ -16,7 +16,7 @@ type
   TTheAmountOfReinfusionWithAPA = class(TInterfacedObject, ITheAmountOfReinfusionWithAPA)
   private
     AmountOfRWAPA: string;
-    TempConnect: IDataBaseTables;
+    TempConnect: ITempAdoQuery;
     TempQuery: TADOQuery;
     CheckNull: ICheckNull;
   public
@@ -31,7 +31,7 @@ implementation
 constructor TTheAmountOfReinfusionWithAPA.create(DateStart, DateEnd: TDate);
 begin
   if not Assigned(TempConnect) then
-    TempConnect := TDataBaseTables.create;
+    TempConnect := TTempAdoQuery.create;
   if not Assigned(CheckNull) then
     CheckNull := TCheckNull.create;
   if not Assigned(TempQuery) then

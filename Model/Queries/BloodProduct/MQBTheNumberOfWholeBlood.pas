@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Variants,
   Dialogs, Data.Win.ADODB,
-  GetDataSoursUnit1,
+  GetAdoQuery,
   UCheckNull;
 
 type
@@ -16,7 +16,7 @@ type
   TTheNumberOfWholeBlood = class(TInterfacedObject, ITheNumberOfWholeBlood)
   private
     NumberOfWB: string;
-    TempConnect: IDataBaseTables;
+    TempConnect: ITempAdoQuery;
     TempQuery: TADOQuery;
     CheckNull: ICheckNull;
   public
@@ -32,7 +32,7 @@ implementation
 constructor TTheNumberOfWholeBlood.create(DateStart, DateEnd: TDate);
 begin
   if not Assigned(TempConnect) then
-    TempConnect := TDataBaseTables.create;
+    TempConnect := TTempAdoQuery.create;
   if not Assigned(CheckNull) then
     CheckNull := TCheckNull.create;
   if not Assigned(TempQuery) then

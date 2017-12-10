@@ -1,0 +1,63 @@
+unit UVFStringGrid;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants,
+  Dialogs, Buttons, ToolWin, ActnMan, ActnCtrls,
+  ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
+  Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
+  Vcl.ComCtrls,
+  GetDataSoursUnit1,
+  Graphics, StdCtrls, Forms, Classes, Controls;
+
+type
+  IStringGridTag5 = interface
+    function GetStringGrid(Cleft, Ñtop, CWidth, CHeight, FontSize: integer; CurrentForm: TForm): TStringGrid;
+    procedure WriteCells(ColCell, RowCell: integer; Value: String);
+  end;
+
+  TStringGridTag5 = class(TInterfacedObject, IStringGridTag5)
+  private
+    TempStringGrid: TStringGrid;
+  public
+    function GetStringGrid(Cleft, Ñtop, CWidth, CHeight, FontSize: integer; CurrentForm: TForm): TStringGrid;
+    procedure WriteCells(ColCell, RowCell: integer; Value: String);
+  end;
+
+implementation
+
+{ TTempLabelTag5 }
+
+function TStringGridTag5.GetStringGrid(Cleft, Ñtop, CWidth, CHeight, FontSize: integer; CurrentForm: TForm): TStringGrid;
+begin
+  if not Assigned(TempStringGrid) then
+    TempStringGrid := TStringGrid.create(CurrentForm);
+  TempStringGrid.parent := CurrentForm;
+  with TempStringGrid do
+  begin
+    left := Cleft;
+    top := Ñtop;
+    Width := CWidth;
+    Height:= CHeight;
+    Font.Size := FontSize;
+    Font.name := 'Times New Roman';
+//    Font.Style:=[fsbold];
+    Options:=[goFixedVertLine]+[goFixedHorzLine]+[goVertLine]+[goHorzLine];
+    Color:=clBtnFace;
+    FixedColor:=clBtnFace;
+    BorderStyle:=bsNone;
+    FixedCols:=1;
+    FixedRows:=1;
+    Tag := 5;
+  end;
+  result := TempStringGrid;
+end;
+
+
+procedure TStringGridTag5.WriteCells(ColCell, RowCell: integer; Value: String);
+begin
+  TempStringGrid.Cells[ColCell, RowCell]:=VarToStr(Value);
+end;
+
+end.

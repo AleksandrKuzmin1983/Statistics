@@ -1,0 +1,46 @@
+unit UVFBitBtnDelete;
+
+interface
+
+uses
+  Classes, Forms, Buttons;
+
+type
+  IBitBtnDeleteTag5 = interface
+    function GetBitBtnDelete(CLeft, CTop: integer; CCaption: String; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
+  end;
+
+  TBitBtnDeleteTag5 = class(TInterfacedObject, IBitBtnDeleteTag5)
+  private
+    TempBitBtnDelete: TBitBtn;
+  public
+    function GetBitBtnDelete(CLeft, CTop: integer; CCaption: String; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
+  end;
+
+implementation
+
+{ TTempLabelTag5 }
+
+
+function TBitBtnDeleteTag5.GetBitBtnDelete(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
+begin
+  if not Assigned(TempBitBtnDelete) then
+  begin
+    TempBitBtnDelete := TBitBtn.create(CurrentForm);
+    TempBitBtnDelete.parent := CurrentForm;
+    with TempBitBtnDelete do
+    begin
+      if CLeft=0 then left:=700 else left:=CLeft;
+      if CTop=0 then Top:=300 else Top:=CTop;
+      Font.name := 'Times New Roman';
+      Font.Size := 14;
+      Caption := 'Удалить';
+      Width := 150;
+      Height:=30;
+      Tag := 5;
+      OnClick:=ProcedureOnClick;
+    end;
+  end;
+  result := TempBitBtnDelete;
+end;
+end.

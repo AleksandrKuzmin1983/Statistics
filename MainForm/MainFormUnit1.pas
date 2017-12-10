@@ -4,15 +4,18 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
+  Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls, DateUtils,
   ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
   Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
-  Vcl.ComCtrls, GetDataSoursUnit1,
+  Vcl.ComCtrls, Vcl.ExtCtrls,
+  GetAdoQuery,
   VQNNumberOfDonations,
   VQBBloodProduct,
   VQPProcurementOfTheComponentsTotal,
   VQHHarvestingOfBloodComponentsByTypes,
-  UMSMoldCleaning;
+  VIOATheAmountOfUsableErSusp,
+  UMSMoldCleaning,
+  UMSDestroyVariables;
 
 type
   TMyMainForm = class(TForm)
@@ -33,7 +36,7 @@ type
     N12: TMenuItem;
     N13: TMenuItem;
     N14: TMenuItem;
-    N15: TMenuItem;
+    AmountUsableErSusp: TMenuItem;
     N16: TMenuItem;
     N17: TMenuItem;
     N7: TMenuItem;
@@ -52,14 +55,17 @@ type
     procedure CloseButtonClick(Sender: TObject);
     procedure QueryNumberOfDonationsClick(Sender: TObject);
     procedure BloodProductionClick(Sender: TObject);
-    procedure N4Click(Sender: TObject);
     procedure ProcurementOfComponentsTotalClick(Sender: TObject);
     procedure HarvestingBloodComponentsByTypesClick(Sender: TObject);
-  private
+    procedure FormCreate(Sender: TObject);
+    procedure AmountUsableErSuspClick(Sender: TObject);
+   private
+    TempAdoQuery: TTempAdoQuery;
     NumberOfDonations: IVQNNumberOfDonations;
     BloodProduct: IBloodProduct;
     ProcurementOfTheComponentsTotal: IProcurementOfTheComponentsTotal;
     HarvestingOfBloodComponentsByTypes: IHarvestingOfBloodComponentsByTypes;
+    TheAmountOfUsableErSusp: TTheAmountOfUsableErSusp;
     CleanForm1: TMSMoldCleaning;
   public
 
@@ -75,9 +81,20 @@ implementation
 {$R *.dfm}
 // Запросы/Количество донаций
 
+procedure TMyMainForm.AmountUsableErSuspClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(TheAmountOfUsableErSusp) then
+    BloodProduct:=nil;
+  TheAmountOfUsableErSusp := TTheAmountOfUsableErSusp.Create(self);
+end;
+
 procedure TMyMainForm.BloodProductionClick(Sender: TObject);
 begin
-
   if not Assigned(CleanForm1) then
     CleanForm1.Free;
   CleanForm1 := TMSMoldCleaning.Create(self);
@@ -120,17 +137,21 @@ begin
   Close;
 end;
 
-procedure TMyMainForm.N4Click(Sender: TObject);
+procedure TMyMainForm.FormCreate(Sender: TObject);
+var
+  SysMenu:HMENU;
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+  SysMenu := GetSystemMenu(Handle, false);
+  Windows.EnableMenuItem(SysMenu, SC_CLOSE, MF_DISABLED or MF_GRAYED);
+  GetSystemMenu(Handle, false);
+  Perform(WM_NCPAINT, Handle, 0);
+
 end;
 
 procedure TMyMainForm.ProcurementOfComponentsTotalClick(Sender: TObject);
 begin
-
+  if Assigned(TheAmountOfUsableErSusp) then
+    TheAmountOfUsableErSusp.destroy;
   if not Assigned(CleanForm1) then
     CleanForm1.Free;
   CleanForm1 := TMSMoldCleaning.Create(self);

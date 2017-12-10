@@ -1,0 +1,58 @@
+unit UMSGContentForDBGrid;
+
+interface
+uses
+  SysUtils, Variants, StdCtrls,
+  Dialogs, Data.Win.ADODB,
+  GetAdoQuery,
+  UMCGetDataSorce;
+
+type
+  IContentForDBGrid = interface
+    function GetContentForDBGrid(i: integer): string;
+  end;
+
+  TContentForDBGrid = class(TInterfacedObject, IContentForDBGrid)
+  private
+    TempDataSource: IGetDataSource;
+    TempConnect: ITempAdoQuery;
+    TempQuery: TADOQuery;
+    SQL: String;
+  public
+    function GetContentForDBGrid(i: integer): string;
+    function GetCount: integer;
+    constructor create(CSQL: String);
+  end;
+
+implementation
+
+{TTheNumberOfBloodDonations}
+
+constructor TContentForDBGrid.create(CSQL: String);
+var
+  i: integer;
+begin
+  if not Assigned(TempConnect) then
+    TempConnect := TTempAdoQuery.create;
+  if not Assigned(TempQuery) then
+    TempQuery := TADOQuery.create(nil);
+  TempQuery.Connection := TempConnect.GetConnect;
+  TempQuery.Close;
+  TempQuery.SQL.Clear;
+  TempQuery.SQL.Add(CSQL);
+  SQL:='SELECT Exped.ÄÀÒÀËÇ, Exped.ÍÑ, Sum(Exped.ÏÃÝÑ) AS [Sum-ÏÃÝÑ] FROM Exped GROUP BY Exped.ÄÀÒÀËÇ, Exped.ÍÑ HAVING (((Sum(Exped.ÏÃÝÑ))>0));';
+  if not Assigned(TempDataSource) then
+    TempDataSource := TGetDataSource.create(SQL);
+end;
+
+function TContentForDBGrid.GetContentForDBGrid(i: integer): string;
+begin
+//  result := TempArray[i];
+end;
+
+function TContentForDBGrid.GetCount: integer;
+begin
+ // Result:=Length(TempArray);
+end;
+
+end.

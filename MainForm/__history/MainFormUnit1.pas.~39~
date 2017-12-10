@@ -1,0 +1,91 @@
+unit MainFormUnit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
+  ActnMenus, Menus,  Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
+  Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
+  Vcl.ComCtrls, GetDataSoursUnit1, VQNNumberOfDonations;
+
+type
+  TMyMainForm = class(TForm)
+    Label1: TLabel;
+    MainMenu1: TMainMenu;
+    N2: TMenuItem;
+    N3: TMenuItem;
+    Help1: TMenuItem;
+    N4: TMenuItem;
+    N5: TMenuItem;
+    N6: TMenuItem;
+    N8: TMenuItem;
+    HandlyHarvesting: TMenuItem;
+    AutoAferez: TMenuItem;
+    Citoferez: TMenuItem;
+    N9: TMenuItem;
+    N10: TMenuItem;
+    N11: TMenuItem;
+    N12: TMenuItem;
+    N13: TMenuItem;
+    N14: TMenuItem;
+    N15: TMenuItem;
+    N16: TMenuItem;
+    N17: TMenuItem;
+    N7: TMenuItem;
+    N18: TMenuItem;
+    N19: TMenuItem;
+    N20: TMenuItem;
+    N21: TMenuItem;
+    N1: TMenuItem;
+    N22: TMenuItem;
+    N23: TMenuItem;
+    N24: TMenuItem;
+    N25: TMenuItem;
+    QueryNumberOfDonations: TMenuItem;
+    Query2: TMenuItem;
+    Query3: TMenuItem;
+    N26: TMenuItem;
+    procedure N4Click(Sender: TObject);
+    procedure QueryNumberOfDonationsClick(Sender: TObject);
+  private
+  //  QBlood: TADOQuery;
+  // QueryX: DataBaseTables;
+    NumberOfDonations: TNumberOfDonations;
+  //  LabelQueryStartDate, LabelQueryEndDate, LabelQueryStat1, LabelQueryStat2, LabelQueryStat3: TLabel;
+  //  LabelQueryStat4, LabelQueryStat5, LabelQueryStat6, LabelQueryStat7: TLabel;
+  //  CalendarStart, CalendarEnd: TDateTimePicker;
+  //  EditQueryStat1, EditQueryStat2, EditQueryStat3, EditQueryStat4: TEdit;
+  //  EditQueryStat5, EditQueryStat6, EditQueryStat7: TEdit;
+  //  BackButton, ActionButton: TBitBtn;
+  //  SQL: string;
+  public
+
+    { Public declarations }
+
+  end;
+var
+  MyMainForm: TMyMainForm;
+
+
+
+implementation
+
+{$R *.dfm}
+
+//Запросы/Количество донаций
+
+procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
+begin
+  Label1.Caption:='Количество донаций и заготовленной крови';
+  label1.Font.Size:=25;
+  if Assigned(NumberOfDonations) then
+    NumberOfDonations:=nil;
+  NumberOfDonations:=TNumberOfDonations.Create(self);
+end;
+
+procedure TMyMainForm.N4Click(Sender: TObject);
+begin
+  Close;
+end;
+end.

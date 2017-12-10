@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Variants, Data.Win.ADODB, Dialogs,
   UCheckNull,
-  GetDataSoursUnit1;
+  GetAdoQuery;
 
 type
   IBloodComponents = interface
@@ -16,6 +16,7 @@ type
   end;
 
   TResultRecord=Record
+  private
     Name: String;
     Volume: String;
     Number: String;
@@ -24,7 +25,7 @@ type
   TBloodComponents = class(TInterfacedObject,
     IBloodComponents)
   private
-    TempConnect: IDataBaseTables;
+    TempConnect: ITempAdoQuery;
     TempQuery: TADOQuery;
     CheckNull: TCheckNull;
     ResultMass: array of TResultRecord;
@@ -46,7 +47,7 @@ begin
   if not Assigned(CheckNull) then
     CheckNull := TCheckNull.create;
   if not Assigned(TempConnect) then
-    TempConnect := TDataBaseTables.create;
+    TempConnect := TTempAdoQuery.create;
   if not Assigned(TempQuery) then
     TempQuery := TADOQuery.create(nil);
   TempQuery.Connection := TempConnect.GetConnect;
@@ -59,17 +60,17 @@ begin
     FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '# GROUP BY BloodErSusp.ВидЭВ;');
   TempQuery.Open;
-  SetLength(ResultMass, TempQuery.RecordCount);
-  if (TempQuery.Recordset.EOF<>true) and (TempQuery.Recordset.BOF<>true) then
+  if not TempQuery.IsEmpty then
   begin
-  TempQuery.Recordset.MoveFirst;
-  for i:=0 to TempQuery.RecordCount-1 do
-  begin
-    ResultMass[i].Name:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].value));
-    ResultMass[i].Volume:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[1].value));
-    ResultMass[i].Number:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[2].value));
-    TempQuery.Next;
-  end;
+    SetLength(ResultMass, TempQuery.RecordCount);
+    TempQuery.Recordset.MoveFirst;
+    for i:=0 to TempQuery.RecordCount-1 do
+    begin
+      ResultMass[i].Name:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].value));
+      ResultMass[i].Volume:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[1].value));
+      ResultMass[i].Number:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[2].value));
+      TempQuery.Next;
+    end;
   end;
   TempQuery.Close;
 end;

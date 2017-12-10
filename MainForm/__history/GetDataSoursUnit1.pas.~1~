@@ -1,0 +1,45 @@
+﻿unit ConnectivgUnit1_ver2;
+
+interface
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
+  ActnMenus, Menus, Contnrs, Data.DB, Data.Win.ADODB,
+  Generics.Collections, Vcl.DBCtrls, Bde.DBTables;
+
+
+
+type
+
+  Connecting = class (TADOQuery) //Создаем запрос, содержащий некоторую таблицу
+  private
+    Query: TADOQuery;
+  public
+    constructor create;
+    function GetQ: TADOQuery;
+
+//    procedure GenQuery(qq: TADOQuery);
+//    function GetQuery: BloodTable;
+  end;
+implementation
+
+{ Connecting }
+
+constructor Connecting.create;
+begin
+  if not Assigned(Query) then
+  Query := TADOQuery.create(nil);
+  Query.ConnectionString:='Provider=Microsoft.ACE.OLEDB.12.0;' +
+  'Data Source=..\AccesBase\Stat_rab_ver.accdb;Persist Security Info=False';
+  Query.Close;
+  Query.SQL.Clear;
+  Query.SQL.Add('SELECT * FROM Blood');
+end;
+
+
+function Connecting.GetQ: TADOQuery;
+begin
+  result:=Query;
+end;
+
+end.

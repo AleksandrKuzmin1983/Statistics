@@ -1,0 +1,58 @@
+unit UVFEdit;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants,  Graphics,
+  Dialogs,  Buttons, ToolWin, ActnMan, ActnCtrls,
+  ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
+  Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
+  Vcl.ComCtrls,
+  StdCtrls, Forms, Classes, Controls;
+
+type
+  {IEditTag5 = interface
+    function GetEdit(Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TEdit;
+  end;}
+
+  TEditTag5 = class(TEdit)
+  private
+    TempEdit: TEdit;
+  public
+    function GetEdit(Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TEdit;
+    function GetEditTest(CurrentForm: TForm): TEdit;
+  end;
+
+implementation
+
+{ TTempLabelTag5 }
+
+function TEditTag5.GetEdit(Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TEdit;
+begin
+  if not Assigned(TempEdit) then
+    TempEdit := TEdit.create(CurrentForm);
+  TempEdit.parent := CurrentForm;
+  with TempEdit do
+  begin
+    left := Cleft;
+    top := Ñtop;
+//    Width := CWidth;
+//    Font.Size := FontSize;
+//    Font.name := 'Times New Roman';
+//    Alignment := taRightJustify;
+//   ReadOnly := true;
+    Text := '!!!!';
+    Tag := 5;
+  end;
+  result := TempEdit;
+end;
+
+function TEditTag5.GetEditTest(CurrentForm: TForm): TEdit;
+begin
+  if not Assigned(TempEdit) then
+    TempEdit := TEdit.create(CurrentForm);
+  TempEdit.parent := CurrentForm;
+  result := TempEdit;
+end;
+
+end.

@@ -1,0 +1,116 @@
+unit UVFDBGrid;
+
+interface
+
+uses
+  Vcl.DBGrids, Graphics, StdCtrls, Forms, Classes, Controls, Variants,
+  UMCGetDataSource;
+
+type
+  IGridDB = interface
+    function GetGridDB(Cleft, Ñtop, CWidth, CHeight, FontSize: integer; CurrentForm: TForm): TDBGrid;
+    function GetValue(NumberField: integer): Variant;
+    procedure WriteValue(NumberField: integer; Value: Variant);
+    procedure EditValue;
+    procedure PostValue;
+    procedure OpenConnect(SQL: string);
+    procedure CloseConnect;
+    procedure TitleColumn(NumberColumn: integer; NameColumn: string);
+    procedure WidthColumn(NumberColumn, WidthCol: integer);
+    procedure Enable(i: Boolean);
+  end;
+
+  TGridDB = class(TInterfacedObject, IGridDB)
+  private
+    TempDBGrid: TDBGrid;
+    TempDataSource: IGetDataSource;
+    SQL: String;
+    function GetStringValue(NumberField: integer): Variant;
+  public
+    function GetGridDB(Cleft, Ñtop, CWidth, CHeight, FontSize: integer; CurrentForm: TForm): TDBGrid;
+    function GetValue(NumberField: integer): String;
+    procedure WriteValue(NumberField: integer; Value: Variant);
+    procedure EditValue;
+    procedure PostValue;
+    procedure OpenConnect(SQL: string);
+    procedure CloseConnect;
+    procedure TitleColumn(NumberColumn: integer; NameColumn: string);
+    procedure WidthColumn(NumberColumn, WidthCol: integer);
+    procedure Enable(i: Boolean);
+  end;
+
+implementation
+
+{ TTempLabelTag5 }
+
+procedure TGridDB.CloseConnect;
+begin
+  TempDataSource.CloseConnect;
+end;
+
+procedure TGridDB.OpenConnect(SQL: string);
+begin
+  if not Assigned(TempDataSource) then
+    TempDataSource := TGetDataSource.create(SQL);
+  TempDBGrid.DataSource:=TempDataSource.GetDataSource;
+  TempDataSource.OpenConnect;
+end;
+
+procedure TGridDB.PostValue;
+begin
+  TempDBGrid.DataSource.DataSet.Post;
+end;
+
+procedure TGridDB.TitleColumn(NumberColumn: integer; NameColumn: string);
+begin
+  TempDBGrid.Columns[NumberColumn].Title.Caption:=NameColumn;
+end;
+
+procedure TGridDB.WidthColumn(NumberColumn, WidthCol: integer);
+begin
+  TempDBGrid.Columns[NumberColumn].Width:=WidthCol;
+end;
+
+procedure TGridDB.WriteValue(NumberField: integer; Value: Variant);
+begin
+  TempDBGrid.DataSource.DataSet.Fields[NumberField].Value:=Value;
+end;
+
+procedure TGridDB.EditValue;
+begin
+  TempDBGrid.DataSource.DataSet.Edit;
+end;
+
+procedure TGridDB.Enable(i: Boolean);
+begin
+  TempDBGrid.Enabled:=i;
+end;
+
+function TGridDB.GetGridDB(Cleft, Ñtop, CWidth, CHeight, FontSize: integer; CurrentForm: TForm): TDBGrid;
+begin
+  if not Assigned(TempDBGrid) then
+    TempDBGrid := TDBGrid.create(CurrentForm);
+  TempDBGrid.parent := CurrentForm;
+  with TempDBGrid do
+  begin
+    left := Cleft;
+    top := Ñtop;
+    Width := CWidth;
+    Height:= CHeight;
+    Font.Size := FontSize;
+    Font.name := 'Times New Roman';
+    ReadOnly:=true;
+    TitleFont.Size := FontSize;
+    TitleFont.name := 'Times New Roman';
+    TitleFont.Style:=[fsbold];
+    Tag := 5;
+  end;
+  result := TempDBGrid;
+end;
+
+
+function TGridDB.GetValue(NumberField: integer): Variant;
+begin
+  Result:=TempDBGrid.DataSource.DataSet.Fields[NumberField].Value;
+end;
+end.

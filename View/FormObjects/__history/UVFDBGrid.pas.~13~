@@ -1,0 +1,60 @@
+unit UVFDBGrid;
+
+interface
+
+uses
+  Vcl.DBGrids, Graphics, StdCtrls, Forms, Classes, Controls, Variants,
+  UMCGetDataSource;
+
+type
+  IGridDB = interface
+    function GetGridDB(Cleft, Ñtop, CWidth, CHeight, FontSize: integer; CurrentForm: TForm): TDBGrid;
+    procedure GetContent(SQL: string);
+  end;
+
+  TGridDB = class(TInterfacedObject, IGridDB)
+  private
+    TempDBGrid: TDBGrid;
+    TempDataSource: IGetDataSource;
+    SQL: String;
+  public
+    function GetGridDB(Cleft, Ñtop, CWidth, CHeight, FontSize: integer; CurrentForm: TForm): TDBGrid;
+    procedure GetContent(SQL: string);
+  end;
+
+implementation
+
+{ TTempLabelTag5 }
+
+procedure TGridDB.GetContent(SQL: string);
+begin
+  if not Assigned(TempDataSource) then
+    TempDataSource := TGetDataSource.create(SQL);
+  TempDBGrid.DataSource:=TempDataSource.GetDataSource;
+  TempDataSource.OpenConnect;
+end;
+
+function TGridDB.GetGridDB(Cleft, Ñtop, CWidth, CHeight, FontSize: integer; CurrentForm: TForm): TDBGrid;
+begin
+  if not Assigned(TempDBGrid) then
+    TempDBGrid := TDBGrid.create(CurrentForm);
+  TempDBGrid.parent := CurrentForm;
+  with TempDBGrid do
+  begin
+    left := Cleft;
+    top := Ñtop;
+    Width := CWidth;
+    Height:= CHeight;
+    Font.Size := FontSize;
+    Font.name := 'Times New Roman';
+    ReadOnly:=true;
+    TitleFont.Size := FontSize;
+    TitleFont.name := 'Times New Roman';
+    TitleFont.Style:=[fsbold];
+    Tag := 5;
+  end;
+  result := TempDBGrid;
+end;
+
+
+end.

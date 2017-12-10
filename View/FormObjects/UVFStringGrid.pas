@@ -3,7 +3,6 @@ unit UVFStringGrid;
 interface
 
 uses
-  GetDataSoursUnit1,
   Vcl.Grids, Graphics, StdCtrls, Forms, Classes, Controls, Variants;
 
 type

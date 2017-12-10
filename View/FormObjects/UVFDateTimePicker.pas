@@ -9,6 +9,7 @@ type
   IDTPickerTag5 = interface
     function GetDTPicker(Cleft, Ñtop: integer; CDate: Extended; CurrentForm: TForm): TDateTimePicker;
     function GetData: Extended;
+    procedure WriteData(DateTime: TDateTime);
   end;
 
   TDTPickerTag5 = class(TInterfacedObject, IDTPickerTag5)
@@ -17,6 +18,7 @@ type
   public
     function GetDTPicker(Cleft, Ñtop: integer; CDate: Extended; CurrentForm: TForm): TDateTimePicker;
     function GetData: Extended;
+    procedure WriteData(DateTime: TDateTime);
   end;
 
 implementation
@@ -44,6 +46,11 @@ begin
     end;
   end;
   result := TempDTPicker;
+end;
+
+procedure TDTPickerTag5.WriteData(DateTime: TDateTime);
+begin
+  TempDTPicker.DateTime:=DateTime;
 end;
 
 end.

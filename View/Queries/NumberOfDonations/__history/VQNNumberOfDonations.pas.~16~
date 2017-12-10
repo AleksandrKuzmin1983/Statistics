@@ -1,0 +1,334 @@
+unit VQNNumberOfDonations;
+
+interface
+
+uses
+  SysUtils, Classes, Controls, StdCtrls, Buttons,
+  Vcl.ComCtrls, DateUtils, Forms, Dialogs,
+  MQNTheNumberOfBloodDonations,
+  MQNTheNumberOfPlasmaDonations,
+  MQNTheNumberOfTromboDonations,
+  UVFLabel;
+
+type
+  IVQNNumberOfDonations = interface
+    function GetLabelStartDate(NameForm: TwinControl): TLabel;
+    function GetLabelTitle(NameForm: TwinControl): TLabel;
+    function GetLabelEndDate(NameForm: TwinControl): TLabel;
+    function GetCalendarStartDate(NameForm: TwinControl): TDateTimePicker;
+    function GetCalendarEndDate(NameForm: TwinControl): TDateTimePicker;
+    function GetLabelNameStat1(NameForm: TwinControl): TLabel;
+    function GetEdit1(NameForm: TwinControl): TEdit;
+    function GetLabelNameStat2(NameForm: TwinControl): TLabel;
+    function GetEdit2(NameForm: TwinControl): TEdit;
+    function GetLabelNameStat3(NameForm: TwinControl): TLabel;
+    function GetEdit3(NameForm: TwinControl): TEdit;
+    function GetButtonAction(NameForm: TwinControl): TBitBtn;
+    procedure ButtonAct(Sender: TObject);
+  end;
+
+  TNumberOfDonations = class(TComponent, IVQNNumberOfDonations)
+  private
+    StartDate: TLabel;
+    EndDate: TLabel;
+    StartDateCal: TDateTimePicker;
+    EndDateCal: TDateTimePicker;
+    ButtonAction: TBitBtn;
+    Title: TLabel;
+    NameStat1: TLabel;
+    NameStat2: TLabel;
+    NameStat3: TLabel;
+    ResultEdit1: TEdit;
+    ResultEdit2: TEdit;
+    ResultEdit3: TEdit;
+    CurrentForm: TForm;
+    TheNumberOfBloodDonations: ITheNumberOfBloodDonations;
+    TheNumberOfPlasmaDonations: ITheNumberOfPlasmaDonations;
+    TheNumberOfTromboDonations: ITheNumberOfTromboDonations;
+  public
+    function GetLabelStartDate(NameForm: TwinControl): TLabel;
+    function GetLabelTitle(NameForm: TwinControl): TLabel;
+    function GetLabelEndDate(NameForm: TwinControl): TLabel;
+    function GetCalendarStartDate(NameForm: TwinControl): TDateTimePicker;
+    function GetCalendarEndDate(NameForm: TwinControl): TDateTimePicker;
+    function GetLabelNameStat1(NameForm: TwinControl): TLabel;
+    function GetEdit1(NameForm: TwinControl): TEdit;
+    function GetLabelNameStat2(NameForm: TwinControl): TLabel;
+    function GetEdit2(NameForm: TwinControl): TEdit;
+    function GetLabelNameStat3(NameForm: TwinControl): TLabel;
+    function GetEdit3(NameForm: TwinControl): TEdit;
+    function GetButtonAction(NameForm: TwinControl): TBitBtn;
+    procedure ButtonAct(Sender: TObject);
+    constructor create(form: TForm);
+  end;
+
+implementation
+
+{ TNumberOfDonations }
+
+procedure TNumberOfDonations.ButtonAct(Sender: TObject);
+begin
+  if GetCalendarStartDate(CurrentForm).Date > GetCalendarEndDate(CurrentForm).Date then
+  begin
+    ShowMessage('Конечная дата не может быть меньше начальной');
+    exit;
+  end
+  else
+  begin
+    if not Assigned(TheNumberOfBloodDonations) then
+      TheNumberOfBloodDonations := TTheNumberOfBloodDonations.create
+        (GetCalendarStartDate(CurrentForm).Date, GetCalendarEndDate(CurrentForm).Date);
+    ResultEdit1.Text := TheNumberOfBloodDonations.GetValue;
+    TheNumberOfBloodDonations := nil;
+    if not Assigned(TheNumberOfPlasmaDonations) then
+      TheNumberOfPlasmaDonations := TTheNumberOfPlasmaDonations.create
+        (GetCalendarStartDate(CurrentForm).Date, GetCalendarEndDate(CurrentForm).Date);
+    ResultEdit2.Text := TheNumberOfPlasmaDonations.GetValue;
+    TheNumberOfPlasmaDonations := nil;
+    if not Assigned(TheNumberOfTromboDonations) then
+      TheNumberOfTromboDonations := TTheNumberOfTromboDonations.create
+        (GetCalendarStartDate(CurrentForm).Date, GetCalendarEndDate(CurrentForm).Date);
+    ResultEdit3.Text := TheNumberOfTromboDonations.GetValue;
+    TheNumberOfTromboDonations := nil;
+    ShowMessage('Запрос выполнен!');
+  end;
+end;
+
+constructor TNumberOfDonations.create(form: TForm);
+begin
+  CurrentForm := form;
+  GetLabelStartDate(CurrentForm);
+  GetLabelEndDate(CurrentForm);
+  GetCalendarStartDate(CurrentForm);
+  GetCalendarEndDate(CurrentForm);
+  GetLabelNameStat1(CurrentForm);
+  GetEdit1(CurrentForm);
+  GetLabelNameStat2(CurrentForm);
+  GetEdit2(CurrentForm);
+  GetLabelNameStat3(CurrentForm);
+  GetEdit3(CurrentForm);
+  GetLabelTitle(CurrentForm);
+  GetButtonAction(CurrentForm);
+end;
+
+function TNumberOfDonations.GetEdit1(NameForm: TwinControl): TEdit;
+begin
+  if not Assigned(ResultEdit1) then
+    ResultEdit1 := TEdit.create(NameForm);
+  ResultEdit1.parent := NameForm;
+  with ResultEdit1 do
+  begin
+    left := 440;
+    top := 180;
+    Width := 100;
+    Font.name := 'Times New Roman';
+    Font.Size := 12;
+    Alignment := taRightJustify;
+    ReadOnly := true;
+    Text := '';
+    Tag:=5;
+  end;
+  result := ResultEdit1;
+end;
+
+function TNumberOfDonations.GetEdit2(NameForm: TwinControl): TEdit;
+begin
+  if not Assigned(ResultEdit2) then
+    ResultEdit2 := TEdit.create(NameForm);
+  ResultEdit2.parent := NameForm;
+  with ResultEdit2 do
+  begin
+    left := 440;
+    top := 220;
+    Width := 100;
+    Font.name := 'Times New Roman';
+    Font.Size := 12;
+    Alignment := taRightJustify;
+    ReadOnly := true;
+    Text := '';
+    Tag:=5;
+  end;
+  result := ResultEdit2;
+end;
+
+function TNumberOfDonations.GetEdit3(NameForm: TwinControl): TEdit;
+begin
+  if not Assigned(ResultEdit3) then
+    ResultEdit3 := TEdit.create(NameForm);
+  ResultEdit3.parent := NameForm;
+  with ResultEdit3 do
+  begin
+    left := 440;
+    top := 260;
+    Width := 100;
+    Font.name := 'Times New Roman';
+    Font.Size := 12;
+    Alignment := taRightJustify;
+    ReadOnly := true;
+    Text := '';
+    Tag:=5;
+  end;
+  result := ResultEdit3;
+end;
+
+function TNumberOfDonations.GetButtonAction(NameForm: TwinControl): TBitBtn;
+begin
+  if not Assigned(ButtonAction) then
+    ButtonAction := TBitBtn.create(NameForm);
+  ButtonAction.parent := NameForm;
+  with ButtonAction do
+  begin
+    left := 385;
+    top := 350;
+    Font.name := 'Times New Roman';
+    Font.Size := 12;
+    Caption := 'Сформировать';
+    Width := 130;
+    Tag:=5;
+  end;
+  ButtonAction.OnClick := ButtonAct;
+  result := ButtonAction;
+end;
+
+function TNumberOfDonations.GetCalendarEndDate(NameForm: TwinControl)
+  : TDateTimePicker;
+begin
+  if not Assigned(EndDateCal) then
+  begin
+    EndDateCal := TDateTimePicker.create(NameForm);
+    EndDateCal.parent := NameForm;
+    with EndDateCal do
+    begin
+      left := 250;
+      top := 120;
+      Font.Size := 12;
+      Date := EncodeDate(YearOf(Now), MonthOf(Now), 1) - 1;
+      Tag:=5;
+    end;
+  end;
+  result := EndDateCal;
+end;
+
+function TNumberOfDonations.GetCalendarStartDate(NameForm: TwinControl)
+  : TDateTimePicker;
+begin
+  if not Assigned(StartDateCal) then
+  begin
+    StartDateCal := TDateTimePicker.create(NameForm);
+    StartDateCal.parent := NameForm;
+    with StartDateCal do
+    begin
+      left := 250;
+      top := 80;
+      Font.Size := 12;
+      Tag:=5;
+      Date := EncodeDate(YearOf(Now), MonthOf(Now) - 1, 1);
+    end;
+  end;
+  result := StartDateCal;
+end;
+
+function TNumberOfDonations.GetLabelEndDate(NameForm: TwinControl): TLabel;
+begin
+  if not Assigned(EndDate) then
+    EndDate := TLabel.create(NameForm);
+  EndDate.parent := NameForm;
+  with EndDate do
+  begin
+    left := 50;
+    top := 120;
+    Font.name := 'Times New Roman';
+    Font.Size := 20;
+    Caption := 'Конечная дата:';
+    Tag:=5;
+  end;
+  result := EndDate;
+end;
+
+function TNumberOfDonations.GetLabelNameStat1(NameForm: TwinControl): TLabel;
+begin
+  if not Assigned(NameStat1) then
+    NameStat1 := TLabel.create(NameForm);
+  NameStat1.parent := NameForm;
+  with NameStat1 do
+  begin
+    left := 50;
+    top := 180;
+    Font.name := 'Times New Roman';
+    Font.Size := 20;
+    Caption := 'Количество донаций крови:';
+    Tag:=5;
+  end;
+  result := NameStat1;
+end;
+
+function TNumberOfDonations.GetLabelNameStat2(NameForm: TwinControl): TLabel;
+begin
+  if not Assigned(NameStat2) then
+    NameStat2 := TLabel.create(NameForm);
+  NameStat2.parent := NameForm;
+  with NameStat2 do
+  begin
+    left := 50;
+    top := 220;
+    Font.name := 'Times New Roman';
+    Font.Size := 20;
+    Caption := 'Количество донаций плазмы:';
+    Tag:=5;
+  end;
+  result := NameStat2;
+end;
+
+function TNumberOfDonations.GetLabelNameStat3(NameForm: TwinControl): TLabel;
+begin
+  if not Assigned(NameStat3) then
+    NameStat3 := TLabel.create(NameForm);
+  NameStat3.parent := NameForm;
+  with NameStat3 do
+  begin
+    left := 50;
+    top := 260;
+    Font.name := 'Times New Roman';
+    Font.Size := 20;
+    Caption := 'Количество донаций цитофереза:';
+    Tag:=5;
+  end;
+  result := NameStat3;
+end;
+
+function TNumberOfDonations.GetLabelStartDate(NameForm: TwinControl): TLabel;
+begin
+  if not Assigned(StartDate) then
+    StartDate := TLabel.create(NameForm);
+  StartDate.parent := NameForm;
+  with StartDate do
+  begin
+    left := 50;
+    top := 80;
+    Font.name := 'Times New Roman';
+    Font.Size := 20;
+    Caption := 'Начальная дата:';
+    Tag:=5;
+  end;
+  result := StartDate;
+end;
+
+function TNumberOfDonations.GetLabelTitle(NameForm: TwinControl): TLabel;
+begin
+  if not Assigned(Title) then
+    Title := TLabel.create(NameForm);
+  Title.parent := NameForm;
+  with Title do
+  begin
+    Align:=alTop;
+    Alignment:=taCenter;
+    Height:=60;
+    Font.name := 'Times New Roman';
+    Font.Size := 25;
+    Caption := 'Количество донаций и заготовленной крови';
+    Tag:=5;
+  end;
+  result := Title;
+end;
+
+end.

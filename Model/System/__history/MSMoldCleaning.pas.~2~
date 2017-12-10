@@ -1,0 +1,25 @@
+unit MSMoldCleaning;
+
+interface
+Uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
+  ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
+  Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
+  Vcl.ComCtrls,
+  GetDataSoursUnit1,
+  VQNNumberOfDonations,
+  VQBBloodProduct;
+
+
+type
+  TMSMoldCleaning =class
+    private
+      TempVar: integer;
+
+    public
+  end;
+
+implementation
+
+end.
