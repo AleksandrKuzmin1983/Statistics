@@ -53,12 +53,12 @@
 			<DCCReference Include="MainFormUnit1.pas">
 				<Form>MyMainForm</Form>
 			</DCCReference>
-			<DCCReference Include="..\Model\Connect\GetDataSoursUnit1.pas"/>
+			<DCCReference Include="..\Model\Connect\GetAdoQuery.pas"/>
 			<DCCReference Include="..\View\Queries\NumberOfDonations\VQNNumberOfDonations.pas"/>
 			<DCCReference Include="..\Model\Queries\NumberOfDonations\MQNTheNumberOfBloodDonations.pas"/>
 			<DCCReference Include="..\Model\Queries\NumberOfDonations\MQNTheNumberOfPlasmaDonations.pas"/>
 			<DCCReference Include="..\Model\Queries\NumberOfDonations\MQNTheNumberOfTromboDonations.pas"/>
-			<DCCReference Include="..\Model\Queries\BloodProduct\MQBTheNumberOfConservedBlood.pas"/>
+			<DCCReference Include="..\Model\Queries\BloodProduct\MQBTheAmountOfBloodOnPreserving.pas"/>
 			<DCCReference Include="..\View\Queries\BloodProduct\VQBBloodProduct.pas"/>
 			<DCCReference Include="..\Model\Queries\BloodProduct\MQBTheNumberOfWholeBlood.pas"/>
 			<DCCReference Include="..\Model\System\UCheckNull.pas"/>
@@ -68,6 +68,46 @@
 			<DCCReference Include="..\View\FormObjects\UVFEdit.pas"/>
 			<DCCReference Include="..\View\FormObjects\UVFDateTimePicker.pas"/>
 			<DCCReference Include="..\View\FormObjects\UVFBitBtn.pas"/>
+			<DCCReference Include="..\Model\Queries\BloodProduct\MQBTheNumberOfConservedBlood.pas"/>
+			<DCCReference Include="..\Model\Queries\BloodProduct\MQBTheAmountOfReinfusionWithAPA.pas"/>
+			<DCCReference Include="..\Model\Queries\BloodProduct\MQBTheAmountOfReinfusionWithTrombo.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfErSuspensionsValumeTotal.pas"/>
+			<DCCReference Include="..\View\Queries\ProcurementOfTheComponentsTotal\VQPProcurementOfTheComponentsTotal.pas">
+				<Form>/ UVFPanel in &apos;..\View\FormObjects\UVFPanel.pas&apos;;</Form>
+			</DCCReference>
+			<DCCReference Include="..\View\FormObjects\UVFPanel.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfErSuspensionsDosesTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfPlasmaVolumeTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfPlasmaDosesTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfPlasmaBloodVolumeTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfPlasmaBloodDosesTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfPlasmaAPAVolumeTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfPlasmaAPADosesTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfTromboVolumeTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfTromboDosesTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfTromboPacetsTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfFiltratVolumeTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfFiltratDosesTotal.pas"/>
+			<DCCReference Include="..\View\Queries\HarvestingOfBloodComponentsByTypes\VQHHarvestingOfBloodComponentsByTypes.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFStringGrid.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponents.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponentsPlasma.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHPlasmaAPA.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHTrombo.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFComboBox.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnSave.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnDelete.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnBlock.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnAdd.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFDBGrid.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFDBNavigator.pas"/>
+			<DCCReference Include="..\Model\System\GetContent\UMSGContentOfTheList.pas"/>
+			<DCCReference Include="..\Model\Connect\UMCGetDataSource.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnEdit.pas"/>
+			<DCCReference Include="..\Model\System\UMSBlockMainMenu.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSuspVer2.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOATheAmountOfUsableErSuspVer2.pas"/>
 			<None Include="ModelSupport_MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>
@@ -90,6 +130,10 @@
 			<None Include="ModelSupport_MainForm\MQBTheNumberOfWholeBlood\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MQBTheNumberOfConservedBlood\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\MQBTheNumberOfWholeBlood\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\VQBBloodProduct\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\VQBBloodProduct\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\UMSBlockMainMenu\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\UMSBlockMainMenu\default.txaPackage"/>
 			<BuildConfiguration Include="Debug">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>
