@@ -27,42 +27,6 @@ uses
 
 type
   IProcurementOfTheComponentsTotal = interface
-    function GetLabelStartDate(NameForm: TForm): TLabel;
-    function GetLabelEndDate(NameForm: TForm): TLabel;
-    function GetLabelVolume(NameForm: TForm): TLabel;
-    function GetLabelDoses(NameForm: TForm): TLabel;
-    function GetLabelPacets(NameForm: TForm): TLabel;
-    function GetLabelNameStat1(NameForm: TForm): TLabel;
-    function GetLabelNameStat2(NameForm: TForm): TLabel;
-    function GetLabelNameStat3(NameForm: TForm): TLabel;
-    function GetLabelNameStat4(NameForm: TForm): TLabel;
-    function GetLabelNameStat5(NameForm: TForm): TLabel;
-    function GetLabelNameStat6(NameForm: TForm): TLabel;
-
-    function GetLabelTitle(NameForm: TForm): TLabel;
-
-    function GetPanelVertical(NameForm: TForm): TPanel;
-    function GetPanelGorizontal(NameForm: TForm): TPanel;
-
-    function GetErSuspVolume(NameForm: TForm): TEdit;
-    function GetErSuspDoses(NameForm: TForm): TEdit;
-    function GetPlasmaTotalVolume(NameForm: TForm): TEdit;
-    function GetPlasmaTotalDoses(NameForm: TForm): TEdit;
-    function GetPlasmaBloodVolume(NameForm: TForm): TEdit;
-    function GetPlasmaBloodDoses(NameForm: TForm): TEdit;
-    function GetPlasmaAPAVolume(NameForm: TForm): TEdit;
-    function GetPlasmaAPADoses(NameForm: TForm): TEdit;
-    function GetTromboVolume(NameForm: TForm): TEdit;
-    function GetTromboDoses(NameForm: TForm): TEdit;
-    function GetTromboPacets(NameForm: TForm): TEdit;
-    function GetFiltratVolume(NameForm: TForm): TEdit;
-    function GetFiltratDoses(NameForm: TForm): TEdit;
-
-    function GetCalendarStartDate(NameForm: TForm): TDateTimePicker;
-    function GetCalendarEndDate(NameForm: TForm): TDateTimePicker;
-
-    function GetButtonAction(NameForm: TForm): TBitBtn;
-    procedure ButtonAct(Sender: TObject);
   end;
 
   TProcurementOfTheComponentsTotal = class(TInterfacedObject, IProcurementOfTheComponentsTotal)
@@ -118,7 +82,6 @@ type
     HarvestingOfTromboPacetsTotal: IHarvestingOfTromboPacetsTotal;
     HarvestingOfFiltratVolumeTotal: IHarvestingOfFiltratVolumeTotal;
     HarvestingOfFiltratDosesTotal: IHarvestingOfFiltratDosesTotal;
-  public
     function GetLabelStartDate(NameForm: TForm): TLabel;
     function GetLabelEndDate(NameForm: TForm): TLabel;
     function GetLabelVolume(NameForm: TForm): TLabel;
@@ -155,7 +118,7 @@ type
 
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
-
+  public
     constructor create(form: TForm);
   end;
 
@@ -517,7 +480,6 @@ begin
     Title := TTitleLabelTag5.create;
   Result:=Title.GetTitleLabel(25, 'Заготовка компонентов крови (общий)', NameForm);
 end;
-
 
 //Panel
 

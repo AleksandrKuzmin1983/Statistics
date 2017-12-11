@@ -14,7 +14,6 @@ uses
   VQPProcurementOfTheComponentsTotal,
   VQHHarvestingOfBloodComponentsByTypes,
   VIOATheAmountOfUsableErSusp,
-  VIOATheAmountOfUsableErSuspVer2,
   UMSMoldCleaning  ;
 
 type
@@ -66,8 +65,7 @@ type
     BloodProduct: IBloodProduct;
     ProcurementOfTheComponentsTotal: IProcurementOfTheComponentsTotal;
     HarvestingOfBloodComponentsByTypes: IHarvestingOfBloodComponentsByTypes;
-    TheAmountOfUsableErSusp: TTheAmountOfUsableErSusp;
-    TheAmountOfUsableErSuspVer2: TTheAmountOfUsableErSuspVer2;
+    TheAmountOfUsableErSusp: ITheAmountOfUsableErSusp;
     CleanForm1: TMSMoldCleaning;
   public
 
@@ -117,19 +115,11 @@ begin
   if not Assigned(HarvestingOfBloodComponentsByTypes) then
     HarvestingOfBloodComponentsByTypes:=nil;
   HarvestingOfBloodComponentsByTypes := THarvestingOfBloodComponentsByTypes.Create(self);
-
 end;
 
 procedure TMyMainForm.Help1Click(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
-
-  if not Assigned(TheAmountOfUsableErSuspVer2) then
-    BloodProduct:=nil;
-  TheAmountOfUsableErSuspVer2 := TTheAmountOfUsableErSuspVer2.Create(self);
+//
 end;
 
 procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
@@ -163,8 +153,6 @@ end;
 
 procedure TMyMainForm.ProcurementOfComponentsTotalClick(Sender: TObject);
 begin
-  if Assigned(TheAmountOfUsableErSusp) then
-    TheAmountOfUsableErSusp.destroy;
   if not Assigned(CleanForm1) then
     CleanForm1.Free;
   CleanForm1 := TMSMoldCleaning.Create(self);

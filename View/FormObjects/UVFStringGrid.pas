@@ -10,12 +10,13 @@ type
     function GetStringGrid(Cleft, Ñtop, CWidth, CHeight, CColCount, CRowCount, FontSize: integer; CurrentForm: TForm): TStringGrid;
     function GetValue(CCol, CRow: integer): String;
     function GetRowCount: integer;
+    function CurrentRow: integer;
+    procedure Enabled(i: Boolean);
     procedure NumberOfFixedCol(i: integer);
     procedure WriteCells(ColCell, RowCell: integer; Value: String);
     procedure ColWidth(NumberCol, Value: integer);
     procedure Visible(Value: boolean);
     procedure AddRowCount;
-    function CurrentRow: integer;
     procedure Free;
   end;
 
@@ -26,12 +27,13 @@ type
     function GetStringGrid(Cleft, Ñtop, CWidth, CHeight, CColCount, CRowCount, FontSize: integer; CurrentForm: TForm): TStringGrid;
     function GetValue(CCol, CRow: integer): String;
     function GetRowCount: integer;
+    function CurrentRow: integer;
+    procedure Enabled(i: Boolean);
     procedure NumberOfFixedCol(i: integer);
     procedure WriteCells(ColCell, RowCell: integer; Value: String);
     procedure ColWidth(NumberCol, Value: integer);
     procedure Visible(Value: boolean);
     procedure AddRowCount;
-    function CurrentRow: integer;
     procedure Free;
   end;
 
@@ -52,6 +54,11 @@ end;
 function TStringGridTag5.CurrentRow: integer;
 begin
   Result:=TempStringGrid.Row;
+end;
+
+procedure TStringGridTag5.Enabled(i: Boolean);
+begin
+  TempStringGrid.Enabled:=i;
 end;
 
 procedure TStringGridTag5.Free;

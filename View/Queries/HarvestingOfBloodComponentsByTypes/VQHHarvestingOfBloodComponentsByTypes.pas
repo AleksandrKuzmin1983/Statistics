@@ -17,16 +17,6 @@ uses
 
 type
   IHarvestingOfBloodComponentsByTypes = interface
-    function GetLabelStartDate(NameForm: TForm): TLabel;
-    function GetLabelEndDate(NameForm: TForm): TLabel;
-
-    function GetLabelTitle(NameForm: TForm): TLabel;
-
-    function GetCalendarStartDate(NameForm: TForm): TDateTimePicker;
-    function GetCalendarEndDate(NameForm: TForm): TDateTimePicker;
-
-    function GetButtonAction(NameForm: TForm): TBitBtn;
-    procedure ButtonAct(Sender: TObject);
   end;
 
   THarvestingOfBloodComponentsByTypes = class(TInterfacedObject, IHarvestingOfBloodComponentsByTypes)
@@ -49,7 +39,6 @@ type
     BloodComponentsPlasma: IBloodComponentsPlasma;
     PlasmaAPA: IPlasmaAPA;
     Trombo: ITrombo;
-  public
     function GetLabelStartDate(NameForm: TForm): TLabel;
     function GetLabelEndDate(NameForm: TForm): TLabel;
 
@@ -62,7 +51,7 @@ type
 
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
-
+  public
     constructor create(form: TForm);
   end;
 

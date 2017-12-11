@@ -18,23 +18,6 @@ uses
 
 type
   IBloodProduct = interface
-    function GetLabelStartDate(NameForm: TForm): TLabel;
-    function GetLabelEndDate(NameForm: TForm): TLabel;
-    function GetLabelNameStat1(NameForm: TForm): TLabel;
-    function GetLabelNameStat2(NameForm: TForm): TLabel;
-    function GetLabelNameStat3(NameForm: TForm): TLabel;
-    function GetLabelNameStat4(NameForm: TForm): TLabel;
-    function GetLabelNameStat5(NameForm: TForm): TLabel;
-    function GetLabelTitle(NameForm: TForm): TLabel;
-    function GetEdit1(NameForm: TForm): TEdit;
-    function GetEdit2(NameForm: TForm): TEdit;
-    function GetEdit3(NameForm: TForm): TEdit;
-    function GetEdit4(NameForm: TForm): TEdit;
-    function GetEdit5(NameForm: TForm): TEdit;
-    function GetCalendarStartDate(NameForm: TForm): TDateTimePicker;
-    function GetCalendarEndDate(NameForm: TForm): TDateTimePicker;
-    function GetButtonAction(NameForm: TForm): TBitBtn;
-    procedure ButtonAct(Sender: TObject);
   end;
 
   TBloodProduct = class(TInterfacedObject, IBloodProduct)
@@ -61,7 +44,6 @@ type
     TheNumberOfConservedBlood: ITheNumberOfConservedBlood;
     TheAmountOfReinfusionWithAPA: ITheAmountOfReinfusionWithAPA;
     TheAmountOfReinfusionWithTrombo: ITheAmountOfReinfusionWithTrombo;
-  public
     function GetLabelStartDate(NameForm: TForm): TLabel;
     function GetLabelEndDate(NameForm: TForm): TLabel;
     function GetLabelNameStat1(NameForm: TForm): TLabel;
@@ -79,6 +61,7 @@ type
     function GetCalendarEndDate(NameForm: TForm): TDateTimePicker;
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
+  public
     constructor create(form: TForm);
   end;
 

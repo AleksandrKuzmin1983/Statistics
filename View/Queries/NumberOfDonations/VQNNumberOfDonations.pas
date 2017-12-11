@@ -59,8 +59,6 @@ type
     TheNumberOfBloodDonations: ITheNumberOfBloodDonations;
     TheNumberOfPlasmaDonations: ITheNumberOfPlasmaDonations;
     TheNumberOfTromboDonations: ITheNumberOfTromboDonations;
-
-  public
     function GetLabelStartDate(NameForm: TForm): TLabel;
     function GetLabelEndDate(NameForm: TForm): TLabel;
     function GetLabelNameStat1(NameForm: TForm): TLabel;
@@ -78,7 +76,7 @@ type
 
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
-
+  public
     constructor create(form: TForm);
   end;
 

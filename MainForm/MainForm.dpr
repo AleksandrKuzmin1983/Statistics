@@ -42,7 +42,6 @@ uses
   MQHBloodComponentsPlasma in '..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponentsPlasma.pas',
   MQHPlasmaAPA in '..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHPlasmaAPA.pas',
   MQHTrombo in '..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHTrombo.pas',
-  VIOATheAmountOfUsableErSusp in '..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSusp.pas',
   UVFComboBox in '..\View\FormObjects\UVFComboBox.pas',
   UVFBitBtnSave in '..\View\FormObjects\UVFBitBtnSave.pas',
   UVFBitBtnDelete in '..\View\FormObjects\UVFBitBtnDelete.pas',
@@ -54,8 +53,8 @@ uses
   UMCGetDataSource in '..\Model\Connect\UMCGetDataSource.pas',
   UVFBitBtnEdit in '..\View\FormObjects\UVFBitBtnEdit.pas',
   UMSBlockMainMenu in '..\Model\System\UMSBlockMainMenu.pas',
-  VIOATheAmountOfUsableErSuspVer2 in '..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSuspVer2.pas',
-  MIOATheAmountOfUsableErSuspVer2 in '..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOATheAmountOfUsableErSuspVer2.pas';
+  VIOATheAmountOfUsableErSusp in '..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSusp.pas',
+  MIOATheAmountOfUsableErSusp in '..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOATheAmountOfUsableErSusp.pas';
 
 {$R *.res}
 

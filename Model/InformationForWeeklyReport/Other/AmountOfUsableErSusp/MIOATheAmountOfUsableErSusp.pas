@@ -1,4 +1,4 @@
-unit MIOATheAmountOfUsableErSuspVer2;
+unit MIOATheAmountOfUsableErSusp;
 
 interface
 
@@ -8,7 +8,7 @@ uses
   GetAdoQuery;
 
 type
-  IAmountOfUsableErSuspVer2 = interface
+  IAmountOfUsableErSusp = interface
     function GetKod(i: integer): string;
     function GetDate(i: integer): string;
     function GetName(i: integer): string;
@@ -32,8 +32,8 @@ type
     Volume: String;
   end;
 
-  TAmountOfUsableErSuspVer2 = class(TInterfacedObject,
-    IAmountOfUsableErSuspVer2)
+  TAmountOfUsableErSusp = class(TInterfacedObject,
+    IAmountOfUsableErSusp)
   private
     SQL: String;
     TempConnect: ITempAdoQuery;
@@ -61,22 +61,22 @@ implementation
 
 { TTheNumberOfTromboDonations }
 
-procedure TAmountOfUsableErSuspVer2.AddSQL(SQL: string);
+procedure TAmountOfUsableErSusp.AddSQL(SQL: string);
 begin
   TempQuery.SQL.Add(SQL);
 end;
 
-procedure TAmountOfUsableErSuspVer2.Clear;
+procedure TAmountOfUsableErSusp.Clear;
 begin
   TempQuery.SQL.Clear;
 end;
 
-procedure TAmountOfUsableErSuspVer2.CloseConnect;
+procedure TAmountOfUsableErSusp.CloseConnect;
 begin
   TempQuery.Close;
 end;
 
-constructor TAmountOfUsableErSuspVer2.create;
+constructor TAmountOfUsableErSusp.create;
 var i: integer;
 begin
   if not Assigned(CheckNull) then
@@ -110,53 +110,53 @@ begin
   TempQuery.Close;
 end;
 
-procedure TAmountOfUsableErSuspVer2.ExecSQL;
+procedure TAmountOfUsableErSusp.ExecSQL;
 begin
   TempQuery.ExecSQL;
 end;
 
-function TAmountOfUsableErSuspVer2.GetRowCount: integer;
+function TAmountOfUsableErSusp.GetRowCount: integer;
 begin
   result:=Length(ResultMass);
 end;
 
-function TAmountOfUsableErSuspVer2.GetVolume(i: integer): string;
+function TAmountOfUsableErSusp.GetVolume(i: integer): string;
 begin
   result := ResultMass[i].Volume;
 end;
 
-procedure TAmountOfUsableErSuspVer2.Insert;
+procedure TAmountOfUsableErSusp.Insert;
 begin
   TempQuery.Insert;
 end;
 
-procedure TAmountOfUsableErSuspVer2.OpenConnect;
+procedure TAmountOfUsableErSusp.OpenConnect;
 begin
   TempQuery.Open;
 end;
 
-procedure TAmountOfUsableErSuspVer2.post;
+procedure TAmountOfUsableErSusp.post;
 begin
   TempQuery.Post;
 end;
 
-procedure TAmountOfUsableErSuspVer2.WriteValue(NumberField: integer;
+procedure TAmountOfUsableErSusp.WriteValue(NumberField: integer;
   Value: Variant);
 begin
   TempQuery.Fields[NumberField].Value:=Value;
 end;
 
-function TAmountOfUsableErSuspVer2.GetName(i: integer): string ;
+function TAmountOfUsableErSusp.GetName(i: integer): string ;
 begin
   result := ResultMass[i].Name;
 end;
 
-function TAmountOfUsableErSuspVer2.GetDate(i: integer): string;
+function TAmountOfUsableErSusp.GetDate(i: integer): string;
 begin
   result := ResultMass[i].Date;
 end;
 
-function TAmountOfUsableErSuspVer2.GetKod(i: integer): string;
+function TAmountOfUsableErSusp.GetKod(i: integer): string;
 begin
   result := ResultMass[i].Kod;
 end;

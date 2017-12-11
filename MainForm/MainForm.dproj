@@ -94,7 +94,6 @@
 			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponentsPlasma.pas"/>
 			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHPlasmaAPA.pas"/>
 			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHTrombo.pas"/>
-			<DCCReference Include="..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSusp.pas"/>
 			<DCCReference Include="..\View\FormObjects\UVFComboBox.pas"/>
 			<DCCReference Include="..\View\FormObjects\UVFBitBtnSave.pas"/>
 			<DCCReference Include="..\View\FormObjects\UVFBitBtnDelete.pas"/>
@@ -106,8 +105,8 @@
 			<DCCReference Include="..\Model\Connect\UMCGetDataSource.pas"/>
 			<DCCReference Include="..\View\FormObjects\UVFBitBtnEdit.pas"/>
 			<DCCReference Include="..\Model\System\UMSBlockMainMenu.pas"/>
-			<DCCReference Include="..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSuspVer2.pas"/>
-			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOATheAmountOfUsableErSuspVer2.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOATheAmountOfUsableErSusp.pas"/>
 			<None Include="ModelSupport_MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>

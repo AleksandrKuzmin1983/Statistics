@@ -3,9 +3,8 @@ unit VIOATheAmountOfUsableErSusp;
 interface
 
 uses
-  Vcl.DBGrids, SysUtils, StdCtrls, Buttons,
+  Vcl.DBGrids, SysUtils, StdCtrls, Buttons, Vcl.Grids,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
-  UMCGetDataSource,
   UMSBlockMainMenu,
   UVFComboBox,
   UVFLabel,
@@ -16,7 +15,8 @@ uses
   UVFBitBtnDelete,
   UVFBitBtnEdit,
   UVFBitBtnBlock,
-  UVFDBGrid;
+  UVFStringGrid,
+  MIOATheAmountOfUsableErSusp;
 
 type
   ITheAmountOfUsableErSusp = interface
@@ -30,8 +30,8 @@ type
     Title: ITitleLabelTag5;
     SQL: String;
 
-    TempADOQuery: IGetDataSource;
-    GridDB: IGridDBTag5;
+    StringGrid: IStringGridTag5;
+    ContentForStringGrid: IAmountOfUsableErSusp;
 
     EditVolume: IEditTag5;
     ProductList: IComboboxTag5;
@@ -50,8 +50,7 @@ type
     function GetLabelVolume(NameForm: TForm): TLabel;
     function GetLabelTitle(NameForm: TForm): TLabel;
 
-    function GetGridDB(NameForm: TForm): TDBGrid;
-
+    function GetStringGrid(NameForm: TForm): TStringGrid;
     function GetEditVolume(NameForm: TForm): TEdit;
     function GetProductList(NameForm: TForm): TComboBox;
     function GetCalendarReportDateCal(NameForm: TForm): TDateTimePicker;
@@ -66,7 +65,6 @@ type
     procedure ButtonBlocked(Sender: TObject);
   public
     constructor create(form: TForm);
-    destructor destroy;
   end;
 
 implementation
@@ -82,7 +80,7 @@ begin
   GetLabelVolume(form);
   GetLabelTitle(form);
 
-  GetGridDB(form);
+  GetStringGrid(form);
 
   GetCalendarReportDateCal(form);
 
@@ -95,51 +93,52 @@ begin
   GetButtonBlock(form);
 end;
 
-destructor TTheAmountOfUsableErSusp.destroy;
-begin
-  GridDB.CloseConnect;
-end;
-
 //Button
 
 // Добавление новой записи
 
 procedure TTheAmountOfUsableErSusp.ButtonAdded(Sender: TObject);
 begin
-    if EditVolume.ReadText='' then
+    if (EditVolume.ReadText='') or (EditVolume.ReadText='0') then
     begin
       Showmessage('Поле "Произведено годной продукции, мл" должно быть заполнено!');
       exit;
     End;
     if ProductList.GetItemIndex=-1 then
     begin
-      ShowMessage('Выберите название продукции!');
+      ShowMessage('Вид продукции не задан!');
       exit;
     end;
   try
     if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
     begin
-      GridDB.Enable(True);
-      with GridDB do
+      with ContentForStringGrid do
       begin
-        InsertValue;
+        CloseConnect;
+        Clear;
+        AddSQL('INSERT INTO Exped (ДАТАЛЗ, НС, ПГЭС) VALUES (#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) +
+               '#, ''' + ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' + EditVolume.ReadText + ')');
+        ExecSQL;
+     {  OpenConnect;
+        Insert;
         WriteValue(1, dateOf(ReportDateCal.GetDate));
         WriteValue(2, ProductList.GetItemsValue(ProductList.GetItemIndex));
         WriteValue(3, StrToInt(EditVolume.ReadText));
-        PostValue;
-        CloseConnect;
-        OpenConnect(SQL);
-
+        Post;
+        CloseConnect; }
       end;
     end;
-
+    StringGrid.Free;
+    StringGrid:=nil;
+    ContentForStringGrid:=nil;
+    GetStringGrid(CurrentForm);
+    ShowMessage('Запись успешно добавлена!');
   except
     ShowMessage('Запись не сохранена!');
   end;
-    EditVolume.WriteText('');
+    EditVolume.WriteText('0');
     ProductList.WriteItemIndex(-1);
     ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
-
 end;
 
 // Разблокировка кнопок
@@ -161,9 +160,32 @@ begin
   end;
 end;
 
+//Кнопка удаления
+
 procedure TTheAmountOfUsableErSusp.ButtonDeleted(Sender: TObject);
 begin
-    ShowMessage('Удалено!');
+  try
+    if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+    begin
+      with ContentForStringGrid do
+      begin
+        CloseConnect;
+        Clear;
+        AddSQL('DELETE FROM Exped WHERE Exped.Код=' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
+        ExecSQL;
+      end;
+      ShowMessage('Запись успешно удалена!');
+    end;
+    StringGrid.Free;
+    StringGrid:=nil;
+    ContentForStringGrid:=nil;
+    GetStringGrid(CurrentForm);
+  except
+    ShowMessage('Запись не удалена!');
+  end;
+    EditVolume.WriteText('0');
+    ProductList.WriteItemIndex(-1);
+    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
 // Внесение изменений
@@ -180,16 +202,16 @@ begin
     ButtonBlock.ChangeEnabled(False);
     ButtonAdd.ChangeEnabled(False);
     ButtonDelete.ChangeEnabled(False);
-    ReportDateCal.WriteDateTime(GridDB.GetValue(1));
+    StringGrid.Enabled(False);
+    ReportDateCal.WriteDateTime(StrToDate(StringGrid.GetValue(1, StringGrid.CurrentRow)));
     for i:=0 to ProductList.GetItemsCount-1 do
-      if VarToStr(GridDB.GetValue(2))=ProductList.GetItemsValue(i) then  ProductList.WriteItemIndex(i);
+      if VarToStr(StringGrid.GetValue(2, StringGrid.CurrentRow))=ProductList.GetItemsValue(i) then  ProductList.WriteItemIndex(i);
     if ProductList.GetItemIndex=-1 then ShowMessage('Название продукции для данной записи задано не верно!');
-    EditVolume.WriteText(VarToStr(GridDB.GetValue(3)));
-    GridDB.Enable(False);
+    EditVolume.WriteText(VarToStr(StringGrid.GetValue(3, StringGrid.CurrentRow)));
   end;
   if ButtonEdit.GetCaption='Сохранить изменения' then
   begin
-    if EditVolume.ReadText='' then
+    if (EditVolume.ReadText='') or (EditVolume.ReadText='0') then
     begin
       Showmessage('Поле "Произведено годной продукции, мл" должно быть заполнено!' + char(13) + 'Если значение необходимо удалить, то отмените изменения и воспользуйтесь кнопкой "Удалить запись"!');
       exit;
@@ -198,32 +220,36 @@ begin
     ButtonBlock.ChangeEnabled(True);
     ButtonAdd.ChangeEnabled(True);
     ButtonDelete.ChangeEnabled(True);
+    StringGrid.Enabled(True);
   try
     if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
     begin
-      GridDB.Enable(True);
-      with GridDB do
+      with ContentForStringGrid do
       begin
-        EditValue;
-        WriteValue(1, ReportDateCal.GetDate);
-        WriteValue(2, ProductList.GetItemsValue(ProductList.GetItemIndex));
-        WriteValue(3, StrToInt(EditVolume.ReadText));
-        PostValue;
+        CloseConnect;
+        Clear;
+        AddSQL('UPDATE Exped SET Exped.ДАТАЛЗ = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) +
+               '#, Exped.НС =''' + ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' +
+               'Exped.ПГЭС=' + EditVolume.ReadText + ' WHERE Exped.Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
+        ExecSQL;
       end;
     end
     else
     begin
-      GridDB.Enable(True);
-      EditVolume.WriteText('');
+      EditVolume.WriteText('0');
       ProductList.WriteItemIndex(-1);
       ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
       ButtonEdit.ChangeCaption('Изменить');
       exit;
     end;
+    StringGrid.Free;
+    StringGrid:=nil;
+    ContentForStringGrid:=nil;
+    GetStringGrid(CurrentForm);
   except
     ShowMessage('Изменения не сохранены!');
   end;
-    EditVolume.WriteText('');
+    EditVolume.WriteText('0');
     ProductList.WriteItemIndex(-1);
     ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
   end;
@@ -280,27 +306,6 @@ begin
   EditVolume.NumberOnly(True);
 end;
 
-//DBGrid
-
-function TTheAmountOfUsableErSusp.GetGridDB(NameForm: TForm): TDBGrid;
-begin
-  if not Assigned(GridDB) then
-    GridDB := TGridDBTag5.create;
-  Result:=GridDB.GetGridDB(50, 280, 800, 240, 12, NameForm);
-  SQL:='SELECT Exped.Код, Exped.ДАТАЛЗ, Exped.НС, Exped.ПГЭС ' +
-  'FROM Exped INNER JOIN NameProducts ON Exped.НС = NameProducts.ShortName ' +
-  'WHERE (((NameProducts.TypeProduct)="Эр взвесь") AND ((NameProducts.Production)=True)) AND ((Exped.ПГЭС)>0)' +
-  'ORDER BY Exped.ДАТАЛЗ desc;';
-  GridDB.OpenConnect(SQL);
-  GridDB.Visible(0, false);
-  GridDB.TitleColumn(1, 'Дата');
-  GridDB.TitleColumn(2, 'Наименование продукции');
-  GridDB.TitleColumn(3, 'Объем, мл');
-  GridDB.WidthColumn(1, 100);
-  GridDB.WidthColumn(2, 300);
-  GridDB.WidthColumn(3, 100);
-end;
-
 //Label
 
 function TTheAmountOfUsableErSusp.GetLabelReportDate(NameForm: TForm): TLabel;
@@ -341,6 +346,39 @@ begin
   SQL:='SELECT NameProducts.ShortName, NameProducts.id FROM NameProducts ' +
   'WHERE (((NameProducts.TypeProduct)="Эр взвесь") And NameProducts.Production=True);';
   ProductList.TheContentOfTheList(SQL);
+end;
+
+
+function TTheAmountOfUsableErSusp.GetStringGrid(
+  NameForm: TForm): TStringGrid;
+Var
+  i, j: integer;
+begin
+  if not Assigned(StringGrid) then
+    StringGrid := TStringGridTag5.create;
+  Result:=StringGrid.GetStringGrid(50, 280, 800, 240, 4, 2, 12, NameForm);
+  StringGrid.NumberOfFixedCol(0);
+  StringGrid.ColWidth(0,60);
+  StringGrid.ColWidth(1,100);
+  StringGrid.ColWidth(2,300);
+  StringGrid.ColWidth(3,100);
+  StringGrid.Visible(true);
+  StringGrid.WriteCells(0, 0, 'Код');
+  StringGrid.WriteCells(1, 0, 'Дата');
+  StringGrid.WriteCells(2, 0, 'Наименование продукции, шт');
+  StringGrid.WriteCells(3, 0, 'Объем, мл');
+  if not Assigned(ContentForStringGrid) then
+    ContentForStringGrid := TAmountOfUsableErSusp.create;
+    if ContentForStringGrid.GetRowCount>0 then
+      for i:=0 to ContentForStringGrid.GetRowCount-1 do
+      begin
+        if StringGrid.GetValue(0, 1)<>'' then StringGrid.AddRowCount;
+        StringGrid.WriteCells(0, i+1, ContentForStringGrid.GetKod(j));
+        StringGrid.WriteCells(1, i+1, ContentForStringGrid.GetDate(j));
+        StringGrid.WriteCells(2, i+1, ContentForStringGrid.GetName(j));
+        StringGrid.WriteCells(3, i+1, ContentForStringGrid.GetVolume(j));
+        j:=j+1;
+      end;
 end;
 
 end.
