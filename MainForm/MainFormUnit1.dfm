@@ -2,8 +2,8 @@ object MyMainForm: TMyMainForm
   Left = 0
   Top = 0
   Caption = #1057#1090#1072#1090#1080#1089#1090#1080#1082#1072' '#1087#1086' '#1079#1072#1075#1086#1090#1086#1074#1082#1077' '#1082#1088#1086#1074#1080
-  ClientHeight = 392
-  ClientWidth = 884
+  ClientHeight = 554
+  ClientWidth = 892
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,11 +13,13 @@ object MyMainForm: TMyMainForm
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object MainMenu1: TMainMenu
-    Left = 376
-    Top = 152
+    Tag = 4
+    Left = 656
+    Top = 24
     object N5: TMenuItem
       Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1079#1072' '#1076#1077#1085#1100
       object HandlyHarvesting: TMenuItem
@@ -69,11 +71,13 @@ object MyMainForm: TMyMainForm
       end
       object N11: TMenuItem
         Caption = #1055#1088#1086#1095#1077#1077
-        object N15: TMenuItem
+        object AmountUsableErSusp: TMenuItem
           Caption = #1054#1073#1098#1077#1084' '#1075#1086#1076#1085#1099#1093' '#1101#1088'. '#1089#1088#1077#1076
+          OnClick = AmountUsableErSuspClick
         end
-        object N16: TMenuItem
+        object AdviceDoctors: TMenuItem
           Caption = #1050#1086#1085#1089#1091#1083#1100#1090#1072#1094#1080#1080' '#1074#1088#1072#1095#1077#1081
+          OnClick = AdviceDoctorsClick
         end
         object N17: TMenuItem
           Caption = #1055#1088#1086#1074#1077#1088#1082#1080' '#1051#1055#1059
@@ -105,11 +109,13 @@ object MyMainForm: TMyMainForm
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1088#1086#1074#1080
         OnClick = BloodProductionClick
       end
-      object Query2: TMenuItem
+      object ProcurementOfComponentsTotal: TMenuItem
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1086#1084#1087#1086#1085#1077#1085#1090#1086#1074' ('#1086#1073#1097#1080#1081')'
+        OnClick = ProcurementOfComponentsTotalClick
       end
-      object Query3: TMenuItem
+      object HarvestingBloodComponentsByTypes: TMenuItem
         Caption = #1047#1072#1075#1086#1090#1086#1074#1082#1072' '#1082#1086#1084#1087#1086#1085#1077#1085#1090#1086#1074' ('#1087#1086' '#1074#1080#1076#1072#1084')'
+        OnClick = HarvestingBloodComponentsByTypesClick
       end
     end
     object N8: TMenuItem
@@ -117,6 +123,7 @@ object MyMainForm: TMyMainForm
     end
     object Help1: TMenuItem
       Caption = '&'#1055#1086#1084#1086#1097#1100
+      OnClick = Help1Click
     end
     object CloseButton: TMenuItem
       Caption = #1042#1099#1093#1086#1076

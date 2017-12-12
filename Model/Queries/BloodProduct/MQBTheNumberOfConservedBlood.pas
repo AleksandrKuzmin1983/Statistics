@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Variants,
   Dialogs, Data.Win.ADODB,
-  GetDataSoursUnit1,
+  GetAdoQuery,
   UCheckNull;
 
 type
@@ -15,9 +15,8 @@ type
 
   TTheNumberOfConservedBlood = class(TInterfacedObject, ITheNumberOfConservedBlood)
   private
-    TempResult1, TempResult2, TempResult3: Integer;
     NumberOfCB: string;
-    TempConnect: IDataBaseTables;
+    TempConnect: ITempAdoQuery;
     TempQuery: TADOQuery;
     CheckNull: ICheckNull;
   public
@@ -32,7 +31,7 @@ implementation
 constructor TTheNumberOfConservedBlood.create(DateStart, DateEnd: TDate);
 begin
   if not Assigned(TempConnect) then
-    TempConnect := TDataBaseTables.create;
+    TempConnect := TTempAdoQuery.create;
   if not Assigned(CheckNull) then
     CheckNull := TCheckNull.create;
   if not Assigned(TempQuery) then
@@ -41,8 +40,8 @@ begin
   TempQuery.Close;
   TempQuery.SQL.Clear;
   TempQuery.SQL.Add
-    ('SELECT Sum(Blood.НаКонК) AS [Sum-НаКонК], Sum(Plasma.НаКонП) AS [Sum-НаКонП], '
-    + 'Sum(Tromb.НаКонТ) AS [Sum-НаКонТ] ' +
+    ('SELECT Sum(Blood.КонК) AS [Sum-КонК], Sum(Plasma.КонП) AS [Sum-КонП], '
+    + 'Sum(Tromb.КонТ) AS [Sum-КонТ] ' +
     'FROM ((FactoryCal LEFT JOIN Blood ON FactoryCal.День = Blood.ДатаК) ' +
     'LEFT JOIN Plasma ON FactoryCal.День = Plasma.ДатаП) ' +
     'LEFT JOIN Tromb ON FactoryCal.День = Tromb.ДатаТ ' +

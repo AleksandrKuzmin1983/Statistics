@@ -3,7 +3,7 @@ unit UVFTitleLabel;
 interface
 
 uses
-  StdCtrls, Forms, Classes, Controls;
+Graphics, StdCtrls, Forms, Classes, Controls;
 
 type
   ITitleLabelTag5 = interface
@@ -34,9 +34,12 @@ begin
   begin
     Align := alTop;
     Alignment := taCenter;
+    Layout := tlCenter;
+    AutoSize := False;
     Height := 60;
     Font.name := 'Times New Roman';
-    Font.Size := 25;
+    Font.Size := FontSize;
+    Font.Style := [fsBold];
     Caption := CCaption;
     Tag := 5;
   end;

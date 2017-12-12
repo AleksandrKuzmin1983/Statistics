@@ -4,13 +4,17 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls,
+  Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls, DateUtils,
   ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
   Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
-  Vcl.ComCtrls,
-  GetDataSoursUnit1,
+  Vcl.ComCtrls, Vcl.ExtCtrls,
+  GetAdoQuery,
   VQNNumberOfDonations,
   VQBBloodProduct,
+  VQPProcurementOfTheComponentsTotal,
+  VQHHarvestingOfBloodComponentsByTypes,
+  VIOATheAmountOfUsableErSusp,
+  VIOAAdviceToDoctors,
   UMSMoldCleaning;
 
 type
@@ -32,8 +36,8 @@ type
     N12: TMenuItem;
     N13: TMenuItem;
     N14: TMenuItem;
-    N15: TMenuItem;
-    N16: TMenuItem;
+    AmountUsableErSusp: TMenuItem;
+    AdviceDoctors: TMenuItem;
     N17: TMenuItem;
     N7: TMenuItem;
     N18: TMenuItem;
@@ -46,16 +50,25 @@ type
     N24: TMenuItem;
     N25: TMenuItem;
     QueryNumberOfDonations: TMenuItem;
-    Query2: TMenuItem;
-    Query3: TMenuItem;
+    HarvestingBloodComponentsByTypes: TMenuItem;
     BloodProduction: TMenuItem;
     procedure CloseButtonClick(Sender: TObject);
     procedure QueryNumberOfDonationsClick(Sender: TObject);
     procedure BloodProductionClick(Sender: TObject);
-    procedure N4Click(Sender: TObject);
-  private
-    NumberOfDonations: TNumberOfDonations;
-    BloodProduct: TBloodProduct;
+    procedure ProcurementOfComponentsTotalClick(Sender: TObject);
+    procedure HarvestingBloodComponentsByTypesClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure AmountUsableErSuspClick(Sender: TObject);
+    procedure Help1Click(Sender: TObject);
+    procedure AdviceDoctorsClick(Sender: TObject);
+   private
+    TempAdoQuery: TTempAdoQuery;
+    NumberOfDonations: IVQNNumberOfDonations;
+    BloodProduct: IBloodProduct;
+    ProcurementOfTheComponentsTotal: IProcurementOfTheComponentsTotal;
+    HarvestingOfBloodComponentsByTypes: IHarvestingOfBloodComponentsByTypes;
+    TheAmountOfUsableErSusp: ITheAmountOfUsableErSusp;
+    AdviceToDoctors: IAdviceToDoctors;
     CleanForm1: TMSMoldCleaning;
   public
 
@@ -71,17 +84,57 @@ implementation
 {$R *.dfm}
 // Запросы/Количество донаций
 
+procedure TMyMainForm.AdviceDoctorsClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(AdviceToDoctors) then
+    AdviceToDoctors:=nil;
+  AdviceToDoctors := TAdviceToDoctors.Create(self);
+end;
+
+procedure TMyMainForm.AmountUsableErSuspClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(TheAmountOfUsableErSusp) then
+    BloodProduct:=nil;
+  TheAmountOfUsableErSusp := TTheAmountOfUsableErSusp.Create(self);
+end;
+
 procedure TMyMainForm.BloodProductionClick(Sender: TObject);
 begin
-
   if not Assigned(CleanForm1) then
     CleanForm1.Free;
   CleanForm1 := TMSMoldCleaning.Create(self);
   CleanForm1.Free;
 
   if not Assigned(BloodProduct) then
-    BloodProduct.Free;
+    BloodProduct:=nil;
   BloodProduct := TBloodProduct.Create(self);
+end;
+
+procedure TMyMainForm.HarvestingBloodComponentsByTypesClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(HarvestingOfBloodComponentsByTypes) then
+    HarvestingOfBloodComponentsByTypes:=nil;
+  HarvestingOfBloodComponentsByTypes := THarvestingOfBloodComponentsByTypes.Create(self);
+end;
+
+procedure TMyMainForm.Help1Click(Sender: TObject);
+begin
+//
 end;
 
 procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
@@ -93,24 +146,37 @@ begin
   CleanForm1.Free;
 
   if not Assigned(NumberOfDonations) then
-    NumberOfDonations.Free;
+    NumberOfDonations:=nil;
   NumberOfDonations := TNumberOfDonations.Create(self);
 
 end;
-
-
 
 procedure TMyMainForm.CloseButtonClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TMyMainForm.N4Click(Sender: TObject);
+procedure TMyMainForm.FormCreate(Sender: TObject);
+var
+  SysMenu:HMENU;
+begin
+  SysMenu := GetSystemMenu(Handle, false);
+  Windows.EnableMenuItem(SysMenu, SC_CLOSE, MF_DISABLED or MF_GRAYED);
+  GetSystemMenu(Handle, false);
+  Perform(WM_NCPAINT, Handle, 0);
+end;
+
+procedure TMyMainForm.ProcurementOfComponentsTotalClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
     CleanForm1.Free;
   CleanForm1 := TMSMoldCleaning.Create(self);
   CleanForm1.Free;
+
+  if not Assigned(ProcurementOfTheComponentsTotal) then
+    ProcurementOfTheComponentsTotal := nil;
+  ProcurementOfTheComponentsTotal := TProcurementOfTheComponentsTotal.Create(self);
+
 end;
 
 end.

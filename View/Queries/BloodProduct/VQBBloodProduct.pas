@@ -5,8 +5,11 @@ interface
 uses
   SysUtils, StdCtrls, Buttons,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs,
-  MQBTheNumberOfConservedBlood,
+  MQBTheAmountOfBloodOnPreserving,
   MQBTheNumberOfWholeBlood,
+  MQBTheNumberOfConservedBlood,
+  MQBTheAmountOfReinfusionWithAPA,
+  MQBTheAmountOfReinfusionWithTrombo,
   UVFLabel,
   UVFTitleLabel,
   UVFEdit,
@@ -14,105 +17,61 @@ uses
   UVFBitBtn;
 
 type
-  TBloodProduct = class(TObject)
+  IBloodProduct = interface
+  end;
+
+  TBloodProduct = class(TInterfacedObject, IBloodProduct)
   private
     StartDate: ITempLabelTag5;
     EndDate: ITempLabelTag5;
     NameStat1: ITempLabelTag5;
     NameStat2: ITempLabelTag5;
+    NameStat3: ITempLabelTag5;
+    NameStat4: ITempLabelTag5;
+    NameStat5: ITempLabelTag5;
     Title: ITitleLabelTag5;
-
     ResultEdit1: IEditTag5;
     ResultEdit2: IEditTag5;
-
+    ResultEdit3: IEditTag5;
+    ResultEdit4: IEditTag5;
+    ResultEdit5: IEditTag5;
     StartDateCal: IDTPickerTag5;
     EndDateCal: IDTPickerTag5;
-
     ButtonAction: IBitBtnTag5;
-
     CurrentForm: TForm;
-
-    { NameStat3: TLabel;
-      ResultEdit3: TEdit; }
-
-    TheNumberOfConservedBlood: ITheNumberOfConservedBlood;
+    TheAmountOfBloodOnPreserving: ITheAmountOfBloodOnPreserving;
     TheNumberOfWholeBlood: ITheNumberOfWholeBlood;
-
-  public
+    TheNumberOfConservedBlood: ITheNumberOfConservedBlood;
+    TheAmountOfReinfusionWithAPA: ITheAmountOfReinfusionWithAPA;
+    TheAmountOfReinfusionWithTrombo: ITheAmountOfReinfusionWithTrombo;
     function GetLabelStartDate(NameForm: TForm): TLabel;
     function GetLabelEndDate(NameForm: TForm): TLabel;
     function GetLabelNameStat1(NameForm: TForm): TLabel;
     function GetLabelNameStat2(NameForm: TForm): TLabel;
+    function GetLabelNameStat3(NameForm: TForm): TLabel;
+    function GetLabelNameStat4(NameForm: TForm): TLabel;
+    function GetLabelNameStat5(NameForm: TForm): TLabel;
     function GetLabelTitle(NameForm: TForm): TLabel;
-
     function GetEdit1(NameForm: TForm): TEdit;
     function GetEdit2(NameForm: TForm): TEdit;
-
+    function GetEdit3(NameForm: TForm): TEdit;
+    function GetEdit4(NameForm: TForm): TEdit;
+    function GetEdit5(NameForm: TForm): TEdit;
     function GetCalendarStartDate(NameForm: TForm): TDateTimePicker;
     function GetCalendarEndDate(NameForm: TForm): TDateTimePicker;
-
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
+  public
     constructor create(form: TForm);
-
-    { function GetLabelNameStat3(NameForm: TwinControl): TLabel;
-      function GetEdit3(NameForm: TwinControl): TEdit;
-      ; }
-
   end;
 
 implementation
-
-{ TNumberOfDonations }
-
-{
-  function TNumberOfDonations.GenEdit3(NameForm: TwinControl): TEdit;
-  begin
-  if not Assigned(ResultEdit3) then
-  ResultEdit3 := TEdit.create(NameForm);
-  ResultEdit3.parent := NameForm;
-  with ResultEdit3 do
-  begin
-  left := 440;
-  top := 260;
-  Width := 100;
-  Font.name := 'Times New Roman';
-  Font.Size := 12;
-  Alignment := taRightJustify;
-  ReadOnly := true;
-  Text := '';
-  end;
-  result := ResultEdit3;
-  end;
-
-
-
-
-
-  function TNumberOfDonations.GetLabelNameStat3(NameForm: TwinControl): TLabel;
-  begin
-  if not Assigned(NameStat3) then
-  NameStat3 := TLabel.create(NameForm);
-  NameStat3.parent := NameForm;
-  with NameStat3 do
-  begin
-  left := 50;
-  top := 260;
-  Font.name := 'Times New Roman';
-  Font.Size := 20;
-  Caption := 'Количество донаций цитофереза:';
-  end;
-  result := NameStat3;
-  end;
-
-
-}
 
 { TBloodProduct }
 
 procedure TBloodProduct.ButtonAct(Sender: TObject);
 begin
-  if StartDateCal.GetData > GetCalendarEndDate(CurrentForm).Date
+  if StartDateCal.GetDate > GetCalendarEndDate(CurrentForm).Date
   then
   begin
     ShowMessage('Конечная дата не может быть меньше начальной');
@@ -121,20 +80,35 @@ begin
   else
   begin
     if not Assigned(TheNumberOfConservedBlood) then
-      TheNumberOfConservedBlood := TTheNumberOfConservedBlood.create
-        (StartDateCal.GetData, EndDateCal.GetData);
-    ResultEdit1.WriteText(TheNumberOfConservedBlood.GetValue);
-    TheNumberOfConservedBlood := nil;
+      TheAmountOfBloodOnPreserving := TTheAmountOfBloodOnPreserving.create
+        (StartDateCal.GetDate, EndDateCal.GetDate);
+    ResultEdit1.WriteText(TheAmountOfBloodOnPreserving.GetValue);
+    TheAmountOfBloodOnPreserving := nil;
+
     if not Assigned(TheNumberOfWholeBlood) then
       TheNumberOfWholeBlood := TTheNumberOfWholeBlood.create
-        (StartDateCal.GetData, EndDateCal.GetData);
+        (StartDateCal.GetDate, EndDateCal.GetDate);
     ResultEdit2.WriteText(TheNumberOfWholeBlood.GetValue);
     TheNumberOfWholeBlood := nil;
-    { if not Assigned(TheNumberOfTromboDonations) then
-      TheNumberOfTromboDonations := TTheNumberOfTromboDonations.create
-      (GetCalendarStartDate(form1).Date, GetCalendarEndDate(form1).Date);
-      ResultEdit3.Text := TheNumberOfTromboDonations.GetValue;
-      TheNumberOfTromboDonations := nil; }
+
+    if not Assigned(TheNumberOfConservedBlood) then
+      TheNumberOfConservedBlood := TTheNumberOfConservedBlood.create
+        (StartDateCal.GetDate, EndDateCal.GetDate);
+    ResultEdit3.WriteText(TheNumberOfConservedBlood.GetValue);
+    TheNumberOfConservedBlood := nil;
+
+    if not Assigned(TheAmountOfReinfusionWithAPA) then
+      TheAmountOfReinfusionWithAPA := TTheAmountOfReinfusionWithAPA.create
+        (StartDateCal.GetDate, EndDateCal.GetDate);
+    ResultEdit4.WriteText(TheAmountOfReinfusionWithAPA.GetValue);
+    TheAmountOfReinfusionWithAPA := nil;
+
+    if not Assigned(TheAmountOfReinfusionWithTrombo) then
+      TheAmountOfReinfusionWithTrombo := TTheAmountOfReinfusionWithTrombo.create
+        (StartDateCal.GetDate, EndDateCal.GetDate);
+    ResultEdit5.WriteText(TheAmountOfReinfusionWithTrombo.GetValue);
+    TheAmountOfReinfusionWithTrombo := nil;
+
     ShowMessage('Запрос выполнен!');
   end;
 
@@ -148,6 +122,9 @@ begin
   GetLabelEndDate(form);
   GetLabelNameStat1(form);
   GetLabelNameStat2(form);
+  GetLabelNameStat3(form);
+  GetLabelNameStat4(form);
+  GetLabelNameStat5(form);
   GetLabelTitle(form);
 
 
@@ -156,32 +133,54 @@ begin
 
   GetEdit1(form);
   GetEdit2(form);
+  GetEdit3(form);
+  GetEdit4(form);
+  GetEdit5(form);
 
   GetButtonAction(form);
 
-  { GetLabelNameStat3(form1);
-    GetEdit3(form1); }
 end;
 
 function TBloodProduct.GetEdit1(NameForm: TForm): TEdit;
 begin
   if not Assigned(ResultEdit1) then
     ResultEdit1 := TEditTag5.create;
-  Result:=ResultEdit1.GetEdit(520, 180, 100, 12, NameForm);
+  Result:=ResultEdit1.GetEdit(520, 180, 100, 12, True, NameForm);
 end;
 
 function TBloodProduct.GetEdit2(NameForm: TForm): TEdit;
 begin
   if not Assigned(ResultEdit2) then
     ResultEdit2 := TEditTag5.create;
-  Result:=ResultEdit2.GetEdit(520, 220, 100, 12, NameForm);
+  Result:=ResultEdit2.GetEdit(520, 220, 100, 12, True, NameForm);
+end;
+
+function TBloodProduct.GetEdit3(NameForm: TForm): TEdit;
+begin
+  if not Assigned(ResultEdit3) then
+    ResultEdit3 := TEditTag5.create;
+  Result:=ResultEdit3.GetEdit(520, 260, 100, 12, True, NameForm);
+end;
+
+function TBloodProduct.GetEdit4(NameForm: TForm): TEdit;
+begin
+  if not Assigned(ResultEdit4) then
+    ResultEdit4 := TEditTag5.create;
+  Result:=ResultEdit4.GetEdit(520, 300, 100, 12, True, NameForm);
+end;
+
+function TBloodProduct.GetEdit5(NameForm: TForm): TEdit;
+begin
+  if not Assigned(ResultEdit5) then
+    ResultEdit5 := TEditTag5.create;
+  Result:=ResultEdit5.GetEdit(520, 340, 100, 12, True, NameForm);
 end;
 
 function TBloodProduct.GetButtonAction(NameForm: TForm): TBitBtn;
 begin
   if not Assigned(ButtonAction) then
     ButtonAction := TBitBtnTag5.create;
-  Result:=ButtonAction.GetBitBtn(ButtonAct, NameForm);
+  Result:=ButtonAction.GetBitBtn(385, 510, 'Сформировать', ButtonAct, NameForm);
 end;
 
 function TBloodProduct.GetCalendarStartDate(NameForm: TForm)
@@ -220,6 +219,30 @@ begin
   if not Assigned(NameStat2) then
     NameStat2 := TTempLabelTag5.create;
   result := NameStat2.GetTempLabel(50, 220, 20, 'Количество цельной крови:',
+    NameForm);
+end;
+
+function TBloodProduct.GetLabelNameStat3(NameForm: TForm): TLabel;
+begin
+  if not Assigned(NameStat3) then
+    NameStat3 := TTempLabelTag5.create;
+  result := NameStat3.GetTempLabel(50, 260, 20, 'Количество консервированной крови:',
+    NameForm);
+end;
+
+function TBloodProduct.GetLabelNameStat4(NameForm: TForm): TLabel;
+begin
+  if not Assigned(NameStat4) then
+    NameStat4 := TTempLabelTag5.create;
+  result := NameStat4.GetTempLabel(50, 300, 20, 'Объем реинфузии с АПА:',
+    NameForm);
+end;
+
+function TBloodProduct.GetLabelNameStat5(NameForm: TForm): TLabel;
+begin
+  if not Assigned(NameStat5) then
+    NameStat5 := TTempLabelTag5.create;
+  result := NameStat5.GetTempLabel(50, 340, 20, 'Объем реинфузии с цитофереза:',
     NameForm);
 end;
 
