@@ -59,11 +59,13 @@ object MyMainForm: TMyMainForm
       end
       object N10: TMenuItem
         Caption = #1069#1082#1089#1087#1077#1076#1080#1094#1080#1103
-        object N12: TMenuItem
+        object ResultsLPU: TMenuItem
           Caption = #1042#1099#1076#1072#1095#1072' '#1074' '#1051#1055#1059
+          OnClick = ResultsLPUClick
         end
-        object N13: TMenuItem
+        object ResultsInKray: TMenuItem
           Caption = #1042#1099#1076#1072#1095#1072' '#1074' '#1082#1088#1072#1081
+          OnClick = ResultsInKrayClick
         end
         object N14: TMenuItem
           Caption = #1057#1087#1080#1089#1072#1085#1080#1077
@@ -79,8 +81,9 @@ object MyMainForm: TMyMainForm
           Caption = #1050#1086#1085#1089#1091#1083#1100#1090#1072#1094#1080#1080' '#1074#1088#1072#1095#1077#1081
           OnClick = AdviceDoctorsClick
         end
-        object N17: TMenuItem
+        object BCheckLPU: TMenuItem
           Caption = #1055#1088#1086#1074#1077#1088#1082#1080' '#1051#1055#1059
+          OnClick = BCheckLPUClick
         end
       end
       object N7: TMenuItem

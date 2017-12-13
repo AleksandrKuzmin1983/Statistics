@@ -12,6 +12,7 @@ type
     function GetItemsCount: integer;
     function GetItemIndex: integer;
     function GetItemsValue(i: integer): String;
+    procedure GetDROPPEDWIDTH(DWIDTH: Integer);
     procedure WriteText(Text: String);
     procedure TheContentOfTheList(SQL: String);
     procedure WriteItemIndex(i: integer);
@@ -21,12 +22,14 @@ type
   private
     ContentOfTheList: TContentOfTheList;
     TempComboBox: TComboBox;
+    DROPPEDWIDTH: Integer;
     procedure WidthDropDownList(Sender: TObject);
   public
     function GetComboBox(Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TComboBox;
     function GetItemsCount: integer;
     function GetItemIndex: integer;
     function GetItemsValue(i: integer): String;
+    procedure GetDROPPEDWIDTH(DWIDTH: Integer);
     procedure TheContentOfTheList(SQL: String);
     procedure WriteText(Text: String);
     procedure WriteItemIndex(i: integer);
@@ -56,6 +59,11 @@ begin
   result := TempComboBox;
 end;
 
+
+procedure TComboboxTag5.GetDROPPEDWIDTH(DWIDTH: Integer);
+begin
+  DROPPEDWIDTH:=DWIDTH;
+end;
 
 function TComboboxTag5.GetItemIndex: integer;
 begin
@@ -87,7 +95,7 @@ end;
 
 procedure TComboboxTag5.WidthDropDownList(Sender: TObject);
 begin
-    TempComboBox.Perform(CB_SETDROPPEDWIDTH, 400, 0);
+    TempComboBox.Perform(CB_SETDROPPEDWIDTH, DROPPEDWIDTH, 0);
 end;
 
 procedure TComboboxTag5.WriteItemIndex(i: integer);

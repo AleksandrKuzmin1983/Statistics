@@ -56,7 +56,14 @@ uses
   VIOATheAmountOfUsableErSusp in '..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSusp.pas',
   MIOATheAmountOfUsableErSusp in '..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOATheAmountOfUsableErSusp.pas',
   MIOAAdviceToDoctors in '..\Model\InformationForWeeklyReport\Other\AdviceToDoctors\MIOAAdviceToDoctors.pas',
-  VIOAAdviceToDoctors in '..\View\InformationForWeeklyReport\Other\AdviceToDoctors\VIOAAdviceToDoctors.pas';
+  VIOAAdviceToDoctors in '..\View\InformationForWeeklyReport\Other\AdviceToDoctors\VIOAAdviceToDoctors.pas',
+  UMSCheckFillStringFields in '..\Model\System\UMSCheckFillStringFields.pas',
+  MIOCCheckLPU in '..\Model\InformationForWeeklyReport\Other\CheckLPU\MIOCCheckLPU.pas',
+  VIOCCheckLPU in '..\View\InformationForWeeklyReport\Other\CheckLPU\VIOCCheckLPU.pas',
+  VIETTheResultsInLPU in '..\View\InformationForWeeklyReport\Expedition\TheResultsInLPU\VIETTheResultsInLPU.pas',
+  MIETTheResultsInLPU in '..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIETTheResultsInLPU.pas',
+  VIETTheResultsInKray in '..\View\InformationForWeeklyReport\Expedition\TheResultsInKray\VIETTheResultsInKray.pas',
+  MIETTheResultsInKray in '..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIETTheResultsInKray.pas';
 
 {$R *.res}
 

@@ -15,6 +15,9 @@ uses
   VQHHarvestingOfBloodComponentsByTypes,
   VIOATheAmountOfUsableErSusp,
   VIOAAdviceToDoctors,
+  VIOCCheckLPU,
+  VIETTheResultsInLPU,
+  VIETTheResultsInKray,
   UMSMoldCleaning;
 
 type
@@ -33,12 +36,12 @@ type
     N9: TMenuItem;
     N10: TMenuItem;
     N11: TMenuItem;
-    N12: TMenuItem;
-    N13: TMenuItem;
+    ResultsLPU: TMenuItem;
+    ResultsInKray: TMenuItem;
     N14: TMenuItem;
     AmountUsableErSusp: TMenuItem;
     AdviceDoctors: TMenuItem;
-    N17: TMenuItem;
+    BCheckLPU: TMenuItem;
     N7: TMenuItem;
     N18: TMenuItem;
     N19: TMenuItem;
@@ -61,6 +64,9 @@ type
     procedure AmountUsableErSuspClick(Sender: TObject);
     procedure Help1Click(Sender: TObject);
     procedure AdviceDoctorsClick(Sender: TObject);
+    procedure BCheckLPUClick(Sender: TObject);
+    procedure ResultsLPUClick(Sender: TObject);
+    procedure ResultsInKrayClick(Sender: TObject);
    private
     TempAdoQuery: TTempAdoQuery;
     NumberOfDonations: IVQNNumberOfDonations;
@@ -69,6 +75,9 @@ type
     HarvestingOfBloodComponentsByTypes: IHarvestingOfBloodComponentsByTypes;
     TheAmountOfUsableErSusp: ITheAmountOfUsableErSusp;
     AdviceToDoctors: IAdviceToDoctors;
+    CheckLPU: IVIOCCheckLPU;
+    TheResultsInLPU: IVIETTheResultsInLPU;
+    TheResultsInKray: IVIETTheResultsInKray;
     CleanForm1: TMSMoldCleaning;
   public
 
@@ -108,6 +117,18 @@ begin
   TheAmountOfUsableErSusp := TTheAmountOfUsableErSusp.Create(self);
 end;
 
+procedure TMyMainForm.BCheckLPUClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(CheckLPU) then
+    CheckLPU:=nil;
+  CheckLPU := TVIOCCheckLPU.Create(self);
+end;
+
 procedure TMyMainForm.BloodProductionClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
@@ -137,9 +158,20 @@ begin
 //
 end;
 
+procedure TMyMainForm.ResultsInKrayClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(HarvestingOfBloodComponentsByTypes) then
+    TheResultsInKray:=nil;
+  TheResultsInKray := TVIETTheResultsInKray.Create(self);
+end;
+
 procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
 begin
-
   if not Assigned(CleanForm1) then
     CleanForm1.Free;
   CleanForm1 := TMSMoldCleaning.Create(self);
@@ -148,7 +180,18 @@ begin
   if not Assigned(NumberOfDonations) then
     NumberOfDonations:=nil;
   NumberOfDonations := TNumberOfDonations.Create(self);
+end;
 
+procedure TMyMainForm.ResultsLPUClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(TheResultsInLPU) then
+    TheResultsInLPU:=nil;
+  TheResultsInLPU := TVIETTheResultsInLPU.Create(self);
 end;
 
 procedure TMyMainForm.CloseButtonClick(Sender: TObject);
@@ -176,7 +219,6 @@ begin
   if not Assigned(ProcurementOfTheComponentsTotal) then
     ProcurementOfTheComponentsTotal := nil;
   ProcurementOfTheComponentsTotal := TProcurementOfTheComponentsTotal.Create(self);
-
 end;
 
 end.

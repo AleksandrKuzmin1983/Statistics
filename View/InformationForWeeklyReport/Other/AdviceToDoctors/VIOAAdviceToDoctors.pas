@@ -3,8 +3,9 @@ unit VIOAAdviceToDoctors;
 interface
 
 uses
-  WinProcs, Vcl.DBGrids, SysUtils, StdCtrls, Buttons, Vcl.Grids,
+  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
+  UMSCheckFillStringFields,
   UMSBlockMainMenu,
   UVFLabel,
   UVFTitleLabel,
@@ -36,34 +37,34 @@ type
     EditMedicalLaboratoryScientist: IEditTag5;
 
     ReportDateCal: IDTPickerTag5;
-
+    CheckFillStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
 
-    ButtonAdd: IBitBtnAddTag5;            //
-    ButtonDelete: IBitBtnDeleteTag5;       //
+    ButtonAdd: IBitBtnAddTag5;
+    ButtonDelete: IBitBtnDeleteTag5;
     ButtonEdit: IBitBtnEditTag5;
-    ButtonBlock: IBitBtnBlockTag5;         //
-    CurrentForm: TForm;                   //
+    ButtonBlock: IBitBtnBlockTag5;
+    CurrentForm: TForm;
     function GetLabelReportDate(NameForm: TForm): TLabel;
     function GetLabelTheDoctorTransfuziolog(NameForm: TForm): TLabel;
     function GetLabelMedicalLaboratoryScientist(NameForm: TForm): TLabel;
     function GetLabelTitle(NameForm: TForm): TLabel;
 
-    function GetStringGrid(NameForm: TForm): TStringGrid;     //
+    function GetStringGrid(NameForm: TForm): TStringGrid;
     function GetEditTheDoctorTransfuziolog(NameForm: TForm): TEdit;
     function GetEditMedicalLaboratoryScientist(NameForm: TForm): TEdit;
     function GetCalendarReportDateCal(NameForm: TForm): TDateTimePicker;
 
-    function GetButtonEdit(NameForm: TForm): TBitBtn;      //
-    procedure ButtonEdited(Sender: TObject);               //
-    function GetButtonAdd(NameForm: TForm): TBitBtn;       //
-    procedure ButtonAdded(Sender: TObject);                  //
-    function GetButtonDelete(NameForm: TForm): TBitBtn;      //
-    procedure ButtonDeleted(Sender: TObject);                 //
-    function GetButtonBlock(NameForm: TForm): TBitBtn;       //
+    function GetButtonEdit(NameForm: TForm): TBitBtn;
+    procedure ButtonEdited(Sender: TObject);
+    function GetButtonAdd(NameForm: TForm): TBitBtn;
+    procedure ButtonAdded(Sender: TObject);
+    function GetButtonDelete(NameForm: TForm): TBitBtn;
+    procedure ButtonDeleted(Sender: TObject);
+    function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
   public
-    constructor create(form: TForm);                    //
+    constructor create(form: TForm);
   end;
 
 implementation
@@ -98,9 +99,13 @@ end;
 
 procedure TAdviceToDoctors.ButtonAdded(Sender: TObject);
 begin
-    if (EditTheDoctorTransfuziolog.ReadText='') or (EditMedicalLaboratoryScientist.ReadText='') or ((EditMedicalLaboratoryScientist.ReadText='0') and (EditTheDoctorTransfuziolog.ReadText='0')) then
+  if not Assigned(CheckFillStrFields) then
+    CheckFillStrFields := TCheckFillStringFields.create;
+  EditTheDoctorTransfuziolog.WriteText(CheckFillStrFields.CheckStringFields(EditTheDoctorTransfuziolog.ReadText));
+  EditMedicalLaboratoryScientist.WriteText(CheckFillStrFields.CheckStringFields(EditMedicalLaboratoryScientist.ReadText));
+  if (EditMedicalLaboratoryScientist.ReadText='0') and (EditTheDoctorTransfuziolog.ReadText='0') then
     begin
-      Showmessage('Поле "Произведено годной продукции, мл" должно быть заполнено!');
+      Showmessage('Хотя бы одно из полей "Количество консультаций трансфузиологом" и "Количество консультаций лаборантом" должно быть отлично от нуля!');
       exit;
     End;
   try
@@ -110,16 +115,9 @@ begin
       begin
         CloseConnect;
         Clear;
- //       AddSQL('INSERT INTO Exped (ДАТАЛЗ, НС, ПГЭС) VALUES (#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) +
- //              '#, ''' + ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' + EditVolume.ReadText + ')');
+        AddSQL('INSERT INTO Consultations (ДатаКон, ВТ, ВЛ) VALUES (#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) +
+               '#, ' + EditTheDoctorTransfuziolog.ReadText + ', ' + EditMedicalLaboratoryScientist.ReadText + ')');
         ExecSQL;
-     {  OpenConnect;
-        Insert;
-        WriteValue(1, dateOf(ReportDateCal.GetDate));
-        WriteValue(2, ProductList.GetItemsValue(ProductList.GetItemIndex));
-        WriteValue(3, StrToInt(EditVolume.ReadText));
-        Post;
-        CloseConnect; }
       end;
     ShowMessage('Запись успешно добавлена!');
     StringGrid.Free;
@@ -131,6 +129,7 @@ begin
     ShowMessage('Запись не сохранена!');
   end;
     EditTheDoctorTransfuziolog.WriteText('0');
+    EditMedicalLaboratoryScientist.WriteText('0');
     ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
@@ -164,7 +163,7 @@ begin
       begin
         CloseConnect;
         Clear;
-        AddSQL('DELETE FROM Exped WHERE Exped.Код=' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
+        AddSQL('DELETE FROM Consultations WHERE Consultations.Код=' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
         ExecSQL;
       end;
       ShowMessage('Запись успешно удалена!');
@@ -177,6 +176,7 @@ begin
     ShowMessage('Запись не удалена!');
   end;
     EditTheDoctorTransfuziolog.WriteText('0');
+    EditMedicalLaboratoryScientist.WriteText('0');
     ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
@@ -184,6 +184,8 @@ end;
 
 procedure TAdviceToDoctors.ButtonEdited(Sender: TObject);
 begin
+  if not Assigned(CheckFillStrFields) then
+    CheckFillStrFields := TCheckFillStringFields.create;
   if not Assigned(BlockMainMenu) then
     BlockMainMenu := TBlockMainMenu.create;
   if ButtonEdit.GetCaption='Изменить' then
@@ -199,9 +201,11 @@ begin
   end;
   if ButtonEdit.GetCaption='Сохранить изменения' then
   begin
-    if (EditTheDoctorTransfuziolog.ReadText='') or (EditMedicalLaboratoryScientist.ReadText='') or ((EditMedicalLaboratoryScientist.ReadText='0') and (EditTheDoctorTransfuziolog.ReadText='0'))  then
+    EditTheDoctorTransfuziolog.WriteText(CheckFillStrFields.CheckStringFields(EditTheDoctorTransfuziolog.ReadText));
+    EditMedicalLaboratoryScientist.WriteText(CheckFillStrFields.CheckStringFields(EditMedicalLaboratoryScientist.ReadText));
+    if (EditMedicalLaboratoryScientist.ReadText='0') and (EditTheDoctorTransfuziolog.ReadText='0') then
     begin
-      Showmessage('Поля "Количество консультаций трансфузиологом" и "Количество консультаций лаборантом"' + char(13) + 'не должны быть пустыми и хотя бы одно из них должно быть отлично от нуля!' + char(13) + 'Если запись необходимо удалить, то отмените изменения и воспользуйтесь кнопкой "Удалить запись"!');
+      Showmessage('Хотя бы одно из полей "Количество консультаций трансфузиологом" и "Количество консультаций лаборантом" должно быть отлично от нуля!' + char(13) + 'Если запись необходимо удалить, то отмените изменения и воспользуйтесь кнопкой "Удалить запись"!');
       exit;
     End;
     BlockMainMenu.BlockMainMenu(True, CurrentForm);
@@ -237,8 +241,9 @@ begin
   except
     ShowMessage('Изменения не сохранены!');
   end;
-    EditTheDoctorTransfuziolog.WriteText('0');
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+      EditTheDoctorTransfuziolog.WriteText('0');
+      EditMedicalLaboratoryScientist.WriteText('0');
+      ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
   end;
   if ButtonEdit.GetCaption='Изменить' then ButtonEdit.ChangeCaption('Сохранить изменения') else ButtonEdit.ChangeCaption('Изменить');
 end;

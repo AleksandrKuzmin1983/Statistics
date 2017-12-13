@@ -3,8 +3,9 @@ unit VIOATheAmountOfUsableErSusp;
 interface
 
 uses
-  Vcl.DBGrids, SysUtils, StdCtrls, Buttons, Vcl.Grids,
+  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
+  UMSCheckFillStringFields,
   UMSBlockMainMenu,
   UVFComboBox,
   UVFLabel,
@@ -37,7 +38,7 @@ type
     ProductList: IComboboxTag5;
 
     ReportDateCal: IDTPickerTag5;
-
+    CheckStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
 
     ButtonAdd: IBitBtnAddTag5;
@@ -99,7 +100,10 @@ end;
 
 procedure TTheAmountOfUsableErSusp.ButtonAdded(Sender: TObject);
 begin
-    if (EditVolume.ReadText='') or (EditVolume.ReadText='0') then
+  if not Assigned(CheckStrFields) then
+    CheckStrFields := TCheckFillStringFields.create;
+  EditVolume.WriteText(CheckStrFields.CheckStringFields(EditVolume.ReadText));
+  if (EditVolume.ReadText='0') then
     begin
       Showmessage('Поле "Произведено годной продукции, мл" должно быть заполнено!');
       exit;
@@ -211,7 +215,10 @@ begin
   end;
   if ButtonEdit.GetCaption='Сохранить изменения' then
   begin
-    if (EditVolume.ReadText='') or (EditVolume.ReadText='0') then
+    if not Assigned(CheckStrFields) then
+      CheckStrFields := TCheckFillStringFields.create;
+    EditVolume.WriteText(CheckStrFields.CheckStringFields(EditVolume.ReadText));
+    if (EditVolume.ReadText='0') then
     begin
       Showmessage('Поле "Произведено годной продукции, мл" должно быть заполнено!' + char(13) + 'Если значение необходимо удалить, то отмените изменения и воспользуйтесь кнопкой "Удалить запись"!');
       exit;
@@ -356,6 +363,7 @@ Var
 begin
   if not Assigned(StringGrid) then
     StringGrid := TStringGridTag5.create;
+  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 1, DT_LEFT, 2, DT_LEFT, 3, DT_RIGHT, 4, DT_Center);
   Result:=StringGrid.GetStringGrid(50, 280, 800, 240, 4, 2, 12, NameForm);
   StringGrid.NumberOfFixedCol(0);
   StringGrid.ColWidth(0,60);

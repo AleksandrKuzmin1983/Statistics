@@ -67,10 +67,12 @@ begin
     Col2:=PCol2;
     Col3:=PCol3;
     Col4:=PCol4;
+    Col5:=PCol5;
     Col1Format:=PCol1Format;
     Col2Format:=PCol2Format;
     Col3Format:=PCol3Format;
     Col4Format:=PCol4Format;
+    Col5Format:=PCol5Format;
 end;
 
 procedure TStringGridTag5.FormatTitleRowCell(Sender: TObject; ACol, ARow: Integer;
@@ -84,7 +86,7 @@ begin
   if ACol = Col3 then Format := Col3Format;
   if ACol = Col4 then Format := Col4Format;
   if ACol = Col5 then Format := Col5Format;
-  if (ACol <> Col1) and (ACol <> Col2) and (ACol <> Col3) and (ACol <> Col4) and (ACol <> Col5) then Format := DT_LEFT; // второй столбец Ц положение текста по левому краю
+  if (ACol <> Col1) and (ACol <> Col2) and (ACol <> Col3) and (ACol <> Col4) and (ACol <> Col5) then Format := DT_LEFT;
   if ARow = 0 then Format := TitleFormat;
   TempStringGrid.Canvas.FillRect(Rect);
   StrPCopy(C, TempStringGrid.Cells[ACol, ARow]);

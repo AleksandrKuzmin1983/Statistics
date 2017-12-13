@@ -109,6 +109,13 @@
 			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOATheAmountOfUsableErSusp.pas"/>
 			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AdviceToDoctors\MIOAAdviceToDoctors.pas"/>
 			<DCCReference Include="..\View\InformationForWeeklyReport\Other\AdviceToDoctors\VIOAAdviceToDoctors.pas"/>
+			<DCCReference Include="..\Model\System\UMSCheckFillStringFields.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\CheckLPU\MIOCCheckLPU.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Other\CheckLPU\VIOCCheckLPU.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Expedition\TheResultsInLPU\VIETTheResultsInLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIETTheResultsInLPU.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Expedition\TheResultsInKray\VIETTheResultsInKray.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIETTheResultsInKray.pas"/>
 			<None Include="ModelSupport_MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>
