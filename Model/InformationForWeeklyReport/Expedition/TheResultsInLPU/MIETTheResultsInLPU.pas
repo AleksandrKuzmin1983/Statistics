@@ -3,7 +3,7 @@ unit MIETTheResultsInLPU;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs,
+  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
   UCheckNull,
   GetAdoQuery;
 
@@ -105,8 +105,17 @@ begin
   'FROM TypeOfLPUandOther INNER JOIN Exped ON TypeOfLPUandOther.NameRecord = Exped.ВЛЗ ' +
   'WHERE (((Exped.ЛЗД)>=0) AND ((TypeOfLPUandOther.TypeLPU)=True)) ' +
   'ORDER BY Exped.ДАТАЛЗ DESC;';
-  TempQuery.SQL.Add(SQL);
-  TempQuery.Open;
+  Try
+    TempQuery.SQL.Add(SQL);
+  Except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+  End;
+  try
+    TempQuery.Open;
+  Except
+    ShowMessage('Нет подключения в базе данных!' + chr(13) + 'Обратитесь к администратору!');
+  end;
   if not TempQuery.IsEmpty then
   begin
     SetLength(ResultMass, TempQuery.RecordCount);

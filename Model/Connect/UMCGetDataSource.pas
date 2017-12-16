@@ -10,9 +10,8 @@ uses
 type
   IGetDataSource = interface
     function GetDataSource: TDataSource;
-    procedure Refresh;  //
-    procedure Insert; //
-    procedure Post; //
+    procedure Insert;
+    procedure Post;
     procedure OpenConnect;
     procedure CloseConnect;
   end;
@@ -24,9 +23,8 @@ type
     TempQuery: TADOQuery;
   public
     function GetDataSource: TDataSource;
-    procedure Refresh;
-    procedure Insert; //
-    procedure Post; //
+    procedure Insert;
+    procedure Post;
     procedure OpenConnect;
     procedure CloseConnect;
     constructor create(CSQL: string);
@@ -47,7 +45,12 @@ begin
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
-  TempQuery.SQL.Add(CSQL);
+  try
+    TempQuery.SQL.Add(CSQL);
+  except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+  end;
   TempDataSource.DataSet:=TempQuery;
 end;
 
@@ -58,7 +61,11 @@ end;
 
 procedure TGetDataSource.Insert;
 begin
-  TempQuery.Insert;
+  Try
+    TempQuery.Insert;
+  Except
+    ShowMessage('Не могу добавить запись к базу данных!' + chr(13) + 'Обратитесь к администратору!');
+  End;
 end;
 
 procedure TGetDataSource.CloseConnect;
@@ -68,16 +75,17 @@ end;
 
 procedure TGetDataSource.OpenConnect;
 begin
-  TempQuery.Open;
+  Try
+    TempQuery.Open;
+  Except
+    ShowMessage('Не могу подключиться к базе данных!' + chr(13) + 'Обратитесь к администратору!');
+  End;
 end;
 procedure TGetDataSource.Post;
 begin
-  TempQuery.Post;
-end;
-
-procedure TGetDataSource.Refresh;
-begin
-  TempQuery.Refresh;
-end;
-
+  Try
+    TempQuery.Post;
+  Except
+    ShowMessage('Не могу сохранить изменения в базе данных!' + chr(13) + 'Обратитесь к администратору!');  End;
+  end;
 end.

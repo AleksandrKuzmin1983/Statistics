@@ -3,7 +3,7 @@ unit UMSGContentOfTheList;
 interface
 
 uses
-  Variants, Data.Win.ADODB,
+  Variants, Data.Win.ADODB, Data.DB, Dialogs,
   GetAdoQuery;
 
 type
@@ -37,7 +37,12 @@ begin
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
+  Try
   TempQuery.SQL.Add(CSQL);
+  Except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+  End;
   TempQuery.Open;
   if not TempQuery.IsEmpty then
   begin

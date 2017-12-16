@@ -3,7 +3,7 @@ unit VIETTheResultsInKray;
 interface
 
 uses
-  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids,
+  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
   UMSCheckFillStringFields,
   UMSBlockMainMenu,
@@ -136,7 +136,7 @@ begin
         Clear;
         AddSQL('INSERT INTO Exped (ДАТАЛЗ, НС, ВЛЗ, ЛЗО, ЛЗД, ЛЗПАК) VALUES ' +
         '(#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) + '#, ''' +
-        ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', "Край (списание)", ' +
+        ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', "Край", ' +
         EditVolume.ReadText + ', ' + EditNumberOfDoses.ReadText + ', ' + EditNumberOfPackets.ReadText + ')');
         ExecSQL;
       end;
@@ -147,7 +147,8 @@ begin
     GetStringGrid(CurrentForm);
     end;
   except
-    ShowMessage('Запись не сохранена!');
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
   end;
     EditVolume.WriteText('0');
     EditNumberOfDoses.WriteText('0');
@@ -196,7 +197,8 @@ begin
     ContentForStringGrid:=nil;
     GetStringGrid(CurrentForm);
   except
-    ShowMessage('Запись не удалена!');
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
   end;
     EditVolume.WriteText('0');
     EditNumberOfDoses.WriteText('0');
@@ -261,6 +263,7 @@ begin
         'WHERE Exped.Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
         ExecSQL;
       end;
+    ShowMessage('Запись успешно изменена!');
     end
     else
     begin
@@ -277,7 +280,8 @@ begin
     ContentForStringGrid:=nil;
     GetStringGrid(CurrentForm);
   except
-    ShowMessage('Изменения не сохранены!');
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
   end;
       EditVolume.WriteText('0');
       EditNumberOfDoses.WriteText('0');
@@ -334,7 +338,7 @@ function TVIETTheResultsInKray.GetEditVolume(NameForm: TForm): TEdit;
 begin
   if not Assigned(EditVolume) then
     EditVolume := TEditTag5.create;
-  Result:=EditVolume.GetEdit(400, 185, 185, 12, False, NameForm);
+  Result:=EditVolume.GetEdit(400, 160, 185, 12, False, NameForm);
   EditVolume.NumberOnly(True);
 end;
 
@@ -342,7 +346,7 @@ function TVIETTheResultsInKray.GetEditNumberOfDoses(NameForm: TForm): TEdit;
 begin
   if not Assigned(EditNumberOfDoses) then
     EditNumberOfDoses := TEditTag5.create;
-  Result:=EditNumberOfDoses.GetEdit(400, 220, 185, 12, False, NameForm);
+  Result:=EditNumberOfDoses.GetEdit(400, 200, 185, 12, False, NameForm);
   EditNumberOfDoses.NumberOnly(True);
 end;
 
@@ -350,7 +354,7 @@ function TVIETTheResultsInKray.GetEditNumberOfPackets(NameForm: TForm): TEdit;
 begin
   if not Assigned(EditNumberOfPackets) then
     EditNumberOfPackets := TEditTag5.create;
-  Result:=EditNumberOfPackets.GetEdit(400, 290, 185, 12, False, NameForm);
+  Result:=EditNumberOfPackets.GetEdit(400, 240, 185, 12, False, NameForm);
   EditNumberOfPackets.NumberOnly(True);
 end;
 
@@ -360,7 +364,7 @@ function TVIETTheResultsInKray.GetLabelTitle(NameForm: TForm): TLabel;
 begin
   if not Assigned(Title) then
     Title := TTitleLabelTag5.create;
-  result := Title.GetTitleLabel(16, 'Выдача трансфузионных сред в ЛПУ', NameForm);
+  result := Title.GetTitleLabel(25, 'Выдача трансфузионных сред в г. Красноярск', NameForm);
 end;
 
 function TVIETTheResultsInKray.GetLabelReportDate(NameForm: TForm): TLabel;
@@ -375,28 +379,28 @@ function TVIETTheResultsInKray.GetLabelTheNameOfTheEnvironment(
 begin
   if not Assigned(LabelTheNameOfTheEnvironment) then
     LabelTheNameOfTheEnvironment := TTempLabelTag5.create;
-  result := LabelTheNameOfTheEnvironment.GetTempLabel(50, 115, 14, 'Наименование продукции: ', NameForm);
+  result := LabelTheNameOfTheEnvironment.GetTempLabel(50, 120, 14, 'Наименование продукции: ', NameForm);
 end;
 
 function TVIETTheResultsInKray.GetLabelVolume(NameForm: TForm): TLabel;
 begin
   if not Assigned(LabelVolume) then
     LabelVolume := TTempLabelTag5.create;
-  result := LabelVolume.GetTempLabel(50, 185, 14, 'Объем продукции: ', NameForm);
+  result := LabelVolume.GetTempLabel(50, 160, 14, 'Объем продукции: ', NameForm);
 end;
 
 function TVIETTheResultsInKray.GetLabelNumberOfDoses(NameForm: TForm): TLabel;
 begin
   if not Assigned(LabelNumberOfDoses) then
     LabelNumberOfDoses := TTempLabelTag5.create;
-  result := LabelNumberOfDoses.GetTempLabel(50, 220, 14, 'Количество доз: ', NameForm);
+  result := LabelNumberOfDoses.GetTempLabel(50, 200, 14, 'Количество доз: ', NameForm);
 end;
 
 function TVIETTheResultsInKray.GetLabelNumberOfPackets(NameForm: TForm): TLabel;
 begin
   if not Assigned(LabelNumberOfPackets) then
     LabelNumberOfPackets := TTempLabelTag5.create;
-  result := LabelNumberOfPackets.GetTempLabel(50, 290, 14, 'Количество пакетов тромбоконцентрата: ', NameForm);
+  result := LabelNumberOfPackets.GetTempLabel(50, 240, 14, 'Количество пакетов тромбоконцентрата: ', NameForm);
 end;
 
 //ComboBox
@@ -405,7 +409,7 @@ function TVIETTheResultsInKray.GetProductList(NameForm: TForm): TComboBox;
 begin
   if not Assigned(ProductList) then
     ProductList := TComboboxTag5.create;
-  result := ProductList.GetComboBox(285, 115, 300, 14, NameForm);
+  result := ProductList.GetComboBox(285, 120, 300, 14, NameForm);
   SQL:='SELECT NameProducts.ShortName, NameProducts.id ' +
   'FROM NameProducts ' +
   'WHERE (NameProducts.ForExped=True);';
@@ -419,17 +423,18 @@ function TVIETTheResultsInKray.GetStringGrid(
 Var
   i, j: integer;
 begin
+  i:=0; j:=0;
   if not Assigned(StringGrid) then
     StringGrid := TStringGridTag5.create;
-  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 4, DT_RIGHT, 5, DT_RIGHT, 6, DT_RIGHT, 7, DT_RIGHT);
-  Result:=StringGrid.GetStringGrid(40, 330, 820, 190, 8, 2, 12, NameForm);
+  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 2, DT_LEFT, 3, DT_RIGHT, 4, DT_RIGHT, 5, DT_RIGHT);
+  Result:=StringGrid.GetStringGrid(40, 330, 820, 190, 6, 2, 12, NameForm);
   StringGrid.NumberOfFixedCol(0);
   StringGrid.ColWidth(0,40);
-  StringGrid.ColWidth(1,75);
-  StringGrid.ColWidth(2,230);
-  StringGrid.ColWidth(3,110);
-  StringGrid.ColWidth(4,80);
-  StringGrid.ColWidth(5,70);
+  StringGrid.ColWidth(1,90);
+  StringGrid.ColWidth(2,250);
+  StringGrid.ColWidth(3,90);
+  StringGrid.ColWidth(4,90);
+  StringGrid.ColWidth(5,90);
   StringGrid.Visible(true);
   StringGrid.WriteCells(0, 0, 'Код');
   StringGrid.WriteCells(1, 0, 'Дата');

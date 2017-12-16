@@ -28,9 +28,7 @@ type
   TGridDBTag5 = class(TInterfacedObject, IGridDBTag5)
   private
     TempDBGrid: TDBGrid;
-    qq: TADOQuery;
     TempDataSource: IGetDataSource;
-    SQL: String;
   public
     function GetGridDB(Cleft, Ñtop, CWidth, CHeight, FontSize: integer; CurrentForm: TForm): TDBGrid;
     function GetValue(NumberField: integer): Variant;

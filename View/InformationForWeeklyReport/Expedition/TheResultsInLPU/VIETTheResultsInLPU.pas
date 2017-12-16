@@ -3,7 +3,7 @@ unit VIETTheResultsInLPU;
 interface
 
 uses
-  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids,
+  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
   UMSCheckFillStringFields,
   UMSBlockMainMenu,
@@ -163,7 +163,8 @@ begin
     GetStringGrid(CurrentForm);
     end;
   except
-    ShowMessage('Запись не сохранена!');
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
   end;
     EditVolume.WriteText('0');
     EditNumberOfDoses.WriteText('0');
@@ -214,7 +215,8 @@ begin
     ContentForStringGrid:=nil;
     GetStringGrid(CurrentForm);
   except
-    ShowMessage('Запись не удалена!');
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
   end;
     EditVolume.WriteText('0');
     EditNumberOfDoses.WriteText('0');
@@ -289,6 +291,7 @@ begin
         'WHERE Exped.Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
         ExecSQL;
       end;
+    ShowMessage('Запись успешно изменена!');
     end
     else
     begin
@@ -307,7 +310,8 @@ begin
     ContentForStringGrid:=nil;
     GetStringGrid(CurrentForm);
   except
-    ShowMessage('Изменения не сохранены!');
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
   end;
       EditVolume.WriteText('0');
       EditNumberOfDoses.WriteText('0');
@@ -400,7 +404,7 @@ function TVIETTheResultsInLPU.GetLabelTitle(NameForm: TForm): TLabel;
 begin
   if not Assigned(Title) then
     Title := TTitleLabelTag5.create;
-  result := Title.GetTitleLabel(16, 'Выдача трансфузионных сред в ЛПУ', NameForm);
+  result := Title.GetTitleLabel(25, 'Выдача трансфузионных сред в ЛПУ', NameForm);
 end;
 
 function TVIETTheResultsInLPU.GetLabelReportDate(NameForm: TForm): TLabel;

@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Variants,
-  Dialogs, Data.Win.ADODB,
+  Dialogs, Data.Win.ADODB, Data.DB,
   GetAdoQuery,
   UCheckNull;
 
@@ -39,6 +39,7 @@ begin
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
+  Try
   TempQuery.SQL.Add
     ('SELECT Sum(Blood.КонК) AS [Sum-КонК], Sum(Plasma.КонП) AS [Sum-КонП], '
     + 'Sum(Tromb.КонТ) AS [Sum-КонТ] ' +
@@ -48,7 +49,11 @@ begin
     'WHERE (Blood.ДатаК) Between #' + FormatDateTime('mm''/''dd''/''yyyy',
     DateStart) + '# And #' + FormatDateTime('mm''/''dd''/''yyyy',
     DateEnd) + '#');
-  TempQuery.Open;
+    TempQuery.Open;
+  except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+  End;
   NumberOfCB := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[2].value) +
     CheckNull.CheckedValue(TempQuery.Fields[1].value) + CheckNull.CheckedValue
     (TempQuery.Fields[0].value));

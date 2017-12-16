@@ -3,7 +3,7 @@ unit MQNTheNumberOfPlasmaDonations;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB,
+  SysUtils, Variants, Data.Win.ADODB, Data.DB, Dialogs,
   UCheckNull,
   GetAdoQuery;
 
@@ -41,10 +41,15 @@ begin
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
+  Try
   TempQuery.SQL.Add
     ('SELECT SUM(Plasma. ƒœ) FROM Plasma WHERE (Plasma.ƒ‡Ú‡œ) Between #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '#');
+  except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+  End;
   TempQuery.Open;
   NumberOfPD := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
   TempQuery.Close;

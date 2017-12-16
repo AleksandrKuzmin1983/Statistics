@@ -3,7 +3,7 @@ unit VIOAAdviceToDoctors;
 interface
 
 uses
-  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids,
+  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
   UMSCheckFillStringFields,
   UMSBlockMainMenu,
@@ -126,7 +126,8 @@ begin
     GetStringGrid(CurrentForm);
     end;
   except
-    ShowMessage('Запись не сохранена!');
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
   end;
     EditTheDoctorTransfuziolog.WriteText('0');
     EditMedicalLaboratoryScientist.WriteText('0');
@@ -173,7 +174,8 @@ begin
     ContentForStringGrid:=nil;
     GetStringGrid(CurrentForm);
   except
-    ShowMessage('Запись не удалена!');
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
   end;
     EditTheDoctorTransfuziolog.WriteText('0');
     EditMedicalLaboratoryScientist.WriteText('0');
@@ -225,6 +227,7 @@ begin
                'Consultations.ВЛ=' + EditMedicalLaboratoryScientist.ReadText + ' WHERE Consultations.Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
         ExecSQL;
       end;
+    ShowMessage('Запись успешно изменена!');
     end
     else
     begin
@@ -239,7 +242,8 @@ begin
     ContentForStringGrid:=nil;
     GetStringGrid(CurrentForm);
   except
-    ShowMessage('Изменения не сохранены!');
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
   end;
       EditTheDoctorTransfuziolog.WriteText('0');
       EditMedicalLaboratoryScientist.WriteText('0');

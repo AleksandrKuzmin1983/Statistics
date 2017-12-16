@@ -63,7 +63,17 @@ uses
   VIETTheResultsInLPU in '..\View\InformationForWeeklyReport\Expedition\TheResultsInLPU\VIETTheResultsInLPU.pas',
   MIETTheResultsInLPU in '..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIETTheResultsInLPU.pas',
   VIETTheResultsInKray in '..\View\InformationForWeeklyReport\Expedition\TheResultsInKray\VIETTheResultsInKray.pas',
-  MIETTheResultsInKray in '..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIETTheResultsInKray.pas';
+  MIETTheResultsInKray in '..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIETTheResultsInKray.pas',
+  MIECCancellation in '..\Model\InformationForWeeklyReport\Expedition\Cancellation\MIECCancellation.pas',
+  VIECCancellation in '..\View\InformationForWeeklyReport\Expedition\Cancellation\VIECCancellation.pas',
+  MIOCConsumptionOfErythrocyteEnvironments in '..\Model\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\MIOCConsumptionOfErythrocyteEnvironments.pas',
+  VIOCConsumptionOfErythrocyteEnvironments in '..\View\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\VIOCConsumptionOfErythrocyteEnvironments.pas',
+  MIOCConsumptionOfPlazma in '..\Model\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\MIOCConsumptionOfPlazma.pas',
+  VIOCConsumptionOfPlazma in '..\View\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\VIOCConsumptionOfPlazma.pas',
+  MIOCConsumptionOfTrombo in '..\Model\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\MIOCConsumptionOfTrombo.pas',
+  VIOCConsumptionOfTrombo in '..\View\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\VIOCConsumptionOfTrombo.pas',
+  VIOFFlowRateOfWholeBlood in '..\View\InformationForWeeklyReport\OZK\FlowRateOfWholeBlood\VIOFFlowRateOfWholeBlood.pas',
+  MIOFFlowRateOfWholeBlood in '..\Model\InformationForWeeklyReport\OZK\FlowRateOofWholeBlood\MIOFFlowRateOfWholeBlood.pas';
 
 {$R *.res}
 

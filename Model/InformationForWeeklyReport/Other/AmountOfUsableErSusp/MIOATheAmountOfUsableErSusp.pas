@@ -3,7 +3,7 @@ unit MIOATheAmountOfUsableErSusp;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs,
+  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
   UCheckNull,
   GetAdoQuery;
 
@@ -92,8 +92,17 @@ begin
   'FROM Exped INNER JOIN NameProducts ON Exped.НС = NameProducts.ShortName ' +
   'WHERE (((NameProducts.TypeProduct)="Эр взвесь") AND ((NameProducts.Production)=True)) AND ((Exped.ПГЭС)>0)' +
   'ORDER BY Exped.ДАТАЛЗ desc;';
-  TempQuery.SQL.Add(SQL);
-  TempQuery.Open;
+  Try
+    TempQuery.SQL.Add(SQL);
+  except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+  End;
+  try
+    TempQuery.Open;
+  Except
+    ShowMessage('Нет подключения в базе данных!' + chr(13) + 'Обратитесь к администратору!');
+  end;
   if not TempQuery.IsEmpty then
   begin
     SetLength(ResultMass, TempQuery.RecordCount);

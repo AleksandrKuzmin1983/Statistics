@@ -116,6 +116,16 @@
 			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIETTheResultsInLPU.pas"/>
 			<DCCReference Include="..\View\InformationForWeeklyReport\Expedition\TheResultsInKray\VIETTheResultsInKray.pas"/>
 			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIETTheResultsInKray.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\Cancellation\MIECCancellation.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Expedition\Cancellation\VIECCancellation.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\MIOCConsumptionOfErythrocyteEnvironments.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\VIOCConsumptionOfErythrocyteEnvironments.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\MIOCConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\VIOCConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\MIOCConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\VIOCConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OZK\FlowRateOfWholeBlood\VIOFFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\FlowRateOofWholeBlood\MIOFFlowRateOfWholeBlood.pas"/>
 			<None Include="ModelSupport_MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>

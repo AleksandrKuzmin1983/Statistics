@@ -3,7 +3,7 @@ unit MIOAAdviceToDoctors;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs,
+  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
   UCheckNull,
   GetAdoQuery;
 
@@ -92,8 +92,17 @@ begin
   'FROM Consultations ' +
   'WHERE not ((Consultations.ВТ = 0) and (Consultations.ВЛ = 0)) ' +
   'ORDER BY Consultations.ДатаКон desc;';
-  TempQuery.SQL.Add(SQL);
-  TempQuery.Open;
+  Try
+    TempQuery.SQL.Add(SQL);
+  except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+  End;
+  Try
+    TempQuery.Open;
+  Except
+    ShowMessage('Нет подключения в базе данных!' + chr(13) + 'Обратитесь к администратору!');
+  End;
   if not TempQuery.IsEmpty then
   begin
     SetLength(ResultMass, TempQuery.RecordCount);
