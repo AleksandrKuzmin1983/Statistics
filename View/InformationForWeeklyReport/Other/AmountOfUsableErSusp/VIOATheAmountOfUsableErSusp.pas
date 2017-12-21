@@ -3,8 +3,9 @@ unit VIOATheAmountOfUsableErSusp;
 interface
 
 uses
-  Vcl.DBGrids, SysUtils, StdCtrls, Buttons, Vcl.Grids,
+  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
+  UMSCheckFillStringFields,
   UMSBlockMainMenu,
   UVFComboBox,
   UVFLabel,
@@ -37,7 +38,7 @@ type
     ProductList: IComboboxTag5;
 
     ReportDateCal: IDTPickerTag5;
-
+    CheckStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
 
     ButtonAdd: IBitBtnAddTag5;
@@ -99,7 +100,10 @@ end;
 
 procedure TTheAmountOfUsableErSusp.ButtonAdded(Sender: TObject);
 begin
-    if (EditVolume.ReadText='') or (EditVolume.ReadText='0') then
+  if not Assigned(CheckStrFields) then
+    CheckStrFields := TCheckFillStringFields.create;
+  EditVolume.WriteText(CheckStrFields.CheckStringFields(EditVolume.ReadText));
+  if (EditVolume.ReadText='0') then
     begin
       Showmessage('Поле "Произведено годной продукции, мл" должно быть заполнено!');
       exit;
@@ -127,14 +131,12 @@ begin
         Post;
         CloseConnect; }
       end;
-    end;
-    StringGrid.Free;
-    StringGrid:=nil;
-    ContentForStringGrid:=nil;
-    GetStringGrid(CurrentForm);
     ShowMessage('Запись успешно добавлена!');
+    GetStringGrid(CurrentForm);
+    end;
   except
-    ShowMessage('Запись не сохранена!');
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
   end;
     EditVolume.WriteText('0');
     ProductList.WriteItemIndex(-1);
@@ -176,12 +178,10 @@ begin
       end;
       ShowMessage('Запись успешно удалена!');
     end;
-    StringGrid.Free;
-    StringGrid:=nil;
-    ContentForStringGrid:=nil;
     GetStringGrid(CurrentForm);
   except
-    ShowMessage('Запись не удалена!');
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
   end;
     EditVolume.WriteText('0');
     ProductList.WriteItemIndex(-1);
@@ -211,7 +211,10 @@ begin
   end;
   if ButtonEdit.GetCaption='Сохранить изменения' then
   begin
-    if (EditVolume.ReadText='') or (EditVolume.ReadText='0') then
+    if not Assigned(CheckStrFields) then
+      CheckStrFields := TCheckFillStringFields.create;
+    EditVolume.WriteText(CheckStrFields.CheckStringFields(EditVolume.ReadText));
+    if (EditVolume.ReadText='0') then
     begin
       Showmessage('Поле "Произведено годной продукции, мл" должно быть заполнено!' + char(13) + 'Если значение необходимо удалить, то отмените изменения и воспользуйтесь кнопкой "Удалить запись"!');
       exit;
@@ -233,6 +236,7 @@ begin
                'Exped.ПГЭС=' + EditVolume.ReadText + ' WHERE Exped.Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
         ExecSQL;
       end;
+    ShowMessage('Запись успешно изменена!');
     end
     else
     begin
@@ -242,12 +246,10 @@ begin
       ButtonEdit.ChangeCaption('Изменить');
       exit;
     end;
-    StringGrid.Free;
-    StringGrid:=nil;
-    ContentForStringGrid:=nil;
     GetStringGrid(CurrentForm);
   except
-    ShowMessage('Изменения не сохранены!');
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
   end;
     EditVolume.WriteText('0');
     ProductList.WriteItemIndex(-1);
@@ -356,6 +358,7 @@ Var
 begin
   if not Assigned(StringGrid) then
     StringGrid := TStringGridTag5.create;
+  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 1, DT_LEFT, 2, DT_LEFT, 3, DT_RIGHT, 4, DT_Center);
   Result:=StringGrid.GetStringGrid(50, 280, 800, 240, 4, 2, 12, NameForm);
   StringGrid.NumberOfFixedCol(0);
   StringGrid.ColWidth(0,60);
@@ -369,6 +372,7 @@ begin
   StringGrid.WriteCells(3, 0, 'Объем, мл');
   if not Assigned(ContentForStringGrid) then
     ContentForStringGrid := TAmountOfUsableErSusp.create;
+  ContentForStringGrid.GetContent;
     if ContentForStringGrid.GetRowCount>0 then
       for i:=0 to ContentForStringGrid.GetRowCount-1 do
       begin

@@ -54,19 +54,23 @@ object MyMainForm: TMyMainForm
     end
     object N6: TMenuItem
       Caption = #1048#1085#1092#1086#1088#1084#1072#1094#1080#1103' '#1076#1083#1103' '#1085#1077#1076#1077#1083#1100#1085#1086#1075#1086
-      object N9: TMenuItem
+      object VIO_OKDK: TMenuItem
         Caption = #1054#1050#1044#1050
+        OnClick = VIO_OKDKClick
       end
       object N10: TMenuItem
         Caption = #1069#1082#1089#1087#1077#1076#1080#1094#1080#1103
-        object N12: TMenuItem
+        object ResultsLPU: TMenuItem
           Caption = #1042#1099#1076#1072#1095#1072' '#1074' '#1051#1055#1059
+          OnClick = ResultsLPUClick
         end
-        object N13: TMenuItem
+        object ResultsInKray: TMenuItem
           Caption = #1042#1099#1076#1072#1095#1072' '#1074' '#1082#1088#1072#1081
+          OnClick = ResultsInKrayClick
         end
-        object N14: TMenuItem
+        object BCancellation: TMenuItem
           Caption = #1057#1087#1080#1089#1072#1085#1080#1077
+          OnClick = BCancellationClick
         end
       end
       object N11: TMenuItem
@@ -75,26 +79,32 @@ object MyMainForm: TMyMainForm
           Caption = #1054#1073#1098#1077#1084' '#1075#1086#1076#1085#1099#1093' '#1101#1088'. '#1089#1088#1077#1076
           OnClick = AmountUsableErSuspClick
         end
-        object N16: TMenuItem
+        object AdviceDoctors: TMenuItem
           Caption = #1050#1086#1085#1089#1091#1083#1100#1090#1072#1094#1080#1080' '#1074#1088#1072#1095#1077#1081
+          OnClick = AdviceDoctorsClick
         end
-        object N17: TMenuItem
+        object BCheckLPU: TMenuItem
           Caption = #1055#1088#1086#1074#1077#1088#1082#1080' '#1051#1055#1059
+          OnClick = BCheckLPUClick
         end
       end
       object N7: TMenuItem
         Caption = #1054#1047#1050
-        object N18: TMenuItem
+        object ConsumptionErythrocyteEnvironments: TMenuItem
           Caption = #1056#1072#1089#1093#1086#1076' '#1101#1088'. '#1089#1088#1077#1076
+          OnClick = ConsumptionErythrocyteEnvironmentsClick
         end
-        object N19: TMenuItem
+        object ConsumptionPlazma: TMenuItem
           Caption = #1056#1072#1089#1093#1086#1076' '#1087#1083#1072#1079#1084#1099
+          OnClick = ConsumptionPlazmaClick
         end
-        object N20: TMenuItem
+        object ConsumptionTrombo: TMenuItem
           Caption = #1056#1072#1089#1093#1086#1076' '#1090#1088#1086#1084#1073#1086#1094#1080#1090#1086#1074
+          OnClick = ConsumptionTromboClick
         end
-        object N21: TMenuItem
+        object FlowRateWholeBlood: TMenuItem
           Caption = #1056#1072#1089#1093#1086#1076' '#1094#1077#1083#1100#1085#1086#1081' '#1082#1088#1086#1074#1080
+          OnClick = FlowRateWholeBloodClick
         end
       end
     end

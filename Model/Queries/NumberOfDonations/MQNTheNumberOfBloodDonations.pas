@@ -3,7 +3,7 @@ unit MQNTheNumberOfBloodDonations;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB,
+  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
   UCheckNull,
   GetAdoQuery;
 
@@ -40,11 +40,16 @@ begin
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
+  Try
   TempQuery.SQL.Add
     ('SELECT SUM(Blood. ƒ ) FROM Blood WHERE (Blood.ƒ‡Ú‡ ) Between #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '#');
-  TempQuery.Open;
+    TempQuery.Open;
+  except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+  End;
   NumberOfBD := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
   TempQuery.Close;
 end;

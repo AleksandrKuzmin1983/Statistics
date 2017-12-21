@@ -3,8 +3,7 @@ unit MQBTheAmountOfBloodOnPreserving;
 interface
 
 uses
-  SysUtils, Variants,
-  Dialogs, Data.Win.ADODB,
+  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
   GetAdoQuery,
   UCheckNull;
 
@@ -39,6 +38,7 @@ begin
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
+  Try
   TempQuery.SQL.Add
     ('SELECT Sum(Blood.НаКонК) AS [Sum-НаКонК], Sum(Plasma.НаКонП) AS [Sum-НаКонП], '
     + 'Sum(Tromb.НаКонТ) AS [Sum-НаКонТ] ' +
@@ -48,7 +48,12 @@ begin
     'WHERE (Blood.ДатаК) Between #' + FormatDateTime('mm''/''dd''/''yyyy',
     DateStart) + '# And #' + FormatDateTime('mm''/''dd''/''yyyy',
     DateEnd) + '#');
-  TempQuery.Open;
+    TempQuery.Open;
+  except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+
+  End;
   AmountOfBP := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[2].value) +
     CheckNull.CheckedValue(TempQuery.Fields[1].value) + CheckNull.CheckedValue
     (TempQuery.Fields[0].value));

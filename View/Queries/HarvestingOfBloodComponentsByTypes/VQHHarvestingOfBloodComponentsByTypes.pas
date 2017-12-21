@@ -152,8 +152,6 @@ begin
   GetCalendarStartDate(CurrentForm);
   GetCalendarEndDate(CurrentForm);
 
- // GetStringGrid(CurrentForm);
-
   GetButtonAction(CurrentForm);
 end;
 

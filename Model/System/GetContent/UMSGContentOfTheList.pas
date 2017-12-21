@@ -3,12 +3,13 @@ unit UMSGContentOfTheList;
 interface
 
 uses
-  Variants, Data.Win.ADODB,
+  Variants, Data.Win.ADODB, Data.DB, Dialogs,
   GetAdoQuery;
 
 type
   IContentOfTheList = interface
     function GetContentOfTheList(i: integer): string;
+    procedure GetContent(CSQL: String);
   end;
 
   TContentOfTheList = class(TInterfacedObject, IContentOfTheList)
@@ -19,14 +20,14 @@ type
   public
     function GetContentOfTheList(i: integer): string;
     function GetCount: integer;
-    constructor create(CSQL: String);
+    procedure GetContent(CSQL: String);
   end;
 
 implementation
 
 {TTheNumberOfBloodDonations}
 
-constructor TContentOfTheList.create(CSQL: String);
+procedure TContentOfTheList.GetContent(CSQL: String);
 var
   i: integer;
 begin
@@ -37,7 +38,12 @@ begin
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
+  Try
   TempQuery.SQL.Add(CSQL);
+  Except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+  End;
   TempQuery.Open;
   if not TempQuery.IsEmpty then
   begin

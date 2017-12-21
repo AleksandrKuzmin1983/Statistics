@@ -107,6 +107,39 @@
 			<DCCReference Include="..\Model\System\UMSBlockMainMenu.pas"/>
 			<DCCReference Include="..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSusp.pas"/>
 			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOATheAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AdviceToDoctors\MIOAAdviceToDoctors.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Other\AdviceToDoctors\VIOAAdviceToDoctors.pas"/>
+			<DCCReference Include="..\Model\System\UMSCheckFillStringFields.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\CheckLPU\MIOCCheckLPU.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Other\CheckLPU\VIOCCheckLPU.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Expedition\TheResultsInLPU\VIETTheResultsInLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIETTheResultsInLPU.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Expedition\TheResultsInKray\VIETTheResultsInKray.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIETTheResultsInKray.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\Cancellation\MIECCancellation.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Expedition\Cancellation\VIECCancellation.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\MIOCConsumptionOfErythrocyteEnvironments.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\VIOCConsumptionOfErythrocyteEnvironments.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\MIOCConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\VIOCConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\MIOCConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\VIOCConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OZK\FlowRateOfWholeBlood\VIOFFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\FlowRateOofWholeBlood\MIOFFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OKDK\VIOOKDK.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIOOKDK.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIOCurrentType.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIOTypeOfSelectRow.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIONameTypeOfSelectRow.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIOAddRecord.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIODeleteRecord.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIOChangeRecord.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\Cancellation\MIECAddRecordCancellation.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\Cancellation\MIECDeleteRecordCancellation.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\Cancellation\MIEChangeRecordCancellation.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIEChangeRecordResultsInKray.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIEAddRecordResultsInKray.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIEDeleteRecordResultsInKray.pas"/>
 			<None Include="ModelSupport_MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>
@@ -192,6 +225,9 @@
 					<Platform value="Win32">True</Platform>
 				</Platforms>
 				<ModelSupport>True</ModelSupport>
+				<UnitTesting>
+					<TestProjectName>D:\git\Statistics-dev-0.1.1\Statistics-dev-0.1.1\MainForm\Test\MainFormTests.dproj</TestProjectName>
+				</UnitTesting>
 			</BorlandProject>
 			<ProjectFileVersion>12</ProjectFileVersion>
 		</ProjectExtensions>

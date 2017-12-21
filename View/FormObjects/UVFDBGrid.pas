@@ -17,7 +17,6 @@ type
     procedure EditValue;
     procedure InsertValue;
     procedure PostValue;
-    procedure Refresh;
     procedure OpenConnect(SQL: string);
     procedure CloseConnect;
     procedure TitleColumn(NumberColumn: integer; NameColumn: string);
@@ -28,9 +27,7 @@ type
   TGridDBTag5 = class(TInterfacedObject, IGridDBTag5)
   private
     TempDBGrid: TDBGrid;
-    qq: TADOQuery;
     TempDataSource: IGetDataSource;
-    SQL: String;
   public
     function GetGridDB(Cleft, Ñtop, CWidth, CHeight, FontSize: integer; CurrentForm: TForm): TDBGrid;
     function GetValue(NumberField: integer): Variant;
@@ -39,7 +36,6 @@ type
     procedure EditValue;
     procedure InsertValue;
     procedure PostValue;
-    procedure Refresh;
     procedure OpenConnect(SQL: string);
     procedure CloseConnect;
     procedure TitleColumn(NumberColumn: integer; NameColumn: string);
@@ -67,11 +63,6 @@ end;
 procedure TGridDBTag5.PostValue;
 begin
   TempDataSource.Post;
-end;
-
-procedure TGridDBTag5.Refresh;
-begin
-  TempDataSource.Refresh
 end;
 
 procedure TGridDBTag5.TitleColumn(NumberColumn: integer; NameColumn: string);

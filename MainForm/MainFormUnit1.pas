@@ -8,13 +8,22 @@ uses
   ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
   Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
   Vcl.ComCtrls, Vcl.ExtCtrls,
-  GetAdoQuery,
   VQNNumberOfDonations,
   VQBBloodProduct,
   VQPProcurementOfTheComponentsTotal,
   VQHHarvestingOfBloodComponentsByTypes,
   VIOATheAmountOfUsableErSusp,
-  UMSMoldCleaning  ;
+  VIOAAdviceToDoctors,
+  VIOCCheckLPU,
+  VIETTheResultsInLPU,
+  VIETTheResultsInKray,
+  VIECCancellation,
+  VIOCConsumptionOfErythrocyteEnvironments,
+  VIOCConsumptionOfPlazma,
+  VIOCConsumptionOfTrombo,
+  VIOFFlowRateOfWholeBlood,
+  VIOOKDK,
+  UMSMoldCleaning;
 
 type
   TMyMainForm = class(TForm)
@@ -29,20 +38,20 @@ type
     HandlyHarvesting: TMenuItem;
     AutoAferez: TMenuItem;
     Citoferez: TMenuItem;
-    N9: TMenuItem;
+    VIO_OKDK: TMenuItem;
     N10: TMenuItem;
     N11: TMenuItem;
-    N12: TMenuItem;
-    N13: TMenuItem;
-    N14: TMenuItem;
+    ResultsLPU: TMenuItem;
+    ResultsInKray: TMenuItem;
+    BCancellation: TMenuItem;
     AmountUsableErSusp: TMenuItem;
-    N16: TMenuItem;
-    N17: TMenuItem;
+    AdviceDoctors: TMenuItem;
+    BCheckLPU: TMenuItem;
     N7: TMenuItem;
-    N18: TMenuItem;
-    N19: TMenuItem;
-    N20: TMenuItem;
-    N21: TMenuItem;
+    ConsumptionErythrocyteEnvironments: TMenuItem;
+    ConsumptionPlazma: TMenuItem;
+    ConsumptionTrombo: TMenuItem;
+    FlowRateWholeBlood: TMenuItem;
     N1: TMenuItem;
     N22: TMenuItem;
     N23: TMenuItem;
@@ -59,13 +68,32 @@ type
     procedure FormCreate(Sender: TObject);
     procedure AmountUsableErSuspClick(Sender: TObject);
     procedure Help1Click(Sender: TObject);
+    procedure AdviceDoctorsClick(Sender: TObject);
+    procedure BCheckLPUClick(Sender: TObject);
+    procedure ResultsLPUClick(Sender: TObject);
+    procedure ResultsInKrayClick(Sender: TObject);
+    procedure BCancellationClick(Sender: TObject);
+    procedure ConsumptionErythrocyteEnvironmentsClick(Sender: TObject);
+    procedure ConsumptionPlazmaClick(Sender: TObject);
+    procedure ConsumptionTromboClick(Sender: TObject);
+    procedure FlowRateWholeBloodClick(Sender: TObject);
+    procedure VIO_OKDKClick(Sender: TObject);
    private
-    TempAdoQuery: TTempAdoQuery;
     NumberOfDonations: IVQNNumberOfDonations;
     BloodProduct: IBloodProduct;
     ProcurementOfTheComponentsTotal: IProcurementOfTheComponentsTotal;
     HarvestingOfBloodComponentsByTypes: IHarvestingOfBloodComponentsByTypes;
     TheAmountOfUsableErSusp: ITheAmountOfUsableErSusp;
+    AdviceToDoctors: IAdviceToDoctors;
+    CheckLPU: IVIOCCheckLPU;
+    TheResultsInLPU: IVIETTheResultsInLPU;
+    TheResultsInKray: IVIETTheResultsInKray;
+    Cancellation: IVIECCancellation;
+    ConsumptionOfErythrocyte: IVIOCConsumptionOfErythrocyteEnvironments;
+    ConsumptionOfPlazma: IVIOCConsumptionOfPlazma;
+    ConsumptionOfTrombo: IVIOCConsumptionOfTrombo;
+    FlowRateOfWholeBlood: IVIOFFlowRateOfWholeBlood;
+    OKDK: IVIOOKDK;
     CleanForm1: TMSMoldCleaning;
   public
 
@@ -81,6 +109,18 @@ implementation
 {$R *.dfm}
 // Запросы/Количество донаций
 
+procedure TMyMainForm.AdviceDoctorsClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(AdviceToDoctors) then
+    AdviceToDoctors:=nil;
+  AdviceToDoctors := TAdviceToDoctors.Create(self);
+end;
+
 procedure TMyMainForm.AmountUsableErSuspClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
@@ -91,6 +131,30 @@ begin
   if not Assigned(TheAmountOfUsableErSusp) then
     BloodProduct:=nil;
   TheAmountOfUsableErSusp := TTheAmountOfUsableErSusp.Create(self);
+end;
+
+procedure TMyMainForm.BCancellationClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(Cancellation) then
+    Cancellation:=nil;
+  Cancellation := TVIECCancellation.Create(self);
+end;
+
+procedure TMyMainForm.BCheckLPUClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(CheckLPU) then
+    CheckLPU:=nil;
+  CheckLPU := TVIOCCheckLPU.Create(self);
 end;
 
 procedure TMyMainForm.BloodProductionClick(Sender: TObject);
@@ -122,9 +186,20 @@ begin
 //
 end;
 
+procedure TMyMainForm.ResultsInKrayClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(HarvestingOfBloodComponentsByTypes) then
+    TheResultsInKray:=nil;
+  TheResultsInKray := TVIETTheResultsInKray.Create(self);
+end;
+
 procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
 begin
-
   if not Assigned(CleanForm1) then
     CleanForm1.Free;
   CleanForm1 := TMSMoldCleaning.Create(self);
@@ -133,12 +208,83 @@ begin
   if not Assigned(NumberOfDonations) then
     NumberOfDonations:=nil;
   NumberOfDonations := TNumberOfDonations.Create(self);
+end;
 
+procedure TMyMainForm.ResultsLPUClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(TheResultsInLPU) then
+    TheResultsInLPU:=nil;
+  TheResultsInLPU := TVIETTheResultsInLPU.Create(self);
+end;
+
+procedure TMyMainForm.VIO_OKDKClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(OKDK) then
+    TheResultsInLPU:=nil;
+  OKDK := TVIOOKDK.Create(self);
 end;
 
 procedure TMyMainForm.CloseButtonClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TMyMainForm.ConsumptionErythrocyteEnvironmentsClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(ConsumptionOfErythrocyte) then
+    ConsumptionOfErythrocyte := nil;
+  ConsumptionOfErythrocyte := TVIOCConsumptionOfErythrocyteEnvironments.Create(self);
+end;
+
+procedure TMyMainForm.ConsumptionPlazmaClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(ConsumptionOfPlazma) then
+    ConsumptionOfPlazma := nil;
+  ConsumptionOfPlazma := TVIOCConsumptionOfPlazma.Create(self);
+end;
+
+procedure TMyMainForm.ConsumptionTromboClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(ConsumptionOfTrombo) then
+    ConsumptionOfTrombo := nil;
+  ConsumptionOfTrombo := TVIOCConsumptionOfTrombo.Create(self);
+end;
+
+procedure TMyMainForm.FlowRateWholeBloodClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(FlowRateOfWholeBlood) then
+    FlowRateOfWholeBlood := nil;
+  FlowRateOfWholeBlood := TVIOFFlowRateOfWholeBlood.Create(self);
 end;
 
 procedure TMyMainForm.FormCreate(Sender: TObject);
@@ -161,7 +307,6 @@ begin
   if not Assigned(ProcurementOfTheComponentsTotal) then
     ProcurementOfTheComponentsTotal := nil;
   ProcurementOfTheComponentsTotal := TProcurementOfTheComponentsTotal.Create(self);
-
 end;
 
 end.

@@ -11,6 +11,7 @@ type
     function ReadText: String;
     procedure WriteText(Text: String);
     procedure NumberOnly(i: Boolean);
+    procedure Enabled(i: Boolean);
   end;
 
   TEditTag5 = class(TInterfacedObject, IEditTag5)
@@ -21,11 +22,17 @@ type
     function ReadText: String;
     procedure WriteText(Text: String);
     procedure NumberOnly(i: Boolean);
+    procedure Enabled(i: Boolean);
   end;
 
 implementation
 
 { TTempLabelTag5 }
+
+procedure TEditTag5.Enabled(i: Boolean);
+begin
+  TempEdit.Enabled:=i;
+end;
 
 function TEditTag5.GetEdit(Cleft, Ñtop, CWidth, FontSize: integer; ÑReadOnly: boolean; CurrentForm: TForm): TEdit;
 begin

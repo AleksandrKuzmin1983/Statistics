@@ -3,7 +3,7 @@ unit MQHBloodComponents;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs,
+  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
   UCheckNull,
   GetAdoQuery;
 
@@ -53,13 +53,18 @@ begin
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
+  Try
   TempQuery.SQL.Add
   ('SELECT BloodErSusp.ВидЭВ, Sum(BloodErSusp.КЭВ), Sum(BloodErSusp.ДЭВ) ' +
      'FROM BloodDoza INNER JOIN BloodErSusp ON BloodDoza.КодД = BloodErSusp.Код ' +
      'WHERE (BloodDoza.ДатаК) Between #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '# GROUP BY BloodErSusp.ВидЭВ;');
-  TempQuery.Open;
+    TempQuery.Open;
+  except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+  End;
   if not TempQuery.IsEmpty then
   begin
     SetLength(ResultMass, TempQuery.RecordCount);

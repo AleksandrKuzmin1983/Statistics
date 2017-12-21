@@ -3,7 +3,7 @@ unit MQHTrombo;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs,
+  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
   UCheckNull,
   GetAdoQuery;
 
@@ -56,13 +56,18 @@ begin
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
+  Try
   TempQuery.SQL.Add
     ('SELECT TrombComponents.¬Ë‰“, Sum(TrombComponents. œÀ“), Sum(TrombComponents.ƒœÀ“), Sum(TrombComponents.œ‡Í“) ' +
      'FROM TrombDoza INNER JOIN TrombComponents ON TrombDoza. Ó‰“ = TrombComponents. Ó‰ƒ“ ' +
      'WHERE (((TrombDoza.ƒ‡Ú‡“) Between #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '#)) GROUP BY TrombComponents.¬Ë‰“;');
-  TempQuery.Open;
+    TempQuery.Open;
+  except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+  End;
   if not TempQuery.IsEmpty then
   begin
     SetLength(ResultMass, TempQuery.RecordCount);

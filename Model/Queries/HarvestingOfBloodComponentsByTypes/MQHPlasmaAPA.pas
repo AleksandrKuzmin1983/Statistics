@@ -3,7 +3,7 @@ unit MQHPlasmaAPA;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs,
+  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
   UCheckNull,
   GetAdoQuery;
 
@@ -53,13 +53,18 @@ begin
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
+  Try
   TempQuery.SQL.Add
     ('SELECT PlasmaComponents.бХДоко, Sum(PlasmaComponents.йоко), Sum(PlasmaComponents.доко) ' +
      'FROM PlazmaDoza INNER JOIN PlasmaComponents ON PlazmaDoza.йНДоК = PlasmaComponents.йНДдо ' +
      'WHERE (((PlazmaDoza.дЮРЮо) Between #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateStart) + '# And #' +
     FormatDateTime('mm''/''dd''/''yyyy', DateEnd) + '#)) GROUP BY PlasmaComponents.бХДоко;');
-  TempQuery.Open;
+    TempQuery.Open;
+  except
+  On e : EDatabaseError do
+    messageDlg(e.message, mtError, [mbOK],0);
+  End;
   if not TempQuery.IsEmpty then
   begin
     SetLength(ResultMass, TempQuery.RecordCount);
