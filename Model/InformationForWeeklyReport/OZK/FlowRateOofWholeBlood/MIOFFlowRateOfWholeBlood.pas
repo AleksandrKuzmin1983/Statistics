@@ -15,14 +15,6 @@ type
     function GetNumberOfDoses(i: integer): string;
     function GetReasonConsumption(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
@@ -50,35 +42,12 @@ type
     function GetNumberOfDoses(i: integer): string;
     function GetReasonConsumption(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
 implementation
 
 { TTheNumberOfTromboDonations }
-
-procedure TMIOFFlowRateOfWholeBlood.AddSQL(SQL: string);
-begin
-  TempQuery.SQL.Add(SQL);
-end;
-
-procedure TMIOFFlowRateOfWholeBlood.Clear;
-begin
-  TempQuery.SQL.Clear;
-end;
-
-procedure TMIOFFlowRateOfWholeBlood.CloseConnect;
-begin
-  TempQuery.Close;
-end;
 
 procedure TMIOFFlowRateOfWholeBlood.GetContent;
 var i: integer;
@@ -126,11 +95,6 @@ begin
   TempQuery.Close;
 end;
 
-procedure TMIOFFlowRateOfWholeBlood.ExecSQL;
-begin
-  TempQuery.ExecSQL;
-end;
-
 function TMIOFFlowRateOfWholeBlood.GetCancellationDate(i: integer): string;
 begin
   result := ResultMass[i].CancellationDate;
@@ -149,27 +113,6 @@ end;
 function TMIOFFlowRateOfWholeBlood.GetReasonConsumption(i: integer): string;
 begin
   result := ResultMass[i].ReasonConsumption;
-end;
-
-procedure TMIOFFlowRateOfWholeBlood.Insert;
-begin
-  TempQuery.Insert;
-end;
-
-procedure TMIOFFlowRateOfWholeBlood.OpenConnect;
-begin
-  TempQuery.Open;
-end;
-
-procedure TMIOFFlowRateOfWholeBlood.post;
-begin
-  TempQuery.Post;
-end;
-
-procedure TMIOFFlowRateOfWholeBlood.WriteValue(NumberField: integer;
-  Value: Variant);
-begin
-  TempQuery.Fields[NumberField].Value:=Value;
 end;
 
 function TMIOFFlowRateOfWholeBlood.GetVolume(i: integer): string;

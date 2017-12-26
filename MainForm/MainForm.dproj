@@ -24,6 +24,12 @@
 			<CfgParent>Base</CfgParent>
 			<Base>true</Base>
 		</PropertyGroup>
+		<PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+			<Cfg_2_Win32>true</Cfg_2_Win32>
+			<CfgParent>Cfg_2</CfgParent>
+			<Cfg_2>true</Cfg_2>
+			<Base>true</Base>
+		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
 			<VerInfo_Locale>1049</VerInfo_Locale>
 			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
@@ -45,6 +51,10 @@
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
 			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+			<Icon_MainIcon>MainForm_Icon1.ico</Icon_MainIcon>
+			<Manifest_File>None</Manifest_File>
 		</PropertyGroup>
 		<ItemGroup>
 			<DelphiCompile Include="$(MainSource)">
@@ -140,6 +150,31 @@
 			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIEChangeRecordResultsInKray.pas"/>
 			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIEAddRecordResultsInKray.pas"/>
 			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIEDeleteRecordResultsInKray.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIEAddRecordResultsInLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIEChangeRecordResultsInLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIEDeleteRecordResultsInLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AdviceToDoctors\MIOAAddRecordResultsInAdviceToDoctor.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AdviceToDoctors\MIOAChangeRecordResultsInAdviceToDoctor.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AdviceToDoctors\MIOADeleteRecordResultsInAdviceToDoctor.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOADeleteRecordResultsAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOAAddRecordResultsAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOAChangeRecordResultsAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\CheckLPU\MIOCAddRecordResultsCheckLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\CheckLPU\MIOCChangeRecordResultsCheckLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\CheckLPU\MIOCDeleteRecordResultsCheckLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\MIOCAddRecordConsumption.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\MIOCChangeRecordConsumption.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\MIOCDeleteRecordConsumption.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\MIOCAddRecordConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\MIOCChangeRecordConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\MIOCDeleteRecordConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\MIOCAddRecordConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\MIOCChangeRecordConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\MIOCDeleteRecordConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\FlowRateOofWholeBlood\MIOFAddRecordFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\FlowRateOofWholeBlood\MIOFChangeRecordFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\FlowRateOofWholeBlood\MIOFDeleteRecordFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\View\HarvestingOfTheDay\ManualHarvesting\VHMManualHarvesting.pas"/>
 			<None Include="ModelSupport_MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>
@@ -219,6 +254,10 @@
 						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
+					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k160.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclofficexp160.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+					</Excluded_Packages>
 				</Delphi.Personality>
 				<Platforms>
 					<Platform value="Win64">False</Platform>

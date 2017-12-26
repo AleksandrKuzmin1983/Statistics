@@ -183,9 +183,10 @@ begin
     if not Assigned(DeleteRecord) then
       DeleteRecord := TMIODeleteRecord.create;
     DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
+    GetStringGrid(CurrentForm);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
     ShowMessage('Запись успешно удалена!');
   end;
-  GetStringGrid(CurrentForm);
   EditVolume.WriteText('0');
   TypeOfTapList.WriteItemIndex(-1);
   NameTapsList.Clear;

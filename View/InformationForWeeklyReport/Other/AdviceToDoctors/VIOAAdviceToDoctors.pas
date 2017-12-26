@@ -16,6 +16,9 @@ uses
   UVFBitBtnEdit,
   UVFBitBtnBlock,
   UVFStringGrid,
+  MIOAAddRecordResultsInAdviceToDoctor,
+  MIOADeleteRecordResultsInAdviceToDoctor,
+  MIOAChangeRecordResultsInAdviceToDoctor,
   MIOAAdviceToDoctors;
 
 type
@@ -32,6 +35,9 @@ type
 
     StringGrid: IStringGridTag5;
     ContentForStringGrid: IAdviceTDoctors;
+    AddRecord: IMIOAAddRecordResultsInAdviceToDoctor;
+    DeleteRecord: IMIOADeleteRecordResultsInAdviceToDoctor;
+    ChangeRecord: IMIOAChangeRecordResultsInAdviceToDoctor;
 
     EditTheDoctorTransfuziolog: IEditTag5;
     EditMedicalLaboratoryScientist: IEditTag5;
@@ -108,27 +114,18 @@ begin
       Showmessage('Хотя бы одно из полей "Количество консультаций трансфузиологом" и "Количество консультаций лаборантом" должно быть отлично от нуля!');
       exit;
     End;
-  try
-    if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('INSERT INTO Consultations (ДатаКон, ВТ, ВЛ) VALUES (#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) +
-               '#, ' + EditTheDoctorTransfuziolog.ReadText + ', ' + EditMedicalLaboratoryScientist.ReadText + ')');
-        ExecSQL;
-      end;
+  if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(AddRecord) then
+      AddRecord := TMIOAAddRecordResultsInAdviceToDoctor.create;
+    AddRecord.AddRecord(ReportDateCal.GetDate, EditTheDoctorTransfuziolog.ReadText,
+      EditMedicalLaboratoryScientist.ReadText);
     ShowMessage('Запись успешно добавлена!');
     GetStringGrid(CurrentForm);
-    end;
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
   end;
-    EditTheDoctorTransfuziolog.WriteText('0');
-    EditMedicalLaboratoryScientist.WriteText('0');
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  EditTheDoctorTransfuziolog.WriteText('0');
+  EditMedicalLaboratoryScientist.WriteText('0');
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
 // Разблокировка кнопок
@@ -154,26 +151,18 @@ end;
 
 procedure TAdviceToDoctors.ButtonDeleted(Sender: TObject);
 begin
-  try
-    if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('DELETE FROM Consultations WHERE Consultations.Код=' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
-        ExecSQL;
-      end;
-      ShowMessage('Запись успешно удалена!');
-    end;
+  if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TMIOADeleteRecordResultsInAdviceToDoctor.create;
+    DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
     GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
+    ShowMessage('Запись успешно удалена!');
   end;
-    EditTheDoctorTransfuziolog.WriteText('0');
-    EditMedicalLaboratoryScientist.WriteText('0');
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  EditTheDoctorTransfuziolog.WriteText('0');
+  EditMedicalLaboratoryScientist.WriteText('0');
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
 // Внесение изменений
@@ -209,18 +198,13 @@ begin
     ButtonAdd.ChangeEnabled(True);
     ButtonDelete.ChangeEnabled(True);
     StringGrid.Enabled(True);
-  try
-    if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('UPDATE Consultations SET Consultations.ДатаКон = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) +
-               '#, Consultations.ВТ =' + EditTheDoctorTransfuziolog.ReadText + ', ' +
-               'Consultations.ВЛ=' + EditMedicalLaboratoryScientist.ReadText + ' WHERE Consultations.Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
-        ExecSQL;
-      end;
+  if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(ChangeRecord) then
+      ChangeRecord := TMIOAChangeRecordResultsInAdviceToDoctor.create;
+    ChangeRecord.ChangeRecord(ReportDateCal.GetDate, EditTheDoctorTransfuziolog.ReadText,
+      EditMedicalLaboratoryScientist.ReadText, StringGrid.GetValue(0, StringGrid.CurrentRow));
+    GetStringGrid(CurrentForm);
     ShowMessage('Запись успешно изменена!');
     end
     else
@@ -231,14 +215,9 @@ begin
       ButtonEdit.ChangeCaption('Изменить');
       exit;
     end;
-    GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
-  end;
-      EditTheDoctorTransfuziolog.WriteText('0');
-      EditMedicalLaboratoryScientist.WriteText('0');
-      ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+    EditTheDoctorTransfuziolog.WriteText('0');
+    EditMedicalLaboratoryScientist.WriteText('0');
+    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
   end;
   if ButtonEdit.GetCaption='Изменить' then ButtonEdit.ChangeCaption('Сохранить изменения') else ButtonEdit.ChangeCaption('Изменить');
 end;

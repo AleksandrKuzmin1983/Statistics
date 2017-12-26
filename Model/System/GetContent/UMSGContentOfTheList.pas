@@ -9,6 +9,7 @@ uses
 type
   IContentOfTheList = interface
     function GetContentOfTheList(i: integer): string;
+    procedure GetNameOfColumns(CSQL: String);
     procedure GetContent(CSQL: String);
   end;
 
@@ -20,6 +21,7 @@ type
   public
     function GetContentOfTheList(i: integer): string;
     function GetCount: integer;
+    procedure GetNameOfColumns(CSQL: String);
     procedure GetContent(CSQL: String);
   end;
 
@@ -68,6 +70,38 @@ end;
 function TContentOfTheList.GetCount: integer;
 begin
   Result:=Length(TempArray);
+end;
+
+procedure TContentOfTheList.GetNameOfColumns(CSQL: String);
+var
+  i: integer;
+begin
+  if not Assigned(TempConnect) then
+    TempConnect := TTempAdoQuery.create;
+  if not Assigned(TempQuery) then
+    TempQuery := TADOQuery.create(nil);
+  TempQuery.Connection := TempConnect.GetConnect;
+  TempQuery.Close;
+  TempQuery.SQL.Clear;
+  Try
+    TempQuery.SQL.Add(CSQL);
+  Except
+  On e : EDatabaseError do
+    begin
+      messageDlg(e.message, mtError, [mbOK],0);
+      ShowMessage('Ошибка выполнения запроса!');
+    end;
+  End;
+  TempQuery.Open;
+  if not TempQuery.IsEmpty then
+  begin
+    SetLength(TempArray, TempQuery.FieldCount-2);
+    for i:=2 to  TempQuery.FieldCount-1 do
+    begin
+      TempArray[i-2]:=VarToStr(TempQuery.Fields[i].FieldName);
+    end;
+  end;
+  TempQuery.Close;
 end;
 
 end.

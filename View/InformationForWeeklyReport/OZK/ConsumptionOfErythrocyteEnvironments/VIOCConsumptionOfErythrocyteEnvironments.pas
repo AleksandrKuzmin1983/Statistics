@@ -17,6 +17,9 @@ uses
   UVFBitBtnBlock,
   UVFStringGrid,
   UVFComboBox,
+  MIOCAddRecordConsumption,
+  MIOCDeleteRecordConsumption,
+  MIOCChangeRecordConsumption,
   MIOCConsumptionOfErythrocyteEnvironments;
 
 type
@@ -35,6 +38,9 @@ type
 
     StringGrid: IStringGridTag5;
     ContentForStringGrid: IMIOCConsumptionOfErythrocyteEnvironments;
+    AddRecord: IMIOCAddRecordConsumption;
+    DeleteRecord: IMIOCDeleteRecordConsumption;
+    ChangeRecord: IMIOCChangeRecordConsumption;
 
     EditVolume: IEditTag5;
     EditNumberOfDoses: IEditTag5;
@@ -127,33 +133,20 @@ begin
       Showmessage('Все поля должны быть заполнены!');
       exit;
     End;
-  try
-    if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('INSERT INTO [Брак компонентов и другой расход] (ДАТАЗАГ, ДАТАБР, БЭСВ, БЭСО, БЭСД, БЭСП) VALUES ' +
-        '(#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        '#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ''' +
-        ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' +
-        EditVolume.ReadText + ', ' + EditNumberOfDoses.ReadText + ', ''' +
-        ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex) + ''')');
-        ExecSQL;
-      end;
-    ShowMessage('Запись успешно добавлена!');
+  if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(AddRecord) then
+      AddRecord := TMIOCAddRecordConsumption.create;
+    AddRecord.AddRecord(CancellationDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex),
+      EditVolume.ReadText, EditNumberOfDoses.ReadText, ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex));
     GetStringGrid(CurrentForm);
-    end;
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    ShowMessage('Запись успешно добавлена!');
   end;
-    EditVolume.WriteText('0');
-    EditNumberOfDoses.WriteText('0');
-    ReasonConsumption.WriteItemIndex(-1);
-    ProductList.WriteItemIndex(-1);
-    CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  ReasonConsumption.WriteItemIndex(-1);
+  ProductList.WriteItemIndex(-1);
+  CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
 end;
 
 // Разблокировка кнопок
@@ -179,28 +172,20 @@ end;
 
 procedure TVIOCConsumptionOfErythrocyteEnvironments.ButtonDeleted(Sender: TObject);
 begin
-  try
-    if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('DELETE FROM [Брак компонентов и другой расход] WHERE [Брак компонентов и другой расход].Код=' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
-        ExecSQL;
-      end;
-      ShowMessage('Запись успешно удалена!');
-    end;
+  if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TMIOCDeleteRecordConsumption.create;
+    DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
     GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
+    ShowMessage('Запись успешно удалена!');
   end;
-    EditVolume.WriteText('0');
-    EditNumberOfDoses.WriteText('0');
-    ProductList.WriteItemIndex(-1);
-    ReasonConsumption.WriteItemIndex(-1);
-    CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  ReasonConsumption.WriteItemIndex(-1);
+  CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
 end;
 
 // Внесение изменений
@@ -247,23 +232,14 @@ begin
     ButtonAdd.ChangeEnabled(True);
     ButtonDelete.ChangeEnabled(True);
     StringGrid.Enabled(True);
-  try
-    if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('UPDATE [Брак компонентов и другой расход] SET ' +
-        '[Брак компонентов и другой расход].ДАТАЗАГ = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        '[Брак компонентов и другой расход].ДАТАБР = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        '[Брак компонентов и другой расход].БЭСВ=''' + ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' +
-        '[Брак компонентов и другой расход].БЭСО=' + EditVolume.ReadText + ', ' +
-        '[Брак компонентов и другой расход].БЭСД=' + EditNumberOfDoses.ReadText + ', ' +
-        '[Брак компонентов и другой расход].БЭСП=''' + ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex) + ''' ' +
-        'WHERE [Брак компонентов и другой расход].Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
-        ExecSQL;
-      end;
+  if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(ChangeRecord) then
+      ChangeRecord := TMIOCChangeRecordConsumption.create;
+    ChangeRecord.ChangeRecord(CancellationDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex),
+      EditVolume.ReadText, EditNumberOfDoses.ReadText,
+      ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex), StringGrid.GetValue(0, StringGrid.CurrentRow));
+    GetStringGrid(CurrentForm);
     ShowMessage('Запись успешно изменена!');
     end
     else
@@ -276,16 +252,11 @@ begin
       ButtonEdit.ChangeCaption('Изменить');
       exit;
     end;
-    GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
-  end;
-      EditVolume.WriteText('0');
-      EditNumberOfDoses.WriteText('0');
-      ProductList.WriteItemIndex(-1);
-      ReasonConsumption.WriteItemIndex(-1);
-      CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
+    EditVolume.WriteText('0');
+    EditNumberOfDoses.WriteText('0');
+    ProductList.WriteItemIndex(-1);
+    ReasonConsumption.WriteItemIndex(-1);
+    CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
   end;
   if ButtonEdit.GetCaption='Изменить' then ButtonEdit.ChangeCaption('Сохранить изменения') else ButtonEdit.ChangeCaption('Изменить');
 end;

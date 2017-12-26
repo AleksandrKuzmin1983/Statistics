@@ -14,14 +14,6 @@ type
     function GetName(i: integer): string;
     function GetVolume(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
@@ -47,35 +39,12 @@ type
     function GetName(i: integer): string;
     function GetVolume(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
 implementation
 
 { TTheNumberOfTromboDonations }
-
-procedure TAmountOfUsableErSusp.AddSQL(SQL: string);
-begin
-  TempQuery.SQL.Add(SQL);
-end;
-
-procedure TAmountOfUsableErSusp.Clear;
-begin
-  TempQuery.SQL.Clear;
-end;
-
-procedure TAmountOfUsableErSusp.CloseConnect;
-begin
-  TempQuery.Close;
-end;
 
 procedure TAmountOfUsableErSusp.GetContent;
 var i: integer;
@@ -120,11 +89,6 @@ begin
   TempQuery.Close;
 end;
 
-procedure TAmountOfUsableErSusp.ExecSQL;
-begin
-  TempQuery.ExecSQL;
-end;
-
 function TAmountOfUsableErSusp.GetRowCount: integer;
 begin
   result:=Length(ResultMass);
@@ -133,27 +97,6 @@ end;
 function TAmountOfUsableErSusp.GetVolume(i: integer): string;
 begin
   result := ResultMass[i].Volume;
-end;
-
-procedure TAmountOfUsableErSusp.Insert;
-begin
-  TempQuery.Insert;
-end;
-
-procedure TAmountOfUsableErSusp.OpenConnect;
-begin
-  TempQuery.Open;
-end;
-
-procedure TAmountOfUsableErSusp.post;
-begin
-  TempQuery.Post;
-end;
-
-procedure TAmountOfUsableErSusp.WriteValue(NumberField: integer;
-  Value: Variant);
-begin
-  TempQuery.Fields[NumberField].Value:=Value;
 end;
 
 function TAmountOfUsableErSusp.GetName(i: integer): string ;

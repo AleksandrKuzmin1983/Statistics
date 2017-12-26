@@ -58,6 +58,4 @@ begin
     messageDlg(e.message, mtError, [mbOK],0);
   End;
 end;
-
-
 end.

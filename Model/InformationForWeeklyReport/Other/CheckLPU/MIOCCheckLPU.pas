@@ -13,14 +13,6 @@ type
     function GetDate(i: integer): string;
     function GetCheckLPU(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
@@ -45,36 +37,10 @@ type
     function GetDate(i: integer): string;
     function GetCheckLPU(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
 implementation
-
-{ TTheNumberOfTromboDonations }
-
-procedure TMIOCCheckLPU.AddSQL(SQL: string);
-begin
-  TempQuery.SQL.Add(SQL);
-end;
-
-procedure TMIOCCheckLPU.Clear;
-begin
-  TempQuery.SQL.Clear;
-end;
-
-procedure TMIOCCheckLPU.CloseConnect;
-begin
-  TempQuery.Close;
-end;
 
 procedure TMIOCCheckLPU.GetContent;
 var i: integer;
@@ -118,35 +84,9 @@ begin
   TempQuery.Close;
 end;
 
-procedure TMIOCCheckLPU.ExecSQL;
-begin
-  TempQuery.ExecSQL;
-end;
-
 function TMIOCCheckLPU.GetRowCount: integer;
 begin
   result:=Length(ResultMass);
-end;
-
-procedure TMIOCCheckLPU.Insert;
-begin
-  TempQuery.Insert;
-end;
-
-procedure TMIOCCheckLPU.OpenConnect;
-begin
-  TempQuery.Open;
-end;
-
-procedure TMIOCCheckLPU.post;
-begin
-  TempQuery.Post;
-end;
-
-procedure TMIOCCheckLPU.WriteValue(NumberField: integer;
-  Value: Variant);
-begin
-  TempQuery.Fields[NumberField].Value:=Value;
 end;
 
 function TMIOCCheckLPU.GetCheckLPU(i: integer): string ;

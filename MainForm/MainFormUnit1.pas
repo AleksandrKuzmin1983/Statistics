@@ -23,6 +23,7 @@ uses
   VIOCConsumptionOfTrombo,
   VIOFFlowRateOfWholeBlood,
   VIOOKDK,
+  VHMManualHarvesting,
   UMSMoldCleaning;
 
 type
@@ -78,6 +79,7 @@ type
     procedure ConsumptionTromboClick(Sender: TObject);
     procedure FlowRateWholeBloodClick(Sender: TObject);
     procedure VIO_OKDKClick(Sender: TObject);
+    procedure HandlyHarvestingClick(Sender: TObject);
    private
     NumberOfDonations: IVQNNumberOfDonations;
     BloodProduct: IBloodProduct;
@@ -93,6 +95,7 @@ type
     ConsumptionOfPlazma: IVIOCConsumptionOfPlazma;
     ConsumptionOfTrombo: IVIOCConsumptionOfTrombo;
     FlowRateOfWholeBlood: IVIOFFlowRateOfWholeBlood;
+    ManualHarvesting: IVHMManualHarvesting;
     OKDK: IVIOOKDK;
     CleanForm1: TMSMoldCleaning;
   public
@@ -115,7 +118,6 @@ begin
     CleanForm1.Free;
   CleanForm1 := TMSMoldCleaning.Create(self);
   CleanForm1.Free;
-
   if not Assigned(AdviceToDoctors) then
     AdviceToDoctors:=nil;
   AdviceToDoctors := TAdviceToDoctors.Create(self);
@@ -167,6 +169,18 @@ begin
   if not Assigned(BloodProduct) then
     BloodProduct:=nil;
   BloodProduct := TBloodProduct.Create(self);
+end;
+
+procedure TMyMainForm.HandlyHarvestingClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1.Free;
+  CleanForm1 := TMSMoldCleaning.Create(self);
+  CleanForm1.Free;
+
+  if not Assigned(ManualHarvesting) then
+    ManualHarvesting:=nil;
+  ManualHarvesting := TVHMManualHarvesting.Create(self);
 end;
 
 procedure TMyMainForm.HarvestingBloodComponentsByTypesClick(Sender: TObject);

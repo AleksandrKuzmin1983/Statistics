@@ -14,14 +14,6 @@ type
     function GetTransfuziolog(i: integer): string;
     function GetLaboratoryScientist(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
@@ -47,36 +39,12 @@ type
     function GetTransfuziolog(i: integer): string;
     function GetLaboratoryScientist(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
 implementation
 
 { TTheNumberOfTromboDonations }
-
-procedure TAdviceTDoctors.AddSQL(SQL: string);
-begin
-  TempQuery.SQL.Add(SQL);
-end;
-
-procedure TAdviceTDoctors.Clear;
-begin
-  TempQuery.SQL.Clear;
-end;
-
-procedure TAdviceTDoctors.CloseConnect;
-begin
-  TempQuery.Close;
-end;
 
 procedure TAdviceTDoctors.GetContent;
 var i: integer;
@@ -121,11 +89,6 @@ begin
   TempQuery.Close;
 end;
 
-procedure TAdviceTDoctors.ExecSQL;
-begin
-  TempQuery.ExecSQL;
-end;
-
 function TAdviceTDoctors.GetRowCount: integer;
 begin
   result:=Length(ResultMass);
@@ -134,44 +97,6 @@ end;
 function TAdviceTDoctors.GetLaboratoryScientist(i: integer): string;
 begin
   result := ResultMass[i].LaboratoryScientist;
-end;
-
-procedure TAdviceTDoctors.Insert;
-begin
-  Try
-  TempQuery.Insert;
-  Except
-    ShowMessage('Не могу добавить запись к базу данных (AdviceTDoctors)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
-
-end;
-
-procedure TAdviceTDoctors.OpenConnect;
-begin
-  Try
-  TempQuery.Open;
-  Except
-    ShowMessage('Не могу подключиться к базе данных (AdviceTDoctors)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
-end;
-
-procedure TAdviceTDoctors.post;
-begin
-  Try
-  TempQuery.Post;
-  Except
-    ShowMessage('Не могу сохранить изменения в базе данных (AdviceTDoctors)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
-end;
-
-procedure TAdviceTDoctors.WriteValue(NumberField: integer;
-  Value: Variant);
-begin
-  Try
-  TempQuery.Fields[NumberField].Value:=Value;
-  Except
-    ShowMessage('Не могу записать значение поля (AdviceTDoctors)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
 end;
 
 function TAdviceTDoctors.GetTransfuziolog(i: integer): string ;

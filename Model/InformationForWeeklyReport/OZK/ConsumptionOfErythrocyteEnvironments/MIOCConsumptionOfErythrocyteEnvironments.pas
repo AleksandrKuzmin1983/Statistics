@@ -16,14 +16,6 @@ type
     function GetNumberOfDoses(i: integer): string;
     function GetReasonConsumption(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
@@ -53,35 +45,12 @@ type
     function GetNumberOfDoses(i: integer): string;
     function GetReasonConsumption(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
 implementation
 
 { TTheNumberOfTromboDonations }
-
-procedure TMIOCConsumptionOfErythrocyteEnvironments.AddSQL(SQL: string);
-begin
-  TempQuery.SQL.Add(SQL);
-end;
-
-procedure TMIOCConsumptionOfErythrocyteEnvironments.Clear;
-begin
-  TempQuery.SQL.Clear;
-end;
-
-procedure TMIOCConsumptionOfErythrocyteEnvironments.CloseConnect;
-begin
-  TempQuery.Close;
-end;
 
 procedure TMIOCConsumptionOfErythrocyteEnvironments.GetContent;
 var i: integer;
@@ -133,11 +102,6 @@ begin
   TempQuery.Close;
 end;
 
-procedure TMIOCConsumptionOfErythrocyteEnvironments.ExecSQL;
-begin
-  TempQuery.ExecSQL;
-end;
-
 function TMIOCConsumptionOfErythrocyteEnvironments.GetCancellationDate(i: integer): string;
 begin
   result := ResultMass[i].CancellationDate;
@@ -156,27 +120,6 @@ end;
 function TMIOCConsumptionOfErythrocyteEnvironments.GetReasonConsumption(i: integer): string;
 begin
   result := ResultMass[i].ReasonConsumption;
-end;
-
-procedure TMIOCConsumptionOfErythrocyteEnvironments.Insert;
-begin
-  TempQuery.Insert;
-end;
-
-procedure TMIOCConsumptionOfErythrocyteEnvironments.OpenConnect;
-begin
-  TempQuery.Open;
-end;
-
-procedure TMIOCConsumptionOfErythrocyteEnvironments.post;
-begin
-  TempQuery.Post;
-end;
-
-procedure TMIOCConsumptionOfErythrocyteEnvironments.WriteValue(NumberField: integer;
-  Value: Variant);
-begin
-  TempQuery.Fields[NumberField].Value:=Value;
 end;
 
 function TMIOCConsumptionOfErythrocyteEnvironments.GetTheNameOfTheEnvironment(i: integer): string;

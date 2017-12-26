@@ -48,7 +48,7 @@ begin
     Font.name := 'Times New Roman';
     Font.Style:=[fsbold];
     Alignment := taRightJustify;
-    ÑReadOnly := true;
+    ReadOnly := ÑReadOnly;
     Text := '0';
     Tag := 5;
   end;

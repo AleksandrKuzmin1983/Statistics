@@ -3,7 +3,7 @@ unit UVFComboBox;
 interface
 
 uses
-  Messages, Dialogs, Graphics, StdCtrls, Forms, Classes, Controls, Data.Win.ADODB, Variants,
+  Messages, SysUtils, Dialogs, Graphics, StdCtrls, Forms, Classes, Controls, Data.Win.ADODB, Variants,
   UMSGContentOfTheList;
 
 type
@@ -16,8 +16,9 @@ type
     procedure Clear;
     procedure GetOnChange(ProcedureOnChange: TNotifyEvent);
     procedure GetDROPPEDWIDTH(DWIDTH: Integer);
-    procedure WriteText(Text: String);
     procedure TheContentOfTheList(SQL: String);
+    procedure GetListOfTheNameColumns(SQL: String);
+    procedure WriteText(Text: String);
     procedure WriteItemIndex(i: integer);
   end;
 
@@ -37,6 +38,7 @@ type
     procedure GetOnChange(ProcedureOnChange: TNotifyEvent);
     procedure GetDROPPEDWIDTH(DWIDTH: Integer);
     procedure TheContentOfTheList(SQL: String);
+    procedure GetListOfTheNameColumns(SQL: String);
     procedure WriteText(Text: String);
     procedure WriteItemIndex(i: integer);
   end;
@@ -94,6 +96,20 @@ end;
 function TComboboxTag5.GetItemsValue(i: integer): String;
 begin
   Result:=TempComboBox.Items[i];
+end;
+
+procedure TComboboxTag5.GetListOfTheNameColumns(SQL: String);
+var
+  i: integer;
+begin
+  if not Assigned(ContentOfTheList) then
+    ContentOfTheList := TContentOfTheList.create;
+  ContentOfTheList.GetNameOfColumns(SQL);
+  if ContentOfTheList.GetCount>0 then
+    for i:=1 to ContentOfTheList.GetCount do
+    begin
+      TempComboBox.Items.Add(ContentOfTheList.GetContentOfTheList(i-1));
+    end;
 end;
 
 procedure TComboboxTag5.GetOnChange(ProcedureOnChange: TNotifyEvent);

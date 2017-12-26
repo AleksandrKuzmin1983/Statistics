@@ -20,6 +20,7 @@ type
     procedure ColWidth(NumberCol, Value: integer);
     procedure Visible(Value: boolean);
     procedure AddRowCount;
+    procedure DeleteLastRow(NumberDelRow: integer);
   end;
 
   TStringGridTag5 = class(TInterfacedObject, IStringGridTag5)
@@ -46,6 +47,7 @@ type
     procedure ColWidth(NumberCol, Value: integer);
     procedure Visible(Value: boolean);
     procedure AddRowCount;
+    procedure DeleteLastRow(NumberDelRow: integer);
   end;
 
 implementation
@@ -99,6 +101,18 @@ end;
 function TStringGridTag5.CurrentRow: integer;
 begin
   Result:=TempStringGrid.Row;
+end;
+
+procedure TStringGridTag5.DeleteLastRow(NumberDelRow: integer);
+var
+  i: integer;
+begin
+with TempStringGrid do
+  begin
+    for i:=0 to ColCount-1 do
+      Cells[NumberDelRow, RowCount-1]:='';
+    RowCount:=RowCount-1;
+  end;
 end;
 
 procedure TStringGridTag5.Enabled(i: Boolean);
