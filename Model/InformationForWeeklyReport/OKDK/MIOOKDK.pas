@@ -15,6 +15,7 @@ type
     function GetVolume(i: integer): string;
     function GetRowCount: integer;
     procedure GetContent;
+    procedure destroy;
   end;
 
   TResultRecord=Record
@@ -31,7 +32,7 @@ type
     SQL: String;
     TempConnect: ITempAdoQuery;
     TempQuery: TADOQuery;
-    CheckNull: TCheckNull;
+    CheckNull: ICheckNull;
     ResultMass: array of TResultRecord;
   public
     function GetKod(i: integer): string;
@@ -40,6 +41,7 @@ type
     function GetVolume(i: integer): string;
     function GetRowCount: integer;
     procedure GetContent;
+    procedure destroy;
   end;
 
 implementation
@@ -64,6 +66,16 @@ end;
 function TMIOOKDK.GetVolume(i: integer): string;
 begin
   result := ResultMass[i].Volume;
+end;
+
+procedure TMIOOKDK.destroy;
+begin
+  if Assigned(TempConnect) then
+    TempConnect.destroy;
+  if Assigned(TempQuery) then
+    FreeAndNil(TempQuery);
+  if Assigned(CheckNull) then
+    FreeAndNil(CheckNull);
 end;
 
 procedure TMIOOKDK.GetContent;

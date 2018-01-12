@@ -23,6 +23,7 @@ uses
   VIOCConsumptionOfTrombo,
   VIOFFlowRateOfWholeBlood,
   VIOOKDK,
+  VHMManualHarvesting,
   UMSMoldCleaning;
 
 type
@@ -78,6 +79,7 @@ type
     procedure ConsumptionTromboClick(Sender: TObject);
     procedure FlowRateWholeBloodClick(Sender: TObject);
     procedure VIO_OKDKClick(Sender: TObject);
+    procedure HandlyHarvestingClick(Sender: TObject);
    private
     NumberOfDonations: IVQNNumberOfDonations;
     BloodProduct: IBloodProduct;
@@ -93,8 +95,9 @@ type
     ConsumptionOfPlazma: IVIOCConsumptionOfPlazma;
     ConsumptionOfTrombo: IVIOCConsumptionOfTrombo;
     FlowRateOfWholeBlood: IVIOFFlowRateOfWholeBlood;
+    ManualHarvesting: IVHMManualHarvesting;
     OKDK: IVIOOKDK;
-    CleanForm1: TMSMoldCleaning;
+    CleanForm1: IMSMoldCleaning;
   public
 
     { Public declarations }
@@ -107,14 +110,12 @@ var
 implementation
 
 {$R *.dfm}
-// Запросы/Количество донаций
 
 procedure TMyMainForm.AdviceDoctorsClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(AdviceToDoctors) then
     AdviceToDoctors:=nil;
@@ -124,21 +125,19 @@ end;
 procedure TMyMainForm.AmountUsableErSuspClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(TheAmountOfUsableErSusp) then
-    BloodProduct:=nil;
+    TheAmountOfUsableErSusp:=nil;
   TheAmountOfUsableErSusp := TTheAmountOfUsableErSusp.Create(self);
 end;
 
 procedure TMyMainForm.BCancellationClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(Cancellation) then
     Cancellation:=nil;
@@ -148,9 +147,8 @@ end;
 procedure TMyMainForm.BCheckLPUClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(CheckLPU) then
     CheckLPU:=nil;
@@ -160,21 +158,30 @@ end;
 procedure TMyMainForm.BloodProductionClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(BloodProduct) then
     BloodProduct:=nil;
   BloodProduct := TBloodProduct.Create(self);
 end;
 
+procedure TMyMainForm.HandlyHarvestingClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
+
+  if not Assigned(ManualHarvesting) then
+    ManualHarvesting:=nil;
+  ManualHarvesting := TVHMManualHarvesting.Create(self);
+end;
+
 procedure TMyMainForm.HarvestingBloodComponentsByTypesClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(HarvestingOfBloodComponentsByTypes) then
     HarvestingOfBloodComponentsByTypes:=nil;
@@ -189,11 +196,10 @@ end;
 procedure TMyMainForm.ResultsInKrayClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
-  if not Assigned(HarvestingOfBloodComponentsByTypes) then
+  if not Assigned(TheResultsInKray) then
     TheResultsInKray:=nil;
   TheResultsInKray := TVIETTheResultsInKray.Create(self);
 end;
@@ -201,9 +207,8 @@ end;
 procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(NumberOfDonations) then
     NumberOfDonations:=nil;
@@ -213,9 +218,8 @@ end;
 procedure TMyMainForm.ResultsLPUClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(TheResultsInLPU) then
     TheResultsInLPU:=nil;
@@ -224,14 +228,48 @@ end;
 
 procedure TMyMainForm.VIO_OKDKClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
+ { if not Assigned(CleanForm1) then
     CleanForm1.Free;
   CleanForm1 := TMSMoldCleaning.Create(self);
   CleanForm1.Free;
 
-  if not Assigned(OKDK) then
-    TheResultsInLPU:=nil;
-  OKDK := TVIOOKDK.Create(self);
+  if not Assigned(CleanForm2) then
+    CleanForm2.Free;
+  CleanForm2 := TMSMoldCleaning.Create;
+  CleanForm2.CleanForm(MyMainForm);
+  CleanForm2.Free; }
+//  ShowMessage('Начало процедуры');
+  if  Assigned(OKDK) then
+  begin
+//    ShowMessage('OKDK имеется ... уничтожаем');
+    OKDK.destroy;
+  //  ShowMessage('ПЕРЕМЕННЫЕ OKDK уничтожены');
+    OKDK:=nil;
+ //   ShowMessage('сам OKDK уничтожен');
+  end;
+ // ShowMessage('Переходим к созданию CleanForm1');
+  if not Assigned(CleanForm1) then
+  begin
+ // ShowMessage('CleanForm1 не создан ... создаем');
+    CleanForm1 := TMSMoldCleaning.Create;
+//  ShowMessage('CleanForm1 создан');
+  end;
+  CleanForm1.CleanForm(MyMainForm);
+ // ShowMessage('CleanForm1 метод клинформ выполнен');
+  if Assigned(CleanForm1) then
+  begin
+//  ShowMessage('CleanForm1 имеется ... уничтожаем');
+    CleanForm1:=nil;
+//  ShowMessage('CleanForm1 уничтожен');
+  end;
+  if  not Assigned(OKDK) then
+  begin
+//  ShowMessage('OKDK не создан ... создаем');
+    OKDK := TVIOOKDK.Create;
+//  ShowMessage('OKDK создан');
+  end;
+  OKDK.CreateVar(self);
+ // ShowMessage('ОКДК наполнен');
 end;
 
 procedure TMyMainForm.CloseButtonClick(Sender: TObject);
@@ -242,9 +280,8 @@ end;
 procedure TMyMainForm.ConsumptionErythrocyteEnvironmentsClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(ConsumptionOfErythrocyte) then
     ConsumptionOfErythrocyte := nil;
@@ -254,9 +291,8 @@ end;
 procedure TMyMainForm.ConsumptionPlazmaClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(ConsumptionOfPlazma) then
     ConsumptionOfPlazma := nil;
@@ -266,9 +302,8 @@ end;
 procedure TMyMainForm.ConsumptionTromboClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(ConsumptionOfTrombo) then
     ConsumptionOfTrombo := nil;
@@ -278,9 +313,8 @@ end;
 procedure TMyMainForm.FlowRateWholeBloodClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(FlowRateOfWholeBlood) then
     FlowRateOfWholeBlood := nil;
@@ -300,9 +334,8 @@ end;
 procedure TMyMainForm.ProcurementOfComponentsTotalClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(ProcurementOfTheComponentsTotal) then
     ProcurementOfTheComponentsTotal := nil;

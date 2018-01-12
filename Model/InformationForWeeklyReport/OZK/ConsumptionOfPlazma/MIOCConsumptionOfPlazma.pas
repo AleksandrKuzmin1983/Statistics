@@ -16,14 +16,6 @@ type
     function GetNumberOfDoses(i: integer): string;
     function GetReasonConsumption(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
@@ -53,35 +45,12 @@ type
     function GetNumberOfDoses(i: integer): string;
     function GetReasonConsumption(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
 implementation
 
 { TTheNumberOfTromboDonations }
-
-procedure TMIOCConsumptionOfPlazma.AddSQL(SQL: string);
-begin
-  TempQuery.SQL.Add(SQL);
-end;
-
-procedure TMIOCConsumptionOfPlazma.Clear;
-begin
-  TempQuery.SQL.Clear;
-end;
-
-procedure TMIOCConsumptionOfPlazma.CloseConnect;
-begin
-  TempQuery.Close;
-end;
 
 procedure TMIOCConsumptionOfPlazma.GetContent;
 var i: integer;
@@ -133,11 +102,6 @@ begin
   TempQuery.Close;
 end;
 
-procedure TMIOCConsumptionOfPlazma.ExecSQL;
-begin
-  TempQuery.ExecSQL;
-end;
-
 function TMIOCConsumptionOfPlazma.GetCancellationDate(i: integer): string;
 begin
   result := ResultMass[i].CancellationDate;
@@ -158,27 +122,6 @@ begin
   result := ResultMass[i].ReasonConsumption;
 end;
 
-procedure TMIOCConsumptionOfPlazma.Insert;
-begin
-  TempQuery.Insert;
-end;
-
-procedure TMIOCConsumptionOfPlazma.OpenConnect;
-begin
-  TempQuery.Open;
-end;
-
-procedure TMIOCConsumptionOfPlazma.post;
-begin
-  TempQuery.Post;
-end;
-
-procedure TMIOCConsumptionOfPlazma.WriteValue(NumberField: integer;
-  Value: Variant);
-begin
-  TempQuery.Fields[NumberField].Value:=Value;
-end;
-
 function TMIOCConsumptionOfPlazma.GetTheNameOfTheEnvironment(i: integer): string;
 begin
   result := ResultMass[i].TheNameOfPlazma;
@@ -193,6 +136,4 @@ function TMIOCConsumptionOfPlazma.GetKod(i: integer): string;
 begin
   result := ResultMass[i].Kod;
 end;
-
-
 end.

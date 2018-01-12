@@ -10,6 +10,7 @@ uses
 type
   IMIOCurrentType = interface
     function GetCurrentType(CBoxValue: string): string;
+    procedure destroy;
   end;
 
   TMIOCurrentType = class(TInterfacedObject, IMIOCurrentType)
@@ -19,11 +20,22 @@ type
     CheckNull: ICheckNull;
   public
     function GetCurrentType(CBoxValue: string): string;
+    procedure destroy;
   end;
 
 implementation
 
 { TTheNumberOfBloodDonations }
+
+procedure TMIOCurrentType.destroy;
+begin
+  if Assigned(CheckNull) then
+    CheckNull:=nil;
+  if Assigned(TempQuery) then
+    FreeAndNil(TempQuery);
+  if Assigned(TempConnect) then
+    TempConnect.destroy;
+end;
 
 function TMIOCurrentType.GetCurrentType(CBoxValue: string): string;
 begin

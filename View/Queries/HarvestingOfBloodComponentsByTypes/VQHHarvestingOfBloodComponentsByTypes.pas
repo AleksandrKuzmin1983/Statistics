@@ -3,7 +3,7 @@ unit VQHHarvestingOfBloodComponentsByTypes;
 interface
 
 uses
-  Vcl.Grids, SysUtils, StdCtrls, Buttons,
+  WinProcs, Vcl.Grids, SysUtils, StdCtrls, Buttons,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Vcl.ExtCtrls,
   MQHBloodComponents,
   MQHBloodComponentsPlasma,
@@ -217,6 +217,7 @@ begin
   TempStringGrid.ColWidth(1,90);
   TempStringGrid.ColWidth(2,80);
   TempStringGrid.ColWidth(3,90);
+  TempStringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 1, DT_RIGHT, 2, DT_RIGHT, 3, DT_RIGHT, 5, DT_RIGHT);
 end;
 
 end.

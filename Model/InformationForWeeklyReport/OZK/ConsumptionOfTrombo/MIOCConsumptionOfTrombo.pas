@@ -17,14 +17,6 @@ type
     function GetNumberOfPackets(i: integer): string;
     function GetReasonConsumption(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
@@ -56,35 +48,12 @@ type
     function GetNumberOfPackets(i: integer): string;
     function GetReasonConsumption(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
 implementation
 
 { TTheNumberOfTromboDonations }
-
-procedure TMIOCConsumptionOfTrombo.AddSQL(SQL: string);
-begin
-  TempQuery.SQL.Add(SQL);
-end;
-
-procedure TMIOCConsumptionOfTrombo.Clear;
-begin
-  TempQuery.SQL.Clear;
-end;
-
-procedure TMIOCConsumptionOfTrombo.CloseConnect;
-begin
-  TempQuery.Close;
-end;
 
 procedure TMIOCConsumptionOfTrombo.GetContent;
 var i: integer;
@@ -137,11 +106,6 @@ begin
   TempQuery.Close;
 end;
 
-procedure TMIOCConsumptionOfTrombo.ExecSQL;
-begin
-  TempQuery.ExecSQL;
-end;
-
 function TMIOCConsumptionOfTrombo.GetCancellationDate(i: integer): string;
 begin
   result := ResultMass[i].CancellationDate;
@@ -165,27 +129,6 @@ end;
 function TMIOCConsumptionOfTrombo.GetReasonConsumption(i: integer): string;
 begin
   result := ResultMass[i].ReasonConsumption;
-end;
-
-procedure TMIOCConsumptionOfTrombo.Insert;
-begin
-  TempQuery.Insert;
-end;
-
-procedure TMIOCConsumptionOfTrombo.OpenConnect;
-begin
-  TempQuery.Open;
-end;
-
-procedure TMIOCConsumptionOfTrombo.post;
-begin
-  TempQuery.Post;
-end;
-
-procedure TMIOCConsumptionOfTrombo.WriteValue(NumberField: integer;
-  Value: Variant);
-begin
-  TempQuery.Fields[NumberField].Value:=Value;
 end;
 
 function TMIOCConsumptionOfTrombo.GetTheNameOfTheEnvironment(i: integer): string;

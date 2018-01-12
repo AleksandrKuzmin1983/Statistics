@@ -174,18 +174,18 @@ procedure TVIECCancellation.ButtonDeleted(Sender: TObject);
 begin
   if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
   begin
-  if not Assigned(DeleteRecord) then
-    DeleteRecord := TMIECDeleteRecordCancellation.create;
-  DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
-
-  ShowMessage('Запись успешно удалена!');
-  end;
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TMIECDeleteRecordCancellation.create;
+    DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
     GetStringGrid(CurrentForm);
-    EditVolume.WriteText('0');
-    EditNumberOfDoses.WriteText('0');
-    EditNumberOfPackets.WriteText('0');
-    ProductList.WriteItemIndex(-1);
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
+    ShowMessage('Запись успешно удалена!');
+  end;
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  EditNumberOfPackets.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
 // Внесение изменений
@@ -235,7 +235,8 @@ begin
       ChangeRecord := TMIEChangeRecordCancellation.create;
     ChangeRecord.ChangeRecord(ReportDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex), EditVolume.ReadText,
         EditNumberOfDoses.ReadText, EditNumberOfPackets.ReadText, StringGrid.GetValue(0, StringGrid.CurrentRow));
-      ShowMessage('Запись успешно изменена!');
+    GetStringGrid(CurrentForm);
+    ShowMessage('Запись успешно изменена!');
     end
     else
     begin
@@ -247,7 +248,6 @@ begin
       ButtonEdit.ChangeCaption('Изменить');
       exit;
     end;
-    GetStringGrid(CurrentForm);
     EditVolume.WriteText('0');
     EditNumberOfDoses.WriteText('0');
     EditNumberOfPackets.WriteText('0');

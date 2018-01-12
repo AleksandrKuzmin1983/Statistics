@@ -3,7 +3,7 @@ unit UVFComboBox;
 interface
 
 uses
-  Messages, Dialogs, Graphics, StdCtrls, Forms, Classes, Controls, Data.Win.ADODB, Variants,
+  Messages, SysUtils, Dialogs, Graphics, StdCtrls, Forms, Classes, Controls, Data.Win.ADODB, Variants,
   UMSGContentOfTheList;
 
 type
@@ -16,9 +16,13 @@ type
     procedure Clear;
     procedure GetOnChange(ProcedureOnChange: TNotifyEvent);
     procedure GetDROPPEDWIDTH(DWIDTH: Integer);
-    procedure WriteText(Text: String);
     procedure TheContentOfTheList(SQL: String);
+    procedure GetListOfTheNameColumns(SQL: String);
+    procedure WriteText(Text: String);
     procedure WriteItemIndex(i: integer);
+    procedure Visible(i: boolean);
+    procedure DeleteRecord(i: integer);
+    procedure destroy;
   end;
 
   TComboboxTag5 = class(TInterfacedObject, IComboboxTag5)
@@ -37,8 +41,12 @@ type
     procedure GetOnChange(ProcedureOnChange: TNotifyEvent);
     procedure GetDROPPEDWIDTH(DWIDTH: Integer);
     procedure TheContentOfTheList(SQL: String);
+    procedure GetListOfTheNameColumns(SQL: String);
     procedure WriteText(Text: String);
     procedure WriteItemIndex(i: integer);
+    procedure Visible(i: boolean);
+    procedure DeleteRecord(i: integer);
+    procedure destroy;
   end;
 
 implementation
@@ -48,6 +56,19 @@ implementation
 procedure TComboboxTag5.Clear;
 begin
   TempComboBox.Clear;
+end;
+
+procedure TComboboxTag5.DeleteRecord(i: integer);
+begin
+  TempComboBox.Items.Delete(i);
+end;
+
+procedure TComboboxTag5.destroy;
+begin
+  if Assigned(ContentOfTheList) then
+    ContentOfTheList.destroy;
+  if Assigned(TempComboBox) then
+    FreeAndNil(TempComboBox);
 end;
 
 procedure TComboboxTag5.Enabled(i: Boolean);
@@ -96,6 +117,20 @@ begin
   Result:=TempComboBox.Items[i];
 end;
 
+procedure TComboboxTag5.GetListOfTheNameColumns(SQL: String);
+var
+  i: integer;
+begin
+  if not Assigned(ContentOfTheList) then
+    ContentOfTheList := TContentOfTheList.create;
+  ContentOfTheList.GetNameOfColumns(SQL);
+  if ContentOfTheList.GetCount>0 then
+    for i:=1 to ContentOfTheList.GetCount do
+    begin
+      TempComboBox.Items.Add(ContentOfTheList.GetContentOfTheList(i-1));
+    end;
+end;
+
 procedure TComboboxTag5.GetOnChange(ProcedureOnChange: TNotifyEvent);
 begin
   TempComboBox.OnChange:=ProcedureOnChange;
@@ -113,6 +148,16 @@ begin
     begin
       TempComboBox.Items.Add(ContentOfTheList.GetContentOfTheList(i));
     end;
+  if Assigned(ContentOfTheList) then
+  begin
+    ContentOfTheList.destroy;
+    FreeAndNil(ContentOfTheList);
+  end;
+end;
+
+procedure TComboboxTag5.Visible(i: boolean);
+begin
+  TempComboBox.Visible:=i;
 end;
 
 procedure TComboboxTag5.WidthDropDownList(Sender: TObject);

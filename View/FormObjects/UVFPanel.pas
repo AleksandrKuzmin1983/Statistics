@@ -10,6 +10,7 @@ type
   ITempPanelTag5 = interface
     function GetTempPanel(CLeft, CTop, CHeight, CWidth, CColor: integer;
   CurrentForm: TForm): TPanel;
+    procedure Visible(i: boolean);
   end;
 
 
@@ -19,6 +20,7 @@ type
   public
     function GetTempPanel(CLeft, CTop, CHeight, CWidth, CColor: integer;
   CurrentForm: TForm): TPanel;
+    procedure Visible(i: boolean);
   end;
 
 implementation
@@ -42,6 +44,11 @@ begin
     BevelOuter:=bvNone;
   end;
   result:=TempPanel;
+end;
+
+procedure TTempPanelTag5.Visible(i: boolean);
+begin
+  TempPanel.Visible:=i;
 end;
 
 end.

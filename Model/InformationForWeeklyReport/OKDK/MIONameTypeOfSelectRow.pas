@@ -10,6 +10,7 @@ uses
 type
   IMIONameTypeOfSelectRow = interface
     function GetCurrentNameTypeOfSelectRow(StringBoxValue: string): string;
+    procedure destroy;
   end;
 
   TMIONameTypeOfSelectRow = class(TInterfacedObject, IMIONameTypeOfSelectRow)
@@ -19,11 +20,22 @@ type
     CheckNull: ICheckNull;
   public
     function GetCurrentNameTypeOfSelectRow(StringBoxValue: string): string;
+    procedure destroy;
   end;
 
 implementation
 
 { TTheNumberOfBloodDonations }
+
+procedure TMIONameTypeOfSelectRow.destroy;
+begin
+  if Assigned(TempConnect) then
+    TempConnect.destroy;
+  if Assigned(TempQuery) then
+    FreeAndNil(TempQuery);
+  if Assigned(CheckNull) then
+    CheckNull:=nil;
+end;
 
 function TMIONameTypeOfSelectRow.GetCurrentNameTypeOfSelectRow(StringBoxValue: string): string;
 begin

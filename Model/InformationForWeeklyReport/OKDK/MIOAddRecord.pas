@@ -10,17 +10,17 @@ uses
 type
   IMIOAddRecord = interface
     procedure AddRecord(Date: Extended; CTap: String; Num: String);
+    procedure destroy;
   end;
 
   TMIOAddRecord = class(TInterfacedObject,
     IMIOAddRecord)
   private
-    SQL: String;
     TempConnect: ITempAdoQuery;
     TempQuery: TADOQuery;
-    CheckNull: TCheckNull;
   public
     procedure AddRecord(Date: Extended; CTap: String; Num: String);
+    procedure destroy;
   end;
 
 implementation
@@ -30,11 +30,9 @@ implementation
 procedure TMIOAddRecord.AddRecord(Date: Extended; CTap: String; Num: String);
 begin
   if not Assigned(TempConnect) then
-    TempConnect := TTempAdoQuery.create;
-  if not Assigned(CheckNull) then
-    CheckNull := TCheckNull.create;
+    TempConnect := TTempAdoQuery.create;   //
   if not Assigned(TempQuery) then
-    TempQuery := TADOQuery.create(nil);
+    TempQuery := TADOQuery.create(nil);    //
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
@@ -54,4 +52,12 @@ begin
     messageDlg(e.message, mtError, [mbOK],0);
   End;
 end;
+procedure TMIOAddRecord.destroy;
+begin
+  if Assigned(TempQuery) then
+    FreeAndNil(TempQuery);
+  if Assigned(TempConnect) then
+    TempConnect.destroy;
+end;
+
 end.

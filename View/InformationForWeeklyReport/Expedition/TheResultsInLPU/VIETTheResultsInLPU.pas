@@ -17,6 +17,9 @@ uses
   UVFBitBtnBlock,
   UVFStringGrid,
   UVFComboBox,
+  MIEAddRecordResultsInLPU,
+  MIEDeleteRecordResultsInLPU,
+  MIEChangeRecordResultsInLPU,
   MIETTheResultsInLPU;
 
 type
@@ -37,6 +40,9 @@ type
 
     StringGrid: IStringGridTag5;
     ContentForStringGrid: IMIETTheResultsInLPU;
+    AddRecord: IMIEAddRecordResultsInLPU;
+    DeleteRecord: IMIEDeleteRecordResultsInLPU;
+    ChangeRecord: IMIEChangeRecordResultsInLPU;
 
     EditVolume: IEditTag5;
     EditNumberOfDoses: IEditTag5;
@@ -141,35 +147,22 @@ begin
       Showmessage('Все поля должны быть заполнены!');
       exit;
     End;
-  try
-    if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('INSERT INTO Exped (ДАТАЛЗ, НС, ВЛЗ, ЛЗО, ЛЗД, ЛЗПР, ЛЗПАК) VALUES ' +
-        '(#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) + '#, ''' +
-        ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ''' +
-        TypeLPUList.GetItemsValue(TypeLPUList.GetItemIndex) + ''', ' +
-        EditVolume.ReadText + ', ' + EditNumberOfDoses.ReadText + ', ' +
-        EditPercentage.ReadText + ', ' + EditNumberOfPackets.ReadText + ')');
-        ExecSQL;
-      end;
+  if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(AddRecord) then
+      AddRecord := TMIEAddRecordResultsInLPU.create;
+    AddRecord.AddRecord(ReportDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex), TypeLPUList.GetItemsValue(TypeLPUList.GetItemIndex),
+      EditVolume.ReadText, EditNumberOfDoses.ReadText, EditPercentage.ReadText, EditNumberOfPackets.ReadText);
     ShowMessage('Запись успешно добавлена!');
     GetStringGrid(CurrentForm);
-    end;
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
   end;
-    EditVolume.WriteText('0');
-    EditNumberOfDoses.WriteText('0');
-    EditPercentage.WriteText('0');
-    EditNumberOfPackets.WriteText('0');
-    ProductList.WriteItemIndex(-1);
-    TypeLPUList.WriteItemIndex(-1);
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  EditPercentage.WriteText('0');
+  EditNumberOfPackets.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  TypeLPUList.WriteItemIndex(-1);
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
 // Разблокировка кнопок
@@ -195,30 +188,22 @@ end;
 
 procedure TVIETTheResultsInLPU.ButtonDeleted(Sender: TObject);
 begin
-  try
-    if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('DELETE FROM Exped WHERE Exped.Код=' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
-        ExecSQL;
-      end;
-      ShowMessage('Запись успешно удалена!');
-    end;
+  if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TMIEDeleteRecordResultsInLPU.create;
+    DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
     GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
+    ShowMessage('Запись успешно удалена!');
   end;
-    EditVolume.WriteText('0');
-    EditNumberOfDoses.WriteText('0');
-    EditPercentage.WriteText('0');
-    EditNumberOfPackets.WriteText('0');
-    ProductList.WriteItemIndex(-1);
-    TypeLPUList.WriteItemIndex(-1);
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  EditPercentage.WriteText('0');
+  EditNumberOfPackets.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  TypeLPUList.WriteItemIndex(-1);
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
 // Внесение изменений
@@ -268,23 +253,13 @@ begin
     ButtonAdd.ChangeEnabled(True);
     ButtonDelete.ChangeEnabled(True);
     StringGrid.Enabled(True);
-  try
-    if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('UPDATE Exped SET Exped.ДАТАЛЗ = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) + '#, ' +
-        'Exped.НС =''' + ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' +
-        'Exped.ВЛЗ=''' + TypeLPUList.GetItemsValue(TypeLPUList.GetItemIndex) + ''', ' +
-        'Exped.ЛЗО=' + EditVolume.ReadText + ', ' +
-        'Exped.ЛЗД=' + EditNumberOfDoses.ReadText + ', ' +
-        'Exped.ЛЗПР=' + EditPercentage.ReadText + ', ' +
-        'Exped.ЛЗПАК=' + EditNumberOfPackets.ReadText + ' ' +
-        'WHERE Exped.Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
-        ExecSQL;
-      end;
+  if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(ChangeRecord) then
+      ChangeRecord := TMIEChangeRecordResultsInLPU.create;
+    ChangeRecord.ChangeRecord(ReportDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex), TypeLPUList.GetItemsValue(TypeLPUList.GetItemIndex),
+      EditVolume.ReadText, EditNumberOfDoses.ReadText, EditPercentage.ReadText, EditNumberOfPackets.ReadText, StringGrid.GetValue(0, StringGrid.CurrentRow));
+    GetStringGrid(CurrentForm);
     ShowMessage('Запись успешно изменена!');
     end
     else
@@ -299,18 +274,13 @@ begin
       ButtonEdit.ChangeCaption('Изменить');
       exit;
     end;
-    GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
-  end;
-      EditVolume.WriteText('0');
-      EditNumberOfDoses.WriteText('0');
-      EditPercentage.WriteText('0');
-      EditNumberOfPackets.WriteText('0');
-      ProductList.WriteItemIndex(-1);
-      TypeLPUList.WriteItemIndex(-1);
-      ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+    EditVolume.WriteText('0');
+    EditNumberOfDoses.WriteText('0');
+    EditPercentage.WriteText('0');
+    EditNumberOfPackets.WriteText('0');
+    ProductList.WriteItemIndex(-1);
+    TypeLPUList.WriteItemIndex(-1);
+    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
   end;
   if ButtonEdit.GetCaption='Изменить' then ButtonEdit.ChangeCaption('Сохранить изменения') else ButtonEdit.ChangeCaption('Изменить');
 end;

@@ -27,6 +27,8 @@ uses
 
 type
   IVIOOKDK = interface
+    procedure CreateVar(form: TForm);
+    procedure destroy;
   end;
 
   TVIOOKDK = class(TInterfacedObject, IVIOOKDK)
@@ -54,7 +56,7 @@ type
     NameTapsList: IComboboxTag5;
 
     ReportDateCal: IDTPickerTag5;
-    CheckFillStrFields: TCheckFillStringFields;
+    CheckFillStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
 
     ButtonAdd: IBitBtnAddTag5;
@@ -89,14 +91,16 @@ type
 
     procedure OnChangeListOfType(Sender: TObject);
   public
-    constructor create(form: TForm);
+    procedure CreateVar(form: TForm);
+    procedure destroy;
+ //   constructor create(form: TForm);
   end;
 
 implementation
 
 { TBloodProduct }
 
-constructor TVIOOKDK.create(form: TForm);
+{constructor TVIOOKDK.create(form: TForm);
 begin
   CurrentForm:=Form;
 
@@ -113,12 +117,157 @@ begin
   GetEditVolume(form);
 
   GetTypeOfTapList(form);
+
   GetNameTapsList(form);
 
   GetButtonEdit(form);
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+end;   }
+
+procedure TVIOOKDK.CreateVar(form: TForm);
+begin
+  CurrentForm:=Form;
+
+  GetLabelReportDate(form);
+  GetLabelTypeOfTap(form);
+  GetLabelNameTap(form);
+  GetLabelVolume(form);
+  GetLabelTitle(form);
+
+  GetStringGrid(form);
+
+  GetCalendarReportDateCal(form);
+
+  GetEditVolume(form);
+
+  GetTypeOfTapList(form);
+
+  GetNameTapsList(form);
+
+  GetButtonEdit(form);
+  GetButtonAdd(form);
+  GetButtonDelete(form);
+  GetButtonBlock(form);
+end;
+
+procedure TVIOOKDK.destroy;
+begin
+  if Assigned(TypeOfTapList) then
+  begin
+    TypeOfTapList.destroy;
+   FreeAndNil(TypeOfTapList);
+//     TypeOfTapList:=nil;
+  end;
+  if Assigned(ContentForStringGrid) then
+  begin
+    ContentForStringGrid.destroy; FreeAndNil(ContentForStringGrid);
+//    ContentForStringGrid:=nil;
+  end;
+  if Assigned(NameTapsList) then
+  begin
+   NameTapsList.destroy; FreeAndNil(NameTapsList);
+  //   NameTapsList:=nil;
+  end;
+  if Assigned(CurrentTypeOfTap) then
+  begin
+ //   CurrentTypeOfTap.destroy; FreeAndNil(CurrentTypeOfTap);
+    CurrentTypeOfTap:=nil;
+  end;
+  if Assigned(CurrentTypeOfSelectRow) then
+  begin
+ //   CurrentTypeOfSelectRow.destroy; FreeAndNil(CurrentTypeOfSelectRow);
+    CurrentTypeOfSelectRow:=nil;
+  end;
+  if Assigned(CurrentNameTypeOfSelectRow) then
+  begin
+ //   CurrentNameTypeOfSelectRow.destroy; FreeAndNil(CurrentNameTypeOfSelectRow);
+    CurrentNameTypeOfSelectRow:=nil;
+  end;
+  if Assigned(AddRecord) then
+  begin
+  //  AddRecord.destroy; FreeAndNil(AddRecord);
+    AddRecord:=nil;
+  end;
+  if Assigned(DeleteRecord) then
+  begin
+  //  DeleteRecord.destroy; FreeAndNil(DeleteRecord);
+    DeleteRecord:=nil;
+  end;
+  if Assigned(ChangeRecord) then
+  begin
+   // ChangeRecord.destroy; FreeAndNil(ChangeRecord);
+    ChangeRecord:=nil;
+  end;
+  if Assigned(LabelReportDate) then
+  begin
+  //  LabelReportDate.destroy; FreeAndNil(LabelReportDate);
+    LabelReportDate:=nil;
+  end;
+  if Assigned(LabelTypeOfTap) then
+  begin
+   // LabelTypeOfTap.destroy; FreeAndNil(LabelTypeOfTap);
+    LabelTypeOfTap:=nil;
+  end;
+  if Assigned(LabelNameTap) then
+  begin
+ //   LabelNameTap.destroy; FreeAndNil(LabelNameTap);
+    LabelNameTap:=nil;
+  end;
+  if Assigned(LabelVolume) then
+  begin
+   // LabelVolume.destroy; FreeAndNil(LabelVolume);
+    LabelVolume:=nil;
+  end;
+  if Assigned(Title) then
+  begin
+   // Title.destroy; FreeAndNil(Title);
+    Title:=nil;
+  end;
+  if Assigned(StringGrid) then
+  begin
+   // StringGrid.destroy; FreeAndNil(StringGrid);
+    StringGrid:=nil;
+  end;
+  if Assigned(EditVolume) then
+  begin
+   // EditVolume.destroy; FreeAndNil(EditVolume);
+    EditVolume:=nil;
+  end;
+  if Assigned(ReportDateCal) then
+  begin
+  //  ReportDateCal.destroy; FreeAndNil(ReportDateCal);
+    ReportDateCal:=nil;
+  end;
+  if Assigned(CheckFillStrFields) then
+  begin
+    CheckFillStrFields:=nil;
+  end;
+  if Assigned(BlockMainMenu) then
+  begin
+    BlockMainMenu:=nil;
+  end;
+  if Assigned(ButtonBlock) then
+  begin
+   // ButtonBlock.destroy; FreeAndNil(ButtonBlock);
+    ButtonBlock:=nil;
+  end;
+  if Assigned(ButtonAdd) then
+  begin
+   // ButtonAdd.destroy; FreeAndNil(ButtonAdd);
+   ButtonAdd:=nil;
+  end;
+  if Assigned(ButtonDelete) then
+  begin
+   // ButtonDelete.destroy; FreeAndNil(ButtonDelete);
+   ButtonDelete:=nil;
+  end;
+  if Assigned(ButtonEdit) then
+  begin
+   // ButtonEdit.destroy; FreeAndNil(ButtonEdit);
+    ButtonEdit:=nil;
+  end;
 end;
 
 //Button
@@ -128,7 +277,7 @@ end;
 procedure TVIOOKDK.ButtonAdded(Sender: TObject);
 begin
   if not Assigned(CheckFillStrFields) then
-    CheckFillStrFields := TCheckFillStringFields.create;
+    CheckFillStrFields := TCheckFillStringFields.create;  //
   EditVolume.WriteText(CheckFillStrFields.CheckStringFields(EditVolume.ReadText));
   if EditVolume.ReadText='0' then
     begin
@@ -143,16 +292,18 @@ begin
   if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
     begin
       if not Assigned(AddRecord) then
-        AddRecord := TMIOAddRecord.create;
+        AddRecord := TMIOAddRecord.create;     //
       AddRecord.AddRecord(ReportDateCal.GetDate, NameTapsList.GetItemsValue(NameTapsList.GetItemIndex), EditVolume.ReadText);
       ShowMessage('Запись успешно добавлена!');
       GetStringGrid(CurrentForm);
-      ShowMessage('(добавление) наполнение прошло!');
     end;
   EditVolume.WriteText('0');
   TypeOfTapList.WriteItemIndex(-1);
   NameTapsList.Clear;
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  FreeAndNil(CheckFillStrFields);        //
+  AddRecord.destroy;
+  FreeAndNil(AddRecord);                 //
 end;
 
 // Разблокировка кнопок
@@ -181,15 +332,21 @@ begin
   if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
   begin
     if not Assigned(DeleteRecord) then
-      DeleteRecord := TMIODeleteRecord.create;
+      DeleteRecord := TMIODeleteRecord.create;    //
     DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
+    GetStringGrid(CurrentForm);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
     ShowMessage('Запись успешно удалена!');
   end;
-  GetStringGrid(CurrentForm);
   EditVolume.WriteText('0');
   TypeOfTapList.WriteItemIndex(-1);
   NameTapsList.Clear;
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  if Assigned(DeleteRecord) then       //
+  begin
+    DeleteRecord.destroy;
+    FreeAndNil(DeleteRecord);
+  end;
 end;
 
 // Внесение изменений
@@ -200,9 +357,9 @@ var
   i: integer;
 begin
   if not Assigned(CheckFillStrFields) then
-    CheckFillStrFields := TCheckFillStringFields.create;
+    CheckFillStrFields := TCheckFillStringFields.create;   //
   if not Assigned(BlockMainMenu) then
-    BlockMainMenu := TBlockMainMenu.create;
+    BlockMainMenu := TBlockMainMenu.create;     //
   if ButtonEdit.GetCaption='Изменить' then
   begin
     BlockMainMenu.BlockMainMenu(False, CurrentForm);
@@ -213,16 +370,23 @@ begin
 
     ReportDateCal.WriteDateTime(StrToDate(StringGrid.GetValue(1, StringGrid.CurrentRow)));
 
-    if Assigned(CurrentTypeOfSelectRow) then
-      CurrentTypeOfSelectRow:=nil;
-    if not Assigned(CurrentTypeOfSelectRow) then
+    if not Assigned(CurrentTypeOfSelectRow) then     //
       CurrentTypeOfSelectRow := TMIOTypeOfSelectRow.create;
     TempVAR:=CurrentTypeOfSelectRow.GetCurrentTypeOfSelectRow(VarToStr(StringGrid.GetValue(2, StringGrid.CurrentRow)));
-    if Assigned(CurrentTypeOfSelectRow) then
-      CurrentTypeOfSelectRow:=nil;
-    if not Assigned(CurrentNameTypeOfSelectRow) then
+    if Assigned(CurrentTypeOfSelectRow) then     //
+    begin
+      CurrentTypeOfSelectRow.destroy;
+      FreeAndNil(CurrentTypeOfSelectRow);
+    end;
+
+    if not Assigned(CurrentNameTypeOfSelectRow) then    //
       CurrentNameTypeOfSelectRow := TMIONameTypeOfSelectRow.create;
     TempVAR:=CurrentNameTypeOfSelectRow.GetCurrentNameTypeOfSelectRow(TempVAR);
+    if Assigned(CurrentTypeOfSelectRow) then        //
+    begin
+      CurrentTypeOfSelectRow.destroy;
+      FreeAndNil(CurrentTypeOfSelectRow);
+    end;
     for i:=0 to TypeOfTapList.GetItemsCount-1 do
       if TempVAR=TypeOfTapList.GetItemsValue(i) then
       begin
@@ -234,7 +398,6 @@ begin
     for i:=0 to NameTapsList.GetItemsCount-1 do
       if VarToStr(StringGrid.GetValue(2, StringGrid.CurrentRow))=NameTapsList.GetItemsValue(i) then  NameTapsList.WriteItemIndex(i);
     if NameTapsList.GetItemIndex=-1 then ShowMessage('Наименование данной записи задано не верно!' + chr(13) + 'Обратитесь к администратору!');
-
     EditVolume.WriteText(VarToStr(StringGrid.GetValue(3, StringGrid.CurrentRow)));
   end;
 
@@ -285,6 +448,13 @@ begin
       ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
   end;
   if ButtonEdit.GetCaption='Изменить' then ButtonEdit.ChangeCaption('Сохранить изменения') else ButtonEdit.ChangeCaption('Изменить');
+  FreeAndNil(CheckFillStrFields);        //
+  FreeAndNil(BlockMainMenu);                 //
+  if Assigned(CurrentTypeOfSelectRow) then       //
+  begin
+    ChangeRecord.destroy;
+    FreeAndNil(ChangeRecord);
+  end;
 end;
 
 // Создание кнопок
@@ -393,10 +563,6 @@ procedure TVIOOKDK.OnChangeListOfType(Sender: TObject);
 Var
   TempVAR: String;
 begin
-//  TypeOfTapList.Enabled(False);
-  if Assigned(CurrentTypeOfTap) then
-    CurrentTypeOfTap:=nil;
-//  TypeOfTapList.Enabled(False);
   if not Assigned(CurrentTypeOfTap) then
     CurrentTypeOfTap := TMIOCurrentType.create;
   TypeOfTapList.Enabled(False);
@@ -412,6 +578,11 @@ begin
     5: NameTapsList.WriteItemIndex(0);
   end;
   TypeOfTapList.Enabled(True);
+  if Assigned(CurrentTypeOfTap) then
+  begin
+    CurrentTypeOfTap.destroy;
+    FreeAndNil(CurrentTypeOfTap);
+  end;
 end;
 
 function TVIOOKDK.GetNameTapsList(NameForm: TForm): TComboBox;
@@ -432,8 +603,8 @@ begin
   i:=0; j:=0;
   if not Assigned(StringGrid) then
     StringGrid := TStringGridTag5.create;
-  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 3, DT_CENTER, 5, DT_RIGHT, 6, DT_RIGHT, 7, DT_RIGHT);
   Result:=StringGrid.GetStringGrid(40, 330, 820, 190, 4, 2, 11, NameForm);
+  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 3, DT_CENTER, 5, DT_RIGHT, 6, DT_RIGHT, 7, DT_RIGHT);
   StringGrid.NumberOfFixedCol(0);
   StringGrid.Visible(true);
   StringGrid.ColWidth(0,40);
@@ -457,6 +628,11 @@ begin
         StringGrid.WriteCells(3, i+1, ContentForStringGrid.GetVolume(j));
         j:=j+1;
       end;
+  if not Assigned(ContentForStringGrid) then
+  begin
+    ContentForStringGrid.destroy;
+    FreeAndNil(ContentForStringGrid);
+  end;
 end;
 
 end.

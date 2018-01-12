@@ -3,11 +3,12 @@ unit GetAdoQuery;
 interface
 
 uses
-  Data.Win.ADODB;
+  SysUtils, Data.Win.ADODB;
 
 type
   ITempAdoQuery = interface
     function GetConnect: TADOConnection;
+    procedure destroy;
   end;
 
   TTempAdoQuery = class(TADOQuery, ITempAdoQuery)
@@ -16,6 +17,7 @@ type
   public
     constructor create;
     function GetConnect: TADOConnection;
+    procedure destroy;
   end;
 
 implementation
@@ -31,6 +33,12 @@ begin
     'Data Source=..\AccesBase\Stat_rab_ver.accdb;Persist Security Info=False';  }
   Connect.LoginPrompt := False;
   Connect.KeepConnection := False;
+end;
+
+procedure TTempAdoQuery.destroy;
+begin
+  if Assigned(Connect) then
+    FreeAndNil(Connect);
 end;
 
 function TTempAdoQuery.GetConnect: TADOConnection;
