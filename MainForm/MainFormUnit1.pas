@@ -23,7 +23,9 @@ uses
   VIOCConsumptionOfTrombo,
   VIOFFlowRateOfWholeBlood,
   VIOOKDK,
-  UMSMoldCleaning;
+  VHMManualHarvesting,
+  UMSMoldCleaning,
+  UMSGlobalVariant;
 
 type
   TMyMainForm = class(TForm)
@@ -78,23 +80,26 @@ type
     procedure ConsumptionTromboClick(Sender: TObject);
     procedure FlowRateWholeBloodClick(Sender: TObject);
     procedure VIO_OKDKClick(Sender: TObject);
+    procedure HandlyHarvestingClick(Sender: TObject);
    private
-    NumberOfDonations: IVQNNumberOfDonations;
-    BloodProduct: IBloodProduct;
-    ProcurementOfTheComponentsTotal: IProcurementOfTheComponentsTotal;
-    HarvestingOfBloodComponentsByTypes: IHarvestingOfBloodComponentsByTypes;
-    TheAmountOfUsableErSusp: ITheAmountOfUsableErSusp;
-    AdviceToDoctors: IAdviceToDoctors;
-    CheckLPU: IVIOCCheckLPU;
+//    NumberOfDonations: IVQNNumberOfDonations;
+//    BloodProduct: IBloodProduct;
+//    ProcurementOfTheComponentsTotal: IProcurementOfTheComponentsTotal;
+//    HarvestingOfBloodComponentsByTypes: IHarvestingOfBloodComponentsByTypes;
+//    TheAmountOfUsableErSusp: ITheAmountOfUsableErSusp;
+//    AdviceToDoctors: IAdviceToDoctors;
+//    CheckLPU: IVIOCCheckLPU;
     TheResultsInLPU: IVIETTheResultsInLPU;
     TheResultsInKray: IVIETTheResultsInKray;
     Cancellation: IVIECCancellation;
-    ConsumptionOfErythrocyte: IVIOCConsumptionOfErythrocyteEnvironments;
-    ConsumptionOfPlazma: IVIOCConsumptionOfPlazma;
-    ConsumptionOfTrombo: IVIOCConsumptionOfTrombo;
-    FlowRateOfWholeBlood: IVIOFFlowRateOfWholeBlood;
-    OKDK: IVIOOKDK;
-    CleanForm1: TMSMoldCleaning;
+//    ConsumptionOfErythrocyte: IVIOCConsumptionOfErythrocyteEnvironments;
+//    ConsumptionOfPlazma: IVIOCConsumptionOfPlazma;
+//    ConsumptionOfTrombo: IVIOCConsumptionOfTrombo;
+//    FlowRateOfWholeBlood: IVIOFFlowRateOfWholeBlood;
+    ManualHarvesting: IVHMManualHarvesting;
+  //  OKDK: IVIOOKDK;
+    CleanForm1: IMSMoldCleaning;
+    GlobalVariant: TGlobalVariant;
   public
 
     { Public declarations }
@@ -107,38 +112,26 @@ var
 implementation
 
 {$R *.dfm}
-// Запросы/Количество донаций
 
 procedure TMyMainForm.AdviceDoctorsClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
-
-  if not Assigned(AdviceToDoctors) then
-    AdviceToDoctors:=nil;
-  AdviceToDoctors := TAdviceToDoctors.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TAdviceToDoctors.Create(self);
 end;
 
 procedure TMyMainForm.AmountUsableErSuspClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
-
-  if not Assigned(TheAmountOfUsableErSusp) then
-    BloodProduct:=nil;
-  TheAmountOfUsableErSusp := TTheAmountOfUsableErSusp.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TTheAmountOfUsableErSusp.Create(self);
 end;
 
 procedure TMyMainForm.BCancellationClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(Cancellation) then
     Cancellation:=nil;
@@ -147,38 +140,41 @@ end;
 
 procedure TMyMainForm.BCheckLPUClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
-
-  if not Assigned(CheckLPU) then
-    CheckLPU:=nil;
-  CheckLPU := TVIOCCheckLPU.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVIOCCheckLPU.Create(self);
 end;
 
 procedure TMyMainForm.BloodProductionClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TBloodProduct.Create(self);
+end;
 
-  if not Assigned(BloodProduct) then
-    BloodProduct:=nil;
-  BloodProduct := TBloodProduct.Create(self);
+procedure TMyMainForm.HandlyHarvestingClick(Sender: TObject);
+begin
+  if not Assigned(CleanForm1) then
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
+
+  if not Assigned(ManualHarvesting) then
+    ManualHarvesting:=nil;
+  ManualHarvesting := TVHMManualHarvesting.Create(self);
 end;
 
 procedure TMyMainForm.HarvestingBloodComponentsByTypesClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+{  if not Assigned(CleanForm1) then
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(HarvestingOfBloodComponentsByTypes) then
     HarvestingOfBloodComponentsByTypes:=nil;
-  HarvestingOfBloodComponentsByTypes := THarvestingOfBloodComponentsByTypes.Create(self);
+  HarvestingOfBloodComponentsByTypes := THarvestingOfBloodComponentsByTypes.Create(self);}
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant:=THarvestingOfBloodComponentsByTypes.create(self);
 end;
 
 procedure TMyMainForm.Help1Click(Sender: TObject);
@@ -189,33 +185,26 @@ end;
 procedure TMyMainForm.ResultsInKrayClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
-  if not Assigned(HarvestingOfBloodComponentsByTypes) then
+  if not Assigned(TheResultsInKray) then
     TheResultsInKray:=nil;
   TheResultsInKray := TVIETTheResultsInKray.Create(self);
 end;
 
 procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
-
-  if not Assigned(NumberOfDonations) then
-    NumberOfDonations:=nil;
-  NumberOfDonations := TNumberOfDonations.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant:=TNumberOfDonations.create(self);
 end;
 
 procedure TMyMainForm.ResultsLPUClick(Sender: TObject);
 begin
   if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
+    CleanForm1 := TMSMoldCleaning.Create;
+  CleanForm1.CleanForm(self);
 
   if not Assigned(TheResultsInLPU) then
     TheResultsInLPU:=nil;
@@ -224,67 +213,44 @@ end;
 
 procedure TMyMainForm.VIO_OKDKClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
-
-  if not Assigned(OKDK) then
-    TheResultsInLPU:=nil;
-  OKDK := TVIOOKDK.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant:=TVIOOKDK.create(self);
 end;
 
 procedure TMyMainForm.CloseButtonClick(Sender: TObject);
 begin
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
   Close;
 end;
 
 procedure TMyMainForm.ConsumptionErythrocyteEnvironmentsClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
-
-  if not Assigned(ConsumptionOfErythrocyte) then
-    ConsumptionOfErythrocyte := nil;
-  ConsumptionOfErythrocyte := TVIOCConsumptionOfErythrocyteEnvironments.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVIOCConsumptionOfErythrocyteEnvironments.Create(self);
 end;
 
 procedure TMyMainForm.ConsumptionPlazmaClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
-
-  if not Assigned(ConsumptionOfPlazma) then
-    ConsumptionOfPlazma := nil;
-  ConsumptionOfPlazma := TVIOCConsumptionOfPlazma.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVIOCConsumptionOfPlazma.Create(self);
 end;
 
 procedure TMyMainForm.ConsumptionTromboClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
-
-  if not Assigned(ConsumptionOfTrombo) then
-    ConsumptionOfTrombo := nil;
-  ConsumptionOfTrombo := TVIOCConsumptionOfTrombo.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVIOCConsumptionOfTrombo.Create(self);
 end;
 
 procedure TMyMainForm.FlowRateWholeBloodClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
-
-  if not Assigned(FlowRateOfWholeBlood) then
-    FlowRateOfWholeBlood := nil;
-  FlowRateOfWholeBlood := TVIOFFlowRateOfWholeBlood.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVIOFFlowRateOfWholeBlood.Create(self);
 end;
 
 procedure TMyMainForm.FormCreate(Sender: TObject);
@@ -299,14 +265,9 @@ end;
 
 procedure TMyMainForm.ProcurementOfComponentsTotalClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1.Free;
-  CleanForm1 := TMSMoldCleaning.Create(self);
-  CleanForm1.Free;
-
-  if not Assigned(ProcurementOfTheComponentsTotal) then
-    ProcurementOfTheComponentsTotal := nil;
-  ProcurementOfTheComponentsTotal := TProcurementOfTheComponentsTotal.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant:=TProcurementOfTheComponentsTotal.create(self);
 end;
 
 end.

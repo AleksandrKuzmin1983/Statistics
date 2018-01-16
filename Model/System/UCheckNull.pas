@@ -3,7 +3,7 @@ unit UCheckNull;
 interface
 
 uses
-  Variants;
+  SysUtils, Variants;
 
 type
   ICheckNull = interface
@@ -28,5 +28,4 @@ begin
     IncomingValue := CheckValue;
   result := IncomingValue;
 end;
-
 end.

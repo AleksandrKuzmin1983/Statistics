@@ -14,13 +14,14 @@ uses
   UVFTitleLabel,
   UVFEdit,
   UVFDateTimePicker,
-  UVFBitBtn;
+  UVFBitBtn,
+  UMSGlobalVariant;
 
 type
   IBloodProduct = interface
   end;
 
-  TBloodProduct = class(TInterfacedObject, IBloodProduct)
+  TBloodProduct = class(TGlobalVariant)
   private
     StartDate: ITempLabelTag5;
     EndDate: ITempLabelTag5;
@@ -62,7 +63,8 @@ type
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
   public
-    constructor create(form: TForm);
+    constructor create(form: TForm);  override;
+    destructor destroy;  override;
   end;
 
 implementation
@@ -138,7 +140,31 @@ begin
   GetEdit5(form);
 
   GetButtonAction(form);
+  inherited;
+end;
 
+destructor TBloodProduct.destroy;
+begin
+  StartDate.destroy;
+  EndDate.destroy;
+  NameStat1.destroy;
+  NameStat2.destroy;
+  NameStat3.destroy;
+  NameStat4.destroy;
+  NameStat5.destroy;
+
+  Title.destroy;
+
+  ResultEdit1.destroy;
+  ResultEdit2.destroy;
+  ResultEdit3.destroy;
+  ResultEdit4.destroy;
+  ResultEdit5.destroy;
+  StartDateCal.destroy;
+
+  EndDateCal.destroy;
+  ButtonAction.destroy;
+  inherited;
 end;
 
 function TBloodProduct.GetEdit1(NameForm: TForm): TEdit;
@@ -185,10 +211,14 @@ end;
 
 function TBloodProduct.GetCalendarStartDate(NameForm: TForm)
   : TDateTimePicker;
+var
+  CYear, CMonth: Word;
 begin
+  if MonthOf(Now)=1 then CMonth:=12 else CMonth:=MonthOf(Now) - 1;
+  if CMonth=12 then CYear:=YearOf(Now)-1 else CYear:=YearOf(Now);
   if not Assigned(StartDateCal) then
     StartDateCal:=TDTPickerTag5.Create;
-  result:=StartDateCal.GetDTPicker(250, 80, EncodeDate(YearOf(Now), MonthOf(Now) - 1, 1), NameForm);
+  result:=StartDateCal.GetDTPicker(250, 80, EncodeDate(CYear, CMonth, 1), NameForm);
 end;
 
 function TBloodProduct.GetCalendarEndDate(NameForm: TForm): TDateTimePicker;

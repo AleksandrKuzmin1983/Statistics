@@ -25,6 +25,7 @@ object MyMainForm: TMyMainForm
       object HandlyHarvesting: TMenuItem
         Caption = '"'#1056#1091#1095#1085#1072#1103'" '#1079#1072#1075#1086#1090#1086#1074#1082#1072
         ShortCut = 16465
+        OnClick = HandlyHarvestingClick
       end
       object AutoAferez: TMenuItem
         Caption = #1040#1074#1090#1086#1084#1072#1090#1080#1095#1077#1089#1082#1080#1081' '#1072#1092#1077#1088#1077#1079

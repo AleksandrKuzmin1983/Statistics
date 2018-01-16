@@ -18,14 +18,6 @@ type
     function GetPercentage(i: integer): string;
     function GetNumberOfPackets(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
@@ -59,35 +51,12 @@ type
     function GetPercentage(i: integer): string;
     function GetNumberOfPackets(i: integer): string;
     function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
     procedure GetContent;
   end;
 
 implementation
 
 { TTheNumberOfTromboDonations }
-
-procedure TMIETTheResultsInLPU.AddSQL(SQL: string);
-begin
-  TempQuery.SQL.Add(SQL);
-end;
-
-procedure TMIETTheResultsInLPU.Clear;
-begin
-  TempQuery.SQL.Clear;
-end;
-
-procedure TMIETTheResultsInLPU.CloseConnect;
-begin
-  TempQuery.Close;
-end;
 
 procedure TMIETTheResultsInLPU.GetContent;
 var i: integer;
@@ -137,11 +106,6 @@ begin
   TempQuery.Close;
 end;
 
-procedure TMIETTheResultsInLPU.ExecSQL;
-begin
-  TempQuery.ExecSQL;
-end;
-
 function TMIETTheResultsInLPU.GetReportDate(i: integer): string;
 begin
   result := ResultMass[i].ReportDate;
@@ -165,44 +129,6 @@ end;
 function TMIETTheResultsInLPU.GetPercentage(i: integer): string;
 begin
   result := ResultMass[i].Percentage;
-end;
-
-procedure TMIETTheResultsInLPU.Insert;
-begin
-  Try
-  TempQuery.Insert;
-  Except
-    ShowMessage('Не могу добавить запись к базу данных (MIETTheResultsInLPU)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
-
-end;
-
-procedure TMIETTheResultsInLPU.OpenConnect;
-begin
-  Try
-  TempQuery.Open;
-  Except
-    ShowMessage('Не могу подключиться к базе данных (MIETTheResultsInLPU)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
-end;
-
-procedure TMIETTheResultsInLPU.post;
-begin
-  Try
-  TempQuery.Post;
-  Except
-    ShowMessage('Не могу сохранить изменения в базе данных (MIETTheResultsInLPU)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
-end;
-
-procedure TMIETTheResultsInLPU.WriteValue(NumberField: integer;
-  Value: Variant);
-begin
-  Try
-  TempQuery.Fields[NumberField].Value:=Value;
-  Except
-    ShowMessage('Не могу записать значение поля (MIETTheResultsInLPU)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
 end;
 
 function TMIETTheResultsInLPU.GetTheNameOfTheEnvironment(i: integer): string;

@@ -23,44 +23,43 @@ uses
   MIOAddRecord,
   MIODeleteRecord,
   MIOChangeRecord,
-  MIOOKDK;
+  MIOOKDK,
+  UMSGlobalVariant;
 
 type
-  IVIOOKDK = interface
-  end;
 
-  TVIOOKDK = class(TInterfacedObject, IVIOOKDK)
+  TVIOOKDK = class(TGlobalVariant)
   private
     CurrentTypeOfTap: IMIOCurrentType;
     CurrentTypeOfSelectRow: IMIOTypeOfSelectRow;
     CurrentNameTypeOfSelectRow: IMIONameTypeOfSelectRow;
 
-    LabelReportDate: ITempLabelTag5;
-    LabelTypeOfTap: ITempLabelTag5;
-    LabelNameTap: ITempLabelTag5;
-    LabelVolume: ITempLabelTag5;
+    LabelReportDate: TTempLabelTag5;
+    LabelTypeOfTap: TTempLabelTag5;
+    LabelNameTap: TTempLabelTag5;
+    LabelVolume: TTempLabelTag5;
     Title: ITitleLabelTag5;
     SQL: String;
 
-    StringGrid: IStringGridTag5;
+    StringGrid: TStringGridTag5;
     ContentForStringGrid: IMIOOKDK;
     AddRecord: IMIOAddRecord;
     DeleteRecord: IMIODeleteRecord;
     ChangeRecord: IMIOChangeRecord;
 
-    EditVolume: IEditTag5;
+    EditVolume: TEditTag5;
 
-    TypeOfTapList: IComboboxTag5;
-    NameTapsList: IComboboxTag5;
+    TypeOfTapList: TComboboxTag5;
+    NameTapsList: TComboboxTag5;
 
-    ReportDateCal: IDTPickerTag5;
-    CheckFillStrFields: TCheckFillStringFields;
+    ReportDateCal: TDTPickerTag5;
+    CheckFillStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
 
-    ButtonAdd: IBitBtnAddTag5;
-    ButtonDelete: IBitBtnDeleteTag5;
-    ButtonEdit: IBitBtnEditTag5;
-    ButtonBlock: IBitBtnBlockTag5;
+    ButtonAdd: TBitBtnAddTag5;
+    ButtonDelete: TBitBtnDeleteTag5;
+    ButtonEdit: TBitBtnEditTag5;
+    ButtonBlock: TBitBtnBlockTag5;
     CurrentForm: TForm;
     function GetLabelReportDate(NameForm: TForm): TLabel;
     function GetLabelTypeOfTap(NameForm: TForm): TLabel;
@@ -89,12 +88,14 @@ type
 
     procedure OnChangeListOfType(Sender: TObject);
   public
-    constructor create(form: TForm);
+    constructor create(form: TForm); override;
+    destructor destroy; override;
   end;
+
 
 implementation
 
-{ TBloodProduct }
+{ VIOOKDK }
 
 constructor TVIOOKDK.create(form: TForm);
 begin
@@ -113,12 +114,37 @@ begin
   GetEditVolume(form);
 
   GetTypeOfTapList(form);
+
   GetNameTapsList(form);
 
   GetButtonEdit(form);
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  inherited;
+end;
+
+destructor TVIOOKDK.destroy;
+begin
+  LabelReportDate.destroy;
+  LabelTypeOfTap.destroy;
+  LabelNameTap.destroy;
+  LabelVolume.destroy;
+  Title.destroy;
+
+  StringGrid.destroy;
+  ReportDateCal.destroy;
+
+  EditVolume.destroy;
+
+  TypeOfTapList.destroy;
+  NameTapsList.destroy;
+
+  ButtonEdit.destroy;
+  ButtonAdd.destroy;
+  ButtonDelete.destroy;
+  ButtonBlock.destroy;
+  inherited;
 end;
 
 //Button
@@ -147,7 +173,6 @@ begin
       AddRecord.AddRecord(ReportDateCal.GetDate, NameTapsList.GetItemsValue(NameTapsList.GetItemIndex), EditVolume.ReadText);
       ShowMessage('Запись успешно добавлена!');
       GetStringGrid(CurrentForm);
-      ShowMessage('(добавление) наполнение прошло!');
     end;
   EditVolume.WriteText('0');
   TypeOfTapList.WriteItemIndex(-1);
@@ -181,15 +206,21 @@ begin
   if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
   begin
     if not Assigned(DeleteRecord) then
-      DeleteRecord := TMIODeleteRecord.create;
+      DeleteRecord := TMIODeleteRecord.create;    //1
     DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
+    GetStringGrid(CurrentForm);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
     ShowMessage('Запись успешно удалена!');
   end;
-  GetStringGrid(CurrentForm);
   EditVolume.WriteText('0');
   TypeOfTapList.WriteItemIndex(-1);
   NameTapsList.Clear;
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  if Assigned(DeleteRecord) then       //1
+  begin
+    DeleteRecord.destroy;
+    DeleteRecord:=nil;
+  end;
 end;
 
 // Внесение изменений
@@ -213,13 +244,10 @@ begin
 
     ReportDateCal.WriteDateTime(StrToDate(StringGrid.GetValue(1, StringGrid.CurrentRow)));
 
-    if Assigned(CurrentTypeOfSelectRow) then
-      CurrentTypeOfSelectRow:=nil;
     if not Assigned(CurrentTypeOfSelectRow) then
       CurrentTypeOfSelectRow := TMIOTypeOfSelectRow.create;
     TempVAR:=CurrentTypeOfSelectRow.GetCurrentTypeOfSelectRow(VarToStr(StringGrid.GetValue(2, StringGrid.CurrentRow)));
-    if Assigned(CurrentTypeOfSelectRow) then
-      CurrentTypeOfSelectRow:=nil;
+
     if not Assigned(CurrentNameTypeOfSelectRow) then
       CurrentNameTypeOfSelectRow := TMIONameTypeOfSelectRow.create;
     TempVAR:=CurrentNameTypeOfSelectRow.GetCurrentNameTypeOfSelectRow(TempVAR);
@@ -234,7 +262,6 @@ begin
     for i:=0 to NameTapsList.GetItemsCount-1 do
       if VarToStr(StringGrid.GetValue(2, StringGrid.CurrentRow))=NameTapsList.GetItemsValue(i) then  NameTapsList.WriteItemIndex(i);
     if NameTapsList.GetItemIndex=-1 then ShowMessage('Наименование данной записи задано не верно!' + chr(13) + 'Обратитесь к администратору!');
-
     EditVolume.WriteText(VarToStr(StringGrid.GetValue(3, StringGrid.CurrentRow)));
   end;
 
@@ -262,7 +289,6 @@ begin
       if not Assigned(ChangeRecord) then
         ChangeRecord := TMIOChangeRecord.create;
       ChangeRecord.ChangeRecord(ReportDateCal.GetDate, NameTapsList.GetItemsValue(NameTapsList.GetItemIndex), EditVolume.ReadText, StringGrid.GetValue(0, StringGrid.CurrentRow));
-      ShowMessage('Запись успешно изменена!');
     end
     else
     begin
@@ -381,7 +407,7 @@ function TVIOOKDK.GetTypeOfTapList(NameForm: TForm): TComboBox;
 begin
   if not Assigned(TypeOfTapList) then
     TypeOfTapList := TComboboxTag5.create;
-  result := TypeOfTapList.GetComboBox(245, 115, 340, 14, NameForm);
+  result := TypeOfTapList.GetComboBox('TypeOfTapList', 245, 115, 340, 14, NameForm);
   SQL:='SELECT TypesOfTaps.Type ' +
   'FROM TypesOfTaps ' +
   'ORDER BY TypesOfTaps.Type DESC;';
@@ -393,10 +419,6 @@ procedure TVIOOKDK.OnChangeListOfType(Sender: TObject);
 Var
   TempVAR: String;
 begin
-//  TypeOfTapList.Enabled(False);
-  if Assigned(CurrentTypeOfTap) then
-    CurrentTypeOfTap:=nil;
-//  TypeOfTapList.Enabled(False);
   if not Assigned(CurrentTypeOfTap) then
     CurrentTypeOfTap := TMIOCurrentType.create;
   TypeOfTapList.Enabled(False);
@@ -412,13 +434,15 @@ begin
     5: NameTapsList.WriteItemIndex(0);
   end;
   TypeOfTapList.Enabled(True);
+  CurrentTypeOfTap.destroy;
+  CurrentTypeOfTap:=nil;
 end;
 
 function TVIOOKDK.GetNameTapsList(NameForm: TForm): TComboBox;
 begin
   if not Assigned(NameTapsList) then
     NameTapsList := TComboboxTag5.create;
-  result := NameTapsList.GetComboBox(400, 150, 185, 14, NameForm);
+  result := NameTapsList.GetComboBox('NameTapsList', 400, 150, 185, 14, NameForm);
   NameTapsList.GetDROPPEDWIDTH(220);
 end;
 
@@ -432,8 +456,8 @@ begin
   i:=0; j:=0;
   if not Assigned(StringGrid) then
     StringGrid := TStringGridTag5.create;
-  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 3, DT_CENTER, 5, DT_RIGHT, 6, DT_RIGHT, 7, DT_RIGHT);
   Result:=StringGrid.GetStringGrid(40, 330, 820, 190, 4, 2, 11, NameForm);
+  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 3, DT_CENTER, 5, DT_RIGHT, 6, DT_RIGHT, 7, DT_RIGHT);
   StringGrid.NumberOfFixedCol(0);
   StringGrid.Visible(true);
   StringGrid.ColWidth(0,40);

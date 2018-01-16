@@ -3,7 +3,7 @@ unit VQNNumberOfDonations;
 interface
 
 uses
-  SysUtils, StdCtrls, Buttons,
+  SysUtils, StdCtrls, Buttons, Variants,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs,
   MQNTheNumberOfBloodDonations,
   MQNTheNumberOfPlasmaDonations,
@@ -12,47 +12,31 @@ uses
   UVFTitleLabel,
   UVFEdit,
   UVFDateTimePicker,
-  UVFBitBtn;
+  UVFBitBtn,
+  UMSGlobalVariant;
 
 type
   IVQNNumberOfDonations = interface
-    function GetLabelStartDate(NameForm: TForm): TLabel;
-    function GetLabelEndDate(NameForm: TForm): TLabel;
-    function GetLabelNameStat1(NameForm: TForm): TLabel;
-    function GetLabelNameStat2(NameForm: TForm): TLabel;
-    function GetLabelNameStat3(NameForm: TForm): TLabel;
-
-    function GetLabelTitle(NameForm: TForm): TLabel;
-
-    function GetEdit1(NameForm: TForm): TEdit;
-    function GetEdit2(NameForm: TForm): TEdit;
-    function GetEdit3(NameForm: TForm): TEdit;
-
-    function GetCalendarStartDate(NameForm: TForm): TDateTimePicker;
-    function GetCalendarEndDate(NameForm: TForm): TDateTimePicker;
-
-    function GetButtonAction(NameForm: TForm): TBitBtn;
-    procedure ButtonAct(Sender: TObject);
   end;
 
-  TNumberOfDonations = class(TInterfacedObject, IVQNNumberOfDonations)
+  TNumberOfDonations = class(TGlobalVariant)
   private
-    StartDate: ITempLabelTag5;
-    EndDate: ITempLabelTag5;
-    NameStat1: ITempLabelTag5;
-    NameStat2: ITempLabelTag5;
-    NameStat3: ITempLabelTag5;
+    StartDate: TTempLabelTag5;
+    EndDate: TTempLabelTag5;
+    NameStat1: TTempLabelTag5;
+    NameStat2: TTempLabelTag5;
+    NameStat3: TTempLabelTag5;
 
-    Title: ITitleLabelTag5;
+    Title: TTitleLabelTag5;
 
-    ResultEdit1: IEditTag5;
-    ResultEdit2: IEditTag5;
-    ResultEdit3: IEditTag5;
+    ResultEdit1: TEditTag5;
+    ResultEdit2: TEditTag5;
+    ResultEdit3: TEditTag5;
 
-    StartDateCal: IDTPickerTag5;
-    EndDateCal: IDTPickerTag5;
+    StartDateCal: TDTPickerTag5;
+    EndDateCal: TDTPickerTag5;
 
-    ButtonAction: IBitBtnTag5;
+    ButtonAction: TBitBtnTag5;
 
     CurrentForm: TForm;
 
@@ -77,12 +61,57 @@ type
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
   public
-    constructor create(form: TForm);
+    constructor create(form: TForm); override;
+    destructor destroy; override;
   end;
 
 implementation
 
 { TNumberOfDonations }
+
+constructor TNumberOfDonations.create(form: TForm);
+begin
+  CurrentForm := form;
+
+  GetLabelStartDate(CurrentForm);
+  GetLabelEndDate(CurrentForm);
+  GetLabelNameStat1(CurrentForm);
+  GetLabelNameStat2(CurrentForm);
+  GetLabelNameStat3(CurrentForm);
+
+  GetLabelTitle(CurrentForm);
+
+  GetCalendarStartDate(CurrentForm);
+  GetCalendarEndDate(CurrentForm);
+
+  GetEdit1(CurrentForm);
+  GetEdit2(CurrentForm);
+  GetEdit3(CurrentForm);
+
+  GetButtonAction(CurrentForm);
+  inherited;
+end;
+
+destructor TNumberOfDonations.destroy;
+begin
+  StartDate.destroy;
+  EndDate.destroy;
+  NameStat1.destroy;
+  NameStat2.destroy;
+  NameStat3.destroy;
+
+  Title.destroy;
+
+  ResultEdit1.destroy;
+  ResultEdit2.destroy;
+  ResultEdit3.destroy;
+
+  StartDateCal.destroy;
+  EndDateCal.destroy;
+
+  ButtonAction.destroy;
+  inherited;
+end;
 
 procedure TNumberOfDonations.ButtonAct(Sender: TObject);
 begin
@@ -115,28 +144,6 @@ begin
   end;
 end;
 
-constructor TNumberOfDonations.create(form: TForm);
-begin
-  CurrentForm := form;
-
-  GetLabelStartDate(CurrentForm);
-  GetLabelEndDate(CurrentForm);
-  GetLabelNameStat1(CurrentForm);
-  GetLabelNameStat2(CurrentForm);
-  GetLabelNameStat3(CurrentForm);
-
-  GetLabelTitle(CurrentForm);
-
-  GetCalendarStartDate(CurrentForm);
-  GetCalendarEndDate(CurrentForm);
-
-  GetEdit1(CurrentForm);
-  GetEdit2(CurrentForm);
-  GetEdit3(CurrentForm);
-
-  GetButtonAction(CurrentForm);
-end;
-
 function TNumberOfDonations.GetEdit1(NameForm: TForm): TEdit;
 begin
   if not Assigned(ResultEdit1) then
@@ -167,10 +174,14 @@ end;
 
 function TNumberOfDonations.GetCalendarStartDate(NameForm: TForm)
   : TDateTimePicker;
+var
+  CYear, CMonth: Word;
 begin
+  if MonthOf(Now)=1 then CMonth:=12 else CMonth:=MonthOf(Now) - 1;
+  if CMonth=12 then CYear:=YearOf(Now)-1 else CYear:=YearOf(Now);
   if not Assigned(StartDateCal) then
     StartDateCal:=TDTPickerTag5.Create;
-  result:=StartDateCal.GetDTPicker(250, 80, EncodeDate(YearOf(Now), MonthOf(Now) - 1, 1), NameForm);
+  result:=StartDateCal.GetDTPicker(250, 80, EncodeDate(CYear, CMonth, 1), NameForm);
 end;
 
 function TNumberOfDonations.GetCalendarEndDate(NameForm: TForm)

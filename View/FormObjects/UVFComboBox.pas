@@ -3,12 +3,12 @@ unit UVFComboBox;
 interface
 
 uses
-  Messages, Dialogs, Graphics, StdCtrls, Forms, Classes, Controls, Data.Win.ADODB, Variants,
+  Messages, SysUtils, Dialogs, Graphics, StdCtrls, Forms, Classes, Controls, Data.Win.ADODB, Variants,
   UMSGContentOfTheList;
 
 type
   IComboboxTag5 = interface
-    function GetComboBox(Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TComboBox;
+    function GetComboBox(CName: String; Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TComboBox;
     function GetItemsCount: integer;
     function GetItemIndex: integer;
     function GetItemsValue(i: integer): String;
@@ -16,9 +16,13 @@ type
     procedure Clear;
     procedure GetOnChange(ProcedureOnChange: TNotifyEvent);
     procedure GetDROPPEDWIDTH(DWIDTH: Integer);
-    procedure WriteText(Text: String);
     procedure TheContentOfTheList(SQL: String);
+    procedure GetListOfTheNameColumns(SQL: String);
+    procedure WriteText(Text: String);
     procedure WriteItemIndex(i: integer);
+    procedure Visible(i: boolean);
+    procedure DeleteRecord(i: integer);
+    procedure destroy;
   end;
 
   TComboboxTag5 = class(TInterfacedObject, IComboboxTag5)
@@ -28,7 +32,7 @@ type
     DROPPEDWIDTH: Integer;
     procedure WidthDropDownList(Sender: TObject);
   public
-    function GetComboBox(Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TComboBox;
+    function GetComboBox(CName: String; Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TComboBox;
     function GetItemsCount: integer;
     function GetItemIndex: integer;
     function GetItemsValue(i: integer): String;
@@ -37,8 +41,12 @@ type
     procedure GetOnChange(ProcedureOnChange: TNotifyEvent);
     procedure GetDROPPEDWIDTH(DWIDTH: Integer);
     procedure TheContentOfTheList(SQL: String);
+    procedure GetListOfTheNameColumns(SQL: String);
     procedure WriteText(Text: String);
     procedure WriteItemIndex(i: integer);
+    procedure Visible(i: boolean);
+    procedure DeleteRecord(i: integer);
+    procedure destroy;
   end;
 
 implementation
@@ -50,12 +58,24 @@ begin
   TempComboBox.Clear;
 end;
 
+procedure TComboboxTag5.DeleteRecord(i: integer);
+begin
+  TempComboBox.Items.Delete(i);
+end;
+
+procedure TComboboxTag5.destroy;
+begin
+  ContentOfTheList:=nil;
+  if Assigned(TempComboBox) then
+    FreeAndNil(TempComboBox);
+end;
+
 procedure TComboboxTag5.Enabled(i: Boolean);
 begin
   TempComboBox.Enabled:=i;
 end;
 
-function TComboboxTag5.GetComboBox(Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TComboBox;
+function TComboboxTag5.GetComboBox(CName: String; Cleft, Ñtop, CWidth, FontSize: integer; CurrentForm: TForm): TComboBox;
 begin
   if not Assigned(TempComboBox) then
     TempComboBox := TComboBox.create(CurrentForm);
@@ -71,6 +91,7 @@ begin
     Font.name := 'Times New Roman';
     Style:=csOwnerDrawFixed;
     Tag := 5;
+    Name:=CName;
   end;
   result := TempComboBox;
 end;
@@ -96,6 +117,20 @@ begin
   Result:=TempComboBox.Items[i];
 end;
 
+procedure TComboboxTag5.GetListOfTheNameColumns(SQL: String);
+var
+  i: integer;
+begin
+  if not Assigned(ContentOfTheList) then
+    ContentOfTheList := TContentOfTheList.create;
+  ContentOfTheList.GetNameOfColumns(SQL);
+  if ContentOfTheList.GetCount>0 then
+    for i:=1 to ContentOfTheList.GetCount do
+    begin
+      TempComboBox.Items.Add(ContentOfTheList.GetContentOfTheList(i-1));
+    end;
+end;
+
 procedure TComboboxTag5.GetOnChange(ProcedureOnChange: TNotifyEvent);
 begin
   TempComboBox.OnChange:=ProcedureOnChange;
@@ -113,6 +148,13 @@ begin
     begin
       TempComboBox.Items.Add(ContentOfTheList.GetContentOfTheList(i));
     end;
+//    ContentOfTheList.destroy;
+//    ContentOfTheList:=nil;
+end;
+
+procedure TComboboxTag5.Visible(i: boolean);
+begin
+  TempComboBox.Visible:=i;
 end;
 
 procedure TComboboxTag5.WidthDropDownList(Sender: TObject);

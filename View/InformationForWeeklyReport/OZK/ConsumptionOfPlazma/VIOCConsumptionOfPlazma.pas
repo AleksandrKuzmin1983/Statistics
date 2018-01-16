@@ -17,39 +17,47 @@ uses
   UVFBitBtnBlock,
   UVFStringGrid,
   UVFComboBox,
-  MIOCConsumptionOfPlazma;
+  MIOCAddRecordConsumptionOfPlazma,
+  MIOCDeleteRecordConsumptionOfPlazma,
+  MIOCChangeRecordConsumptionOfPlazma,
+  MIOCConsumptionOfPlazma,
+  UMSGlobalVariant;
 
 type
   IVIOCConsumptionOfPlazma = interface
   end;
 
-  TVIOCConsumptionOfPlazma = class(TInterfacedObject, IVIOCConsumptionOfPlazma)
+  TVIOCConsumptionOfPlazma = class(TGlobalVariant)
   private
-    LabelCancellationDate: ITempLabelTag5;
-    LabelTheNameOfPlazma: ITempLabelTag5;
-    LabelVolume: ITempLabelTag5;
-    LabelNumberOfDoses: ITempLabelTag5;
-    LabelReasonConsumption: ITempLabelTag5;
-    Title: ITitleLabelTag5;
+    LabelCancellationDate: TTempLabelTag5;
+    LabelTheNameOfPlazma: TTempLabelTag5;
+    LabelVolume: TTempLabelTag5;
+    LabelNumberOfDoses: TTempLabelTag5;
+    LabelReasonConsumption: TTempLabelTag5;
+    Title: TTitleLabelTag5;
     SQL: String;
 
-    StringGrid: IStringGridTag5;
+    StringGrid: TStringGridTag5;
     ContentForStringGrid: IMIOCConsumptionOfPlazma;
+    AddRecord: IMIOCAddRecordConsumptionOfPlazma;
+    DeleteRecord: IMIOCDeleteRecordConsumptionOfPlazma;
+    ChangeRecord: IMIOCChangeRecordConsumptionOfPlazma;
 
-    EditVolume: IEditTag5;
-    EditNumberOfDoses: IEditTag5;
 
-    ProductList: IComboboxTag5;
-    ReasonConsumption: IComboboxTag5;
+    EditVolume: TEditTag5;
+    EditNumberOfDoses: TEditTag5;
 
-    CancellationDateCal: IDTPickerTag5;
+    ProductList: TComboboxTag5;
+    ReasonConsumption: TComboboxTag5;
+
+    CancellationDateCal: TDTPickerTag5;
     CheckFillStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
 
-    ButtonAdd: IBitBtnAddTag5;
-    ButtonDelete: IBitBtnDeleteTag5;
-    ButtonEdit: IBitBtnEditTag5;
-    ButtonBlock: IBitBtnBlockTag5;
+    ButtonAdd: TBitBtnAddTag5;
+    ButtonDelete: TBitBtnDeleteTag5;
+    ButtonEdit: TBitBtnEditTag5;
+    ButtonBlock: TBitBtnBlockTag5;
     CurrentForm: TForm;
     function GetLabelReportDate(NameForm: TForm): TLabel;
     function GetLabelTheNameOfPlazma(NameForm: TForm): TLabel;
@@ -78,6 +86,7 @@ type
     procedure ButtonBlocked(Sender: TObject);
   public
     constructor create(form: TForm);
+    destructor destroy;  override;
   end;
 
 implementation
@@ -109,6 +118,33 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  inherited;
+end;
+
+destructor TVIOCConsumptionOfPlazma.destroy;
+begin
+    LabelCancellationDate.destroy;
+    LabelTheNameOfPlazma.destroy;
+    LabelVolume.destroy;
+    LabelNumberOfDoses.destroy;
+    LabelReasonConsumption.destroy;
+    Title.destroy;
+
+    StringGrid.destroy;
+
+    EditVolume.destroy;
+    EditNumberOfDoses.destroy;
+
+    ProductList.destroy;
+    ReasonConsumption.destroy;
+
+    CancellationDateCal.destroy;
+
+    ButtonAdd.destroy;
+    ButtonDelete.destroy;
+    ButtonEdit.destroy;
+    ButtonBlock.destroy;
+  inherited;
 end;
 
 //Button
@@ -127,27 +163,14 @@ begin
       Showmessage('Все поля должны быть заполнены!');
       exit;
     End;
-  try
-    if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('INSERT INTO [Брак компонентов и другой расход] (ДАТАЗАГ, ДАТАБР, БПВ, БПО, БПД, БПП) VALUES ' +
-        '(#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        '#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ''' +
-        ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' +
-        EditVolume.ReadText + ', ' + EditNumberOfDoses.ReadText + ', ''' +
-        ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex) + ''')');
-        ExecSQL;
-      end;
-    ShowMessage('Запись успешно добавлена!');
+  if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(AddRecord) then
+      AddRecord := TMIOCAddRecordConsumptionOfPlazma.create;
+    AddRecord.AddRecord(CancellationDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex),
+      EditVolume.ReadText, EditNumberOfDoses.ReadText, ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex));
     GetStringGrid(CurrentForm);
-    end;
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    ShowMessage('Запись успешно добавлена!');
   end;
     EditVolume.WriteText('0');
     EditNumberOfDoses.WriteText('0');
@@ -179,22 +202,14 @@ end;
 
 procedure TVIOCConsumptionOfPlazma.ButtonDeleted(Sender: TObject);
 begin
-  try
-    if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('DELETE FROM [Брак компонентов и другой расход] WHERE [Брак компонентов и другой расход].Код=' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
-        ExecSQL;
-      end;
-      ShowMessage('Запись успешно удалена!');
-    end;
+  if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TMIOCDeleteRecordConsumptionOfPlazma.Create;
+    DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
     GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
+    ShowMessage('Запись успешно удалена!');
   end;
     EditVolume.WriteText('0');
     EditNumberOfDoses.WriteText('0');
@@ -247,23 +262,14 @@ begin
     ButtonAdd.ChangeEnabled(True);
     ButtonDelete.ChangeEnabled(True);
     StringGrid.Enabled(True);
-  try
-    if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('UPDATE [Брак компонентов и другой расход] SET ' +
-        '[Брак компонентов и другой расход].ДАТАЗАГ = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        '[Брак компонентов и другой расход].ДАТАБР = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        '[Брак компонентов и другой расход].БПВ=''' + ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' +
-        '[Брак компонентов и другой расход].БПО=' + EditVolume.ReadText + ', ' +
-        '[Брак компонентов и другой расход].БПД=' + EditNumberOfDoses.ReadText + ', ' +
-        '[Брак компонентов и другой расход].БПП=''' + ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex) + ''' ' +
-        'WHERE [Брак компонентов и другой расход].Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
-        ExecSQL;
-      end;
+  if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(ChangeRecord) then
+      ChangeRecord := TMIOCChangeRecordConsumptionOfPlazma.create;
+    ChangeRecord.ChangeRecord(CancellationDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex),
+      EditVolume.ReadText, EditNumberOfDoses.ReadText,
+      ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex), StringGrid.GetValue(0, StringGrid.CurrentRow));
+    GetStringGrid(CurrentForm);
     ShowMessage('Запись успешно изменена!');
     end
     else
@@ -275,11 +281,6 @@ begin
       CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
       ButtonEdit.ChangeCaption('Изменить');
       exit;
-    end;
-    GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
   end;
       EditVolume.WriteText('0');
       EditNumberOfDoses.WriteText('0');
@@ -400,7 +401,7 @@ function TVIOCConsumptionOfPlazma.GetProductList(NameForm: TForm): TComboBox;
 begin
   if not Assigned(ProductList) then
     ProductList := TComboboxTag5.create;
-  result := ProductList.GetComboBox(285, 120, 300, 14, NameForm);
+  result := ProductList.GetComboBox('ProductList', 285, 120, 300, 14, NameForm);
   SQL:='SELECT NameProducts.ShortName, NameProducts.id ' +
   'FROM NameProducts ' +
   'WHERE (((NameProducts.TypeProduct)="Плазма") AND ((NameProducts.Visible)=True));';
@@ -411,7 +412,7 @@ function TVIOCConsumptionOfPlazma.GetReasonConsumption(NameForm: TForm): TComboB
 begin
   if not Assigned(ReasonConsumption) then
     ReasonConsumption := TComboboxTag5.create;
-  result := ReasonConsumption.GetComboBox(285, 240, 300, 14, NameForm);
+  result := ReasonConsumption.GetComboBox('ReasonConsumption', 285, 240, 300, 14, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
   'WHERE (((TypeOfDefects.Plasma)=True)) ' +

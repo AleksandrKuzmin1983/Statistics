@@ -17,34 +17,41 @@ uses
   UVFBitBtnEdit,
   UVFBitBtnBlock,
   UVFStringGrid,
-  MIOATheAmountOfUsableErSusp;
+  MIOAAddRecordResultsAmountOfUsableErSusp,
+  MIOADeleteRecordResultsAmountOfUsableErSusp,
+  MIOAChangeRecordResultsAmountOfUsableErSusp,
+  MIOATheAmountOfUsableErSusp,
+  UMSGlobalVariant;
 
 type
   ITheAmountOfUsableErSusp = interface
   end;
 
-  TTheAmountOfUsableErSusp = class(TInterfacedObject, ITheAmountOfUsableErSusp)
+  TTheAmountOfUsableErSusp = class(TGlobalVariant)
   private
-    LabelReportDate: ITempLabelTag5;
-    LabelProductList: ITempLabelTag5;
-    LabelVolume: ITempLabelTag5;
-    Title: ITitleLabelTag5;
+    LabelReportDate: TTempLabelTag5;
+    LabelProductList: TTempLabelTag5;
+    LabelVolume: TTempLabelTag5;
+    Title: TTitleLabelTag5;
     SQL: String;
 
-    StringGrid: IStringGridTag5;
+    StringGrid: TStringGridTag5;
     ContentForStringGrid: IAmountOfUsableErSusp;
+    AddRecord: IMIOAAddRecordResultsAmountOfUsableErSusp;
+    DeleteRecord: IMIOADeleteRecordResultsAmountOfUsableErSusp;
+    ChangeRecord: IMIOAChangeRecordResultsAmountOfUsableErSusp;
 
-    EditVolume: IEditTag5;
-    ProductList: IComboboxTag5;
+    EditVolume: TEditTag5;
+    ProductList: TComboboxTag5;
 
-    ReportDateCal: IDTPickerTag5;
+    ReportDateCal: TDTPickerTag5;
     CheckStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
 
-    ButtonAdd: IBitBtnAddTag5;
-    ButtonDelete: IBitBtnDeleteTag5;
-    ButtonEdit: IBitBtnEditTag5;
-    ButtonBlock: IBitBtnBlockTag5;
+    ButtonAdd: TBitBtnAddTag5;
+    ButtonDelete: TBitBtnDeleteTag5;
+    ButtonEdit: TBitBtnEditTag5;
+    ButtonBlock: TBitBtnBlockTag5;
     CurrentForm: TForm;
     function GetLabelReportDate(NameForm: TForm): TLabel;
     function GetLabelProductList(NameForm: TForm): TLabel;
@@ -65,7 +72,8 @@ type
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
   public
-    constructor create(form: TForm);
+    constructor create(form: TForm); override;
+    destructor destroy;  override;
   end;
 
 implementation
@@ -92,6 +100,28 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  inherited;
+end;
+
+destructor TTheAmountOfUsableErSusp.destroy;
+begin
+  LabelReportDate.destroy;
+  LabelProductList.destroy;
+  LabelVolume.destroy;
+  Title.destroy;
+
+  StringGrid.destroy;
+
+  EditVolume.destroy;
+  ProductList.destroy;
+
+  ReportDateCal.destroy;
+
+  ButtonAdd.destroy;
+  ButtonDelete.destroy;
+  ButtonEdit.destroy;
+  ButtonBlock.destroy;
+  inherited;
 end;
 
 //Button
@@ -113,34 +143,17 @@ begin
       ShowMessage('Вид продукции не задан!');
       exit;
     end;
-  try
-    if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('INSERT INTO Exped (ДАТАЛЗ, НС, ПГЭС) VALUES (#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) +
-               '#, ''' + ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' + EditVolume.ReadText + ')');
-        ExecSQL;
-     {  OpenConnect;
-        Insert;
-        WriteValue(1, dateOf(ReportDateCal.GetDate));
-        WriteValue(2, ProductList.GetItemsValue(ProductList.GetItemIndex));
-        WriteValue(3, StrToInt(EditVolume.ReadText));
-        Post;
-        CloseConnect; }
-      end;
-    ShowMessage('Запись успешно добавлена!');
+  if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(ChangeRecord) then
+      AddRecord := TMIOAAddRecordResultsAmountOfUsableErSusp.create;
+    AddRecord.AddRecord(ReportDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex), EditVolume.ReadText);
     GetStringGrid(CurrentForm);
-    end;
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    ShowMessage('Запись успешно добавлена!');
   end;
-    EditVolume.WriteText('0');
-    ProductList.WriteItemIndex(-1);
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  EditVolume.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
 // Разблокировка кнопок
@@ -166,26 +179,18 @@ end;
 
 procedure TTheAmountOfUsableErSusp.ButtonDeleted(Sender: TObject);
 begin
-  try
-    if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('DELETE FROM Exped WHERE Exped.Код=' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
-        ExecSQL;
-      end;
-      ShowMessage('Запись успешно удалена!');
-    end;
+  if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TMIOADeleteRecordResultsAmountOfUsableErSusp.create;
+    DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
     GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
+    ShowMessage('Запись успешно удалена!');
   end;
-    EditVolume.WriteText('0');
-    ProductList.WriteItemIndex(-1);
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  EditVolume.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
 // Внесение изменений
@@ -224,18 +229,13 @@ begin
     ButtonAdd.ChangeEnabled(True);
     ButtonDelete.ChangeEnabled(True);
     StringGrid.Enabled(True);
-  try
-    if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('UPDATE Exped SET Exped.ДАТАЛЗ = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) +
-               '#, Exped.НС =''' + ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' +
-               'Exped.ПГЭС=' + EditVolume.ReadText + ' WHERE Exped.Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
-        ExecSQL;
-      end;
+  if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(ChangeRecord) then
+      ChangeRecord := TMIOAChangeRecordResultsAmountOfUsableErSusp.create;
+    ChangeRecord.ChangeRecord(ReportDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex),
+      EditVolume.ReadText, StringGrid.GetValue(0, StringGrid.CurrentRow));
+    GetStringGrid(CurrentForm);
     ShowMessage('Запись успешно изменена!');
     end
     else
@@ -245,15 +245,10 @@ begin
       ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
       ButtonEdit.ChangeCaption('Изменить');
       exit;
-    end;
-    GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
   end;
-    EditVolume.WriteText('0');
-    ProductList.WriteItemIndex(-1);
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  EditVolume.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
   end;
   if ButtonEdit.GetCaption='Изменить' then ButtonEdit.ChangeCaption('Сохранить изменения') else ButtonEdit.ChangeCaption('Изменить');
 end;
@@ -344,7 +339,7 @@ function TTheAmountOfUsableErSusp.GetProductList(NameForm: TForm): TComboBox;
 begin
   if not Assigned(ProductList) then
     ProductList := TComboboxTag5.create;
-  result := ProductList.GetComboBox(270, 130, 315, 14, NameForm);
+  result := ProductList.GetComboBox('ProductList', 270, 130, 315, 14, NameForm);
   SQL:='SELECT NameProducts.ShortName, NameProducts.id FROM NameProducts ' +
   'WHERE (((NameProducts.TypeProduct)="Эр взвесь") And NameProducts.Production=True);';
   ProductList.TheContentOfTheList(SQL);

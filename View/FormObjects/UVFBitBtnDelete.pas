@@ -3,12 +3,13 @@ unit UVFBitBtnDelete;
 interface
 
 uses
-  Classes, Forms, Buttons;
+  SysUtils, Classes, Forms, Buttons;
 
 type
   IBitBtnDeleteTag5 = interface
     function GetBitBtnDelete(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
     procedure ChangeEnabled(i: Boolean);
+    procedure destroy;
   end;
 
   TBitBtnDeleteTag5 = class(TInterfacedObject, IBitBtnDeleteTag5)
@@ -17,6 +18,7 @@ type
   public
     function GetBitBtnDelete(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
     procedure ChangeEnabled(i: Boolean);
+    procedure destroy;
   end;
 
 implementation
@@ -27,6 +29,12 @@ implementation
 procedure TBitBtnDeleteTag5.ChangeEnabled(i: Boolean);
 begin
   TempBitBtnDelete.Enabled:=i;
+end;
+
+procedure TBitBtnDeleteTag5.destroy;
+begin
+  if Assigned(TempBitBtnDelete) then
+    FreeAndNil(TempBitBtnDelete);
 end;
 
 function TBitBtnDeleteTag5.GetBitBtnDelete(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
@@ -47,6 +55,7 @@ begin
       Tag := 5;
       Enabled:=false;
       OnClick:=ProcedureOnClick;
+      name:='BitBtnDelete';
     end;
   end;
   result := TempBitBtnDelete;

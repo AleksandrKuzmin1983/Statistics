@@ -3,7 +3,7 @@ unit VQHHarvestingOfBloodComponentsByTypes;
 interface
 
 uses
-  Vcl.Grids, SysUtils, StdCtrls, Buttons,
+  WinProcs, Vcl.Grids, SysUtils, StdCtrls, Buttons,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Vcl.ExtCtrls,
   MQHBloodComponents,
   MQHBloodComponentsPlasma,
@@ -13,13 +13,14 @@ uses
   UVFLabel,
   UVFTitleLabel,
   UVFDateTimePicker,
-  UVFBitBtn;
+  UVFBitBtn,
+  UMSGlobalVariant;
 
 type
   IHarvestingOfBloodComponentsByTypes = interface
   end;
 
-  THarvestingOfBloodComponentsByTypes = class(TInterfacedObject, IHarvestingOfBloodComponentsByTypes)
+  THarvestingOfBloodComponentsByTypes = class(TGlobalVariant)
   private
     StartDate: ITempLabelTag5;
     EndDate: ITempLabelTag5;
@@ -29,7 +30,7 @@ type
     StartDateCal: IDTPickerTag5;
     EndDateCal: IDTPickerTag5;
 
-    TempStringGrid: IStringGridTag5;
+    TempStringGrid: TStringGridTag5;
 
     ButtonAction: IBitBtnTag5;
 
@@ -52,12 +53,46 @@ type
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
   public
-    constructor create(form: TForm);
+    constructor create(form: TForm);  override;
+    destructor destroy;  override;
   end;
 
 implementation
 
 { TProcurementOfTheComponentsTotal }
+
+constructor THarvestingOfBloodComponentsByTypes.create(form: TForm);
+begin
+  CurrentForm := form;
+
+  GetLabelStartDate(CurrentForm);
+  GetLabelEndDate(CurrentForm);
+
+  GetLabelTitle(CurrentForm);
+
+  GetStringGrid(CurrentForm);
+
+  GetCalendarStartDate(CurrentForm);
+  GetCalendarEndDate(CurrentForm);
+
+  GetButtonAction(CurrentForm);
+end;
+
+destructor THarvestingOfBloodComponentsByTypes.destroy;
+begin
+    StartDate.destroy;
+    EndDate.destroy;
+
+    Title.destroy;
+
+    StartDateCal.destroy;
+    EndDateCal.destroy;
+
+    TempStringGrid.destroy;
+
+    ButtonAction.destroy;
+  inherited;
+end;
 
 procedure THarvestingOfBloodComponentsByTypes.ButtonAct(Sender: TObject);
 var
@@ -140,20 +175,7 @@ begin
   end;
 end;
 
-constructor THarvestingOfBloodComponentsByTypes.create(form: TForm);
-begin
-  CurrentForm := form;
 
-  GetLabelStartDate(CurrentForm);
-  GetLabelEndDate(CurrentForm);
-
-  GetLabelTitle(CurrentForm);
-
-  GetCalendarStartDate(CurrentForm);
-  GetCalendarEndDate(CurrentForm);
-
-  GetButtonAction(CurrentForm);
-end;
 
 //Button
 
@@ -168,10 +190,14 @@ end;
 
 function THarvestingOfBloodComponentsByTypes.GetCalendarStartDate(NameForm: TForm)
   : TDateTimePicker;
+var
+  CYear, CMonth: Word;
 begin
+  if MonthOf(Now)=1 then CMonth:=12 else CMonth:=MonthOf(Now) - 1;
+  if CMonth=12 then CYear:=YearOf(Now)-1 else CYear:=YearOf(Now);
   if not Assigned(StartDateCal) then
     StartDateCal:=TDTPickerTag5.Create;
-  result:=StartDateCal.GetDTPicker(250, 80, EncodeDate(YearOf(Now), MonthOf(Now) - 1, 1), NameForm);
+  result:=StartDateCal.GetDTPicker(250, 80, EncodeDate(CYear, CMonth, 1), NameForm);
 end;
 
 function THarvestingOfBloodComponentsByTypes.GetCalendarEndDate(NameForm: TForm)
@@ -217,6 +243,7 @@ begin
   TempStringGrid.ColWidth(1,90);
   TempStringGrid.ColWidth(2,80);
   TempStringGrid.ColWidth(3,90);
+  TempStringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 1, DT_RIGHT, 2, DT_RIGHT, 3, DT_RIGHT, 5, DT_RIGHT);
 end;
 
 end.

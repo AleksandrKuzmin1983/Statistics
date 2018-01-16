@@ -16,34 +16,41 @@ uses
   UVFBitBtnEdit,
   UVFBitBtnBlock,
   UVFStringGrid,
-  MIOAAdviceToDoctors;
+  MIOAAddRecordResultsInAdviceToDoctor,
+  MIOADeleteRecordResultsInAdviceToDoctor,
+  MIOAChangeRecordResultsInAdviceToDoctor,
+  MIOAAdviceToDoctors,
+  UMSGlobalVariant;
 
 type
   IAdviceToDoctors = interface
   end;
 
-  TAdviceToDoctors = class(TInterfacedObject, IAdviceToDoctors)
+  TAdviceToDoctors = class(TGlobalVariant)
   private
-    LabelReportDate: ITempLabelTag5;
-    LabelTheDoctorTransfuziolog: ITempLabelTag5;
-    LabelMedicalLaboratoryScientist: ITempLabelTag5;
-    Title: ITitleLabelTag5;
+    LabelReportDate: TTempLabelTag5;
+    LabelTheDoctorTransfuziolog: TTempLabelTag5;
+    LabelMedicalLaboratoryScientist: TTempLabelTag5;
+    Title: TTitleLabelTag5;
     SQL: String;
 
-    StringGrid: IStringGridTag5;
+    StringGrid: TStringGridTag5;
     ContentForStringGrid: IAdviceTDoctors;
+    AddRecord: IMIOAAddRecordResultsInAdviceToDoctor;
+    DeleteRecord: IMIOADeleteRecordResultsInAdviceToDoctor;
+    ChangeRecord: IMIOAChangeRecordResultsInAdviceToDoctor;
 
-    EditTheDoctorTransfuziolog: IEditTag5;
-    EditMedicalLaboratoryScientist: IEditTag5;
+    EditTheDoctorTransfuziolog: TEditTag5;
+    EditMedicalLaboratoryScientist: TEditTag5;
 
-    ReportDateCal: IDTPickerTag5;
+    ReportDateCal: TDTPickerTag5;
     CheckFillStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
 
-    ButtonAdd: IBitBtnAddTag5;
-    ButtonDelete: IBitBtnDeleteTag5;
-    ButtonEdit: IBitBtnEditTag5;
-    ButtonBlock: IBitBtnBlockTag5;
+    ButtonAdd: TBitBtnAddTag5;
+    ButtonDelete: TBitBtnDeleteTag5;
+    ButtonEdit: TBitBtnEditTag5;
+    ButtonBlock: TBitBtnBlockTag5;
     CurrentForm: TForm;
     function GetLabelReportDate(NameForm: TForm): TLabel;
     function GetLabelTheDoctorTransfuziolog(NameForm: TForm): TLabel;
@@ -64,7 +71,8 @@ type
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
   public
-    constructor create(form: TForm);
+    constructor create(form: TForm); override;
+    destructor destroy; override;
   end;
 
 implementation
@@ -91,6 +99,28 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  inherited;
+end;
+
+destructor TAdviceToDoctors.destroy;
+begin
+  LabelReportDate.destroy;
+  LabelTheDoctorTransfuziolog.destroy;
+  LabelMedicalLaboratoryScientist.destroy;
+  Title.destroy;
+
+  StringGrid.destroy;
+
+  EditTheDoctorTransfuziolog.destroy;
+  EditMedicalLaboratoryScientist.destroy;
+
+  ReportDateCal.destroy;
+
+  ButtonAdd.destroy;
+  ButtonDelete.destroy;
+  ButtonEdit.destroy;
+  ButtonBlock.destroy;
+  inherited;
 end;
 
 //Button
@@ -108,27 +138,18 @@ begin
       Showmessage('Хотя бы одно из полей "Количество консультаций трансфузиологом" и "Количество консультаций лаборантом" должно быть отлично от нуля!');
       exit;
     End;
-  try
-    if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('INSERT INTO Consultations (ДатаКон, ВТ, ВЛ) VALUES (#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) +
-               '#, ' + EditTheDoctorTransfuziolog.ReadText + ', ' + EditMedicalLaboratoryScientist.ReadText + ')');
-        ExecSQL;
-      end;
+  if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(AddRecord) then
+      AddRecord := TMIOAAddRecordResultsInAdviceToDoctor.create;
+    AddRecord.AddRecord(ReportDateCal.GetDate, EditTheDoctorTransfuziolog.ReadText,
+      EditMedicalLaboratoryScientist.ReadText);
     ShowMessage('Запись успешно добавлена!');
     GetStringGrid(CurrentForm);
-    end;
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
   end;
-    EditTheDoctorTransfuziolog.WriteText('0');
-    EditMedicalLaboratoryScientist.WriteText('0');
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  EditTheDoctorTransfuziolog.WriteText('0');
+  EditMedicalLaboratoryScientist.WriteText('0');
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
 // Разблокировка кнопок
@@ -154,26 +175,18 @@ end;
 
 procedure TAdviceToDoctors.ButtonDeleted(Sender: TObject);
 begin
-  try
-    if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('DELETE FROM Consultations WHERE Consultations.Код=' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
-        ExecSQL;
-      end;
-      ShowMessage('Запись успешно удалена!');
-    end;
+  if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TMIOADeleteRecordResultsInAdviceToDoctor.create;
+    DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
     GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
+    ShowMessage('Запись успешно удалена!');
   end;
-    EditTheDoctorTransfuziolog.WriteText('0');
-    EditMedicalLaboratoryScientist.WriteText('0');
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  EditTheDoctorTransfuziolog.WriteText('0');
+  EditMedicalLaboratoryScientist.WriteText('0');
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
 // Внесение изменений
@@ -209,18 +222,13 @@ begin
     ButtonAdd.ChangeEnabled(True);
     ButtonDelete.ChangeEnabled(True);
     StringGrid.Enabled(True);
-  try
-    if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('UPDATE Consultations SET Consultations.ДатаКон = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) +
-               '#, Consultations.ВТ =' + EditTheDoctorTransfuziolog.ReadText + ', ' +
-               'Consultations.ВЛ=' + EditMedicalLaboratoryScientist.ReadText + ' WHERE Consultations.Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
-        ExecSQL;
-      end;
+  if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(ChangeRecord) then
+      ChangeRecord := TMIOAChangeRecordResultsInAdviceToDoctor.create;
+    ChangeRecord.ChangeRecord(ReportDateCal.GetDate, EditTheDoctorTransfuziolog.ReadText,
+      EditMedicalLaboratoryScientist.ReadText, StringGrid.GetValue(0, StringGrid.CurrentRow));
+    GetStringGrid(CurrentForm);
     ShowMessage('Запись успешно изменена!');
     end
     else
@@ -231,14 +239,9 @@ begin
       ButtonEdit.ChangeCaption('Изменить');
       exit;
     end;
-    GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
-  end;
-      EditTheDoctorTransfuziolog.WriteText('0');
-      EditMedicalLaboratoryScientist.WriteText('0');
-      ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+    EditTheDoctorTransfuziolog.WriteText('0');
+    EditMedicalLaboratoryScientist.WriteText('0');
+    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
   end;
   if ButtonEdit.GetCaption='Изменить' then ButtonEdit.ChangeCaption('Сохранить изменения') else ButtonEdit.ChangeCaption('Изменить');
 end;

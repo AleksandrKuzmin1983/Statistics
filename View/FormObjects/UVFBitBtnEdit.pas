@@ -3,7 +3,7 @@ unit UVFBitBtnEdit;
 interface
 
 uses
-  Classes, Forms, Buttons;
+  SysUtils, Classes, Forms, Buttons;
 
 type
   IBitBtnEditTag5 = interface
@@ -11,6 +11,7 @@ type
     function GetCaption: String;
     procedure ChangeEnabled(i: Boolean);
     procedure ChangeCaption(Caption: string);
+    procedure destroy;
   end;
 
   TBitBtnEditTag5 = class(TInterfacedObject, IBitBtnEditTag5)
@@ -21,6 +22,7 @@ type
     function GetCaption: String;
     procedure ChangeEnabled(i: Boolean);
     procedure ChangeCaption(Caption: string);
+    procedure destroy;
   end;
 implementation
 
@@ -34,6 +36,12 @@ end;
 procedure TBitBtnEditTag5.ChangeEnabled(i: Boolean);
 begin
   TempBitBtnEdit.Enabled:=i;
+end;
+
+procedure TBitBtnEditTag5.destroy;
+begin
+  if Assigned(TempBitBtnEdit) then
+    FreeAndNil(TempBitBtnEdit);
 end;
 
 function TBitBtnEditTag5.GetBitBtnEdit(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
@@ -54,6 +62,7 @@ begin
       Tag := 5;
       Enabled:=False;
       OnClick:=ProcedureOnClick;
+      name:='BitBtnEdit';
     end;
   end;
   result := TempBitBtnEdit;

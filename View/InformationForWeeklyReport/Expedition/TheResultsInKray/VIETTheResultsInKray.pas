@@ -133,36 +133,20 @@ begin
       Showmessage('Все поля должны быть заполнены!');
       exit;
     End;
-  try
-    if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
+  if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
     if not Assigned(AddRecord) then
       AddRecord := TMIEAddRecordResultsInKray.create;
     AddRecord.AddRecord(ReportDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex), EditVolume.ReadText,
       EditNumberOfDoses.ReadText, EditNumberOfPackets.ReadText);
-
-   {   with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('INSERT INTO Exped (ДАТАЛЗ, НС, ВЛЗ, ЛЗО, ЛЗД, ЛЗПАК) VALUES ' +
-        '(#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) + '#, ''' +
-        ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', "Край", ' +
-        EditVolume.ReadText + ', ' + EditNumberOfDoses.ReadText + ', ' + EditNumberOfPackets.ReadText + ')');
-        ExecSQL;
-      end; }
     ShowMessage('Запись успешно добавлена!');
     GetStringGrid(CurrentForm);
     end;
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
-  end;
-    EditVolume.WriteText('0');
-    EditNumberOfDoses.WriteText('0');
-    EditNumberOfPackets.WriteText('0');
-    ProductList.WriteItemIndex(-1);
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  EditNumberOfPackets.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
 // Разблокировка кнопок
@@ -188,32 +172,20 @@ end;
 
 procedure TVIETTheResultsInKray.ButtonDeleted(Sender: TObject);
 begin
-  try
-    if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-  if not Assigned(DeleteRecord) then
-    DeleteRecord := TMIEDeleteRecordResultsInKray.create;
-  DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
-
-   {   with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('DELETE FROM Exped WHERE Exped.Код=' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
-        ExecSQL;
-      end;  }
-      ShowMessage('Запись успешно удалена!');
-    end;
+  if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TMIEDeleteRecordResultsInKray.create;
+    DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
     GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
+    ShowMessage('Запись успешно удалена!');
   end;
-    EditVolume.WriteText('0');
-    EditNumberOfDoses.WriteText('0');
-    EditNumberOfPackets.WriteText('0');
-    ProductList.WriteItemIndex(-1);
-    ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  EditNumberOfPackets.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
 end;
 
 // Внесение изменений
@@ -233,7 +205,6 @@ begin
     ButtonAdd.ChangeEnabled(False);
     ButtonDelete.ChangeEnabled(False);
     StringGrid.Enabled(False);
-
     ReportDateCal.WriteDateTime(StrToDate(StringGrid.GetValue(1, StringGrid.CurrentRow)));
     for i:=0 to ProductList.GetItemsCount-1 do
       if VarToStr(StringGrid.GetValue(2, StringGrid.CurrentRow))=ProductList.GetItemsValue(i) then  ProductList.WriteItemIndex(i);
@@ -259,24 +230,11 @@ begin
     StringGrid.Enabled(True);
     if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
     begin
-    if not Assigned(ChangeRecord) then
-      ChangeRecord := TMIEChangeRecordResultsInKray.create;
-    ChangeRecord.ChangeRecord(ReportDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex), EditVolume.ReadText,
+      if not Assigned(ChangeRecord) then
+        ChangeRecord := TMIEChangeRecordResultsInKray.create;
+      ChangeRecord.ChangeRecord(ReportDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex), EditVolume.ReadText,
         EditNumberOfDoses.ReadText, EditNumberOfPackets.ReadText, StringGrid.GetValue(0, StringGrid.CurrentRow));
-
-  {    with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('UPDATE Exped SET Exped.ДАТАЛЗ = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(ReportDateCal.GetDate)) + '#, ' +
-        'Exped.НС =''' + ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' +
-        'Exped.ЛЗО=' + EditVolume.ReadText + ', ' +
-        'Exped.ЛЗД=' + EditNumberOfDoses.ReadText + ', ' +
-        'Exped.ЛЗПАК=' + EditNumberOfPackets.ReadText + ' ' +
-        'WHERE Exped.Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
-        ExecSQL;
-      end;         }
-    ShowMessage('Запись успешно изменена!');
+      ShowMessage('Запись успешно изменена!');
     end
     else
     begin
@@ -415,7 +373,7 @@ function TVIETTheResultsInKray.GetProductList(NameForm: TForm): TComboBox;
 begin
   if not Assigned(ProductList) then
     ProductList := TComboboxTag5.create;
-  result := ProductList.GetComboBox(285, 120, 300, 14, NameForm);
+  result := ProductList.GetComboBox('ProductList', 285, 120, 300, 14, NameForm);
   SQL:='SELECT NameProducts.ShortName, NameProducts.id ' +
   'FROM NameProducts ' +
   'WHERE (NameProducts.ForExped=True);';

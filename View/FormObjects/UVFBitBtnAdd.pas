@@ -3,12 +3,13 @@ unit UVFBitBtnAdd;
 interface
 
 uses
-  Classes, Forms, Buttons;
+  SysUtils, Classes, Forms, Buttons;
 
 type
   IBitBtnAddTag5 = interface
     function GetBitBtnAdd(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
     procedure ChangeEnabled(i: Boolean);
+    procedure destroy;
   end;
 
   TBitBtnAddTag5 = class(TInterfacedObject, IBitBtnAddTag5)
@@ -17,6 +18,7 @@ type
   public
     function GetBitBtnAdd(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
     procedure ChangeEnabled(i: Boolean);
+    procedure destroy;
   end;
 
 implementation
@@ -27,6 +29,12 @@ implementation
 procedure TBitBtnAddTag5.ChangeEnabled(i: Boolean);
 begin
   TempBitBtnAdd.Enabled:=i;
+end;
+
+procedure TBitBtnAddTag5.destroy;
+begin
+  if Assigned(TempBitBtnAdd) then
+    FreeAndNil(TempBitBtnAdd);
 end;
 
 function TBitBtnAddTag5.GetBitBtnAdd(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
@@ -47,6 +55,7 @@ begin
       Tag := 5;
       Enabled:=false;
       OnClick:=ProcedureOnClick;
+      name:='BitBtnAdd';
     end;
   end;
   result := TempBitBtnAdd;

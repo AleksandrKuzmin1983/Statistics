@@ -3,11 +3,12 @@ unit UVFBitBtn;
 interface
 
 uses
-  Classes, Forms, Buttons;
+  Classes, Forms, SysUtils, Buttons;
 
 type
   IBitBtnTag5 = interface
     function GetBitBtn(CLeft, CTop: integer; CCaption: String; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
+    procedure destroy;
   end;
 
   TBitBtnTag5 = class(TInterfacedObject, IBitBtnTag5)
@@ -15,12 +16,19 @@ type
     TempBitBtn: TBitBtn;
   public
     function GetBitBtn(CLeft, CTop: integer; CCaption: String; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
+    procedure destroy;
   end;
 
 implementation
 
 { TTempLabelTag5 }
 
+
+procedure TBitBtnTag5.destroy;
+begin
+  if Assigned(TempBitBtn) then
+    FreeAndNil(TempBitBtn);
+end;
 
 function TBitBtnTag5.GetBitBtn(CLeft, CTop: integer; CCaption: String; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
 begin

@@ -17,37 +17,44 @@ uses
   UVFBitBtnBlock,
   UVFStringGrid,
   UVFComboBox,
-  MIOFFlowRateOfWholeBlood;
+  MIOFAddRecordFlowRateOfWholeBlood,
+  MIOFDeleteRecordFlowRateOfWholeBlood,
+  MIOFChangeRecordFlowRateOfWholeBlood,
+  MIOFFlowRateOfWholeBlood,
+  UMSGlobalVariant;
 
 type
   IVIOFFlowRateOfWholeBlood = interface
   end;
 
-  TVIOFFlowRateOfWholeBlood = class(TInterfacedObject, IVIOFFlowRateOfWholeBlood)
+  TVIOFFlowRateOfWholeBlood = class(TGlobalVariant)
   private
-    LabelCancellationDate: ITempLabelTag5;
-    LabelVolume: ITempLabelTag5;
-    LabelNumberOfDoses: ITempLabelTag5;
-    LabelReasonConsumption: ITempLabelTag5;
-    Title: ITitleLabelTag5;
+    LabelCancellationDate: TTempLabelTag5;
+    LabelVolume: TTempLabelTag5;
+    LabelNumberOfDoses: TTempLabelTag5;
+    LabelReasonConsumption: TTempLabelTag5;
+    Title: TTitleLabelTag5;
     SQL: String;
 
-    StringGrid: IStringGridTag5;
+    StringGrid: TStringGridTag5;
     ContentForStringGrid: IMIOFFlowRateOfWholeBlood;
+    AddRecord: IMIOFAddRecordFlowRateOfWholeBlood;
+    DeleteRecord: IMIOFDeleteRecordFlowRateOfWholeBlood;
+    ChangeRecord: IMIOFChangeRecordFlowRateOfWholeBlood;
 
-    EditVolume: IEditTag5;
-    EditNumberOfDoses: IEditTag5;
+    EditVolume: TEditTag5;
+    EditNumberOfDoses: TEditTag5;
 
-    ReasonConsumption: IComboboxTag5;
+    ReasonConsumption: TComboboxTag5;
 
-    CancellationDateCal: IDTPickerTag5;
+    CancellationDateCal: TDTPickerTag5;
     CheckFillStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
 
-    ButtonAdd: IBitBtnAddTag5;
-    ButtonDelete: IBitBtnDeleteTag5;
-    ButtonEdit: IBitBtnEditTag5;
-    ButtonBlock: IBitBtnBlockTag5;
+    ButtonAdd: TBitBtnAddTag5;
+    ButtonDelete: TBitBtnDeleteTag5;
+    ButtonEdit: TBitBtnEditTag5;
+    ButtonBlock: TBitBtnBlockTag5;
     CurrentForm: TForm;
     function GetLabelReportDate(NameForm: TForm): TLabel;
     function GetLabelVolume(NameForm: TForm): TLabel;
@@ -73,7 +80,8 @@ type
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
   public
-    constructor create(form: TForm);
+    constructor create(form: TForm);  override;
+    destructor destroy;  override;
   end;
 
 implementation
@@ -103,6 +111,49 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+
+
+
+{    ContentForStringGrid: IMIOFFlowRateOfWholeBlood;
+    AddRecord: IMIOFAddRecordFlowRateOfWholeBlood;
+    DeleteRecord: IMIOFDeleteRecordFlowRateOfWholeBlood;
+    ChangeRecord: IMIOFChangeRecordFlowRateOfWholeBlood;
+
+    ReasonConsumption: IComboboxTag5;
+
+    CancellationDateCal: IDTPickerTag5;
+    CheckFillStrFields: ICheckFillStringFields;
+    BlockMainMenu: IBlockMainMenu;
+
+    ButtonAdd: IBitBtnAddTag5;
+    ButtonDelete: IBitBtnDeleteTag5;
+    ButtonEdit: IBitBtnEditTag5;
+    ButtonBlock: IBitBtnBlockTag5;       }
+  inherited;
+end;
+
+destructor TVIOFFlowRateOfWholeBlood.destroy;
+begin
+  LabelCancellationDate.destroy;
+  LabelVolume.destroy;
+  LabelNumberOfDoses.destroy;
+  LabelReasonConsumption.destroy;
+  Title.destroy;
+
+  StringGrid.destroy;
+
+  CancellationDateCal.destroy;
+
+  EditVolume.destroy;
+  EditNumberOfDoses.destroy;
+
+  ReasonConsumption.destroy;
+
+  ButtonAdd.destroy;
+  ButtonDelete.destroy;
+  ButtonEdit.destroy;
+  ButtonBlock.destroy;
+  inherited;
 end;
 
 //Button
@@ -120,31 +171,19 @@ begin
       Showmessage('Все поля должны быть заполнены!');
       exit;
     End;
-  try
-    if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('INSERT INTO [Брак компонентов и другой расход] (ДАТАЗАГ, ДАТАБР, БЦКО, БЦКД, БКЦП) VALUES (' +
-        '#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        '#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        EditVolume.ReadText + ', ' + EditNumberOfDoses.ReadText + ', ''' +
-        ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex) + ''' )');
-        ExecSQL;
-      end;
-    ShowMessage('Запись успешно добавлена!');
+  if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(AddRecord) then
+      AddRecord := TMIOFAddRecordFlowRateOfWholeBlood.create;
+    AddRecord.AddRecord(CancellationDateCal.GetDate, EditVolume.ReadText,
+    EditNumberOfDoses.ReadText, ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex));
     GetStringGrid(CurrentForm);
-    end;
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    ShowMessage('Запись успешно добавлена!');
   end;
-    EditVolume.WriteText('0');
-    EditNumberOfDoses.WriteText('0');
-    ReasonConsumption.WriteItemIndex(-1);
-    CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  ReasonConsumption.WriteItemIndex(-1);
+  CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
 end;
 
 // Разблокировка кнопок
@@ -170,22 +209,14 @@ end;
 
 procedure TVIOFFlowRateOfWholeBlood.ButtonDeleted(Sender: TObject);
 begin
-  try
-    if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('DELETE FROM [Брак компонентов и другой расход] WHERE [Брак компонентов и другой расход].Код=' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
-        ExecSQL;
-      end;
-      ShowMessage('Запись успешно удалена!');
-    end;
+  if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TMIOFDeleteRecordFlowRateOfWholeBlood.Create;
+    DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
     GetStringGrid(CurrentForm);
-  except
-    On e : EDatabaseError do
-      messageDlg(e.message, mtError, [mbOK],0);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
+    ShowMessage('Запись успешно удалена!');
   end;
     EditVolume.WriteText('0');
     EditNumberOfDoses.WriteText('0');
@@ -232,38 +263,24 @@ begin
     ButtonAdd.ChangeEnabled(True);
     ButtonDelete.ChangeEnabled(True);
     StringGrid.Enabled(True);
-  try
     if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
     begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('UPDATE [Брак компонентов и другой расход] SET ' +
-        '[Брак компонентов и другой расход].ДАТАЗАГ = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        '[Брак компонентов и другой расход].ДАТАБР = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        '[Брак компонентов и другой расход].БЦКО=' + EditVolume.ReadText + ', ' +
-        '[Брак компонентов и другой расход].БЦКД=' + EditNumberOfDoses.ReadText + ', ' +
-        '[Брак компонентов и другой расход].БКЦП=''' + ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex) + ''' ' +
-        'WHERE [Брак компонентов и другой расход].Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
-        ExecSQL;
-      end;
+    if not Assigned(ChangeRecord) then
+      ChangeRecord := TMIOFChangeRecordFlowRateOfWholeBlood.create;
+    ChangeRecord.ChangeRecord(CancellationDateCal.GetDate, EditVolume.ReadText, EditNumberOfDoses.ReadText,
+      ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex), StringGrid.GetValue(0, StringGrid.CurrentRow));
+    GetStringGrid(CurrentForm);
     ShowMessage('Запись успешно изменена!');
     end
     else
     begin
-      EditVolume.WriteText('0');
-      EditNumberOfDoses.WriteText('0');
-      ReasonConsumption.WriteItemIndex(-1);
-      CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
-      ButtonEdit.ChangeCaption('Изменить');
-      exit;
+    EditVolume.WriteText('0');
+    EditNumberOfDoses.WriteText('0');
+    ReasonConsumption.WriteItemIndex(-1);
+    CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
+    ButtonEdit.ChangeCaption('Изменить');
+    exit;
     end;
-    GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
-  end;
       EditVolume.WriteText('0');
       EditNumberOfDoses.WriteText('0');
       ReasonConsumption.WriteItemIndex(-1);
@@ -373,7 +390,7 @@ function TVIOFFlowRateOfWholeBlood.GetReasonConsumption(NameForm: TForm): TCombo
 begin
   if not Assigned(ReasonConsumption) then
     ReasonConsumption := TComboboxTag5.create;
-  result := ReasonConsumption.GetComboBox(285, 200, 300, 14, NameForm);
+  result := ReasonConsumption.GetComboBox('ReasonConsumption', 285, 200, 300, 14, NameForm);
   Try
     SQL:='SELECT TypeOfDefects.TypeDef ' +
     'FROM TypeOfDefects ' +
@@ -393,18 +410,18 @@ function TVIOFFlowRateOfWholeBlood.GetStringGrid(
 Var
   i, j: integer;
 begin
-  j:=0;
+  j:=0; i:=0;
   if not Assigned(StringGrid) then
     StringGrid := TStringGridTag5.create;
-  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 2, DT_RIGHT, 3, DT_CENTER, 4, DT_LEFT, 7, DT_RIGHT);
   Result:=StringGrid.GetStringGrid(40, 330, 820, 190, 5, 2, 12, NameForm);
+  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 2, DT_RIGHT, 3, DT_CENTER, 4, DT_LEFT, 7, DT_RIGHT);
   StringGrid.NumberOfFixedCol(0);
+  StringGrid.Visible(true);
   StringGrid.ColWidth(0,50);
   StringGrid.ColWidth(1,90);
   StringGrid.ColWidth(2,90);
   StringGrid.ColWidth(3,80);
   StringGrid.ColWidth(4,170);
-  StringGrid.Visible(true);
   StringGrid.WriteCells(0, 0, 'Код');
   StringGrid.WriteCells(1, 0, 'Дата');
   StringGrid.WriteCells(2, 0, 'Объем, мл');

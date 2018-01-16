@@ -3,26 +3,34 @@ unit UVFTitleLabel;
 interface
 
 uses
-Graphics, StdCtrls, Forms, Classes, Controls;
+SysUtils, Graphics, StdCtrls, Forms, Classes, Controls;
 
 type
-  ITitleLabelTag5 = interface
+  ITitleLabelTag5 = class
     function GetTitleLabel(FontSize: integer;
-      CCaption: String; CurrentForm: TForm): TLabel;
+      CCaption: String; CurrentForm: TForm): TLabel; virtual; abstract;
+    procedure destroy; virtual; abstract;
   end;
 
 
-  TTitleLabelTag5 = class(TInterfacedObject, ITitleLabelTag5)
+  TTitleLabelTag5 = class(ITitleLabelTag5)
   private
     TempLabel: TLabel;
   public
     function GetTitleLabel(FontSize: integer;
-      CCaption: String; CurrentForm: TForm): TLabel;
+      CCaption: String; CurrentForm: TForm): TLabel; override;
+    procedure destroy; override;
   end;
 
 implementation
 
 { TTempLabelTag5 }
+
+procedure TTitleLabelTag5.destroy;
+begin
+  if Assigned(TempLabel) then
+    FreeAndNil(TempLabel);
+end;
 
 function TTitleLabelTag5.GetTitleLabel(FontSize: integer;
   CCaption: String; CurrentForm: TForm): TLabel;

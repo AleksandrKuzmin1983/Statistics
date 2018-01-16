@@ -45,6 +45,7 @@ begin
       Tag := 5;
       Enabled:=False;
       OnClick:=ProcedureOnClick;
+      name:='BitBtnSave';
     end;
   end;
   result := TempBitBtnSave;

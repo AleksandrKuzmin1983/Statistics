@@ -3,7 +3,7 @@ unit UVFBitBtnBlock;
 interface
 
 uses
-  Classes, Forms, Buttons;
+  SysUtils, Classes, Forms, Buttons;
 
 type
   IBitBtnBlockTag5 = interface
@@ -11,6 +11,7 @@ type
     procedure ChangeCaption(i: Boolean);
     function GetCaption: Boolean;
     procedure ChangeEnabled(i: Boolean);
+    procedure destroy;
   end;
 
   TBitBtnBlockTag5 = class(TInterfacedObject, IBitBtnBlockTag5)
@@ -21,6 +22,7 @@ type
     procedure ChangeCaption(i: Boolean);
     function GetCaption: Boolean;
     procedure ChangeEnabled(i: Boolean);
+    procedure destroy;
   end;
 
 implementation
@@ -46,6 +48,12 @@ begin
   TempBitBtnBlock.Enabled:=i;
 end;
 
+procedure TBitBtnBlockTag5.destroy;
+begin
+  if Assigned(TempBitBtnBlock) then
+    FreeAndNil(TempBitBtnBlock);
+end;
+
 function TBitBtnBlockTag5.GetBitBtnBlock(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
 begin
   if not Assigned(TempBitBtnBlock) then
@@ -63,6 +71,7 @@ begin
       Height:=30;
       Tag := 5;
       OnClick:=ProcedureOnClick;
+      name:='BitBtnBlock';
     end;
   end;
   result := TempBitBtnBlock;

@@ -17,39 +17,46 @@ uses
   UVFBitBtnBlock,
   UVFStringGrid,
   UVFComboBox,
-  MIOCConsumptionOfErythrocyteEnvironments;
+  MIOCAddRecordConsumption,
+  MIOCDeleteRecordConsumption,
+  MIOCChangeRecordConsumption,
+  MIOCConsumptionOfErythrocyteEnvironments,
+  UMSGlobalVariant;
 
 type
   IVIOCConsumptionOfErythrocyteEnvironments = interface
   end;
 
-  TVIOCConsumptionOfErythrocyteEnvironments = class(TInterfacedObject, IVIOCConsumptionOfErythrocyteEnvironments)
+  TVIOCConsumptionOfErythrocyteEnvironments = class(TGlobalVariant)
   private
-    LabelCancellationDate: ITempLabelTag5;
-    LabelTheNameOfTheEnvironment: ITempLabelTag5;
-    LabelVolume: ITempLabelTag5;
-    LabelNumberOfDoses: ITempLabelTag5;
-    LabelReasonConsumption: ITempLabelTag5;
-    Title: ITitleLabelTag5;
+    LabelCancellationDate: TTempLabelTag5;
+    LabelTheNameOfTheEnvironment: TTempLabelTag5;
+    LabelVolume: TTempLabelTag5;
+    LabelNumberOfDoses: TTempLabelTag5;
+    LabelReasonConsumption: TTempLabelTag5;
+    Title: TTitleLabelTag5;
     SQL: String;
 
-    StringGrid: IStringGridTag5;
+    StringGrid: TStringGridTag5;
     ContentForStringGrid: IMIOCConsumptionOfErythrocyteEnvironments;
+    AddRecord: IMIOCAddRecordConsumption;
+    DeleteRecord: IMIOCDeleteRecordConsumption;
+    ChangeRecord: IMIOCChangeRecordConsumption;
 
-    EditVolume: IEditTag5;
-    EditNumberOfDoses: IEditTag5;
+    EditVolume: TEditTag5;
+    EditNumberOfDoses: TEditTag5;
 
-    ProductList: IComboboxTag5;
-    ReasonConsumption: IComboboxTag5;
+    ProductList: TComboboxTag5;
+    ReasonConsumption: TComboboxTag5;
 
-    CancellationDateCal: IDTPickerTag5;
+    CancellationDateCal: TDTPickerTag5;
     CheckFillStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
 
-    ButtonAdd: IBitBtnAddTag5;
-    ButtonDelete: IBitBtnDeleteTag5;
-    ButtonEdit: IBitBtnEditTag5;
-    ButtonBlock: IBitBtnBlockTag5;
+    ButtonAdd: TBitBtnAddTag5;
+    ButtonDelete: TBitBtnDeleteTag5;
+    ButtonEdit: TBitBtnEditTag5;
+    ButtonBlock: TBitBtnBlockTag5;
     CurrentForm: TForm;
     function GetLabelReportDate(NameForm: TForm): TLabel;
     function GetLabelTheNameOfTheEnvironment(NameForm: TForm): TLabel;
@@ -77,7 +84,8 @@ type
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
   public
-    constructor create(form: TForm);
+    constructor create(form: TForm); override;
+    destructor destroy; override;
   end;
 
 implementation
@@ -109,6 +117,33 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  inherited;
+end;
+
+destructor TVIOCConsumptionOfErythrocyteEnvironments.destroy;
+begin
+  LabelCancellationDate.destroy;
+  LabelTheNameOfTheEnvironment.destroy;
+  LabelVolume.destroy;
+  LabelNumberOfDoses.destroy;
+  LabelReasonConsumption.destroy;
+  Title.destroy;
+
+  StringGrid.destroy;
+
+  EditVolume.destroy;
+  EditNumberOfDoses.destroy;
+
+  ProductList.destroy;
+  ReasonConsumption.destroy;
+
+  CancellationDateCal.destroy;
+
+  ButtonAdd.destroy;
+  ButtonDelete.destroy;
+  ButtonEdit.destroy;
+  ButtonBlock.destroy;
+  inherited;
 end;
 
 //Button
@@ -127,33 +162,20 @@ begin
       Showmessage('Все поля должны быть заполнены!');
       exit;
     End;
-  try
-    if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('INSERT INTO [Брак компонентов и другой расход] (ДАТАЗАГ, ДАТАБР, БЭСВ, БЭСО, БЭСД, БЭСП) VALUES ' +
-        '(#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        '#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ''' +
-        ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' +
-        EditVolume.ReadText + ', ' + EditNumberOfDoses.ReadText + ', ''' +
-        ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex) + ''')');
-        ExecSQL;
-      end;
-    ShowMessage('Запись успешно добавлена!');
+  if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(AddRecord) then
+      AddRecord := TMIOCAddRecordConsumption.create;
+    AddRecord.AddRecord(CancellationDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex),
+      EditVolume.ReadText, EditNumberOfDoses.ReadText, ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex));
     GetStringGrid(CurrentForm);
-    end;
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    ShowMessage('Запись успешно добавлена!');
   end;
-    EditVolume.WriteText('0');
-    EditNumberOfDoses.WriteText('0');
-    ReasonConsumption.WriteItemIndex(-1);
-    ProductList.WriteItemIndex(-1);
-    CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  ReasonConsumption.WriteItemIndex(-1);
+  ProductList.WriteItemIndex(-1);
+  CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
 end;
 
 // Разблокировка кнопок
@@ -179,28 +201,20 @@ end;
 
 procedure TVIOCConsumptionOfErythrocyteEnvironments.ButtonDeleted(Sender: TObject);
 begin
-  try
-    if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('DELETE FROM [Брак компонентов и другой расход] WHERE [Брак компонентов и другой расход].Код=' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
-        ExecSQL;
-      end;
-      ShowMessage('Запись успешно удалена!');
-    end;
+  if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TMIOCDeleteRecordConsumption.create;
+    DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0, StringGrid.CurrentRow)));
     GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
+    ShowMessage('Запись успешно удалена!');
   end;
-    EditVolume.WriteText('0');
-    EditNumberOfDoses.WriteText('0');
-    ProductList.WriteItemIndex(-1);
-    ReasonConsumption.WriteItemIndex(-1);
-    CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  ReasonConsumption.WriteItemIndex(-1);
+  CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
 end;
 
 // Внесение изменений
@@ -247,23 +261,14 @@ begin
     ButtonAdd.ChangeEnabled(True);
     ButtonDelete.ChangeEnabled(True);
     StringGrid.Enabled(True);
-  try
-    if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      with ContentForStringGrid do
-      begin
-        CloseConnect;
-        Clear;
-        AddSQL('UPDATE [Брак компонентов и другой расход] SET ' +
-        '[Брак компонентов и другой расход].ДАТАЗАГ = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        '[Брак компонентов и другой расход].ДАТАБР = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(CancellationDateCal.GetDate)) + '#, ' +
-        '[Брак компонентов и другой расход].БЭСВ=''' + ProductList.GetItemsValue(ProductList.GetItemIndex) + ''', ' +
-        '[Брак компонентов и другой расход].БЭСО=' + EditVolume.ReadText + ', ' +
-        '[Брак компонентов и другой расход].БЭСД=' + EditNumberOfDoses.ReadText + ', ' +
-        '[Брак компонентов и другой расход].БЭСП=''' + ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex) + ''' ' +
-        'WHERE [Брак компонентов и другой расход].Код=' + StringGrid.GetValue(0, StringGrid.CurrentRow));
-        ExecSQL;
-      end;
+  if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
+  begin
+    if not Assigned(ChangeRecord) then
+      ChangeRecord := TMIOCChangeRecordConsumption.create;
+    ChangeRecord.ChangeRecord(CancellationDateCal.GetDate, ProductList.GetItemsValue(ProductList.GetItemIndex),
+      EditVolume.ReadText, EditNumberOfDoses.ReadText,
+      ReasonConsumption.GetItemsValue(ReasonConsumption.GetItemIndex), StringGrid.GetValue(0, StringGrid.CurrentRow));
+    GetStringGrid(CurrentForm);
     ShowMessage('Запись успешно изменена!');
     end
     else
@@ -276,16 +281,11 @@ begin
       ButtonEdit.ChangeCaption('Изменить');
       exit;
     end;
-    GetStringGrid(CurrentForm);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
-  end;
-      EditVolume.WriteText('0');
-      EditNumberOfDoses.WriteText('0');
-      ProductList.WriteItemIndex(-1);
-      ReasonConsumption.WriteItemIndex(-1);
-      CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
+    EditVolume.WriteText('0');
+    EditNumberOfDoses.WriteText('0');
+    ProductList.WriteItemIndex(-1);
+    ReasonConsumption.WriteItemIndex(-1);
+    CancellationDateCal.WriteDateTime(StartOfTheWeek(Date)-3);
   end;
   if ButtonEdit.GetCaption='Изменить' then ButtonEdit.ChangeCaption('Сохранить изменения') else ButtonEdit.ChangeCaption('Изменить');
 end;
@@ -400,7 +400,7 @@ function TVIOCConsumptionOfErythrocyteEnvironments.GetProductList(NameForm: TFor
 begin
   if not Assigned(ProductList) then
     ProductList := TComboboxTag5.create;
-  result := ProductList.GetComboBox(285, 120, 300, 14, NameForm);
+  result := ProductList.GetComboBox('ProductList', 285, 120, 300, 14, NameForm);
   SQL:='SELECT NameProducts.ShortName, NameProducts.id ' +
   'FROM NameProducts ' +
   'WHERE (((NameProducts.TypeProduct)="Эр взвесь" Or (NameProducts.TypeProduct)="Эр масса") AND ((NameProducts.Visible)=True));';
@@ -411,7 +411,7 @@ function TVIOCConsumptionOfErythrocyteEnvironments.GetReasonConsumption(NameForm
 begin
   if not Assigned(ReasonConsumption) then
     ReasonConsumption := TComboboxTag5.create;
-  result := ReasonConsumption.GetComboBox(285, 240, 300, 14, NameForm);
+  result := ReasonConsumption.GetComboBox('ReasonConsumption', 285, 240, 300, 14, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
   'WHERE (((TypeOfDefects.vzves)=True)) ' +

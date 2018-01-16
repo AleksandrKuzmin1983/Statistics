@@ -10,17 +10,17 @@ uses
 type
   IMIODeleteRecord = interface
     procedure DeleteRecord(NumRecord: String);
+    procedure destroy;
   end;
 
   TMIODeleteRecord = class(TInterfacedObject,
     IMIODeleteRecord)
   private
-    SQL: String;
     TempConnect: ITempAdoQuery;
     TempQuery: TADOQuery;
-    CheckNull: TCheckNull;
   public
     procedure DeleteRecord(NumRecord: String);
+    procedure destroy;
   end;
 
 implementation
@@ -31,8 +31,6 @@ procedure TMIODeleteRecord.DeleteRecord(NumRecord: String);
 begin
   if not Assigned(TempConnect) then
     TempConnect := TTempAdoQuery.create;
-  if not Assigned(CheckNull) then
-    CheckNull := TCheckNull.create;
   if not Assigned(TempQuery) then
     TempQuery := TADOQuery.create(nil);
   TempQuery.Connection := TempConnect.GetConnect;
@@ -51,4 +49,12 @@ begin
     messageDlg(e.message, mtError, [mbOK],0);
   End;
 end;
+procedure TMIODeleteRecord.destroy;
+begin
+  TempConnect.destroy;
+  TempConnect:=nil;
+  if Assigned(TempQuery) then
+    TempQuery.Free;
+end;
+
 end.

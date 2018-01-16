@@ -23,41 +23,42 @@ uses
   UVFEdit,
   UVFDateTimePicker,
   UVFBitBtn,
-  UVFPanel;
+  UVFPanel,
+  UMSGlobalVariant;
 
 type
   IProcurementOfTheComponentsTotal = interface
   end;
 
-  TProcurementOfTheComponentsTotal = class(TInterfacedObject, IProcurementOfTheComponentsTotal)
+  TProcurementOfTheComponentsTotal = class(TGlobalVariant)
   private
-    StartDate: ITempLabelTag5;
-    EndDate: ITempLabelTag5;
-    Volume: ITempLabelTag5;
-    Doses: ITempLabelTag5;
-    Pacets: ITempLabelTag5;
-    NameStat1: ITempLabelTag5;
-    NameStat2: ITempLabelTag5;
-    NameStat3: ITempLabelTag5;
-    NameStat4: ITempLabelTag5;
-    NameStat5: ITempLabelTag5;
-    NameStat6: ITempLabelTag5;
+    StartDate: TTempLabelTag5;
+    EndDate: TTempLabelTag5;
+    Volume: TTempLabelTag5;
+    Doses: TTempLabelTag5;
+    Pacets: TTempLabelTag5;
+    NameStat1: TTempLabelTag5;
+    NameStat2: TTempLabelTag5;
+    NameStat3: TTempLabelTag5;
+    NameStat4: TTempLabelTag5;
+    NameStat5: TTempLabelTag5;
+    NameStat6: TTempLabelTag5;
 
-    Title: ITitleLabelTag5;
+    Title: TTitleLabelTag5;
 
-    ErSuspVolume: IEditTag5;
-    ErSuspDoses: IEditTag5;
-    PlasmaTotalVolume: IEditTag5;
-    PlasmaTotalDoses: IEditTag5;
-    PlasmaBloodVolume: IEditTag5;
-    PlasmaBloodDoses: IEditTag5;
-    PlasmaAPAVolume: IEditTag5;
-    PlasmaAPADoses: IEditTag5;
-    TromboVolume: IEditTag5;
-    TromboDoses: IEditTag5;
-    TromboPacets: IEditTag5;
-    FiltratVolume: IEditTag5;
-    FiltratDoses: IEditTag5;
+    ErSuspVolume: TEditTag5;
+    ErSuspDoses: TEditTag5;
+    PlasmaTotalVolume: TEditTag5;
+    PlasmaTotalDoses: TEditTag5;
+    PlasmaBloodVolume: TEditTag5;
+    PlasmaBloodDoses: TEditTag5;
+    PlasmaAPAVolume: TEditTag5;
+    PlasmaAPADoses: TEditTag5;
+    TromboVolume: TEditTag5;
+    TromboDoses: TEditTag5;
+    TromboPacets: TEditTag5;
+    FiltratVolume: TEditTag5;
+    FiltratDoses: TEditTag5;
 
     StartDateCal: IDTPickerTag5;
     EndDateCal: IDTPickerTag5;
@@ -119,12 +120,95 @@ type
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
   public
-    constructor create(form: TForm);
+    constructor create(form: TForm); override;
+    destructor destroy; override;
   end;
 
 implementation
 
 { TProcurementOfTheComponentsTotal }
+
+constructor TProcurementOfTheComponentsTotal.create(form: TForm);
+begin
+  CurrentForm := form;
+
+  GetLabelStartDate(CurrentForm);
+  GetLabelEndDate(CurrentForm);
+  GetLabelVolume(CurrentForm);
+  GetLabelDoses(CurrentForm);
+  GetLabelPacets(CurrentForm);
+  GetLabelNameStat1(CurrentForm);
+  GetLabelNameStat2(CurrentForm);
+  GetLabelNameStat3(CurrentForm);
+  GetLabelNameStat4(CurrentForm);
+  GetLabelNameStat5(CurrentForm);
+  GetLabelNameStat6(CurrentForm);
+
+  GetLabelTitle(CurrentForm);
+
+  GetCalendarStartDate(CurrentForm);
+  GetCalendarEndDate(CurrentForm);
+
+  GetPanelVertical(CurrentForm);
+  GetPanelGorizontal(CurrentForm);
+
+  GetErSuspVolume(CurrentForm);
+  GetErSuspDoses(CurrentForm);
+  GetPlasmaTotalVolume(CurrentForm);
+  GetPlasmaTotalDoses(CurrentForm);
+  GetPlasmaBloodVolume(CurrentForm);
+  GetPlasmaBloodDoses(CurrentForm);
+  GetPlasmaAPAVolume(CurrentForm);
+  GetPlasmaAPADoses(CurrentForm);
+  GetTromboVolume(CurrentForm);
+  GetTromboDoses(CurrentForm);
+  GetTromboPacets(CurrentForm);
+  GetFiltratVolume(CurrentForm);
+  GetFiltratDoses(CurrentForm);
+
+  GetButtonAction(CurrentForm);
+  inherited;
+end;
+
+destructor TProcurementOfTheComponentsTotal.destroy;
+begin
+  StartDate.destroy;
+  EndDate.destroy;
+  Volume.destroy;
+  Doses.destroy;
+  Pacets.destroy;
+  NameStat1.destroy;
+  NameStat2.destroy;
+  NameStat3.destroy;
+  NameStat4.destroy;
+  NameStat5.destroy;
+  NameStat6.destroy;
+
+  Title.destroy;
+
+  ErSuspVolume.destroy;
+  ErSuspDoses.destroy;
+  PlasmaTotalVolume.destroy;
+  PlasmaTotalDoses.destroy;
+  PlasmaBloodVolume.destroy;
+  PlasmaBloodDoses.destroy;
+  PlasmaAPAVolume.destroy;
+  PlasmaAPADoses.destroy;
+  TromboVolume.destroy;
+  TromboDoses.destroy;
+  TromboPacets.destroy;
+  FiltratVolume.destroy;
+  FiltratDoses.destroy;
+
+  StartDateCal.destroy;
+  EndDateCal.destroy;
+
+  PanelVertical.destroy;
+  PanelGorizontal.destroy;
+
+  ButtonAction.destroy;
+  inherited;
+end;
 
 procedure TProcurementOfTheComponentsTotal.ButtonAct(Sender: TObject);
 begin
@@ -217,46 +301,7 @@ begin
   end;
 end;
 
-constructor TProcurementOfTheComponentsTotal.create(form: TForm);
-begin
-  CurrentForm := form;
 
-  GetLabelStartDate(CurrentForm);
-  GetLabelEndDate(CurrentForm);
-  GetLabelVolume(CurrentForm);
-  GetLabelDoses(CurrentForm);
-  GetLabelPacets(CurrentForm);
-  GetLabelNameStat1(CurrentForm);
-  GetLabelNameStat2(CurrentForm);
-  GetLabelNameStat3(CurrentForm);
-  GetLabelNameStat4(CurrentForm);
-  GetLabelNameStat5(CurrentForm);
-  GetLabelNameStat6(CurrentForm);
-
-  GetLabelTitle(CurrentForm);
-
-  GetCalendarStartDate(CurrentForm);
-  GetCalendarEndDate(CurrentForm);
-
-  GetPanelVertical(CurrentForm);
-  GetPanelGorizontal(CurrentForm);
-
-  GetErSuspVolume(CurrentForm);
-  GetErSuspDoses(CurrentForm);
-  GetPlasmaTotalVolume(CurrentForm);
-  GetPlasmaTotalDoses(CurrentForm);
-  GetPlasmaBloodVolume(CurrentForm);
-  GetPlasmaBloodDoses(CurrentForm);
-  GetPlasmaAPAVolume(CurrentForm);
-  GetPlasmaAPADoses(CurrentForm);
-  GetTromboVolume(CurrentForm);
-  GetTromboDoses(CurrentForm);
-  GetTromboPacets(CurrentForm);
-  GetFiltratVolume(CurrentForm);
-  GetFiltratDoses(CurrentForm);
-
-  GetButtonAction(CurrentForm);
-end;
 
 //Button
 
@@ -271,10 +316,14 @@ end;
 
 function TProcurementOfTheComponentsTotal.GetCalendarStartDate(NameForm: TForm)
   : TDateTimePicker;
+var
+  CYear, CMonth: Word;
 begin
+  if MonthOf(Now)=1 then CMonth:=12 else CMonth:=MonthOf(Now) - 1;
+  if CMonth=12 then CYear:=YearOf(Now)-1 else CYear:=YearOf(Now);
   if not Assigned(StartDateCal) then
     StartDateCal:=TDTPickerTag5.Create;
-  result:=StartDateCal.GetDTPicker(250, 80, EncodeDate(YearOf(Now), MonthOf(Now) - 1, 1), NameForm);
+  result:=StartDateCal.GetDTPicker(250, 80, EncodeDate(CYear, CMonth, 1), NameForm);
 end;
 
 function TProcurementOfTheComponentsTotal.GetCalendarEndDate(NameForm: TForm)

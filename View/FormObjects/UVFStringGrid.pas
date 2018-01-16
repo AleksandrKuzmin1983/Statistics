@@ -20,6 +20,8 @@ type
     procedure ColWidth(NumberCol, Value: integer);
     procedure Visible(Value: boolean);
     procedure AddRowCount;
+    procedure DeleteLastRow(NumberDelRow: integer);
+    procedure destroy;
   end;
 
   TStringGridTag5 = class(TInterfacedObject, IStringGridTag5)
@@ -30,8 +32,7 @@ type
     TitleFormat, Col1Format, Col2Format, Col3Format, Col4Format, Col5Format: word;
 
     procedure FormatTitleRowCell(Sender: TObject; ACol, ARow: Integer;
-  Rect: TRect; State: TGridDrawState);
-
+      Rect: TRect; State: TGridDrawState);
   public
     function GetStringGrid(Cleft, Ñtop, CWidth, CHeight, CColCount, CRowCount, FontSize: integer; CurrentForm: TForm): TStringGrid;
     function GetValue(CCol, CRow: integer): String;
@@ -46,6 +47,8 @@ type
     procedure ColWidth(NumberCol, Value: integer);
     procedure Visible(Value: boolean);
     procedure AddRowCount;
+    procedure DeleteLastRow(NumberDelRow: integer);
+    procedure destroy;
   end;
 
 implementation
@@ -101,6 +104,24 @@ begin
   Result:=TempStringGrid.Row;
 end;
 
+procedure TStringGridTag5.DeleteLastRow(NumberDelRow: integer);
+var
+  i: integer;
+begin
+with TempStringGrid do
+  begin
+    for i:=0 to ColCount-1 do
+      Cells[NumberDelRow, RowCount-1]:='';
+    RowCount:=RowCount-1;
+  end;
+end;
+
+procedure TStringGridTag5.destroy;
+begin
+  if Assigned(TempStringGrid) then
+    FreeAndNil(TempStringGrid);
+end;
+
 procedure TStringGridTag5.Enabled(i: Boolean);
 begin
   TempStringGrid.Enabled:=i;
@@ -126,7 +147,6 @@ begin
     RowCount:=CRowCount;
     Font.Size := FontSize;
     Font.name := 'Times New Roman';
-//    Font.Style:=[fsbold];
     Options:=[goFixedVertLine]+[goFixedHorzLine]+[goVertLine]+[goHorzLine];
     Color:=clBtnFace;
     FixedColor:=clBtnFace;
@@ -135,7 +155,7 @@ begin
     FixedRows:=1;
     Visible:=false;
     Tag := 5;
-    OnDrawCell:=FormatTitleRowCell;
+//    OnDrawCell:=FormatTitleRowCell;
   end;
   result := TempStringGrid;
 end;
