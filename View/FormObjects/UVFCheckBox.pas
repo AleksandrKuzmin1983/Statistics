@@ -3,14 +3,17 @@ unit UVFCheckBox;
 interface
 
 uses
-  Graphics, StdCtrls, Forms, Classes, Controls;
+  Graphics, SysUtils, StdCtrls, Forms, Classes, Controls;
 
 type
   ICheckBoxTag5 = interface
     function GetCheckBox(Cleft, Ñtop, CWidth, CHeight,  FontSize: integer; CChecked: boolean; CCaption: string; CurrentForm: TForm): TCheckBox;
-    function Checked: boolean;
+    function GetChecked: boolean;
     function CheckedString: String;
+    procedure WriteChecked(i: boolean);
     procedure OnClick(ProcedureOnClick: TNotifyEvent);
+    procedure Enabled(i: boolean);
+    procedure destroy;
   end;
 
   TCheckBoxTag5 = class(TInterfacedObject, ICheckBoxTag5)
@@ -18,16 +21,19 @@ type
     TempCheckBox: TCheckBox;
   public
     function GetCheckBox(Cleft, Ñtop, CWidth, CHeight,  FontSize: integer; CChecked: boolean; CCaption: string; CurrentForm: TForm): TCheckBox;
-    function Checked: boolean;
+    function GetChecked: boolean;
     function CheckedString: String;
+    procedure WriteChecked(i: boolean);
     procedure OnClick(ProcedureOnClick: TNotifyEvent);
+    procedure Enabled(i: boolean);
+    procedure destroy;
   end;
 
 implementation
 
 { TTempLabelTag5 }
 
-function TCheckBoxTag5.Checked: boolean;
+function TCheckBoxTag5.GetChecked: boolean;
 begin
   Result:=TempCheckBox.Checked;
 end;
@@ -35,6 +41,17 @@ end;
 function TCheckBoxTag5.CheckedString: String;
 begin
   if TempCheckBox.Checked then result:='true' else result:='false';
+end;
+
+procedure TCheckBoxTag5.destroy;
+begin
+  if Assigned(TempCheckBox) then
+     FreeAndNil(TempCheckBox);
+end;
+
+procedure TCheckBoxTag5.Enabled(i: boolean);
+begin
+  TempCheckBox.Enabled:=i;
 end;
 
 function TCheckBoxTag5.GetCheckBox(Cleft, Ñtop, CWidth, CHeight,  FontSize: integer; CChecked: boolean; CCaption: string; CurrentForm: TForm): TCheckBox;
@@ -54,12 +71,17 @@ begin
     Caption := CCaption;
     WordWrap := True;
     Tag := 5;
-    name:='CheckBox';
   end;
   result := TempCheckBox;
 end;
+
 procedure TCheckBoxTag5.OnClick(ProcedureOnClick: TNotifyEvent);
 begin
   TempCheckBox.OnClick:=ProcedureOnClick;
 end;
+procedure TCheckBoxTag5.WriteChecked(i: boolean);
+begin
+  TempCheckBox.Checked:=i;
+end;
+
 end.

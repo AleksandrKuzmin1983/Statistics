@@ -2,7 +2,7 @@ object MyMainForm: TMyMainForm
   Left = 0
   Top = 0
   Caption = #1057#1090#1072#1090#1080#1089#1090#1080#1082#1072' '#1087#1086' '#1079#1072#1075#1086#1090#1086#1074#1082#1077' '#1082#1088#1086#1074#1080
-  ClientHeight = 554
+  ClientHeight = 654
   ClientWidth = 892
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -30,9 +30,11 @@ object MyMainForm: TMyMainForm
       object AutoAferez: TMenuItem
         Caption = #1040#1074#1090#1086#1084#1072#1090#1080#1095#1077#1089#1082#1080#1081' '#1072#1092#1077#1088#1077#1079
         ShortCut = 16449
+        OnClick = AutoAferezClick
       end
       object Citoferez: TMenuItem
         Caption = #1062#1080#1090#1086#1092#1077#1088#1077#1079
+        OnClick = CitoferezClick
       end
     end
     object N2: TMenuItem

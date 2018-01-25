@@ -65,6 +65,8 @@ end;
 
 procedure TComboboxTag5.destroy;
 begin
+//  if Assigned(ContentOfTheList) then
+//    FreeAndNil(ContentOfTheList);
   ContentOfTheList:=nil;
   if Assigned(TempComboBox) then
     FreeAndNil(TempComboBox);
@@ -144,12 +146,10 @@ begin
     ContentOfTheList := TContentOfTheList.create;
   ContentOfTheList.GetContent(SQL);
   if ContentOfTheList.GetCount>0 then
-    for i:=1 to ContentOfTheList.GetCount do
+    for i:=0 to ContentOfTheList.GetCount-1 do
     begin
       TempComboBox.Items.Add(ContentOfTheList.GetContentOfTheList(i));
     end;
-//    ContentOfTheList.destroy;
-//    ContentOfTheList:=nil;
 end;
 
 procedure TComboboxTag5.Visible(i: boolean);

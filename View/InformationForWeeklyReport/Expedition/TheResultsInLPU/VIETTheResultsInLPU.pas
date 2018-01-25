@@ -20,46 +20,47 @@ uses
   MIEAddRecordResultsInLPU,
   MIEDeleteRecordResultsInLPU,
   MIEChangeRecordResultsInLPU,
-  MIETTheResultsInLPU;
+  MIETTheResultsInLPU,
+  UMSGlobalVariant;
 
 type
   IVIETTheResultsInLPU = interface
   end;
 
-  TVIETTheResultsInLPU = class(TInterfacedObject, IVIETTheResultsInLPU)
+  TVIETTheResultsInLPU = class(TGlobalVariant)
   private
-    LabelReportDate: ITempLabelTag5;
-    LabelTheNameOfTheEnvironment: ITempLabelTag5;
-    LabelTypeOfLPU: ITempLabelTag5;
-    LabelVolume: ITempLabelTag5;
-    LabelNumberOfDoses: ITempLabelTag5;
-    LabelPercentage: ITempLabelTag5;
-    LabelNumberOfPackets: ITempLabelTag5;
-    Title: ITitleLabelTag5;
+    LabelReportDate: TTempLabelTag5;
+    LabelTheNameOfTheEnvironment: TTempLabelTag5;
+    LabelTypeOfLPU: TTempLabelTag5;
+    LabelVolume: TTempLabelTag5;
+    LabelNumberOfDoses: TTempLabelTag5;
+    LabelPercentage: TTempLabelTag5;
+    LabelNumberOfPackets: TTempLabelTag5;
+    Title: TTitleLabelTag5;
     SQL: String;
 
-    StringGrid: IStringGridTag5;
+    StringGrid: TStringGridTag5;
     ContentForStringGrid: IMIETTheResultsInLPU;
     AddRecord: IMIEAddRecordResultsInLPU;
     DeleteRecord: IMIEDeleteRecordResultsInLPU;
     ChangeRecord: IMIEChangeRecordResultsInLPU;
 
-    EditVolume: IEditTag5;
-    EditNumberOfDoses: IEditTag5;
-    EditPercentage: IEditTag5;
-    EditNumberOfPackets: IEditTag5;
+    EditVolume: TEditTag5;
+    EditNumberOfDoses: TEditTag5;
+    EditPercentage: TEditTag5;
+    EditNumberOfPackets: TEditTag5;
 
-    ProductList: IComboboxTag5;
-    TypeLPUList: IComboboxTag5;
+    ProductList: TComboboxTag5;
+    TypeLPUList: TComboboxTag5;
 
-    ReportDateCal: IDTPickerTag5;
+    ReportDateCal: TDTPickerTag5;
     CheckFillStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
 
-    ButtonAdd: IBitBtnAddTag5;
-    ButtonDelete: IBitBtnDeleteTag5;
-    ButtonEdit: IBitBtnEditTag5;
-    ButtonBlock: IBitBtnBlockTag5;
+    ButtonAdd: TBitBtnAddTag5;
+    ButtonDelete: TBitBtnDeleteTag5;
+    ButtonEdit: TBitBtnEditTag5;
+    ButtonBlock: TBitBtnBlockTag5;
     CurrentForm: TForm;
     function GetLabelReportDate(NameForm: TForm): TLabel;
     function GetLabelTheNameOfTheEnvironment(NameForm: TForm): TLabel;
@@ -91,7 +92,8 @@ type
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
   public
-    constructor create(form: TForm);
+    constructor create(form: TForm); override;
+    destructor destroy; override;
   end;
 
 implementation
@@ -127,6 +129,37 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  inherited;
+end;
+
+destructor TVIETTheResultsInLPU.destroy;
+begin
+  LabelReportDate.destroy;
+  LabelTheNameOfTheEnvironment.destroy;
+  LabelTypeOfLPU.destroy;
+  LabelVolume.destroy;
+  LabelNumberOfDoses.destroy;
+  LabelPercentage.destroy;
+  LabelNumberOfPackets.destroy;
+  Title.destroy;
+
+  StringGrid.destroy;
+
+  EditVolume.destroy;
+  EditNumberOfDoses.destroy;
+  EditPercentage.destroy;
+  EditNumberOfPackets.destroy;
+
+  ProductList.destroy;
+  TypeLPUList.destroy;
+
+  ReportDateCal.destroy;
+
+  ButtonAdd.destroy;
+  ButtonDelete.destroy;
+  ButtonEdit.destroy;
+  ButtonBlock.destroy;
+  inherited;
 end;
 
 //Button

@@ -33,12 +33,10 @@ begin
     TempConnect := TTempAdoQuery.create;
   if not Assigned(TempQuery) then
     TempQuery := TADOQuery.create(nil);
-  TempQuery.Connection := TempConnect.GetConnect;
-  TempQuery.Close;
-  TempQuery.SQL.Clear;
   Try
     with TempQuery do
     begin
+      Connection := TempConnect.GetConnect;
       Close;
       SQL.Clear;
       SQL.Add('UPDATE NewOKDK SET NewOKDK.DateTap = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(Date)) + '#, ' +

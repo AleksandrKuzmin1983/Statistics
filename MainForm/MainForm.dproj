@@ -180,6 +180,19 @@
 			<DCCReference Include="..\Model\HarvestingOfTheDay\ManualHarvesting\MHMAddRecordManualHarvesting.pas"/>
 			<DCCReference Include="..\Model\HarvestingOfTheDay\ManualHarvesting\MHMDeleteRecordManualHarvesting.pas"/>
 			<DCCReference Include="..\Model\System\UMSGlobalVariant.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\ManualHarvesting\MHMChangeRecordManualHarvesting.pas"/>
+			<DCCReference Include="..\View\HarvestingOfTheDay\AutomaticApheresis\VHAAutomaticApheresis.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\AutomaticApheresis\MHAAutomaticApheresis.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\AutomaticApheresis\MHADeleteRecordAutomaticApheresis.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\AutomaticApheresis\MHAAddRecordAutomaticApheresis.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\AutomaticApheresis\MHAChangeRecordAutomaticApheresis.pas"/>
+			<DCCReference Include="..\Model\System\UMSCheckForExistenceOfRecord.pas"/>
+			<DCCReference Include="..\Model\System\UMSValueChecksOnTheAdequacy.pas"/>
+			<DCCReference Include="..\View\HarvestingOfTheDay\Sitoferez\VHSSitoferez.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\Sitoferez\MHSSitoferez.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\Sitoferez\MHSDeleteRecordSitoferez.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\Sitoferez\MHSAddRecordSitoferez.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\Sitoferez\MHSChangeRecordSitoferez.pas"/>
 			<None Include="ModelSupport_MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>
@@ -211,6 +224,8 @@
 			<None Include="ModelSupport_MainForm\MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\VIOOKDK\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\VIOOKDK\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\MHMCheckForExistenceOfRecord\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\MHMCheckForExistenceOfRecord\default.txaPackage"/>
 			<BuildConfiguration Include="Debug">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>

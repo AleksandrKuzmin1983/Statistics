@@ -34,12 +34,10 @@ begin
     CheckNull := TCheckNull.create;
   if not Assigned(TempQuery) then
     TempQuery := TADOQuery.create(nil);
-  TempQuery.Connection := TempConnect.GetConnect;
-  TempQuery.Close;
-  TempQuery.SQL.Clear;
   Try
     with TempQuery do
     begin
+      Connection := TempConnect.GetConnect;
       Close;
       SQL.Clear;
       SQL.Add('DELETE FROM [Брак компонентов и другой расход] WHERE [Брак компонентов и другой расход].Код=' + NumRecord);

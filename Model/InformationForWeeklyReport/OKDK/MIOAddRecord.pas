@@ -30,15 +30,13 @@ implementation
 procedure TMIOAddRecord.AddRecord(Date: Extended; CTap: String; Num: String);
 begin
   if not Assigned(TempConnect) then
-    TempConnect := TTempAdoQuery.create;   //
+    TempConnect := TTempAdoQuery.create;
   if not Assigned(TempQuery) then
-    TempQuery := TADOQuery.create(nil);    //
-  TempQuery.Connection := TempConnect.GetConnect;
-  TempQuery.Close;
-  TempQuery.SQL.Clear;
+    TempQuery := TADOQuery.create(nil);
   Try
     with TempQuery do
     begin
+      Connection := TempConnect.GetConnect;
       Close;
       SQL.Clear;
       SQL.Add('INSERT INTO NewOKDK (DateTap, Tap, Numb) VALUES ' +

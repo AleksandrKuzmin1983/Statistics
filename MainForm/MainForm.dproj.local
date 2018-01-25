@@ -1,7 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.176,=D:\git\Statistics-dev-0.1.1\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.292,D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas=D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\AutomaticApheresis\MHAAddRecordAutomaticApheresis.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.716,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.746,D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas=D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\AutomaticApheresis\MHAChangeRecordAutomaticApheresis.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.561,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.866,D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas=D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\AutomaticApheresis\MHADeleteRecordAutomaticApheresis.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.151,D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas=D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\MHMDosesValueManualHarvesting.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.466,D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas=D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\MHMCheckForExistenceOfRecord.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.169,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.419,D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas=D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\MHMValueChecksOnTheAdequacy.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.742,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.119,=D:\git\Statistics-dev-0.1.5\Model\System\UMSValueChecksOnTheAdequacy.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.426,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\MHMEditRecordManualHarvesting.pas=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.547,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\UMSValueChecksOnTheAdequacy.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.254,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\UMSCheckForExistenceOfRecord.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.098,=D:\git\Statistics-dev-0.1.5\MainForm\Unit2.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.950,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.575,D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas=D:\git\Statistics-dev-0.1.5\View\HarvestingOfTheDay\Sitoferez\VHSSitoferez.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.054,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\AddRecord\AddRecordBlood.pas=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.575,D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas=D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\Sitoferez\MHSSitoferez.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.466,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.083,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\AutomaticApheresis\MHAAutomaticApheresis.pas=D:\git\Statistics-dev-0.1.5\MainForm\Unit2.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.514,D:\git\Statistics-dev-0.1.1\Model\System\UMSGlobalVariant.pas=D:\git\Statistics-dev-0.1.1\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.359,=D:\git\Statistics-dev-0.1.5\Model\System\UMSCheckForExistenceOfRecord.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.176,=D:\git\Statistics-dev-0.1.1\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.761,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\MHMCheckForExistenceOfRecord.pas=D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\UMSCheckForExistenceOfRecord.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.451,D:\git\Statistics-dev-0.1.5\View\HarvestingOfTheDay\AutomaticApheresis\VHAAutomaticApheresis.pas=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.234,=D:\git\Statistics-dev-0.1.5\MainForm\ModelSupport_MainForm\MHMCheckForExistenceOfRecord\default.txaPackage</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.653,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\MHMDosesValueManualHarvesting.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.620,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\MHMChangeRecordManualHarvesting.pas=D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\MHMEditRecordManualHarvesting.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.430,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\MHMValueChecksOnTheAdequacy.pas=D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\UMSValueChecksOnTheAdequacy.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.558,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.883,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.946,=D:\git\Statistics-dev-0.1.5\MainForm\ModelSupport_MainForm\MHMCheckForExistenceOfRecord\default.txvpck</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.375,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.340,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.174,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.771,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\AddRecord\MHMAAddRecordBlood.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.515,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\AddRecord\MHMAAddRecordBlood.pas=D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\ManualHarvesting\AddRecord\AddRecordBlood.pas</Transaction>
+    <Transaction>2018.01.23 11:21:26.134,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>2018.01.23 11:22:01.307,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\Sitoferez\MHSDeleteRecordSitoferez.pas=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>2018.01.23 11:28:44.425,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>2018.01.23 11:29:50.456,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\Sitoferez\MHSAddRecordSitoferez.pas=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>2018.01.23 13:48:29.463,=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
+    <Transaction>2018.01.23 13:49:37.400,D:\git\Statistics-dev-0.1.5\Model\HarvestingOfTheDay\Sitoferez\MHSChangeRecordSitoferez.pas=D:\git\Statistics-dev-0.1.5\MainForm\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

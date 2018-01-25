@@ -41,10 +41,10 @@ begin
       left := CLeft;
       top := CTop;
       Font.name := 'Times New Roman';
-      Font.Size := 14;
+      Font.Size := 18;
       Caption := CCaption;
-      Width := 150;
-      Height:=30;
+      Width := 200;
+      Height:=50;
       Tag := 5;
       OnClick:=ProcedureOnClick;
     end;

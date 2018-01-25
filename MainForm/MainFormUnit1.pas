@@ -23,7 +23,9 @@ uses
   VIOCConsumptionOfTrombo,
   VIOFFlowRateOfWholeBlood,
   VIOOKDK,
+  VHAAutomaticApheresis,
   VHMManualHarvesting,
+  VHSSitoferez,
   UMSMoldCleaning,
   UMSGlobalVariant;
 
@@ -81,24 +83,9 @@ type
     procedure FlowRateWholeBloodClick(Sender: TObject);
     procedure VIO_OKDKClick(Sender: TObject);
     procedure HandlyHarvestingClick(Sender: TObject);
+    procedure AutoAferezClick(Sender: TObject);
+    procedure CitoferezClick(Sender: TObject);
    private
-//    NumberOfDonations: IVQNNumberOfDonations;
-//    BloodProduct: IBloodProduct;
-//    ProcurementOfTheComponentsTotal: IProcurementOfTheComponentsTotal;
-//    HarvestingOfBloodComponentsByTypes: IHarvestingOfBloodComponentsByTypes;
-//    TheAmountOfUsableErSusp: ITheAmountOfUsableErSusp;
-//    AdviceToDoctors: IAdviceToDoctors;
-//    CheckLPU: IVIOCCheckLPU;
-    TheResultsInLPU: IVIETTheResultsInLPU;
-    TheResultsInKray: IVIETTheResultsInKray;
-    Cancellation: IVIECCancellation;
-//    ConsumptionOfErythrocyte: IVIOCConsumptionOfErythrocyteEnvironments;
-//    ConsumptionOfPlazma: IVIOCConsumptionOfPlazma;
-//    ConsumptionOfTrombo: IVIOCConsumptionOfTrombo;
-//    FlowRateOfWholeBlood: IVIOFFlowRateOfWholeBlood;
-    ManualHarvesting: IVHMManualHarvesting;
-  //  OKDK: IVIOOKDK;
-    CleanForm1: IMSMoldCleaning;
     GlobalVariant: TGlobalVariant;
   public
 
@@ -127,15 +114,18 @@ begin
   GlobalVariant := TTheAmountOfUsableErSusp.Create(self);
 end;
 
+procedure TMyMainForm.AutoAferezClick(Sender: TObject);
+begin
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVHAAutomaticApheresis.Create(self);
+end;
+
 procedure TMyMainForm.BCancellationClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1 := TMSMoldCleaning.Create;
-  CleanForm1.CleanForm(self);
-
-  if not Assigned(Cancellation) then
-    Cancellation:=nil;
-  Cancellation := TVIECCancellation.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVIECCancellation.Create(self);
 end;
 
 procedure TMyMainForm.BCheckLPUClick(Sender: TObject);
@@ -154,13 +144,9 @@ end;
 
 procedure TMyMainForm.HandlyHarvestingClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1 := TMSMoldCleaning.Create;
-  CleanForm1.CleanForm(self);
-
-  if not Assigned(ManualHarvesting) then
-    ManualHarvesting:=nil;
-  ManualHarvesting := TVHMManualHarvesting.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVHMManualHarvesting.Create(self);
 end;
 
 procedure TMyMainForm.HarvestingBloodComponentsByTypesClick(Sender: TObject);
@@ -184,13 +170,9 @@ end;
 
 procedure TMyMainForm.ResultsInKrayClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1 := TMSMoldCleaning.Create;
-  CleanForm1.CleanForm(self);
-
-  if not Assigned(TheResultsInKray) then
-    TheResultsInKray:=nil;
-  TheResultsInKray := TVIETTheResultsInKray.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVIETTheResultsInKray.Create(self);
 end;
 
 procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
@@ -202,13 +184,9 @@ end;
 
 procedure TMyMainForm.ResultsLPUClick(Sender: TObject);
 begin
-  if not Assigned(CleanForm1) then
-    CleanForm1 := TMSMoldCleaning.Create;
-  CleanForm1.CleanForm(self);
-
-  if not Assigned(TheResultsInLPU) then
-    TheResultsInLPU:=nil;
-  TheResultsInLPU := TVIETTheResultsInLPU.Create(self);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVIETTheResultsInLPU.Create(self);
 end;
 
 procedure TMyMainForm.VIO_OKDKClick(Sender: TObject);
@@ -216,6 +194,13 @@ begin
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
   GlobalVariant:=TVIOOKDK.create(self);
+end;
+
+procedure TMyMainForm.CitoferezClick(Sender: TObject);
+begin
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant:=TVHSSitoferez.create(self);
 end;
 
 procedure TMyMainForm.CloseButtonClick(Sender: TObject);

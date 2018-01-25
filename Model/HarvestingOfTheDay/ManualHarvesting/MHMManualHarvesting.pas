@@ -8,29 +8,6 @@ uses
   GetAdoQuery;
 
 type
-  IMHMManualHarvesting = interface
-    function GetDate(i: integer): string;
-    function GetNumberOfDonors(i: integer): string;
-    function GetNumberOfDosesVolume450(i: integer): string;
-    function GetNumberOfDosesVolume350(i: integer): string;
-    function GetSentToPreserving(i: integer): string;
-    function GetForLaboratoryResearch(i: integer): string;
-    function GetAllWholeBlood(i: integer): string;
-    function GetAllStoredBlood(i: integer): string;
-    function GetVolomeErSusp(i: integer): string;
-    function GetNumberOfDosesErSusp(i: integer): string;
-    function GetTypeErSusp(i: integer): string;
-    function GetVolomePlazma(i: integer): string;
-    function GetNumberOfDosesPlazma(i: integer): string;
-    function GetTypePlazma(i: integer): string;
-    function GetVolomeFiltrat(i: integer): string;
-    function GetNumberOfDosesFiltrat(i: integer): string;
-    function GetVolomeDefect(i: integer): string;
-    function GetNumberOfDosesDefect(i: integer): string;
-    function GetTypeDefect(i: integer): string;
-    function GetRowCount: integer;
-    procedure GetContent;
-  end;
 
   TResultRecord=Record
   private
@@ -53,7 +30,32 @@ type
     VolomeDefect: String;
     NumberOfDosesDefect: String;
     TypeDefect: String;
+    Outing: String;
+  end;
 
+  IMHMManualHarvesting = interface
+    function GetDate(i: integer): string;
+    function GetNumberOfDonors(i: integer): string;
+    function GetNumberOfDosesVolume450(i: integer): string;
+    function GetNumberOfDosesVolume350(i: integer): string;
+    function GetSentToPreserving(i: integer): string;
+    function GetForLaboratoryResearch(i: integer): string;
+    function GetAllWholeBlood(i: integer): string;
+    function GetAllStoredBlood(i: integer): string;
+    function GetVolomeErSusp(i: integer): string;
+    function GetNumberOfDosesErSusp(i: integer): string;
+    function GetTypeErSusp(i: integer): string;
+    function GetVolomePlazma(i: integer): string;
+    function GetNumberOfDosesPlazma(i: integer): string;
+    function GetTypePlazma(i: integer): string;
+    function GetVolomeFiltrat(i: integer): string;
+    function GetNumberOfDosesFiltrat(i: integer): string;
+    function GetVolomeDefect(i: integer): string;
+    function GetNumberOfDosesDefect(i: integer): string;
+    function GetTypeDefect(i: integer): string;
+    function GetOuting(i: integer): string;
+    function GetRowCount: integer;
+    procedure GetContent;
   end;
 
   TMHMManualHarvesting = class(TInterfacedObject,
@@ -84,6 +86,7 @@ type
     function GetVolomeDefect(i: integer): string;
     function GetNumberOfDosesDefect(i: integer): string;
     function GetTypeDefect(i: integer): string;
+    function GetOuting(i: integer): string;
     function GetRowCount: integer;
     procedure GetContent;
   end;
@@ -117,7 +120,7 @@ begin
   SQL:='SELECT Top 100 Blood.ДатаК, Blood.КДК, BloodDoza.[450], BloodDoza.[350], Blood.НаКонК, ' +
   'Blood.ЛабК, Blood.ЦелК, Blood.КонК, BloodErSusp.КЭВ, BloodErSusp.ДЭВ, BloodErSusp.ВидЭВ, ' +
   'BloodPlasma.КПЛ, BloodPlasma.ДПЛ, BloodPlasma.ВидПЛ, Filtrat.КФ, Filtrat.ДФ, BloodBrak.КБР, ' +
-  'BloodBrak.ДБР, BloodBrak.ВидБР ' +
+  'BloodBrak.ДБР, BloodBrak.ВидБР, Blood.Выезд ' +
   'FROM ((((Blood INNER JOIN BloodDoza ON Blood.ДатаК = BloodDoza.ДатаК) ' +
   'INNER JOIN BloodErSusp ON BloodDoza.КодД = BloodErSusp.Код) ' +
   'INNER JOIN BloodPlasma ON BloodErSusp.Код = BloodPlasma.КодЭ) ' +
@@ -161,6 +164,7 @@ begin
       ResultMass[i].VolomeDefect:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[16].value));
       ResultMass[i].NumberOfDosesDefect:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[17].value));
       ResultMass[i].TypeDefect:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[18].value));
+      if VarToStr(CheckNull.CheckedValue(TempQuery.Fields[19].value))='True' then ResultMass[i].Outing:='Да' else ResultMass[i].Outing:='Нет';
       TempQuery.Next;
     end;
   end;
@@ -224,11 +228,6 @@ function TMHMManualHarvesting.GetVolomePlazma(i: integer): string;
 begin
   result := ResultMass[i].VolomePlazma;
 end;
-{
-function TMHMManualHarvesting.GetKod(i: integer): string;
-begin
-  result := ResultMass[i].Kod;
-end;  }
 
 function TMHMManualHarvesting.GetNumberOfDonors(i: integer): string;
 begin
@@ -263,6 +262,11 @@ end;
 function TMHMManualHarvesting.GetNumberOfDosesVolume450(i: integer): string;
 begin
   result := ResultMass[i].NumberOfDosesVolume450;
+end;
+
+function TMHMManualHarvesting.GetOuting(i: integer): string;
+begin
+  result := ResultMass[i].Outing;
 end;
 
 end.

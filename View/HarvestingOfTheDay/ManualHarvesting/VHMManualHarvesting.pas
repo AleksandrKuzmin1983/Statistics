@@ -22,128 +22,132 @@ uses
   MHMManualHarvesting,
   MHMAddRecordManualHarvesting,
   MHMDeleteRecordManualHarvesting,
-
-  MIOCurrentType,
-  MIOTypeOfSelectRow,
-  MIONameTypeOfSelectRow,
-  MIOAddRecord,
-  MIODeleteRecord,
-  MIOChangeRecord;
+  MHMChangeRecordManualHarvesting,
+  UMSValueChecksOnTheAdequacy,
+  UMSCheckForExistenceOfRecord,
+  UMSGlobalVariant;
 
 type
   IVHMManualHarvesting = interface
   end;
 
-  TVHMManualHarvesting = class(TInterfacedObject, IVHMManualHarvesting)
+  TVHMManualHarvesting = class(TGlobalVariant)
   private
     //шапка
-    LabelDate: ITempLabelTag5;
-    LabelNumberOfDonors: ITempLabelTag5;
-    LabelVolumeOfDonation: ITempLabelTag5;
-    LabelNumberOfDoses: ITempLabelTag5;
+    LabelDate: TTempLabelTag5;
+    LabelNumberOfDonors: TTempLabelTag5;
+    LabelVolumeOfDonation: TTempLabelTag5;
+    LabelNumberOfDoses: TTempLabelTag5;
     //кровь
-    LabelSentToPreserving: ITempLabelTag5;
-    LabelForLaboratoryResearch: ITempLabelTag5;
-    LabelAllWholeBlood: ITempLabelTag5;
-    LabelAllStoredBlood: ITempLabelTag5;
-    LabelBlood: ITempLabelTag5;
+    LabelSentToPreserving: TTempLabelTag5;
+    LabelForLaboratoryResearch: TTempLabelTag5;
+    LabelAllWholeBlood: TTempLabelTag5;
+    LabelAllStoredBlood: TTempLabelTag5;
+    LabelBlood: TTempLabelTag5;
     //компоненты 1
-    LabelVolume: ITempLabelTag5;
-    LabelNumberDoses: ITempLabelTag5;
-    LabelType: ITempLabelTag5;
-    LabelErSusp: ITempLabelTag5;
-    LabelPlazma: ITempLabelTag5;
-    LabelFiltrat: ITempLabelTag5;
-    LabelDefectWholeBlood: ITempLabelTag5;
+    LabelVolume: TTempLabelTag5;
+    LabelNumberDoses: TTempLabelTag5;
+    LabelType: TTempLabelTag5;
+    LabelErSusp: TTempLabelTag5;
+    LabelPlazma: TTempLabelTag5;
+    LabelFiltrat: TTempLabelTag5;
+    LabelDefectWholeBlood: TTempLabelTag5;
     //компоненты 2
-    LabelVolume2: ITempLabelTag5;
-    LabelNumberDoses2: ITempLabelTag5;
-    LabelType2: ITempLabelTag5;
-    LabelErSusp2: ITempLabelTag5;
-    LabelPlazma2: ITempLabelTag5;
-    LabelFiltrat2: ITempLabelTag5;
-    LabelDefectWholeBlood2: ITempLabelTag5;
+    LabelVolume2: TTempLabelTag5;
+    LabelNumberDoses2: TTempLabelTag5;
+    LabelType2: TTempLabelTag5;
+    LabelErSusp2: TTempLabelTag5;
+    LabelPlazma2: TTempLabelTag5;
+    LabelFiltrat2: TTempLabelTag5;
+    LabelDefectWholeBlood2: TTempLabelTag5;
 
-    Title: ITitleLabelTag5;
+    Title: TTitleLabelTag5;
     SQL: String;
 
     //таблица "кровь"
-    PanelGorBlood: ITempPanelTag5;
-    PanelVertBlood1: ITempPanelTag5;
-    PanelVertBlood2: ITempPanelTag5;
-    PanelVertBlood3: ITempPanelTag5;
-    PanelVertBlood4: ITempPanelTag5;
+    PanelGorBlood: TTempPanelTag5;
+    PanelVertBlood1: TTempPanelTag5;
+    PanelVertBlood2: TTempPanelTag5;
+    PanelVertBlood3: TTempPanelTag5;
+    PanelVertBlood4: TTempPanelTag5;
     //таблица "компоненты 1"
-    PanelGor1Components1: ITempPanelTag5;
-    PanelGor2Components1: ITempPanelTag5;
-    PanelGor3Components1: ITempPanelTag5;
-    PanelGor4Components1: ITempPanelTag5;
-    PanelVert1Components1: ITempPanelTag5;
-    PanelVert2Components1: ITempPanelTag5;
-    PanelVert3Components1: ITempPanelTag5;
+    PanelGor1Components1: TTempPanelTag5;
+    PanelGor2Components1: TTempPanelTag5;
+    PanelGor3Components1: TTempPanelTag5;
+    PanelGor4Components1: TTempPanelTag5;
+    PanelVert1Components1: TTempPanelTag5;
+    PanelVert2Components1: TTempPanelTag5;
+    PanelVert3Components1: TTempPanelTag5;
     //таблица "компоненты 2"
-    PanelGor1Components2: ITempPanelTag5;
-    PanelGor2Components2: ITempPanelTag5;
-    PanelGor3Components2: ITempPanelTag5;
-    PanelGor4Components2: ITempPanelTag5;
-    PanelVert1Components2: ITempPanelTag5;
-    PanelVert2Components2: ITempPanelTag5;
-    PanelVert3Components2: ITempPanelTag5;
+    PanelGor1Components2: TTempPanelTag5;
+    PanelGor2Components2: TTempPanelTag5;
+    PanelGor3Components2: TTempPanelTag5;
+    PanelGor4Components2: TTempPanelTag5;
+    PanelVert1Components2: TTempPanelTag5;
+    PanelVert2Components2: TTempPanelTag5;
+    PanelVert3Components2: TTempPanelTag5;
 
     //шапка
-    EditNumberOfDonors: IEditTag5;
-    EditNumberOfDoses: IEditTag5;
-    EditNumberOfDoses2: IEditTag5;
+    DateCal: TDTPickerTag5;
+    EditNumberOfDonors: TEditTag5;
+    EditNumberOfDoses: TEditTag5;
+    EditNumberOfDoses2: TEditTag5;
     //таблица "кровь"
-    EditSentToPreserving: IEditTag5;
-    EditForLaboratoryResearch: IEditTag5;
-    EditAllWholeBlood: IEditTag5;
-    EditAllStoredBlood: IEditTag5;
+    EditSentToPreserving: TEditTag5;
+    EditForLaboratoryResearch: TEditTag5;
+    EditAllWholeBlood: TEditTag5;
+    EditAllStoredBlood: TEditTag5;
     //таблица "компоненты 1"
-    EditVolumeErSusp: IEditTag5;
-    EditVolumePlazma: IEditTag5;
-    EditVolumeFiltrat: IEditTag5;
-    EditVolumeDefect: IEditTag5;
-    EditNumberDosesErSusp: IEditTag5;
-    EditNumberDosesPlazma: IEditTag5;
-    EditNumberDosesFiltrat: IEditTag5;
-    EditNumberDosesDefect: IEditTag5;
+    EditVolumeErSusp: TEditTag5;
+    EditVolumePlazma: TEditTag5;
+    EditVolumeFiltrat: TEditTag5;
+    EditVolumeDefect: TEditTag5;
+    EditNumberDosesErSusp: TEditTag5;
+    EditNumberDosesPlazma: TEditTag5;
+    EditNumberDosesFiltrat: TEditTag5;
+    EditNumberDosesDefect: TEditTag5;
     //таблица "компоненты 2"
-    EditVolumeErSusp2: IEditTag5;
-    EditVolumePlazma2: IEditTag5;
-    EditVolumeFiltrat2: IEditTag5;
-    EditVolumeDefect2: IEditTag5;
-    EditNumberDosesErSusp2: IEditTag5;
-    EditNumberDosesPlazma2: IEditTag5;
-    EditNumberDosesFiltrat2: IEditTag5;
-    EditNumberDosesDefect2: IEditTag5;
+    EditVolumeErSusp2: TEditTag5;
+    EditVolumePlazma2: TEditTag5;
+    EditVolumeFiltrat2: TEditTag5;
+    EditVolumeDefect2: TEditTag5;
+    EditNumberDosesErSusp2: TEditTag5;
+    EditNumberDosesPlazma2: TEditTag5;
+    EditNumberDosesFiltrat2: TEditTag5;
+    EditNumberDosesDefect2: TEditTag5;
 
-    CBoxVolumeOfDonation: IComboboxTag5;
-    CBoxVolumeOfDonation2: IComboboxTag5;
-    CBoxTypeErSusp: IComboboxTag5;
-    CBoxTypeDefect: IComboboxTag5;
-    CBoxTypePlazma: IComboboxTag5;
-    CBoxTypeErSusp2: IComboboxTag5;
-    CBoxTypeDefect2: IComboboxTag5;
-    CBoxTypePlazma2: IComboboxTag5;
+    CBoxVolumeOfDonation: TComboboxTag5;
+    CBoxVolumeOfDonation2: TComboboxTag5;
+    CBoxTypeErSusp: TComboboxTag5;
+    CBoxTypeDefect: TComboboxTag5;
+    CBoxTypePlazma: TComboboxTag5;
+    CBoxTypeErSusp2: TComboboxTag5;
+    CBoxTypeDefect2: TComboboxTag5;
+    CBoxTypePlazma2: TComboboxTag5;
 
-    StringGrid: IStringGridTag5;
+    StringGrid: TStringGridTag5;
     ContentForStringGrid: IMHMManualHarvesting;
     AddRecord: IMHMAddRecordManualHarvesting;
     DeleteRecord: IMHMDeleteRecordManualHarvesting;
-//    ChangeRecord: IMIOChangeRecord;
+    ChangeRecord: IMHMChangeRecordManualHarvesting;
 
-    DateCal: IDTPickerTag5;
-    CheckFillStrFields: TCheckFillStringFields;
+    ValueChecksOnTheAdequacy: IUMSValueChecksOnTheAdequacy;
+    CheckFillStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
-    CheckBox: ICheckBoxTag5;
-    CheckBoxOuting: ICheckBoxTag5;
+    CheckBox: TCheckBoxTag5;
+    CheckBoxOuting: TCheckBoxTag5;
 
-    ButtonAdd: IBitBtnAddTag5;
-    ButtonDelete: IBitBtnDeleteTag5;
-    ButtonEdit: IBitBtnEditTag5;
-    ButtonBlock: IBitBtnBlockTag5;
+    ButtonAdd: TBitBtnAddTag5;
+    ButtonDelete: TBitBtnDeleteTag5;
+    ButtonEdit: TBitBtnEditTag5;
+    ButtonBlock: TBitBtnBlockTag5;
+
+    CheckForExistenceOfRecord: IUMSCheckForExistenceOfRecord;
     CurrentForm: TForm;
+
+    function CheckingBeforeSaving: boolean;
+    procedure AfterSaving_Cancelling;
+
     function GetLabelDate(NameForm: TForm): TLabel;
     function GetLabelNumberOfDonors(NameForm: TForm): TLabel;
     function GetLabelVolumeOfDonation(NameForm: TForm): TLabel;
@@ -238,7 +242,8 @@ type
     procedure ButtonBlocked(Sender: TObject);
     procedure CheckBoxOnClick(Sender: TObject);
   public
-    constructor create(form: TForm);
+    constructor create(form: TForm); override;
+    destructor destroy; override;
   end;
 
 implementation
@@ -339,7 +344,155 @@ begin
   GetButtonBlock(form);
 end;
 
+destructor TVHMManualHarvesting.destroy;
+begin
+  LabelDate.destroy;
+  LabelNumberOfDonors.destroy;
+  LabelVolumeOfDonation.destroy;
+  LabelNumberOfDoses.destroy;
+  //кровь
+  LabelSentToPreserving.destroy;
+  LabelForLaboratoryResearch.destroy;
+  LabelAllWholeBlood.destroy;
+  LabelAllStoredBlood.destroy;
+  LabelBlood.destroy;
+  //компоненты 1
+  LabelVolume.destroy;
+  LabelNumberDoses.destroy;
+  LabelType.destroy;
+  LabelErSusp.destroy;
+  LabelPlazma.destroy;
+  LabelFiltrat.destroy;
+  LabelDefectWholeBlood.destroy;
+  //компоненты 2
+  LabelVolume2.destroy;
+  LabelNumberDoses2.destroy;
+  LabelType2.destroy;
+  LabelErSusp2.destroy;
+  LabelPlazma2.destroy;
+  LabelFiltrat2.destroy;
+  LabelDefectWholeBlood2.destroy;
+
+  Title.destroy;
+
+  //таблица "кровь"
+  PanelGorBlood.destroy;
+  PanelVertBlood1.destroy;
+  PanelVertBlood2.destroy;
+  PanelVertBlood3.destroy;
+  PanelVertBlood4.destroy;
+  //таблица "компоненты 1"
+  PanelGor1Components1.destroy;
+  PanelGor2Components1.destroy;
+  PanelGor3Components1.destroy;
+  PanelGor4Components1.destroy;
+  PanelVert1Components1.destroy;
+  PanelVert2Components1.destroy;
+  PanelVert3Components1.destroy;
+  //таблица "компоненты 2"
+  PanelGor1Components2.destroy;
+  PanelGor2Components2.destroy;
+  PanelGor3Components2.destroy;
+  PanelGor4Components2.destroy;
+  PanelVert1Components2.destroy;
+  PanelVert2Components2.destroy;
+  PanelVert3Components2.destroy;
+
+  //шапка
+  EditNumberOfDonors.destroy;
+  EditNumberOfDoses.destroy;
+  EditNumberOfDoses2.destroy;
+  //таблица "кровь"
+  EditSentToPreserving.destroy;
+  EditForLaboratoryResearch.destroy;
+  EditAllWholeBlood.destroy;
+  EditAllStoredBlood.destroy;
+  //таблица "компоненты 1"
+  EditVolumeErSusp.destroy;
+  EditVolumePlazma.destroy;
+  EditVolumeFiltrat.destroy;
+  EditVolumeDefect.destroy;
+  EditNumberDosesErSusp.destroy;
+  EditNumberDosesPlazma.destroy;
+  EditNumberDosesFiltrat.destroy;
+  EditNumberDosesDefect.destroy;
+  //таблица "компоненты 2"
+  EditVolumeErSusp2.destroy;
+  EditVolumePlazma2.destroy;
+  EditVolumeFiltrat2.destroy;
+  EditVolumeDefect2.destroy;
+  EditNumberDosesErSusp2.destroy;
+  EditNumberDosesPlazma2.destroy;
+  EditNumberDosesFiltrat2.destroy;
+  EditNumberDosesDefect2.destroy;
+
+  CBoxVolumeOfDonation.destroy;
+  CBoxVolumeOfDonation2.destroy;
+  CBoxTypeErSusp.destroy;
+  CBoxTypeDefect.destroy;
+  CBoxTypePlazma.destroy;
+  CBoxTypeErSusp2.destroy;
+  CBoxTypeDefect2.destroy;
+  CBoxTypePlazma2.destroy;
+
+  StringGrid.destroy;
+
+  DateCal.destroy;
+
+  CheckBox.destroy;
+  CheckBoxOuting.destroy;
+
+  ButtonAdd.destroy;
+  ButtonDelete.destroy;
+  ButtonEdit.destroy;
+  ButtonBlock.destroy;
+  inherited;
+end;
+
 //Button
+
+procedure TVHMManualHarvesting.AfterSaving_Cancelling;
+var
+  i: integer;
+begin
+  CheckBox.WriteChecked(false);
+  DateCal.WriteDateTime(date());
+  for i := CBoxVolumeOfDonation.GetItemsCount downto 0 do
+    if CBoxVolumeOfDonation.GetItemsValue(i)='450' then CBoxVolumeOfDonation.WriteItemIndex(i);
+  for i := CBoxVolumeOfDonation2.GetItemsCount downto 0 do
+    if CBoxVolumeOfDonation2.GetItemsValue(i)='350' then CBoxVolumeOfDonation2.WriteItemIndex(i);
+  EditNumberOfDonors.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  EditNumberOfDoses2.WriteText('0');
+  EditSentToPreserving.WriteText('0');
+  EditForLaboratoryResearch.WriteText('0');
+  EditAllWholeBlood.WriteText('0');
+  EditAllStoredBlood.WriteText('0');
+  EditVolumeErSusp.WriteText('0');
+  EditVolumeErSusp2.WriteText('0');
+  EditNumberDosesErSusp.WriteText('0');
+  EditNumberDosesErSusp2.WriteText('0');
+  EditVolumePlazma.WriteText('0');
+  EditVolumePlazma2.WriteText('0');
+  EditNumberDosesPlazma.WriteText('0');
+  EditNumberDosesPlazma2.WriteText('0');
+  EditVolumeFiltrat.WriteText('0');
+  EditVolumeFiltrat2.WriteText('0');
+  EditNumberDosesFiltrat.WriteText('0');
+  EditNumberDosesFiltrat2.WriteText('0');
+  EditNumberDosesPlazma.WriteText('0');
+  EditNumberDosesPlazma2.WriteText('0');
+  EditVolumeDefect.WriteText('0');
+  EditVolumeDefect2.WriteText('0');
+  EditNumberDosesDefect.WriteText('0');
+  EditNumberDosesDefect2.WriteText('0');
+  CBoxTypeErSusp.WriteItemIndex(2);
+  CBoxTypePlazma.WriteItemIndex(1);
+  CBoxTypeDefect.WriteItemIndex(-1);
+  CBoxTypeErSusp2.WriteItemIndex(1);
+  CBoxTypePlazma2.WriteItemIndex(0);
+  CBoxTypeDefect2.WriteItemIndex(-1);
+end;
 
 // Добавление новой записи
 
@@ -348,38 +501,54 @@ var
   Doza350: string;
   Doza450: string;
 begin
- { if not Assigned(CheckFillStrFields) then
-    CheckFillStrFields := TCheckFillStringFields.create;
-  EditVolume.WriteText(CheckFillStrFields.CheckStringFields(EditVolume.ReadText));
-  if EditVolume.ReadText='0' then
-    begin
-      Showmessage('Необходимо указать количество!');
-      exit;
-    End;
-  if  NameTapsList.GetItemIndex=-1 then
-    begin
-      Showmessage('Необходимо указать наименование!');
-      exit;
-    End; }
   if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)=6 then
-    begin
-      if not Assigned(AddRecord) then
-        AddRecord := TMHMAddRecordManualHarvesting.create;
-      AddRecord.AddRecordBlood(DateCal.GetDate, EditNumberOfDonors.ReadText,
-        EditSentToPreserving.ReadText, EditForLaboratoryResearch.ReadText,
-        EditAllWholeBlood.ReadText, EditAllStoredBlood.ReadText, CheckBoxOuting.CheckedString);
-      // Вынести в отдельный класс в виде массива
-      if CBoxVolumeOfDonation.GetItemsValue(CBoxVolumeOfDonation.GetItemIndex)='350' then Doza350:=EditNumberOfDoses.ReadText else Doza350:='0';
-      if CBoxVolumeOfDonation.GetItemsValue(CBoxVolumeOfDonation.GetItemIndex)='450' then Doza450:=EditNumberOfDoses.ReadText else Doza450:='0';
-      //*
-      AddRecord.AddRecordBloodDoze(DateCal.GetDate, '0', Doza350, '0', Doza450, '0');
-      AddRecord.AddRecordBloodErSusp(EditVolumeErSusp.ReadText, EditNumberDosesErSusp.ReadText, CBoxTypeErSusp.GetItemsValue(CBoxTypeErSusp.GetItemIndex));
-      AddRecord.AddRecordBloodPlazma(EditVolumePlazma.ReadText, EditNumberDosesPlazma.ReadText, CBoxTypePlazma.GetItemsValue(CBoxTypePlazma.GetItemIndex));
-      AddRecord.AddRecordBloodFiltrat(EditVolumeFiltrat.ReadText, EditNumberDosesFiltrat.ReadText);
-      AddRecord.AddRecordBloodDefect(EditVolumeDefect.ReadText, EditNumberDosesDefect.ReadText, CBoxTypeDefect.GetItemsValue(CBoxTypeDefect.GetItemIndex));
-      ShowMessage('Запись успешно добавлена!');
-      GetStringGrid(CurrentForm);
+  begin
+    if not Assigned(CheckForExistenceOfRecord) then
+      CheckForExistenceOfRecord := TUMSCheckForExistenceOfRecord.create;
+    SQL:='SELECT ДатаК ' +
+      'FROM Blood ' +
+      'WHERE Blood.ДатаК=#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(DateCal.GetDate)) + '# ';
+    if CheckForExistenceOfRecord.CheckForExistenceOfRecord(SQL) then exit;
+    if CheckingBeforeSaving then exit;
+    if not Assigned(AddRecord) then
+      AddRecord := TMHMAddRecordManualHarvesting.create;
+    AddRecord.AddRecordBlood(DateCal.GetDate, EditNumberOfDonors.ReadText,
+      EditSentToPreserving.ReadText, EditForLaboratoryResearch.ReadText,
+      EditAllWholeBlood.ReadText, EditAllStoredBlood.ReadText, CheckBoxOuting.CheckedString);
+    case CheckBox.GetChecked of
+      False:
+      begin
+        if CBoxVolumeOfDonation.GetItemsValue(CBoxVolumeOfDonation.GetItemIndex)='350' then Doza350:=EditNumberOfDoses.ReadText else Doza350:='0';
+        if CBoxVolumeOfDonation.GetItemsValue(CBoxVolumeOfDonation.GetItemIndex)='450' then Doza450:=EditNumberOfDoses.ReadText else Doza450:='0';
+        AddRecord.AddRecordBloodDoze(DateCal.GetDate, '0', Doza350, '0', Doza450, '0');
+        AddRecord.AddRecordBloodErSusp(EditVolumeErSusp.ReadText, EditNumberDosesErSusp.ReadText, CBoxTypeErSusp.GetItemsValue(CBoxTypeErSusp.GetItemIndex));
+        AddRecord.AddRecordBloodPlazma(EditVolumePlazma.ReadText, EditNumberDosesPlazma.ReadText, CBoxTypePlazma.GetItemsValue(CBoxTypePlazma.GetItemIndex));
+        AddRecord.AddRecordBloodFiltrat(EditVolumeFiltrat.ReadText, EditNumberDosesFiltrat.ReadText);
+        AddRecord.AddRecordBloodDefect(EditVolumeDefect.ReadText, EditNumberDosesDefect.ReadText, CBoxTypeDefect.GetItemsValue(CBoxTypeDefect.GetItemIndex));
+      end;
+      True:
+      begin
+        if CBoxVolumeOfDonation.GetItemsValue(CBoxVolumeOfDonation.GetItemIndex)='350' then Doza350:=EditNumberOfDoses.ReadText else Doza350:='0';
+        if CBoxVolumeOfDonation.GetItemsValue(CBoxVolumeOfDonation.GetItemIndex)='450' then Doza450:=EditNumberOfDoses.ReadText else Doza450:='0';
+        AddRecord.AddRecordBloodDoze(DateCal.GetDate, '0', Doza350, '0', Doza450, '0');
+        AddRecord.AddRecordBloodErSusp(EditVolumeErSusp.ReadText, EditNumberDosesErSusp.ReadText, CBoxTypeErSusp.GetItemsValue(CBoxTypeErSusp.GetItemIndex));
+        AddRecord.AddRecordBloodPlazma(EditVolumePlazma.ReadText, EditNumberDosesPlazma.ReadText, CBoxTypePlazma.GetItemsValue(CBoxTypePlazma.GetItemIndex));
+        AddRecord.AddRecordBloodFiltrat(EditVolumeFiltrat.ReadText, EditNumberDosesFiltrat.ReadText);
+        AddRecord.AddRecordBloodDefect(EditVolumeDefect.ReadText, EditNumberDosesDefect.ReadText, CBoxTypeDefect.GetItemsValue(CBoxTypeDefect.GetItemIndex));
+
+        if CBoxVolumeOfDonation2.GetItemsValue(CBoxVolumeOfDonation2.GetItemIndex)='350' then Doza350:=EditNumberOfDoses2.ReadText else Doza350:='0';
+        if CBoxVolumeOfDonation2.GetItemsValue(CBoxVolumeOfDonation2.GetItemIndex)='450' then Doza450:=EditNumberOfDoses2.ReadText else Doza450:='0';
+        AddRecord.AddRecordBloodDoze(DateCal.GetDate, '0', Doza350, '0', Doza450, '0');
+        AddRecord.AddRecordBloodErSusp(EditVolumeErSusp2.ReadText, EditNumberDosesErSusp2.ReadText, CBoxTypeErSusp2.GetItemsValue(CBoxTypeErSusp2.GetItemIndex));
+        AddRecord.AddRecordBloodPlazma(EditVolumePlazma2.ReadText, EditNumberDosesPlazma2.ReadText, CBoxTypePlazma2.GetItemsValue(CBoxTypePlazma2.GetItemIndex));
+        AddRecord.AddRecordBloodFiltrat(EditVolumeFiltrat2.ReadText, EditNumberDosesFiltrat2.ReadText);
+        AddRecord.AddRecordBloodDefect(EditVolumeDefect2.ReadText, EditNumberDosesDefect2.ReadText, CBoxTypeDefect2.GetItemsValue(CBoxTypeDefect2.GetItemIndex));
+      end;
     end;
+    GetStringGrid(CurrentForm);
+    ShowMessage('Записи успешно добавлена!');
+    AfterSaving_Cancelling;
+  end;
 end;
 
 // Разблокировка кнопок
@@ -414,104 +583,135 @@ begin
     StringGrid.DeleteLastRow(StringGrid.GetRowCount-1);
     ShowMessage('Запись успешно удалена!');
   end;
-{  EditVolume.WriteText('0');
-  TypeOfTapList.WriteItemIndex(-1);
-  NameTapsList.Clear;
-  ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7); }
+  AfterSaving_Cancelling;
 end;
 
 // Внесение изменений
 procedure TVHMManualHarvesting.ButtonEdited(Sender: TObject);
 var
-  TempVar: String;
-  i: integer;
+ i: integer;
+ Doza350, Doza450: string;
 begin
+  if not Assigned(ChangeRecord) then
+    ChangeRecord := TMHMChangeRecordManualHarvesting.create;
+  ChangeRecord.GetTempId(StringGrid.GetValue(8 , StringGrid.CurrentRow),
+    StringGrid.GetValue(9 , StringGrid.CurrentRow), StringGrid.GetValue(10 , StringGrid.CurrentRow),
+    FormatDateTime('mm''/''dd''/''yyyy', StrToDateTime(StringGrid.GetValue(0 , StringGrid.CurrentRow))));
+
   if not Assigned(CheckFillStrFields) then
     CheckFillStrFields := TCheckFillStringFields.create;
- { if not Assigned(BlockMainMenu) then
+  if not Assigned(BlockMainMenu) then
     BlockMainMenu := TBlockMainMenu.create;
+
   if ButtonEdit.GetCaption='Изменить' then
   begin
     BlockMainMenu.BlockMainMenu(False, CurrentForm);
     ButtonBlock.ChangeEnabled(False);
     ButtonAdd.ChangeEnabled(False);
     ButtonDelete.ChangeEnabled(False);
+    CheckBox.Enabled(False);
     StringGrid.Enabled(False);
-
-    ReportDateCal.WriteDateTime(StrToDate(StringGrid.GetValue(1, StringGrid.CurrentRow)));
-
-    if Assigned(CurrentTypeOfSelectRow) then
-      CurrentTypeOfSelectRow:=nil;
-    if not Assigned(CurrentTypeOfSelectRow) then
-      CurrentTypeOfSelectRow := TMIOTypeOfSelectRow.create;
-    TempVAR:=CurrentTypeOfSelectRow.GetCurrentTypeOfSelectRow(VarToStr(StringGrid.GetValue(2, StringGrid.CurrentRow)));
-    if Assigned(CurrentTypeOfSelectRow) then
-      CurrentTypeOfSelectRow:=nil;
-    if not Assigned(CurrentNameTypeOfSelectRow) then
-      CurrentNameTypeOfSelectRow := TMIONameTypeOfSelectRow.create;
-    TempVAR:=CurrentNameTypeOfSelectRow.GetCurrentNameTypeOfSelectRow(TempVAR);
-    for i:=0 to TypeOfTapList.GetItemsCount-1 do
-      if TempVAR=TypeOfTapList.GetItemsValue(i) then
+    DateCal.WriteDateTime(StrToDate(StringGrid.GetValue(0, StringGrid.CurrentRow)));
+    DateCal.Enabled(false);
+    EditNumberOfDonors.WriteText(StringGrid.GetValue(1, StringGrid.CurrentRow));
+    if StringGrid.GetValue(2, StringGrid.CurrentRow)<>'0' then
+      for i:=0 to CBoxVolumeOfDonation.GetItemsCount do
+        if CBoxVolumeOfDonation.GetItemsValue(i)='450' then
+        begin
+          CBoxVolumeOfDonation.WriteItemIndex(i);
+          EditNumberOfDoses.WriteText(StringGrid.GetValue(2, StringGrid.CurrentRow));
+          break;
+        end;
+    if StringGrid.GetValue(3, StringGrid.CurrentRow)<>'0' then
+      for i:=0 to CBoxVolumeOfDonation.GetItemsCount do
+        if CBoxVolumeOfDonation.GetItemsValue(i)='350' then
+        begin
+          CBoxVolumeOfDonation.WriteItemIndex(i);
+          EditNumberOfDoses.WriteText(StringGrid.GetValue(3, StringGrid.CurrentRow));
+          break;
+        end;
+    EditSentToPreserving.WriteText(StringGrid.GetValue(4 , StringGrid.CurrentRow));
+    EditForLaboratoryResearch.WriteText(StringGrid.GetValue(5 , StringGrid.CurrentRow));
+    EditAllWholeBlood.WriteText(StringGrid.GetValue(6 , StringGrid.CurrentRow));
+    EditAllStoredBlood.WriteText(StringGrid.GetValue(7 , StringGrid.CurrentRow));
+    EditVolumeErSusp.WriteText(StringGrid.GetValue(8 , StringGrid.CurrentRow));
+    EditNumberDosesErSusp.WriteText(StringGrid.GetValue(9 , StringGrid.CurrentRow));
+    for i:=0 to CBoxTypeErSusp.GetItemsCount do
+      if CBoxTypeErSusp.GetItemsValue(i)=StringGrid.GetValue(10 , StringGrid.CurrentRow) then
       begin
-        TypeOfTapList.WriteItemIndex(i);
-        OnChangeListOfType(nil);
+        CBoxTypeErSusp.WriteItemIndex(i);
+        break;
       end;
-    if TypeOfTapList.GetItemIndex=-1 then ShowMessage('Тип данной записи задан не верно!' + chr(13) + 'Обратитесь к администратору!');
-
-    for i:=0 to NameTapsList.GetItemsCount-1 do
-      if VarToStr(StringGrid.GetValue(2, StringGrid.CurrentRow))=NameTapsList.GetItemsValue(i) then  NameTapsList.WriteItemIndex(i);
-    if NameTapsList.GetItemIndex=-1 then ShowMessage('Наименование данной записи задано не верно!' + chr(13) + 'Обратитесь к администратору!');
-
-    EditVolume.WriteText(VarToStr(StringGrid.GetValue(3, StringGrid.CurrentRow)));
+    EditVolumePlazma.WriteText(StringGrid.GetValue(11 , StringGrid.CurrentRow));
+    EditNumberDosesPlazma.WriteText(StringGrid.GetValue(12 , StringGrid.CurrentRow));
+    for i:=0 to CBoxTypePlazma.GetItemsCount do
+      if CBoxTypePlazma.GetItemsValue(i)=StringGrid.GetValue(13 , StringGrid.CurrentRow) then
+      begin
+        CBoxTypePlazma.WriteItemIndex(i);
+        break;
+      end;
+    EditVolumeFiltrat.WriteText(StringGrid.GetValue(14 , StringGrid.CurrentRow));
+    EditNumberDosesFiltrat.WriteText(StringGrid.GetValue(15 , StringGrid.CurrentRow));
+    EditVolumeDefect.WriteText(StringGrid.GetValue(16 , StringGrid.CurrentRow));
+    EditNumberDosesDefect.WriteText(StringGrid.GetValue(17 , StringGrid.CurrentRow));
+    for i:=0 to CBoxTypeDefect.GetItemsCount do
+      if CBoxTypeDefect.GetItemsValue(i)=StringGrid.GetValue(18, StringGrid.CurrentRow) then
+      begin
+        CBoxTypeDefect.WriteItemIndex(i);
+        break;
+      end;
+    if StringGrid.GetValue(19, StringGrid.CurrentRow)='Да' then CheckBoxOuting.WriteChecked(true) else CheckBoxOuting.WriteChecked(false);
   end;
 
   if ButtonEdit.GetCaption='Сохранить изменения' then
   begin
-    EditVolume.WriteText(CheckFillStrFields.CheckStringFields(EditVolume.ReadText));
-    if EditVolume.ReadText='0' then
-      begin
-        Showmessage('Необходимо указать количество!');
-        exit;
-      End;
-    if  NameTapsList.GetItemIndex=-1 then
-      begin
-        Showmessage('Необходимо указать наименование!');
-        exit;
-      End;
-    BlockMainMenu.BlockMainMenu(True, CurrentForm);
-    ButtonBlock.ChangeEnabled(True);
-    ButtonAdd.ChangeEnabled(True);
-    ButtonDelete.ChangeEnabled(True);
-    StringGrid.Enabled(True);
-  try
+    try
     if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0)=6 then
     begin
-      if not Assigned(ChangeRecord) then
-        ChangeRecord := TMIOChangeRecord.create;
-      ChangeRecord.ChangeRecord(ReportDateCal.GetDate, NameTapsList.GetItemsValue(NameTapsList.GetItemIndex), EditVolume.ReadText, StringGrid.GetValue(0, StringGrid.CurrentRow));
+      BlockMainMenu.BlockMainMenu(True, CurrentForm);
+      ButtonBlock.ChangeEnabled(True);
+      ButtonAdd.ChangeEnabled(True);
+      ButtonDelete.ChangeEnabled(True);
+      CheckBox.Enabled(true);
+      DateCal.Enabled(true);
+      StringGrid.Enabled(True);
+      if CheckingBeforeSaving then exit;
+      if CBoxVolumeOfDonation.GetItemsValue(CBoxVolumeOfDonation.GetItemIndex)='350' then Doza350:=EditNumberOfDoses.ReadText else Doza350:='0';
+      if CBoxVolumeOfDonation.GetItemsValue(CBoxVolumeOfDonation.GetItemIndex)='450' then Doza450:=EditNumberOfDoses.ReadText else Doza450:='0';
+      ChangeRecord.ChangeRecordBlood(DateCal.GetDate, EditNumberOfDonors.ReadText,
+      EditSentToPreserving.ReadText, EditForLaboratoryResearch.ReadText,
+      EditAllWholeBlood.ReadText, EditAllStoredBlood.ReadText,
+      CheckBoxOuting.CheckedString);
+      ChangeRecord.ChangeRecordBloodDoze(DateCal.GetDate, '0', Doza350, '0', Doza450, '0');
+      ChangeRecord.ChangeRecordBloodErSusp(EditVolumeErSusp.ReadText, EditNumberDosesErSusp.ReadText, CBoxTypeErSusp.GetItemsValue(CBoxTypeErSusp.GetItemIndex));
+      ChangeRecord.ChangeRecordBloodPlazma(EditVolumePlazma.ReadText, EditNumberDosesPlazma.ReadText, CBoxTypePlazma.GetItemsValue(CBoxTypePlazma.GetItemIndex));
+      ChangeRecord.ChangeRecordBloodFiltrat(EditVolumeFiltrat.ReadText, EditNumberDosesFiltrat.ReadText);
+      ChangeRecord.ChangeRecordBloodDefect(EditVolumeDefect.ReadText, EditNumberDosesDefect.ReadText, CBoxTypeDefect.GetItemsValue(CBoxTypeDefect.GetItemIndex));
+      AfterSaving_Cancelling;
+      GetStringGrid(CurrentForm);
       ShowMessage('Запись успешно изменена!');
+      ButtonEdit.ChangeCaption('Изменить');
+      exit;
     end
     else
     begin
-      EditVolume.WriteText('0');
-      TypeOfTapList.WriteItemIndex(-1);
-      NameTapsList.Clear;
-      ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
       ButtonEdit.ChangeCaption('Изменить');
+      BlockMainMenu.BlockMainMenu(True, CurrentForm);
+      ButtonBlock.ChangeEnabled(True);
+      ButtonAdd.ChangeEnabled(True);
+      ButtonDelete.ChangeEnabled(True);
+      CheckBox.Enabled(true);
+      DateCal.Enabled(true);
+      StringGrid.Enabled(True);
+      AfterSaving_Cancelling;
       exit;
     end;
-      GetStringGrid(CurrentForm);
-      ShowMessage('Запись успешно изменена!');
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
+    except
+    On e : EDatabaseError do
+      messageDlg(e.message, mtError, [mbOK],0);
+    end;
   end;
-      EditVolume.WriteText('0');
-      TypeOfTapList.WriteItemIndex(-1);
-      NameTapsList.Clear;
-      ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
-  end;
-  if ButtonEdit.GetCaption='Изменить' then ButtonEdit.ChangeCaption('Сохранить изменения') else ButtonEdit.ChangeCaption('Изменить');}
+  if ButtonEdit.GetCaption='Изменить' then ButtonEdit.ChangeCaption('Сохранить изменения') else ButtonEdit.ChangeCaption('Изменить');
 end;
 
 // Создание кнопок
@@ -571,7 +771,7 @@ end;
 
 procedure TVHMManualHarvesting.CheckBoxOnClick(Sender: TObject);
 begin
-  if CheckBox.Checked then
+  if CheckBox.GetChecked then
   begin
     LabelVolume2.Visible(True);
     LabelNumberDoses2.Visible(True);
@@ -631,6 +831,196 @@ begin
     CBoxTypeDefect2.Visible(False);
     CBoxVolumeOfDonation2.Visible(False);
   end;
+end;
+
+function TVHMManualHarvesting.CheckingBeforeSaving: boolean;
+var
+  value1, value2: integer;
+begin
+    if not Assigned(CheckFillStrFields) then
+      CheckFillStrFields := TCheckFillStringFields.create;
+    EditNumberOfDonors.WriteText(CheckFillStrFields.CheckStringFields(EditNumberOfDonors.ReadText));
+    EditNumberOfDoses.WriteText(CheckFillStrFields.CheckStringFields(EditNumberOfDoses.ReadText));
+    EditSentToPreserving.WriteText(CheckFillStrFields.CheckStringFields(EditSentToPreserving.ReadText));
+    EditForLaboratoryResearch.WriteText(CheckFillStrFields.CheckStringFields(EditForLaboratoryResearch.ReadText));
+    EditAllWholeBlood.WriteText(CheckFillStrFields.CheckStringFields(EditAllWholeBlood.ReadText));
+    EditAllStoredBlood.WriteText(CheckFillStrFields.CheckStringFields(EditAllStoredBlood.ReadText));
+    EditVolumeErSusp.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeErSusp.ReadText));
+    EditNumberDosesErSusp.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesErSusp.ReadText));
+    EditVolumePlazma.WriteText(CheckFillStrFields.CheckStringFields(EditVolumePlazma.ReadText));
+    EditNumberDosesPlazma.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesPlazma.ReadText));
+    EditVolumeFiltrat.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeFiltrat.ReadText));
+    EditNumberDosesFiltrat.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesPlazma.ReadText));
+    EditVolumeDefect.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeDefect.ReadText));
+    EditNumberDosesDefect.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesDefect.ReadText));
+
+    if not Assigned(ValueChecksOnTheAdequacy) then
+      ValueChecksOnTheAdequacy := TUMSValueChecksOnTheAdequacy.create;
+    if ValueChecksOnTheAdequacy.CheckZeroValues(EditNumberOfDonors.ReadText, 'Количество доноров не может равняться нулю!') then
+    begin
+      result:=true;
+      exit;
+    end;
+    if ValueChecksOnTheAdequacy.CheckZeroValues(EditNumberOfDoses.ReadText, 'Количество доз не может равняться нулю!') then
+    begin
+      result:=true;
+      exit;
+    end;
+    if ValueChecksOnTheAdequacy.CheckZeroValues(EditSentToPreserving.ReadText, 'Количество отправленной крови на консервирование не может равняться нулю!') then
+    begin
+      result:=true;
+      exit;
+    end;
+    if ValueChecksOnTheAdequacy.CheckZeroValues(EditForLaboratoryResearch.ReadText, 'Количество крови отправленной на лабораторные исследования не может равняться нулю!') then
+    begin
+      result:=true;
+      exit;
+    end;
+    if ValueChecksOnTheAdequacy.CheckZeroValues(EditAllWholeBlood.ReadText, 'Количество цельной крови не может равняться нулю!') then
+        begin
+      result:=true;
+      exit;
+    end;
+    if ValueChecksOnTheAdequacy.CheckZeroValues(EditAllStoredBlood.ReadText, 'Количество консервированной крови не может равняться нулю!') then
+        begin
+      result:=true;
+      exit;
+    end;
+    if ValueChecksOnTheAdequacy.CheckingEqualities(StrToInt(EditForLaboratoryResearch.ReadText), 20*StrToInt(EditNumberOfDonors.ReadText),
+      'Количество крови на лабораторные исследования не соответствует количеству доноров!') then
+    begin
+      result:=true;
+      exit;
+    end;
+    value1:=StrToInt(EditSentToPreserving.ReadText)+StrToInt(EditForLaboratoryResearch.ReadText);
+    if ValueChecksOnTheAdequacy.CheckingEqualities(Value1, StrToInt(EditAllWholeBlood.ReadText),
+      'Количество цельной крови не совпадает с суммой "Отправлено на консервирование" и "На лабораторные иследования"!') then
+    begin
+      result:=true;
+      exit;
+    end;
+    case CheckBox.GetChecked of
+      False:
+      begin
+        if ValueChecksOnTheAdequacy.CheckingEqualities(StrToInt(EditNumberOfDonors.ReadText), StrToInt(EditNumberOfDoses.ReadText),
+          'Количество доз не совпадает с количеством доноров!') then
+        begin
+          result:=true;
+          exit;
+        end;
+        value1:=StrToInt(EditVolumeErSusp.ReadText)-100*StrToInt(EditNumberDosesErSusp.ReadText)+StrToInt(EditVolumeFiltrat.ReadText)
+          +StrToInt(EditVolumePlazma.ReadText)+StrToInt(EditVolumeDefect.ReadText);
+        if ValueChecksOnTheAdequacy.CheckingEqualities(Value1, StrToInt(EditAllStoredBlood.ReadText),
+          'Количество консервированной крови не совпадает с суммой ее компонентов (скорее всего неправильно введен фильтрат или брак цельной крови)!') then
+        begin
+          result:=true;
+          exit;
+        end;
+        value1:=StrToInt(EditNumberDosesErSusp.ReadText)+StrToInt(EditNumberDosesDefect.ReadText);
+        if ValueChecksOnTheAdequacy.CheckingEqualities(value1, StrToInt(EditNumberOfDonors.ReadText),
+          'Количество донаций эр. взвеси не совпадает с количеством доноров!') then
+        begin
+          result:=true;
+          exit;
+        end;
+        value1:=StrToInt(EditNumberDosesPlazma.ReadText)+StrToInt(EditNumberDosesDefect.ReadText);
+        if ValueChecksOnTheAdequacy.CheckingEqualities(value1, StrToInt(EditNumberOfDonors.ReadText),
+          'Количество донаций плазмы не совпадает с количеством доноров!') then
+        begin
+          result:=true;
+          exit;
+        end;
+        value1:=StrToInt(EditNumberDosesPlazma.ReadText)+StrToInt(EditNumberDosesDefect.ReadText);
+        if ValueChecksOnTheAdequacy.CheckingEqualities(value1, StrToInt(EditNumberOfDonors.ReadText),
+          'Количество донаций плазмы не совпадает с количеством доноров!') then
+        begin
+          result:=true;
+          exit;
+        end;
+        if StrToInt(EditVolumeErSusp.ReadText)<StrToInt(EditVolumePlazma.ReadText) then
+          if MessageDlg('Объем плазмы больше объема эр. взвеси!' + chr(13) + 'Все равно сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)<>6 then
+          begin
+            result:=true;
+            exit;
+          end;
+        if (StrToInt(EditVolumeErSusp.ReadText)<StrToInt(EditVolumeFiltrat.ReadText)) or (StrToInt(EditVolumePlazma.ReadText)<StrToInt(EditVolumeFiltrat.ReadText)) then
+        begin
+          ShowMessage('Объем фильтрата почему-то больше объема эр. взвеси или плазмы!');
+          result:=true;
+          exit;
+        end;
+      end;
+      True:
+      begin
+        EditNumberOfDoses2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberOfDoses.ReadText));
+        EditVolumeErSusp2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeErSusp.ReadText));
+        EditNumberDosesErSusp2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesErSusp.ReadText));
+        EditVolumePlazma2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumePlazma.ReadText));
+        EditNumberDosesPlazma2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesPlazma.ReadText));
+        EditVolumeFiltrat2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeFiltrat.ReadText));
+        EditNumberDosesFiltrat2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesPlazma.ReadText));
+        EditVolumeDefect2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeDefect.ReadText));
+        EditNumberDosesDefect2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesDefect.ReadText));
+
+        if ValueChecksOnTheAdequacy.CheckZeroValues(EditNumberOfDoses2.ReadText, 'Количество доз второго вида гемаконов почему-то равна нулю!' + chr(13) + 'Если все донации происходили с использованием одного вида гемаконов, то уберите галочку "Заготовка происходила в разных гемаконах"') then
+        begin
+          result:=true;
+          exit;
+        end;
+        value1:=StrToInt(EditNumberOfDoses.ReadText)+StrToInt(EditNumberOfDoses2.ReadText);
+        if ValueChecksOnTheAdequacy.CheckingEqualities(value1, StrToInt(EditNumberOfDonors.ReadText),
+          'Сумма доз не совпадает с количеством доноров!') then
+        begin
+          result:=true;
+          exit;
+        end;
+        value1:=StrToInt(EditVolumeErSusp.ReadText)+StrToInt(EditVolumeErSusp2.ReadText)
+                -100*(StrToInt(EditNumberDosesErSusp.ReadText)+StrToInt(EditNumberDosesErSusp2.ReadText))
+                +StrToInt(EditVolumeFiltrat.ReadText)+StrToInt(EditVolumeFiltrat2.ReadText)
+                +StrToInt(EditVolumePlazma.ReadText)+StrToInt(EditVolumePlazma2.ReadText)
+                +StrToInt(EditVolumeDefect.ReadText)+StrToInt(EditVolumeDefect2.ReadText);
+        if ValueChecksOnTheAdequacy.CheckingEqualities(Value1, StrToInt(EditAllStoredBlood.ReadText),
+          'Количество консервированной крови не совпадает с суммой ее компонентов (скорее всего неправильно введен фильтрат или брак цельной крови)!') then
+        begin
+          result:=true;
+          exit;
+        end;
+        value1:=StrToInt(EditNumberDosesErSusp.ReadText)+StrToInt(EditNumberDosesDefect.ReadText)
+                +StrToInt(EditNumberDosesErSusp2.ReadText)+StrToInt(EditNumberDosesDefect2.ReadText);
+        if ValueChecksOnTheAdequacy.CheckingEqualities(value1, StrToInt(EditNumberOfDonors.ReadText),
+          'Сумма донаций эр. взвеси не совпадает с количеством доноров!') then
+        begin
+          result:=true;
+          exit;
+        end;
+        value1:=StrToInt(EditNumberDosesPlazma.ReadText)+StrToInt(EditNumberDosesDefect.ReadText)
+                +StrToInt(EditNumberDosesPlazma2.ReadText)+StrToInt(EditNumberDosesDefect2.ReadText);
+        if ValueChecksOnTheAdequacy.CheckingEqualities(value1, StrToInt(EditNumberOfDonors.ReadText),
+          'Сумма донаций плазмы не совпадает с количеством доноров!') then
+        begin
+          result:=true;
+          exit;
+        end;
+        value1:=StrToInt(EditVolumeErSusp.ReadText)+StrToInt(EditVolumeErSusp2.ReadText);
+        value2:=StrToInt(EditVolumePlazma.ReadText)+StrToInt(EditVolumePlazma2.ReadText);
+        if value1<value2 then
+          if MessageDlg('Объем плазмы больше объема эр. взвеси!' + chr(13) + 'Все равно сохранить запись?', mtConfirmation, [mbYes, mbNo], 0)<>6 then
+          begin
+            result:=true;
+            exit;
+          end;
+        value1:=StrToInt(EditVolumeErSusp.ReadText)+StrToInt(EditVolumeErSusp2.ReadText);
+        value2:=StrToInt(EditVolumePlazma.ReadText)+StrToInt(EditVolumePlazma2.ReadText);
+        if (value1<StrToInt(EditVolumeFiltrat.ReadText)+StrToInt(EditVolumeFiltrat2.ReadText)) or
+           (value2<StrToInt(EditVolumeFiltrat.ReadText)+StrToInt(EditVolumeFiltrat2.ReadText)) then
+        begin
+          ShowMessage('Объем фильтрата почему-то больше объема эр. взвеси или плазмы!');
+          result:=true;
+          exit;
+        end;
+      end;
+    end;
+  result:=false;
 end;
 
 //шапка
@@ -705,6 +1095,8 @@ begin
 end;
 
 function TVHMManualHarvesting.GetCBoxVolumeOfDonation2(NameForm: TForm): TComboBox;
+var
+  i: integer;
 begin
   if not Assigned(CBoxVolumeOfDonation2) then
     CBoxVolumeOfDonation2 := TComboboxTag5.create;
@@ -712,7 +1104,10 @@ begin
   SQL:='SELECT top 1 * ' +
   'FROM BloodDoza';
   CBoxVolumeOfDonation2.GetListOfTheNameColumns(SQL);
-  CBoxVolumeOfDonation2.WriteItemIndex(1);
+  for i := CBoxVolumeOfDonation2.GetItemsCount downto 0 do
+    if (CBoxVolumeOfDonation2.GetItemsValue(i)<>'350') and (CBoxVolumeOfDonation2.GetItemsValue(i)<>'450') then CBoxVolumeOfDonation2.DeleteRecord(i);
+  for i := CBoxVolumeOfDonation.GetItemsCount downto 0 do
+    if CBoxVolumeOfDonation2.GetItemsValue(i)='350' then CBoxVolumeOfDonation2.WriteItemIndex(i);
   CBoxVolumeOfDonation2.Visible(False);
 end;
 
@@ -1320,8 +1715,8 @@ begin
   i:=0; j:=0;
   if not Assigned(StringGrid) then
     StringGrid := TStringGridTag5.create;
-  StringGrid.ResultFormat(DT_CENTER, 1, DT_CENTER, 11, DT_CENTER, 14, DT_CENTER, 25, DT_CENTER, 36, DT_CENTER);
-  Result:=StringGrid.GetStringGrid(30, 480, 840, 160, 19, 2, 9, NameForm);
+  StringGrid.ResultFormat(DT_CENTER, 1, DT_CENTER, 11, DT_CENTER, 14, DT_CENTER, 19, DT_CENTER, 36, DT_CENTER);
+  Result:=StringGrid.GetStringGrid(30, 480, 840, 160, 20, 2, 9, NameForm);
   StringGrid.NumberOfFixedCol(0);
   StringGrid.Visible(true);
   StringGrid.ColWidth(0,60);
@@ -1340,9 +1735,10 @@ begin
   StringGrid.ColWidth(13,160);
   StringGrid.ColWidth(14,70);
   StringGrid.ColWidth(15,85);
-  StringGrid.ColWidth(16,70);
+  StringGrid.ColWidth(16,90);
   StringGrid.ColWidth(17,90);
-  StringGrid.ColWidth(18,60);
+  StringGrid.ColWidth(18,100);
+  StringGrid.ColWidth(19, 40);
   StringGrid.WriteCells(0, 0, 'Дата');
   StringGrid.WriteCells(1, 0, 'Кол-во дон.');
   StringGrid.WriteCells(2, 0, 'Дозы 450');
@@ -1362,6 +1758,7 @@ begin
   StringGrid.WriteCells(16, 0, 'V брака цел. кр.');
   StringGrid.WriteCells(17, 0, 'Кол-во доз брака');
   StringGrid.WriteCells(18, 0, 'Вид брака');
+  StringGrid.WriteCells(19, 0, 'Выезд');
   if not Assigned(ContentForStringGrid) then
     ContentForStringGrid := TMHMManualHarvesting.create;
   ContentForStringGrid.GetContent;
@@ -1384,11 +1781,13 @@ begin
         StringGrid.WriteCells(12, i+1, ContentForStringGrid.GetNumberOfDosesPlazma(j));
         StringGrid.WriteCells(13, i+1, ContentForStringGrid.GetTypePlazma(j));
         StringGrid.WriteCells(14, i+1, ContentForStringGrid.GetVolomeFiltrat(j));
-        StringGrid.WriteCells(15, i+1, ContentForStringGrid.GetNumberOfDosesPlazma(j));
+        StringGrid.WriteCells(15, i+1, ContentForStringGrid.GetNumberOfDosesFiltrat(j));
         StringGrid.WriteCells(16, i+1, ContentForStringGrid.GetVolomeDefect(j));
         StringGrid.WriteCells(17, i+1, ContentForStringGrid.GetNumberOfDosesDefect(j));
         StringGrid.WriteCells(18, i+1, ContentForStringGrid.GetTypeDefect(j));
+        StringGrid.WriteCells(19, i+1, ContentForStringGrid.GetOuting(j));
         j:=j+1;
       end;
 end;
 end.
+

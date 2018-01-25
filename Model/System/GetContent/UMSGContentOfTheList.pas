@@ -11,13 +11,14 @@ type
     function GetContentOfTheList(i: integer): string;
     procedure GetNameOfColumns(CSQL: String);
     procedure GetContent(CSQL: String);
+    function GetCount: integer;
     procedure destroy;
   end;
 
   TContentOfTheList = class(TInterfacedObject, IContentOfTheList)
   private
     TempArray: array of string;
-    TempConnect: ITempAdoQuery;
+    TempConnect: TTempAdoQuery;
     TempQuery: TADOQuery;
   public
     function GetContentOfTheList(i: integer): string;
@@ -33,7 +34,10 @@ implementation
 
 procedure TContentOfTheList.destroy;
 begin
+  if Assigned(TempConnect) then
+    FreeAndNil(TempConnect);
   TempConnect:=nil;
+  SetLength(TempArray, 0);
 end;
 
 procedure TContentOfTheList.GetContent(CSQL: String);
@@ -56,9 +60,9 @@ begin
   TempQuery.Open;
   if not TempQuery.IsEmpty then
   begin
-    i:=1;
+    i:=0;
     SetLength(TempArray, TempQuery.RecordCount);
-    TempQuery.Recordset.MoveFirst;
+     TempQuery.Recordset.MoveFirst;
     while not TempQuery.Eof do
     begin
       TempArray[i]:=VarToStr(TempQuery.Fields[0].Value);

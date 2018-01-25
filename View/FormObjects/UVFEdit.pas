@@ -16,7 +16,7 @@ type
     procedure destroy;
   end;
 
-  TEditTag5 = class(TInterfacedObject, IEditTag5)
+  TEditTag5 = class//(TInterfacedObject, IEditTag5)
   private
     TempEdit: TEdit;
   public
@@ -61,7 +61,6 @@ begin
     ReadOnly := ÑReadOnly;
     Text := '0';
     Tag := 5;
-//    name:='Edit';
   end;
   result := TempEdit;
 end;

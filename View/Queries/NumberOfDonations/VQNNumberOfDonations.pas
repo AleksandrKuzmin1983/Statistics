@@ -169,7 +169,7 @@ function TNumberOfDonations.GetButtonAction(NameForm: TForm): TBitBtn;
 begin
   if not Assigned(ButtonAction) then
     ButtonAction := TBitBtnTag5.create;
-  Result:=ButtonAction.GetBitBtn(385, 510, '—формировать', ButtonAct, NameForm);
+  Result:=ButtonAction.GetBitBtn(360, 590, '—формировать', ButtonAct, NameForm);
 end;
 
 function TNumberOfDonations.GetCalendarStartDate(NameForm: TForm)

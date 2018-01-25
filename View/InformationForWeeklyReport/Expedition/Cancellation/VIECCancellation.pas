@@ -20,42 +20,43 @@ uses
   MIEChangeRecordCancellation,
   MIECDeleteRecordCancellation,
   MIECAddRecordCancellation,
-  MIECCancellation;
+  MIECCancellation,
+  UMSGlobalVariant;
 
 type
   IVIECCancellation = interface
   end;
 
-  TVIECCancellation = class(TInterfacedObject, IVIECCancellation)
+  TVIECCancellation = class(TGlobalVariant)
   private
-    LabelReportDate: ITempLabelTag5;
-    LabelTheNameOfTheEnvironment: ITempLabelTag5;
-    LabelVolume: ITempLabelTag5;
-    LabelNumberOfDoses: ITempLabelTag5;
-    LabelNumberOfPackets: ITempLabelTag5;
-    Title: ITitleLabelTag5;
+    LabelReportDate: TTempLabelTag5;
+    LabelTheNameOfTheEnvironment: TTempLabelTag5;
+    LabelVolume: TTempLabelTag5;
+    LabelNumberOfDoses: TTempLabelTag5;
+    LabelNumberOfPackets: TTempLabelTag5;
+    Title: TTitleLabelTag5;
     SQL: String;
 
-    StringGrid: IStringGridTag5;
+    StringGrid: TStringGridTag5;
     ContentForStringGrid: IMIECCancellation;
     AddRecord: IMIECAddRecordCancellation;
     DeleteRecord: IMIECDeleteRecordCancellation;
     ChangeRecord: IMIEChangeRecordCancellation;
 
-    EditVolume: IEditTag5;
-    EditNumberOfDoses: IEditTag5;
-    EditNumberOfPackets: IEditTag5;
+    EditVolume: TEditTag5;
+    EditNumberOfDoses: TEditTag5;
+    EditNumberOfPackets: TEditTag5;
 
-    ProductList: IComboboxTag5;
+    ProductList: TComboboxTag5;
 
-    ReportDateCal: IDTPickerTag5;
+    ReportDateCal: TDTPickerTag5;
     CheckFillStrFields: ICheckFillStringFields;
     BlockMainMenu: IBlockMainMenu;
 
-    ButtonAdd: IBitBtnAddTag5;
-    ButtonDelete: IBitBtnDeleteTag5;
-    ButtonEdit: IBitBtnEditTag5;
-    ButtonBlock: IBitBtnBlockTag5;
+    ButtonAdd: TBitBtnAddTag5;
+    ButtonDelete: TBitBtnDeleteTag5;
+    ButtonEdit: TBitBtnEditTag5;
+    ButtonBlock: TBitBtnBlockTag5;
     CurrentForm: TForm;
     function GetLabelReportDate(NameForm: TForm): TLabel;
     function GetLabelTheNameOfTheEnvironment(NameForm: TForm): TLabel;
@@ -83,7 +84,8 @@ type
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
   public
-    constructor create(form: TForm);
+    constructor create(form: TForm); override;
+    destructor destroy; override;
   end;
 
 implementation
@@ -115,6 +117,33 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  inherited;
+end;
+
+destructor TVIECCancellation.destroy;
+begin
+    LabelReportDate.destroy;
+    LabelTheNameOfTheEnvironment.destroy;
+    LabelVolume.destroy;
+    LabelNumberOfDoses.destroy;
+    LabelNumberOfPackets.destroy;
+    Title.destroy;
+
+    StringGrid.destroy;
+
+    EditVolume.destroy;
+    EditNumberOfDoses.destroy;
+    EditNumberOfPackets.destroy;
+
+    ProductList.destroy;
+
+    ReportDateCal.destroy;
+
+    ButtonAdd.destroy;
+    ButtonDelete.destroy;
+    ButtonEdit.destroy;
+    ButtonBlock.destroy;
+  inherited;
 end;
 
 //Button

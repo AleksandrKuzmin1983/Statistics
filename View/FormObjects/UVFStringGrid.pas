@@ -155,7 +155,7 @@ begin
     FixedRows:=1;
     Visible:=false;
     Tag := 5;
-//    OnDrawCell:=FormatTitleRowCell;
+    OnDrawCell:=FormatTitleRowCell;
   end;
   result := TempStringGrid;
 end;

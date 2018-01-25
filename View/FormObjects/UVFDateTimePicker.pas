@@ -12,6 +12,7 @@ type
     procedure WriteDateTime(DateTime: TDateTime);
     procedure Width(Value: integer);
     procedure FontSize(Value: integer);
+    procedure Enabled(i: boolean);
     procedure destroy;
   end;
 
@@ -24,6 +25,7 @@ type
     procedure WriteDateTime(DateTime: TDateTime);
     procedure Width(Value: integer);
     procedure FontSize(Value: integer);
+    procedure Enabled(i: boolean);
     procedure destroy;
   end;
 
@@ -35,6 +37,11 @@ procedure TDTPickerTag5.destroy;
 begin
   if Assigned(TempDTPicker) then
     FreeAndNil(TempDTPicker);
+end;
+
+procedure TDTPickerTag5.Enabled(i: boolean);
+begin
+  TempDTPicker.Enabled:=i;
 end;
 
 procedure TDTPickerTag5.FontSize(Value: integer);

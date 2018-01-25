@@ -23,22 +23,22 @@ type
 
   TBloodProduct = class(TGlobalVariant)
   private
-    StartDate: ITempLabelTag5;
-    EndDate: ITempLabelTag5;
-    NameStat1: ITempLabelTag5;
-    NameStat2: ITempLabelTag5;
-    NameStat3: ITempLabelTag5;
-    NameStat4: ITempLabelTag5;
-    NameStat5: ITempLabelTag5;
-    Title: ITitleLabelTag5;
-    ResultEdit1: IEditTag5;
-    ResultEdit2: IEditTag5;
-    ResultEdit3: IEditTag5;
-    ResultEdit4: IEditTag5;
-    ResultEdit5: IEditTag5;
-    StartDateCal: IDTPickerTag5;
-    EndDateCal: IDTPickerTag5;
-    ButtonAction: IBitBtnTag5;
+    StartDate: TTempLabelTag5;
+    EndDate: TTempLabelTag5;
+    NameStat1: TTempLabelTag5;
+    NameStat2: TTempLabelTag5;
+    NameStat3: TTempLabelTag5;
+    NameStat4: TTempLabelTag5;
+    NameStat5: TTempLabelTag5;
+    Title: TTitleLabelTag5;
+    ResultEdit1: TEditTag5;
+    ResultEdit2: TEditTag5;
+    ResultEdit3: TEditTag5;
+    ResultEdit4: TEditTag5;
+    ResultEdit5: TEditTag5;
+    StartDateCal: TDTPickerTag5;
+    EndDateCal: TDTPickerTag5;
+    ButtonAction: TBitBtnTag5;
     CurrentForm: TForm;
     TheAmountOfBloodOnPreserving: ITheAmountOfBloodOnPreserving;
     TheNumberOfWholeBlood: ITheNumberOfWholeBlood;
@@ -152,17 +152,17 @@ begin
   NameStat3.destroy;
   NameStat4.destroy;
   NameStat5.destroy;
-
   Title.destroy;
+
+  EndDateCal.destroy;
+  StartDateCal.destroy;
 
   ResultEdit1.destroy;
   ResultEdit2.destroy;
   ResultEdit3.destroy;
   ResultEdit4.destroy;
   ResultEdit5.destroy;
-  StartDateCal.destroy;
 
-  EndDateCal.destroy;
   ButtonAction.destroy;
   inherited;
 end;
@@ -206,7 +206,7 @@ function TBloodProduct.GetButtonAction(NameForm: TForm): TBitBtn;
 begin
   if not Assigned(ButtonAction) then
     ButtonAction := TBitBtnTag5.create;
-  Result:=ButtonAction.GetBitBtn(385, 510, '—формировать', ButtonAct, NameForm);
+  Result:=ButtonAction.GetBitBtn(360, 590, '—формировать', ButtonAct, NameForm);
 end;
 
 function TBloodProduct.GetCalendarStartDate(NameForm: TForm)

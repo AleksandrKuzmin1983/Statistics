@@ -117,7 +117,20 @@ uses
   MHMManualHarvesting in '..\Model\HarvestingOfTheDay\ManualHarvesting\MHMManualHarvesting.pas',
   MHMAddRecordManualHarvesting in '..\Model\HarvestingOfTheDay\ManualHarvesting\MHMAddRecordManualHarvesting.pas',
   MHMDeleteRecordManualHarvesting in '..\Model\HarvestingOfTheDay\ManualHarvesting\MHMDeleteRecordManualHarvesting.pas',
-  UMSGlobalVariant in '..\Model\System\UMSGlobalVariant.pas';
+  UMSGlobalVariant in '..\Model\System\UMSGlobalVariant.pas',
+  MHMChangeRecordManualHarvesting in '..\Model\HarvestingOfTheDay\ManualHarvesting\MHMChangeRecordManualHarvesting.pas',
+  VHAAutomaticApheresis in '..\View\HarvestingOfTheDay\AutomaticApheresis\VHAAutomaticApheresis.pas',
+  MHAAutomaticApheresis in '..\Model\HarvestingOfTheDay\AutomaticApheresis\MHAAutomaticApheresis.pas',
+  MHADeleteRecordAutomaticApheresis in '..\Model\HarvestingOfTheDay\AutomaticApheresis\MHADeleteRecordAutomaticApheresis.pas',
+  MHAAddRecordAutomaticApheresis in '..\Model\HarvestingOfTheDay\AutomaticApheresis\MHAAddRecordAutomaticApheresis.pas',
+  MHAChangeRecordAutomaticApheresis in '..\Model\HarvestingOfTheDay\AutomaticApheresis\MHAChangeRecordAutomaticApheresis.pas',
+  UMSCheckForExistenceOfRecord in '..\Model\System\UMSCheckForExistenceOfRecord.pas',
+  UMSValueChecksOnTheAdequacy in '..\Model\System\UMSValueChecksOnTheAdequacy.pas',
+  VHSSitoferez in '..\View\HarvestingOfTheDay\Sitoferez\VHSSitoferez.pas',
+  MHSSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSSitoferez.pas',
+  MHSDeleteRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSDeleteRecordSitoferez.pas',
+  MHSAddRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSAddRecordSitoferez.pas',
+  MHSChangeRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSChangeRecordSitoferez.pas';
 
 {$R *.res}
 
