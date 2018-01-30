@@ -130,7 +130,10 @@ uses
   MHSSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSSitoferez.pas',
   MHSDeleteRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSDeleteRecordSitoferez.pas',
   MHSAddRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSAddRecordSitoferez.pas',
-  MHSChangeRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSChangeRecordSitoferez.pas';
+  MHSChangeRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSChangeRecordSitoferez.pas',
+  MRDDailyReportToTheKray in '..\Model\Reports\DailyReportToTheKray\MRDDailyReportToTheKray.pas',
+  VRDDailyReportTheKray in '..\View\Reports\DailyReportToTheKray\VRDDailyReportTheKray.pas',
+  UVFMainMenu in '..\View\FormObjects\UVFMainMenu.pas';
 
 {$R *.res}
 

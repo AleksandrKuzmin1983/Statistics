@@ -42,8 +42,9 @@ object MyMainForm: TMyMainForm
       object N1: TMenuItem
         Caption = #1045#1078#1077#1076#1085#1077#1074#1085#1099#1081' '#1076#1083#1103' '#1079#1072#1074#1077#1076#1091#1102#1097#1077#1081
       end
-      object N22: TMenuItem
+      object KrasnEveryDay: TMenuItem
         Caption = #1045#1078#1077#1076#1085#1077#1074#1085#1099#1081' '#1074' '#1050#1088#1072#1089#1085#1086#1103#1088#1089#1082
+        OnClick = KrasnEveryDayClick
       end
       object N23: TMenuItem
         Caption = #1053#1077#1076#1077#1083#1100#1085#1099#1081
