@@ -130,7 +130,15 @@ uses
   MHSSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSSitoferez.pas',
   MHSDeleteRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSDeleteRecordSitoferez.pas',
   MHSAddRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSAddRecordSitoferez.pas',
-  MHSChangeRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSChangeRecordSitoferez.pas';
+  MHSChangeRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSChangeRecordSitoferez.pas',
+  MRDDailyReportToTheKray in '..\Model\Reports\DailyReportToTheKray\MRDDailyReportToTheKray.pas',
+  VRDDailyReportTheKray in '..\View\Reports\DailyReportToTheKray\VRDDailyReportTheKray.pas' {$R *.res},
+  UVFMainMenu in '..\View\FormObjects\UVFMainMenu.pas',
+  MRDDeilyReportToTheZav in '..\Model\Reports\DeilyReportToTheZav\MRDDeilyReportToTheZav.pas',
+  VRDDeilyReportToTheZav in '..\View\Reports\DeilyReportToTheZav\VRDDeilyReportToTheZav.pas',
+  Temp in '..\Model\Reports\DeilyReportToTheZav\Temp.pas' {Form1},
+  MRDPlanDeilyReportToTheZav in '..\Model\Reports\DeilyReportToTheZav\MRDPlanDeilyReportToTheZav.pas',
+  MRDStatInfoDeilyReportToTheZav in '..\Model\Reports\DeilyReportToTheZav\MRDStatInfoDeilyReportToTheZav.pas';
 
 {$R *.res}
 

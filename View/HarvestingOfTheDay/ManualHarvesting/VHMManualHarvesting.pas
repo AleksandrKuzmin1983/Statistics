@@ -1445,7 +1445,7 @@ begin
   result := CBoxTypeDefect.GetComboBox('CBoxTypeDefect', 340, 413, 90, 10, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
-  'WHERE (TypeOfDefects.Other=True) or (TypeOfDefects.Null=True)';
+  'WHERE (TypeOfDefects.Other=True)';
   CBoxTypeDefect.TheContentOfTheList(SQL);
   CBoxTypeDefect.WriteItemIndex(-1);
   CBoxTypeDefect.GetDROPPEDWIDTH(200);
@@ -1691,7 +1691,7 @@ begin
   result := CBoxTypeDefect2.GetComboBox('CBoxTypeDefect2', 780, 413, 90, 10, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
-  'WHERE (TypeOfDefects.Other=True) or (TypeOfDefects.Null=True)';
+  'WHERE (TypeOfDefects.Other=True)';
   CBoxTypeDefect2.TheContentOfTheList(SQL);
   CBoxTypeDefect2.WriteItemIndex(-1);
   CBoxTypeDefect2.GetDROPPEDWIDTH(200);

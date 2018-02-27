@@ -27,7 +27,9 @@ uses
   VHMManualHarvesting,
   VHSSitoferez,
   UMSMoldCleaning,
-  UMSGlobalVariant;
+  UMSGlobalVariant,
+  VRDDailyReportTheKray,
+  VRDDeilyReportToTheZav;
 
 type
   TMyMainForm = class(TForm)
@@ -56,8 +58,8 @@ type
     ConsumptionPlazma: TMenuItem;
     ConsumptionTrombo: TMenuItem;
     FlowRateWholeBlood: TMenuItem;
-    N1: TMenuItem;
-    N22: TMenuItem;
+    DeilyReportToTheZav: TMenuItem;
+    KrasnEveryDay: TMenuItem;
     N23: TMenuItem;
     N24: TMenuItem;
     N25: TMenuItem;
@@ -85,7 +87,9 @@ type
     procedure HandlyHarvestingClick(Sender: TObject);
     procedure AutoAferezClick(Sender: TObject);
     procedure CitoferezClick(Sender: TObject);
-   private
+    procedure KrasnEveryDayClick(Sender: TObject);
+    procedure DeilyReportToTheZavClick(Sender: TObject);
+  private
     GlobalVariant: TGlobalVariant;
   public
 
@@ -95,10 +99,29 @@ type
 
 var
   MyMainForm: TMyMainForm;
+  ReportForm1: TForm;
 
 implementation
 
 {$R *.dfm}
+
+procedure TMyMainForm.DeilyReportToTheZavClick(Sender: TObject);
+begin
+  if not Assigned(ReportForm1) then
+    Application.CreateForm(TForm,ReportForm1);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVRDDeilyReportToTheZav.Create(ReportForm1);
+end;
+
+procedure TMyMainForm.KrasnEveryDayClick(Sender: TObject);
+begin
+  if not Assigned(ReportForm1) then
+    Application.CreateForm(TForm,ReportForm1);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVRDDailyReportTheKray.Create(ReportForm1);
+end;
 
 procedure TMyMainForm.AdviceDoctorsClick(Sender: TObject);
 begin
@@ -151,13 +174,6 @@ end;
 
 procedure TMyMainForm.HarvestingBloodComponentsByTypesClick(Sender: TObject);
 begin
-{  if not Assigned(CleanForm1) then
-    CleanForm1 := TMSMoldCleaning.Create;
-  CleanForm1.CleanForm(self);
-
-  if not Assigned(HarvestingOfBloodComponentsByTypes) then
-    HarvestingOfBloodComponentsByTypes:=nil;
-  HarvestingOfBloodComponentsByTypes := THarvestingOfBloodComponentsByTypes.Create(self);}
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
   GlobalVariant:=THarvestingOfBloodComponentsByTypes.create(self);

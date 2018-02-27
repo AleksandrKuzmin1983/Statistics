@@ -52,7 +52,6 @@ begin
   except
   On e : EDatabaseError do
     messageDlg(e.message, mtError, [mbOK],0);
-
   End;
   AmountOfBP := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[2].value) +
     CheckNull.CheckedValue(TempQuery.Fields[1].value) + CheckNull.CheckedValue

@@ -71,50 +71,7 @@ implementation
 
 { TBloodProduct }
 
-procedure TBloodProduct.ButtonAct(Sender: TObject);
-begin
-  if StartDateCal.GetDate > GetCalendarEndDate(CurrentForm).Date
-  then
-  begin
-    ShowMessage('Конечная дата не может быть меньше начальной');
-    exit;
-  end
-  else
-  begin
-    if not Assigned(TheNumberOfConservedBlood) then
-      TheAmountOfBloodOnPreserving := TTheAmountOfBloodOnPreserving.create
-        (StartDateCal.GetDate, EndDateCal.GetDate);
-    ResultEdit1.WriteText(TheAmountOfBloodOnPreserving.GetValue);
-    TheAmountOfBloodOnPreserving := nil;
 
-    if not Assigned(TheNumberOfWholeBlood) then
-      TheNumberOfWholeBlood := TTheNumberOfWholeBlood.create
-        (StartDateCal.GetDate, EndDateCal.GetDate);
-    ResultEdit2.WriteText(TheNumberOfWholeBlood.GetValue);
-    TheNumberOfWholeBlood := nil;
-
-    if not Assigned(TheNumberOfConservedBlood) then
-      TheNumberOfConservedBlood := TTheNumberOfConservedBlood.create
-        (StartDateCal.GetDate, EndDateCal.GetDate);
-    ResultEdit3.WriteText(TheNumberOfConservedBlood.GetValue);
-    TheNumberOfConservedBlood := nil;
-
-    if not Assigned(TheAmountOfReinfusionWithAPA) then
-      TheAmountOfReinfusionWithAPA := TTheAmountOfReinfusionWithAPA.create
-        (StartDateCal.GetDate, EndDateCal.GetDate);
-    ResultEdit4.WriteText(TheAmountOfReinfusionWithAPA.GetValue);
-    TheAmountOfReinfusionWithAPA := nil;
-
-    if not Assigned(TheAmountOfReinfusionWithTrombo) then
-      TheAmountOfReinfusionWithTrombo := TTheAmountOfReinfusionWithTrombo.create
-        (StartDateCal.GetDate, EndDateCal.GetDate);
-    ResultEdit5.WriteText(TheAmountOfReinfusionWithTrombo.GetValue);
-    TheAmountOfReinfusionWithTrombo := nil;
-
-    ShowMessage('Запрос выполнен!');
-  end;
-
-end;
 
 constructor TBloodProduct.create(form: TForm);
 begin
@@ -165,6 +122,51 @@ begin
 
   ButtonAction.destroy;
   inherited;
+end;
+
+procedure TBloodProduct.ButtonAct(Sender: TObject);
+begin
+  if StartDateCal.GetDate > GetCalendarEndDate(CurrentForm).Date
+  then
+  begin
+    ShowMessage('Конечная дата не может быть меньше начальной');
+    exit;
+  end
+  else
+  begin
+    if not Assigned(TheNumberOfConservedBlood) then
+      TheAmountOfBloodOnPreserving := TTheAmountOfBloodOnPreserving.create
+        (StartDateCal.GetDate, EndDateCal.GetDate);
+    ResultEdit1.WriteText(TheAmountOfBloodOnPreserving.GetValue);
+    TheAmountOfBloodOnPreserving := nil;
+
+    if not Assigned(TheNumberOfWholeBlood) then
+      TheNumberOfWholeBlood := TTheNumberOfWholeBlood.create
+        (StartDateCal.GetDate, EndDateCal.GetDate);
+    ResultEdit2.WriteText(TheNumberOfWholeBlood.GetValue);
+    TheNumberOfWholeBlood := nil;
+
+    if not Assigned(TheNumberOfConservedBlood) then
+      TheNumberOfConservedBlood := TTheNumberOfConservedBlood.create
+        (StartDateCal.GetDate, EndDateCal.GetDate);
+    ResultEdit3.WriteText(TheNumberOfConservedBlood.GetValue);
+    TheNumberOfConservedBlood := nil;
+
+    if not Assigned(TheAmountOfReinfusionWithAPA) then
+      TheAmountOfReinfusionWithAPA := TTheAmountOfReinfusionWithAPA.create
+        (StartDateCal.GetDate, EndDateCal.GetDate);
+    ResultEdit4.WriteText(TheAmountOfReinfusionWithAPA.GetValue);
+    TheAmountOfReinfusionWithAPA := nil;
+
+    if not Assigned(TheAmountOfReinfusionWithTrombo) then
+      TheAmountOfReinfusionWithTrombo := TTheAmountOfReinfusionWithTrombo.create
+        (StartDateCal.GetDate, EndDateCal.GetDate);
+    ResultEdit5.WriteText(TheAmountOfReinfusionWithTrombo.GetValue);
+    TheAmountOfReinfusionWithTrombo := nil;
+
+    ShowMessage('Запрос выполнен!');
+  end;
+
 end;
 
 function TBloodProduct.GetEdit1(NameForm: TForm): TEdit;
