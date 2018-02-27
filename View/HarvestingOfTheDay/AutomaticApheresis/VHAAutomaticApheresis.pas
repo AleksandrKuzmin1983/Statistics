@@ -325,7 +325,8 @@ begin
     AddRecord.AddRecordPlasmaComponents(EditVolumePlazma.ReadText, EditNumberDosesPlazma.ReadText, CBoxTypePlazma.GetItemsValue(CBoxTypePlazma.GetItemIndex));
     AddRecord.AddRecordPlasmaDefect(EditVolumeDefect.ReadText, EditNumberDosesDefect.ReadText, CBoxTypeDefect.GetItemsValue(CBoxTypeDefect.GetItemIndex));
     GetStringGrid(CurrentForm);
-    ShowMessage('Записи успешно добавлена!');
+    ShowMessage('Объем реинфузии - ' + IntToStr(StrToInt(EditAllStoredBlood.ReadText)-StrToInt(EditVolumePlazma.ReadText)-StrToInt(EditVolumeDefect.ReadText)) +
+      chr(13) + 'Количество консерванта - ' + IntToStr(StrToInt(EditAllStoredBlood.ReadText)-StrToInt(EditSentToPreserving.ReadText)));
     AfterSaving_Cancelling;
   end;
 end;
@@ -430,9 +431,10 @@ begin
       ChangeRecord.ChangeRecordPlasmaDoza(DateCal.GetDate, EditNumberOfDonors.ReadText);
       ChangeRecord.ChangeRecordPlasmaComponents(EditVolumePlazma.ReadText, EditNumberDosesPlazma.ReadText, CBoxTypePlazma.GetItemsValue(CBoxTypePlazma.GetItemIndex));
       ChangeRecord.ChangeRecordPlasmaDefect(EditVolumeDefect.ReadText, EditNumberDosesDefect.ReadText, CBoxTypeDefect.GetItemsValue(CBoxTypeDefect.GetItemIndex));
+      ShowMessage('Объем реинфузии - ' + IntToStr(StrToInt(EditAllStoredBlood.ReadText)-StrToInt(EditVolumePlazma.ReadText)-StrToInt(EditVolumeDefect.ReadText)) +
+        chr(13) + 'Количество консерванта - ' + IntToStr(StrToInt(EditAllStoredBlood.ReadText)-StrToInt(EditSentToPreserving.ReadText)));
       AfterSaving_Cancelling;
       GetStringGrid(CurrentForm);
-      ShowMessage('Запись успешно изменена!');
       ButtonEdit.ChangeCaption('Изменить');
       exit;
     end
@@ -820,7 +822,7 @@ begin
   result := CBoxTypeDefect.GetComboBox('CBoxTypeDefect', 470, 363, 110, 12, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
-  'WHERE (TypeOfDefects.Other=True) or (TypeOfDefects.Null=True)';
+  'WHERE (TypeOfDefects.Other=True)';
   CBoxTypeDefect.TheContentOfTheList(SQL);
   CBoxTypeDefect.WriteItemIndex(-1);
   CBoxTypeDefect.GetDROPPEDWIDTH(200);

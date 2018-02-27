@@ -130,7 +130,24 @@ uses
   MHSSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSSitoferez.pas',
   MHSDeleteRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSDeleteRecordSitoferez.pas',
   MHSAddRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSAddRecordSitoferez.pas',
-  MHSChangeRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSChangeRecordSitoferez.pas';
+  MHSChangeRecordSitoferez in '..\Model\HarvestingOfTheDay\Sitoferez\MHSChangeRecordSitoferez.pas',
+  MRDDailyReportToTheKray in '..\Model\Reports\DailyReportToTheKray\MRDDailyReportToTheKray.pas',
+  VRDDailyReportTheKray in '..\View\Reports\DailyReportToTheKray\VRDDailyReportTheKray.pas' {$R *.res},
+  UVFMainMenu in '..\View\FormObjects\UVFMainMenu.pas',
+  MRDDeilyReportToTheZav in '..\Model\Reports\DeilyReportToTheZav\MRDDeilyReportToTheZav.pas',
+  VRDDeilyReportToTheZav in '..\View\Reports\DeilyReportToTheZav\VRDDeilyReportToTheZav.pas',
+  MRDPlanDeilyReportToTheZav in '..\Model\Reports\DeilyReportToTheZav\MRDPlanDeilyReportToTheZav.pas',
+  MRDStatInfoDeilyReportToTheZav in '..\Model\Reports\DeilyReportToTheZav\MRDStatInfoDeilyReportToTheZav.pas',
+  VRWWeeklyReport in '..\View\Reports\WeeklyReport\VRWWeeklyReport.pas',
+  MRWWeeklyReportProduction in '..\Model\Reports\WeeklyReport\MRWWeeklyReportProduction.pas',
+  MRWTableForDefect in '..\Model\Reports\WeeklyReport\MRWTableForDefect.pas',
+  MRWSecondTable in '..\Model\Reports\WeeklyReport\MRWSecondTable.pas',
+  MRWDonorsAndProcedures in '..\Model\Reports\WeeklyReport\MRWDonorsAndProcedures.pas',
+  MRWResultsOfTheProducts in '..\Model\Reports\WeeklyReport\MRWResultsOfTheProducts.pas',
+  MRWDonorsAndProceduresOuting in '..\Model\Reports\WeeklyReport\MRWDonorsAndProceduresOuting.pas',
+  MRWReasonsForMedicalExemptions in '..\Model\Reports\WeeklyReport\MRWReasonsForMedicalExemptions.pas',
+  MRWLPUConsultation in '..\Model\Reports\WeeklyReport\MRWLPUConsultation.pas',
+  MRWCancellation_Kray in '..\Model\Reports\WeeklyReport\MRWCancellation_Kray.pas';
 
 {$R *.res}
 

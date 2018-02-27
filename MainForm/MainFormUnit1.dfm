@@ -39,16 +39,19 @@ object MyMainForm: TMyMainForm
     end
     object N2: TMenuItem
       Caption = '&'#1054#1090#1095#1077#1090#1099
-      object N1: TMenuItem
+      object DeilyReportToTheZav: TMenuItem
         Caption = #1045#1078#1077#1076#1085#1077#1074#1085#1099#1081' '#1076#1083#1103' '#1079#1072#1074#1077#1076#1091#1102#1097#1077#1081
+        OnClick = DeilyReportToTheZavClick
       end
-      object N22: TMenuItem
+      object KrasnEveryDay: TMenuItem
         Caption = #1045#1078#1077#1076#1085#1077#1074#1085#1099#1081' '#1074' '#1050#1088#1072#1089#1085#1086#1103#1088#1089#1082
+        OnClick = KrasnEveryDayClick
       end
       object N23: TMenuItem
         Caption = #1053#1077#1076#1077#1083#1100#1085#1099#1081
-        object N24: TMenuItem
+        object WeeklyReport: TMenuItem
           Caption = #1054#1073#1099#1095#1085#1099#1081
+          OnClick = WeeklyReportClick
         end
         object N25: TMenuItem
           Caption = #1057' '#1087#1077#1088#1077#1093#1086#1076#1086#1084

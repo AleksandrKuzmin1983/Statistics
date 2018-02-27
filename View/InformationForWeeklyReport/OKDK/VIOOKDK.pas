@@ -17,6 +17,7 @@ uses
   UVFBitBtnBlock,
   UVFStringGrid,
   UVFComboBox,
+  UVFCheckBox,
   MIOCurrentType,
   MIOTypeOfSelectRow,
   MIONameTypeOfSelectRow,
@@ -47,6 +48,8 @@ type
     DeleteRecord: IMIODeleteRecord;
     ChangeRecord: IMIOChangeRecord;
 
+    TempCheckBox: TCheckBoxTag5;
+
     EditVolume: TEditTag5;
 
     TypeOfTapList: TComboboxTag5;
@@ -69,6 +72,7 @@ type
     function GetLabelTitle(NameForm: TForm): TLabel;
 
     function GetStringGrid(NameForm: TForm): TStringGrid;
+    function GetTempCheckBox(NameForm: TForm): TCheckBox;
 
     function GetEditVolume(NameForm: TForm): TEdit;
 
@@ -108,6 +112,7 @@ begin
   GetLabelTitle(form);
 
   GetStringGrid(form);
+  GetTempCheckBox(form);
 
   GetCalendarReportDateCal(form);
 
@@ -134,6 +139,7 @@ begin
 
   StringGrid.destroy;
   ReportDateCal.destroy;
+  TempCheckBox.destroy;
 
   EditVolume.destroy;
 
@@ -145,6 +151,13 @@ begin
   ButtonDelete.destroy;
   ButtonBlock.destroy;
   inherited;
+end;
+
+function TVIOOKDK.GetTempCheckBox(NameForm: TForm): TCheckBox;
+begin
+  if not Assigned(TempCheckBox) then
+    TempCheckBox := TCheckBoxTag5.create;
+  result := TempCheckBox.GetCheckBox(400, 210, 200, 40, 14, False, 'ВЫЕЗД!', NameForm);
 end;
 
 //Button
@@ -170,7 +183,7 @@ begin
     begin
       if not Assigned(AddRecord) then
         AddRecord := TMIOAddRecord.create;
-      AddRecord.AddRecord(ReportDateCal.GetDate, NameTapsList.GetItemsValue(NameTapsList.GetItemIndex), EditVolume.ReadText);
+      AddRecord.AddRecord(ReportDateCal.GetDate, NameTapsList.GetItemsValue(NameTapsList.GetItemIndex), EditVolume.ReadText, TempCheckBox.CheckedString);
       ShowMessage('Запись успешно добавлена!');
       GetStringGrid(CurrentForm);
     end;
@@ -178,6 +191,7 @@ begin
   TypeOfTapList.WriteItemIndex(-1);
   NameTapsList.Clear;
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  TempCheckBox.WriteChecked(false);
 end;
 
 // Разблокировка кнопок
@@ -216,6 +230,7 @@ begin
   TypeOfTapList.WriteItemIndex(-1);
   NameTapsList.Clear;
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+  TempCheckBox.WriteChecked(false);
   if Assigned(DeleteRecord) then       //1
   begin
     DeleteRecord.destroy;
@@ -243,6 +258,7 @@ begin
     StringGrid.Enabled(False);
 
     ReportDateCal.WriteDateTime(StrToDate(StringGrid.GetValue(1, StringGrid.CurrentRow)));
+    if StringGrid.GetValue(4, StringGrid.CurrentRow)='Да' then TempCheckBox.WriteChecked(true) else TempCheckBox.WriteChecked(false);
 
     if not Assigned(CurrentTypeOfSelectRow) then
       CurrentTypeOfSelectRow := TMIOTypeOfSelectRow.create;
@@ -288,7 +304,7 @@ begin
     begin
       if not Assigned(ChangeRecord) then
         ChangeRecord := TMIOChangeRecord.create;
-      ChangeRecord.ChangeRecord(ReportDateCal.GetDate, NameTapsList.GetItemsValue(NameTapsList.GetItemIndex), EditVolume.ReadText, StringGrid.GetValue(0, StringGrid.CurrentRow));
+      ChangeRecord.ChangeRecord(ReportDateCal.GetDate, NameTapsList.GetItemsValue(NameTapsList.GetItemIndex), EditVolume.ReadText, StringGrid.GetValue(0, StringGrid.CurrentRow), TempCheckBox.CheckedString);
     end
     else
     begin
@@ -296,6 +312,7 @@ begin
       TypeOfTapList.WriteItemIndex(-1);
       NameTapsList.Clear;
       ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+      TempCheckBox.WriteChecked(false);
       ButtonEdit.ChangeCaption('Изменить');
       exit;
     end;
@@ -309,6 +326,7 @@ begin
       TypeOfTapList.WriteItemIndex(-1);
       NameTapsList.Clear;
       ReportDateCal.WriteDateTime(StartOfTheWeek(Date)-7);
+      TempCheckBox.WriteChecked(false);
   end;
   if ButtonEdit.GetCaption='Изменить' then ButtonEdit.ChangeCaption('Сохранить изменения') else ButtonEdit.ChangeCaption('Изменить');
 end;
@@ -456,18 +474,20 @@ begin
   i:=0; j:=0;
   if not Assigned(StringGrid) then
     StringGrid := TStringGridTag5.create;
-  Result:=StringGrid.GetStringGrid(40, 330, 820, 190, 4, 2, 11, NameForm);
-  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 3, DT_CENTER, 5, DT_RIGHT, 6, DT_RIGHT, 7, DT_RIGHT);
+  Result:=StringGrid.GetStringGrid(40, 330, 820, 190, 5, 2, 11, NameForm);
+  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 3, DT_CENTER, 4, DT_RIGHT, 6, DT_RIGHT, 7, DT_RIGHT);
   StringGrid.NumberOfFixedCol(0);
   StringGrid.Visible(true);
   StringGrid.ColWidth(0,40);
   StringGrid.ColWidth(1,90);
   StringGrid.ColWidth(2,180);
   StringGrid.ColWidth(3,90);
+  StringGrid.ColWidth(4,60);
   StringGrid.WriteCells(0, 0, 'Код');
   StringGrid.WriteCells(1, 0, 'Дата');
   StringGrid.WriteCells(2, 0, 'Наименование');
   StringGrid.WriteCells(3, 0, 'Количество');
+  StringGrid.WriteCells(4, 0, 'Выезд');
   if not Assigned(ContentForStringGrid) then
     ContentForStringGrid := TMIOOKDK.create;
   ContentForStringGrid.GetContent;
@@ -479,6 +499,7 @@ begin
         StringGrid.WriteCells(1, i+1, ContentForStringGrid.GetReportDate(j));
         StringGrid.WriteCells(2, i+1, ContentForStringGrid.GetTheNameOfTap(j));
         StringGrid.WriteCells(3, i+1, ContentForStringGrid.GetVolume(j));
+        StringGrid.WriteCells(4, i+1, ContentForStringGrid.GetOuting(j));
         j:=j+1;
       end;
 end;

@@ -456,6 +456,7 @@ var
   i: integer;
 begin
   CheckBox.WriteChecked(false);
+  CheckBoxOuting.WriteChecked(false);
   DateCal.WriteDateTime(date());
   for i := CBoxVolumeOfDonation.GetItemsCount downto 0 do
     if CBoxVolumeOfDonation.GetItemsValue(i)='450' then CBoxVolumeOfDonation.WriteItemIndex(i);
@@ -952,15 +953,15 @@ begin
       end;
       True:
       begin
-        EditNumberOfDoses2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberOfDoses.ReadText));
-        EditVolumeErSusp2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeErSusp.ReadText));
-        EditNumberDosesErSusp2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesErSusp.ReadText));
-        EditVolumePlazma2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumePlazma.ReadText));
-        EditNumberDosesPlazma2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesPlazma.ReadText));
-        EditVolumeFiltrat2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeFiltrat.ReadText));
-        EditNumberDosesFiltrat2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesPlazma.ReadText));
-        EditVolumeDefect2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeDefect.ReadText));
-        EditNumberDosesDefect2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesDefect.ReadText));
+        EditNumberOfDoses2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberOfDoses2.ReadText));
+        EditVolumeErSusp2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeErSusp2.ReadText));
+        EditNumberDosesErSusp2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesErSusp2.ReadText));
+        EditVolumePlazma2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumePlazma2.ReadText));
+        EditNumberDosesPlazma2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesPlazma2.ReadText));
+        EditVolumeFiltrat2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeFiltrat2.ReadText));
+        EditNumberDosesFiltrat2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesPlazma2.ReadText));
+        EditVolumeDefect2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeDefect2.ReadText));
+        EditNumberDosesDefect2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesDefect2.ReadText));
 
         if ValueChecksOnTheAdequacy.CheckZeroValues(EditNumberOfDoses2.ReadText, 'Количество доз второго вида гемаконов почему-то равна нулю!' + chr(13) + 'Если все донации происходили с использованием одного вида гемаконов, то уберите галочку "Заготовка происходила в разных гемаконах"') then
         begin
@@ -1445,7 +1446,7 @@ begin
   result := CBoxTypeDefect.GetComboBox('CBoxTypeDefect', 340, 413, 90, 10, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
-  'WHERE (TypeOfDefects.Other=True) or (TypeOfDefects.Null=True)';
+  'WHERE (TypeOfDefects.Other=True)';
   CBoxTypeDefect.TheContentOfTheList(SQL);
   CBoxTypeDefect.WriteItemIndex(-1);
   CBoxTypeDefect.GetDROPPEDWIDTH(200);
@@ -1691,7 +1692,7 @@ begin
   result := CBoxTypeDefect2.GetComboBox('CBoxTypeDefect2', 780, 413, 90, 10, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
-  'WHERE (TypeOfDefects.Other=True) or (TypeOfDefects.Null=True)';
+  'WHERE (TypeOfDefects.Other=True)';
   CBoxTypeDefect2.TheContentOfTheList(SQL);
   CBoxTypeDefect2.WriteItemIndex(-1);
   CBoxTypeDefect2.GetDROPPEDWIDTH(200);
