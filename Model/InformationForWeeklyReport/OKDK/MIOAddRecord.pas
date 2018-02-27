@@ -9,7 +9,7 @@ uses
 
 type
   IMIOAddRecord = interface
-    procedure AddRecord(Date: Extended; CTap: String; Num: String);
+    procedure AddRecord(Date: Extended; CTap: String; Num: String; Outing: String);
     procedure destroy;
   end;
 
@@ -19,7 +19,7 @@ type
     TempConnect: ITempAdoQuery;
     TempQuery: TADOQuery;
   public
-    procedure AddRecord(Date: Extended; CTap: String; Num: String);
+    procedure AddRecord(Date: Extended; CTap: String; Num: String; Outing: String);
     procedure destroy;
   end;
 
@@ -27,7 +27,7 @@ implementation
 
 { TTheNumberOfTromboDonations }
 
-procedure TMIOAddRecord.AddRecord(Date: Extended; CTap: String; Num: String);
+procedure TMIOAddRecord.AddRecord(Date: Extended; CTap: String; Num: String; Outing: string);
 begin
   if not Assigned(TempConnect) then
     TempConnect := TTempAdoQuery.create;
@@ -39,10 +39,11 @@ begin
       Connection := TempConnect.GetConnect;
       Close;
       SQL.Clear;
-      SQL.Add('INSERT INTO NewOKDK (DateTap, Tap, Numb) VALUES ' +
+      SQL.Add('INSERT INTO NewOKDK (DateTap, Tap, Numb, Outing) VALUES ' +
       '(#' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(Date)) + '#, ''' +
       CTap + ''', ' +
-      Num + ')');
+      Num + ', ' +
+      Outing + ')');
       ExecSQL;
     end;
   except

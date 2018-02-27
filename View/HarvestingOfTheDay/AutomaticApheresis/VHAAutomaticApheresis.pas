@@ -820,7 +820,7 @@ begin
   result := CBoxTypeDefect.GetComboBox('CBoxTypeDefect', 470, 363, 110, 12, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
-  'WHERE (TypeOfDefects.Other=True) or (TypeOfDefects.Null=True)';
+  'WHERE (TypeOfDefects.Other=True)';
   CBoxTypeDefect.TheContentOfTheList(SQL);
   CBoxTypeDefect.WriteItemIndex(-1);
   CBoxTypeDefect.GetDROPPEDWIDTH(200);

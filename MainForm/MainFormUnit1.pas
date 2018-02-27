@@ -7,7 +7,7 @@ uses
   Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls, DateUtils,
   ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
   Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
-  Vcl.ComCtrls, Vcl.ExtCtrls,
+  Vcl.ComCtrls, Vcl.ExtCtrls, frxClass,
   VQNNumberOfDonations,
   VQBBloodProduct,
   VQPProcurementOfTheComponentsTotal,
@@ -27,7 +27,12 @@ uses
   VHMManualHarvesting,
   VHSSitoferez,
   UMSMoldCleaning,
-  UMSGlobalVariant;
+  UMSGlobalVariant,
+  VRDDailyReportTheKray,
+  VRDDeilyReportToTheZav,
+  MRWTableForDefect,
+  VRWWeeklyReport,
+  Temp;
 
 type
   TMyMainForm = class(TForm)
@@ -56,14 +61,15 @@ type
     ConsumptionPlazma: TMenuItem;
     ConsumptionTrombo: TMenuItem;
     FlowRateWholeBlood: TMenuItem;
-    N1: TMenuItem;
-    N22: TMenuItem;
+    DeilyReportToTheZav: TMenuItem;
+    KrasnEveryDay: TMenuItem;
     N23: TMenuItem;
-    N24: TMenuItem;
+    WeeklyReport: TMenuItem;
     N25: TMenuItem;
     QueryNumberOfDonations: TMenuItem;
     HarvestingBloodComponentsByTypes: TMenuItem;
     BloodProduction: TMenuItem;
+    BitBtn1: TBitBtn;
     procedure CloseButtonClick(Sender: TObject);
     procedure QueryNumberOfDonationsClick(Sender: TObject);
     procedure BloodProductionClick(Sender: TObject);
@@ -85,8 +91,13 @@ type
     procedure HandlyHarvestingClick(Sender: TObject);
     procedure AutoAferezClick(Sender: TObject);
     procedure CitoferezClick(Sender: TObject);
+    procedure KrasnEveryDayClick(Sender: TObject);
+    procedure DeilyReportToTheZavClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure WeeklyReportClick(Sender: TObject);
    private
     GlobalVariant: TGlobalVariant;
+    TableForDefect: TMRWTableForDefect;
   public
 
     { Public declarations }
@@ -95,10 +106,48 @@ type
 
 var
   MyMainForm: TMyMainForm;
+  ReportForm1: TForm;
 
 implementation
 
 {$R *.dfm}
+
+procedure TMyMainForm.WeeklyReportClick(Sender: TObject);
+begin
+  if not Assigned(ReportForm1) then
+    Application.CreateForm(TForm,ReportForm1);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVRWWeeklyReport.Create(ReportForm1);
+
+ { if not Assigned(TableForDefect) then
+    TableForDefect:=TMRWTableForDefect.Create;
+  TableForDefect.GetContent;
+  Temp.Form3.GetResultMass;
+  Temp.Form3.frxDefect.RangeEnd:=ReCount;
+  Temp.Form3.frxDefect.RangeEndCount:=TableForDefect.GetRowCount;
+  Temp.Form3.frxReport1.ShowReport;
+  Temp.Form3.Show;}
+end;
+
+
+procedure TMyMainForm.DeilyReportToTheZavClick(Sender: TObject);
+begin
+  if not Assigned(ReportForm1) then
+    Application.CreateForm(TForm,ReportForm1);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVRDDeilyReportToTheZav.Create(ReportForm1);
+end;
+
+procedure TMyMainForm.KrasnEveryDayClick(Sender: TObject);
+begin
+  if not Assigned(ReportForm1) then
+    Application.CreateForm(TForm,ReportForm1);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVRDDailyReportTheKray.Create(ReportForm1);
+end;
 
 procedure TMyMainForm.AdviceDoctorsClick(Sender: TObject);
 begin
@@ -135,6 +184,20 @@ begin
   GlobalVariant := TVIOCCheckLPU.Create(self);
 end;
 
+procedure TMyMainForm.BitBtn1Click(Sender: TObject);
+begin
+//  if not Assigned(TableForDefect) then
+//    TableForDefect:=TMRWTableForDefect.Create;
+//  TableForDefect.GetContent;
+//  Temp.Form3.GetResultMass;
+  Form3.frxUserDataSet1.RangeEnd:=ReCount;
+  Form3.frxUserDataSet1.RangeEndCount:=5;
+//  Temp.Form3.frxDefect.RangeEnd:=ReCount;
+// Temp.Form3.frxDefect.RangeEndCount:=5;//TableForDefect.GetRowCount;
+  Temp.Form3.frxReport1.ShowReport;
+  Temp.Form3.Show;
+end;
+
 procedure TMyMainForm.BloodProductionClick(Sender: TObject);
 begin
   if Assigned(GlobalVariant) then
@@ -151,13 +214,6 @@ end;
 
 procedure TMyMainForm.HarvestingBloodComponentsByTypesClick(Sender: TObject);
 begin
-{  if not Assigned(CleanForm1) then
-    CleanForm1 := TMSMoldCleaning.Create;
-  CleanForm1.CleanForm(self);
-
-  if not Assigned(HarvestingOfBloodComponentsByTypes) then
-    HarvestingOfBloodComponentsByTypes:=nil;
-  HarvestingOfBloodComponentsByTypes := THarvestingOfBloodComponentsByTypes.Create(self);}
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
   GlobalVariant:=THarvestingOfBloodComponentsByTypes.create(self);
@@ -195,6 +251,8 @@ begin
     GlobalVariant.destroy;
   GlobalVariant:=TVIOOKDK.create(self);
 end;
+
+
 
 procedure TMyMainForm.CitoferezClick(Sender: TObject);
 begin

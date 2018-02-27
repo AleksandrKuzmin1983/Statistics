@@ -263,7 +263,7 @@ begin
   PanelVert1Components1.destroy;
   PanelVert2Components1.destroy;
   PanelVert3Components1.destroy;
-
+  PanelVert4Components1.destroy;
   //шапка
   EditNumberOfDonors.destroy;
 
@@ -866,7 +866,7 @@ begin
   result := CBoxTypeDefect.GetComboBox('', 600, 363, 160, 12, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
-  'WHERE (TypeOfDefects.Other=True) or (TypeOfDefects.Null=True)';
+  'WHERE (TypeOfDefects.Other=True)';
   CBoxTypeDefect.TheContentOfTheList(SQL);
   CBoxTypeDefect.WriteItemIndex(-1);
 end;
