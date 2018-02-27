@@ -13,6 +13,7 @@ type
     procedure WriteChecked(i: boolean);
     procedure OnClick(ProcedureOnClick: TNotifyEvent);
     procedure Enabled(i: boolean);
+    procedure Visible(i: boolean);
     procedure destroy;
   end;
 
@@ -26,6 +27,7 @@ type
     procedure WriteChecked(i: boolean);
     procedure OnClick(ProcedureOnClick: TNotifyEvent);
     procedure Enabled(i: boolean);
+    procedure Visible(i: boolean);
     procedure destroy;
   end;
 
@@ -71,6 +73,7 @@ begin
     Caption := CCaption;
     WordWrap := True;
     Tag := 5;
+    Visible:=False;
   end;
   result := TempCheckBox;
 end;
@@ -79,6 +82,11 @@ procedure TCheckBoxTag5.OnClick(ProcedureOnClick: TNotifyEvent);
 begin
   TempCheckBox.OnClick:=ProcedureOnClick;
 end;
+procedure TCheckBoxTag5.Visible(i: boolean);
+begin
+  TempCheckBox.Visible:=i;
+end;
+
 procedure TCheckBoxTag5.WriteChecked(i: boolean);
 begin
   TempCheckBox.Checked:=i;

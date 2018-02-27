@@ -60,6 +60,7 @@ type
 
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm); override;
     destructor destroy; override;
@@ -89,6 +90,7 @@ begin
   GetEdit3(CurrentForm);
 
   GetButtonAction(CurrentForm);
+  Show;
   inherited;
 end;
 
@@ -234,4 +236,21 @@ begin
   Result:=Title.GetTitleLabel(25, ' оличество донаций и заготовленной крови', NameForm);
 end;
 
+procedure TNumberOfDonations.Show;
+begin
+  StartDate.Visible(True);
+  EndDate.Visible(True);
+  NameStat1.Visible(True);
+  NameStat2.Visible(True);
+  NameStat3.Visible(True);
+
+  StartDateCal.Visible(True);
+  EndDateCal.Visible(True);
+
+  ResultEdit1.Visible(True);
+  ResultEdit2.Visible(True);
+  ResultEdit3.Visible(True);
+
+  ButtonAction.Visible(True);
+end;
 end.

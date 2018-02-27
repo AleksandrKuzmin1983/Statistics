@@ -7,7 +7,7 @@ uses
   Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls, DateUtils,
   ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
   Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
-  Vcl.ComCtrls, Vcl.ExtCtrls,
+  Vcl.ComCtrls, Vcl.ExtCtrls, frxClass,
   VQNNumberOfDonations,
   VQBBloodProduct,
   VQPProcurementOfTheComponentsTotal,
@@ -26,8 +26,14 @@ uses
   VHAAutomaticApheresis,
   VHMManualHarvesting,
   VHSSitoferez,
+  VMMonthlyPlan,
   UMSMoldCleaning,
-  UMSGlobalVariant;
+  UMSGlobalVariant,
+  VRDDailyReportTheKray,
+  VRDDeilyReportToTheZav,
+  MRWTableForDefect,
+  VRWWeeklyReport,
+  VRWWeeklyIncompleteWeek;
 
 type
   TMyMainForm = class(TForm)
@@ -38,7 +44,7 @@ type
     CloseButton: TMenuItem;
     N5: TMenuItem;
     N6: TMenuItem;
-    N8: TMenuItem;
+    MonthlyPlan: TMenuItem;
     HandlyHarvesting: TMenuItem;
     AutoAferez: TMenuItem;
     Citoferez: TMenuItem;
@@ -56,11 +62,9 @@ type
     ConsumptionPlazma: TMenuItem;
     ConsumptionTrombo: TMenuItem;
     FlowRateWholeBlood: TMenuItem;
-    N1: TMenuItem;
-    N22: TMenuItem;
-    N23: TMenuItem;
-    N24: TMenuItem;
-    N25: TMenuItem;
+    DeilyReportToTheZav: TMenuItem;
+    KrasnEveryDay: TMenuItem;
+    WeeklyReport: TMenuItem;
     QueryNumberOfDonations: TMenuItem;
     HarvestingBloodComponentsByTypes: TMenuItem;
     BloodProduction: TMenuItem;
@@ -85,8 +89,13 @@ type
     procedure HandlyHarvestingClick(Sender: TObject);
     procedure AutoAferezClick(Sender: TObject);
     procedure CitoferezClick(Sender: TObject);
+    procedure KrasnEveryDayClick(Sender: TObject);
+    procedure DeilyReportToTheZavClick(Sender: TObject);
+    procedure WeeklyReportClick(Sender: TObject);
+    procedure MonthlyPlanClick(Sender: TObject);
    private
     GlobalVariant: TGlobalVariant;
+    TableForDefect: TMRWTableForDefect;
   public
 
     { Public declarations }
@@ -95,10 +104,56 @@ type
 
 var
   MyMainForm: TMyMainForm;
+  ReportForm1: TForm;
 
 implementation
 
 {$R *.dfm}
+
+procedure TMyMainForm.WeeklyReportClick(Sender: TObject);
+begin
+  if MonthOf(StartOfTheWeek(Date()-7))=MonthOf(EndOfTheWeek(Date()-7)) then
+  begin
+    if not Assigned(ReportForm1) then
+      Application.CreateForm(TForm,ReportForm1);
+    if Assigned(GlobalVariant) then
+      GlobalVariant.destroy;
+    GlobalVariant := TVRWWeeklyReport.Create(ReportForm1);
+  end
+  else
+  begin
+    if not Assigned(ReportForm1) then
+      Application.CreateForm(TForm,ReportForm1);
+    if Assigned(GlobalVariant) then
+      GlobalVariant.destroy;
+    GlobalVariant := TVRWWeeklyIncompleteWeek.Create(ReportForm1);
+  end;
+end;
+
+procedure TMyMainForm.DeilyReportToTheZavClick(Sender: TObject);
+begin
+  if not Assigned(ReportForm1) then
+    Application.CreateForm(TForm,ReportForm1);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVRDDeilyReportToTheZav.Create(ReportForm1);
+end;
+
+procedure TMyMainForm.KrasnEveryDayClick(Sender: TObject);
+begin
+  if not Assigned(ReportForm1) then
+    Application.CreateForm(TForm,ReportForm1);
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVRDDailyReportTheKray.Create(ReportForm1);
+end;
+
+procedure TMyMainForm.MonthlyPlanClick(Sender: TObject);
+begin
+  if Assigned(GlobalVariant) then
+    GlobalVariant.destroy;
+  GlobalVariant := TVMMonthlyPlan.Create(self);
+end;
 
 procedure TMyMainForm.AdviceDoctorsClick(Sender: TObject);
 begin
@@ -151,13 +206,6 @@ end;
 
 procedure TMyMainForm.HarvestingBloodComponentsByTypesClick(Sender: TObject);
 begin
-{  if not Assigned(CleanForm1) then
-    CleanForm1 := TMSMoldCleaning.Create;
-  CleanForm1.CleanForm(self);
-
-  if not Assigned(HarvestingOfBloodComponentsByTypes) then
-    HarvestingOfBloodComponentsByTypes:=nil;
-  HarvestingOfBloodComponentsByTypes := THarvestingOfBloodComponentsByTypes.Create(self);}
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
   GlobalVariant:=THarvestingOfBloodComponentsByTypes.create(self);

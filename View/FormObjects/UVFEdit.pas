@@ -61,6 +61,7 @@ begin
     ReadOnly := ÑReadOnly;
     Text := '0';
     Tag := 5;
+    Visible:=false;
   end;
   result := TempEdit;
 end;

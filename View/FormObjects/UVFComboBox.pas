@@ -22,6 +22,7 @@ type
     procedure WriteItemIndex(i: integer);
     procedure Visible(i: boolean);
     procedure DeleteRecord(i: integer);
+    procedure AddItem(Text: String);
     procedure destroy;
   end;
 
@@ -46,6 +47,7 @@ type
     procedure WriteItemIndex(i: integer);
     procedure Visible(i: boolean);
     procedure DeleteRecord(i: integer);
+    procedure AddItem(Text: String);
     procedure destroy;
   end;
 
@@ -94,6 +96,7 @@ begin
     Style:=csOwnerDrawFixed;
     Tag := 5;
     Name:=CName;
+    Visible:= False;
   end;
   result := TempComboBox;
 end;
@@ -170,6 +173,11 @@ end;
 procedure TComboboxTag5.WriteText(Text: String);
 begin
   TempComboBox.Text:=Text;
+end;
+
+procedure TComboboxTag5.AddItem(Text: String);
+begin
+  TempComboBox.Items.Add(Text);
 end;
 
 end.

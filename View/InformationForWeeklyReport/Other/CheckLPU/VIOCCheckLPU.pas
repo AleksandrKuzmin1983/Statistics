@@ -66,6 +66,7 @@ type
     procedure ButtonDeleted(Sender: TObject);
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm); override;
     destructor destroy; override;
@@ -94,6 +95,7 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  Show;
   inherited;
 end;
 
@@ -336,4 +338,21 @@ begin
         j:=j+1;
       end;
 end;
+procedure TVIOCCheckLPU.Show;
+begin
+  LabelReportDate.Visible(True);
+  LabelCheckLPU.Visible(True);
+
+  StringGrid.Visible(True);
+
+  ReportDateCal.Visible(True);
+
+  EditCheckLPU.Visible(True);
+
+  ButtonEdit.Visible(True);
+  ButtonAdd.Visible(True);
+  ButtonDelete.Visible(True);
+  ButtonBlock.Visible(True);
+end;
+
 end.

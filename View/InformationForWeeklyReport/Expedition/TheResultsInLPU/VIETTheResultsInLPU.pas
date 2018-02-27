@@ -91,6 +91,7 @@ type
     procedure ButtonDeleted(Sender: TObject);
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm); override;
     destructor destroy; override;
@@ -129,6 +130,7 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  Show;
   inherited;
 end;
 
@@ -474,6 +476,34 @@ begin
   'FROM TypeOfLPUandOther ' +
   'WHERE (((TypeOfLPUandOther.TypeLPU)=True));';
   TypeLPUList.TheContentOfTheList(SQL);
+end;
+
+procedure TVIETTheResultsInLPU.Show;
+begin
+  LabelReportDate.Visible(True);
+  LabelTheNameOfTheEnvironment.Visible(True);
+  LabelTypeOfLPU.Visible(True);
+  LabelVolume.Visible(True);
+  LabelNumberOfDoses.Visible(True);
+  LabelPercentage.Visible(True);
+  LabelNumberOfPackets.Visible(True);
+
+  StringGrid.Visible(True);
+
+  ReportDateCal.Visible(True);
+
+  EditVolume.Visible(True);
+  EditNumberOfDoses.Visible(True);
+  EditPercentage.Visible(True);
+  EditNumberOfPackets.Visible(True);
+
+  ProductList.Visible(True);
+  TypeLPUList.Visible(True);
+
+  ButtonEdit.Visible(True);
+  ButtonAdd.Visible(True);
+  ButtonDelete.Visible(True);
+  ButtonBlock.Visible(True);
 end;
 
 // StringGrid

@@ -52,6 +52,7 @@ type
 
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm);  override;
     destructor destroy;  override;
@@ -76,6 +77,7 @@ begin
   GetCalendarEndDate(CurrentForm);
 
   GetButtonAction(CurrentForm);
+  Show;
 end;
 
 destructor THarvestingOfBloodComponentsByTypes.destroy;
@@ -244,6 +246,17 @@ begin
   TempStringGrid.ColWidth(2,80);
   TempStringGrid.ColWidth(3,90);
   TempStringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 1, DT_RIGHT, 2, DT_RIGHT, 3, DT_RIGHT, 5, DT_RIGHT);
+end;
+
+procedure THarvestingOfBloodComponentsByTypes.Show;
+begin
+  StartDate.Visible(True);
+  EndDate.Visible(True);
+
+  StartDateCal.Visible(True);
+  EndDateCal.Visible(True);
+
+  ButtonAction.Visible(True);
 end;
 
 end.

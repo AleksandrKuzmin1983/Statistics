@@ -62,6 +62,7 @@ type
     function GetCalendarEndDate(NameForm: TForm): TDateTimePicker;
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm);  override;
     destructor destroy;  override;
@@ -70,6 +71,57 @@ type
 implementation
 
 { TBloodProduct }
+constructor TBloodProduct.create(form: TForm);
+begin
+  CurrentForm:=Form;
+
+  GetLabelStartDate(form);
+  GetLabelEndDate(form);
+  GetLabelNameStat1(form);
+  GetLabelNameStat2(form);
+  GetLabelNameStat3(form);
+  GetLabelNameStat4(form);
+  GetLabelNameStat5(form);
+  GetLabelTitle(form);
+
+
+  GetCalendarStartDate(form);
+  GetCalendarEndDate(form);
+
+  GetEdit1(form);
+  GetEdit2(form);
+  GetEdit3(form);
+  GetEdit4(form);
+  GetEdit5(form);
+
+  GetButtonAction(form);
+  Show;
+  inherited;
+end;
+
+destructor TBloodProduct.destroy;
+begin
+  StartDate.destroy;
+  EndDate.destroy;
+  NameStat1.destroy;
+  NameStat2.destroy;
+  NameStat3.destroy;
+  NameStat4.destroy;
+  NameStat5.destroy;
+  Title.destroy;
+
+  EndDateCal.destroy;
+  StartDateCal.destroy;
+
+  ResultEdit1.destroy;
+  ResultEdit2.destroy;
+  ResultEdit3.destroy;
+  ResultEdit4.destroy;
+  ResultEdit5.destroy;
+
+  ButtonAction.destroy;
+  inherited;
+end;
 
 procedure TBloodProduct.ButtonAct(Sender: TObject);
 begin
@@ -114,57 +166,6 @@ begin
     ShowMessage('Запрос выполнен!');
   end;
 
-end;
-
-constructor TBloodProduct.create(form: TForm);
-begin
-  CurrentForm:=Form;
-
-  GetLabelStartDate(form);
-  GetLabelEndDate(form);
-  GetLabelNameStat1(form);
-  GetLabelNameStat2(form);
-  GetLabelNameStat3(form);
-  GetLabelNameStat4(form);
-  GetLabelNameStat5(form);
-  GetLabelTitle(form);
-
-
-  GetCalendarStartDate(form);
-  GetCalendarEndDate(form);
-
-  GetEdit1(form);
-  GetEdit2(form);
-  GetEdit3(form);
-  GetEdit4(form);
-  GetEdit5(form);
-
-  GetButtonAction(form);
-  inherited;
-end;
-
-destructor TBloodProduct.destroy;
-begin
-  StartDate.destroy;
-  EndDate.destroy;
-  NameStat1.destroy;
-  NameStat2.destroy;
-  NameStat3.destroy;
-  NameStat4.destroy;
-  NameStat5.destroy;
-  Title.destroy;
-
-  EndDateCal.destroy;
-  StartDateCal.destroy;
-
-  ResultEdit1.destroy;
-  ResultEdit2.destroy;
-  ResultEdit3.destroy;
-  ResultEdit4.destroy;
-  ResultEdit5.destroy;
-
-  ButtonAction.destroy;
-  inherited;
 end;
 
 function TBloodProduct.GetEdit1(NameForm: TForm): TEdit;
@@ -290,4 +291,25 @@ begin
   result := Title.GetTitleLabel(25, 'Заготовка крови', NameForm);
 end;
 
+procedure TBloodProduct.Show;
+begin
+  StartDate.Visible(True);
+  EndDate.Visible(True);
+  NameStat1.Visible(True);
+  NameStat2.Visible(True);
+  NameStat3.Visible(True);
+  NameStat4.Visible(True);
+  NameStat5.Visible(True);
+
+  StartDateCal.Visible(True);
+  EndDateCal.Visible(True);
+
+  ResultEdit1.Visible(True);
+  ResultEdit2.Visible(True);
+  ResultEdit3.Visible(True);
+  ResultEdit4.Visible(True);
+  ResultEdit5.Visible(True);
+
+  ButtonAction.Visible(True);
+end;
 end.

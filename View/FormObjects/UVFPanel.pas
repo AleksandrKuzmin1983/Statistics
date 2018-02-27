@@ -50,6 +50,7 @@ begin
     color:=clBlack;
     Tag := 5;
     BevelOuter:=bvNone;
+    Visible:=False;
   end;
   result:=TempPanel;
 end;

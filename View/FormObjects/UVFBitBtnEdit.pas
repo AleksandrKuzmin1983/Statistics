@@ -11,6 +11,7 @@ type
     function GetCaption: String;
     procedure ChangeEnabled(i: Boolean);
     procedure ChangeCaption(Caption: string);
+    procedure Visible(i: boolean);
     procedure destroy;
   end;
 
@@ -22,6 +23,7 @@ type
     function GetCaption: String;
     procedure ChangeEnabled(i: Boolean);
     procedure ChangeCaption(Caption: string);
+    procedure Visible(i: boolean);
     procedure destroy;
   end;
 implementation
@@ -63,6 +65,7 @@ begin
       Enabled:=False;
       OnClick:=ProcedureOnClick;
       name:='BitBtnEdit';
+      Visible:=False;
     end;
   end;
   result := TempBitBtnEdit;
@@ -70,6 +73,11 @@ end;
 function TBitBtnEditTag5.GetCaption: String;
 begin
   Result:=TempBitBtnEdit.Caption;
+end;
+
+procedure TBitBtnEditTag5.Visible(i: boolean);
+begin
+  TempBitBtnEdit.Visible:=i;
 end;
 
 end.

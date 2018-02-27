@@ -71,6 +71,7 @@ type
     procedure ButtonDeleted(Sender: TObject);
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm); override;
     destructor destroy;  override;
@@ -100,6 +101,7 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  Show;
   inherited;
 end;
 
@@ -360,7 +362,6 @@ begin
   StringGrid.ColWidth(1,100);
   StringGrid.ColWidth(2,300);
   StringGrid.ColWidth(3,100);
-  StringGrid.Visible(true);
   StringGrid.WriteCells(0, 0, 'Код');
   StringGrid.WriteCells(1, 0, 'Дата');
   StringGrid.WriteCells(2, 0, 'Наименование продукции, шт');
@@ -378,6 +379,26 @@ begin
         StringGrid.WriteCells(3, i+1, ContentForStringGrid.GetVolume(j));
         j:=j+1;
       end;
+end;
+
+procedure TTheAmountOfUsableErSusp.Show;
+begin
+  LabelReportDate.Visible(True);
+  LabelProductList.Visible(True);
+  LabelVolume.Visible(True);
+
+  StringGrid.Visible(True);
+
+  ReportDateCal.Visible(True);
+
+  EditVolume.Visible(True);
+
+  ProductList.Visible(True);
+
+  ButtonEdit.Visible(True);
+  ButtonAdd.Visible(True);
+  ButtonDelete.Visible(True);
+  ButtonBlock.Visible(True);
 end;
 
 end.

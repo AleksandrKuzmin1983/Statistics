@@ -165,6 +165,7 @@ type
     procedure ButtonDeleted(Sender: TObject);
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm); override;
     destructor destroy; override;
@@ -228,6 +229,7 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  Show;
   inherited;
 end;
 
@@ -263,7 +265,7 @@ begin
   PanelVert1Components1.destroy;
   PanelVert2Components1.destroy;
   PanelVert3Components1.destroy;
-
+  PanelVert4Components1.destroy;
   //шапка
   EditNumberOfDonors.destroy;
 
@@ -866,7 +868,7 @@ begin
   result := CBoxTypeDefect.GetComboBox('', 600, 363, 160, 12, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
-  'WHERE (TypeOfDefects.Other=True) or (TypeOfDefects.Null=True)';
+  'WHERE (TypeOfDefects.Other=True)';
   CBoxTypeDefect.TheContentOfTheList(SQL);
   CBoxTypeDefect.WriteItemIndex(-1);
 end;
@@ -891,7 +893,6 @@ begin
   StringGrid.ResultFormat(DT_CENTER, 1, DT_CENTER, 15, DT_CENTER, 9, DT_CENTER, 10, DT_CENTER, 16, DT_CENTER);
   Result:=StringGrid.GetStringGrid(30, 480, 840, 160, 14, 2, 9, NameForm);
   StringGrid.NumberOfFixedCol(0);
-  StringGrid.Visible(true);
   StringGrid.ColWidth(0,60);
   StringGrid.ColWidth(1,70);
   StringGrid.ColWidth(2,65);
@@ -944,4 +945,56 @@ begin
         j:=j+1;
       end;
 end;
+procedure TVHSSitoferez.Show;
+begin
+  LabelDate.Visible(True);
+  LabelNumberOfDonors.Visible(True);
+  LabelSentToPreserving.Visible(True);
+  LabelForLaboratoryResearch.Visible(True);
+  LabelAllWholeBlood.Visible(True);
+  LabelAllStoredBlood.Visible(True);
+  LabelBlood.Visible(True);
+  LabelVolume.Visible(True);
+  LabelNumberOfPacets.Visible(True);
+  LabelNumberDoses.Visible(True);
+  LabelType.Visible(True);
+  LabelTrombo.Visible(True);
+  LabelDefectWholeBlood.Visible(True);
+
+  PanelGorBlood.Visible(True);
+  PanelVertBlood1.Visible(True);
+  PanelVertBlood2.Visible(True);
+  PanelVertBlood3.Visible(True);
+  PanelVertBlood4.Visible(True);
+  PanelVert1Components1.Visible(True);
+  PanelVert2Components1.Visible(True);
+  PanelVert3Components1.Visible(True);
+  PanelVert4Components1.Visible(True);
+  PanelGor1Components1.Visible(True);
+  PanelGor2Components1.Visible(True);
+
+  EditNumberOfDonors.Visible(True);
+  EditSentToPreserving.Visible(True);
+  EditForLaboratoryResearch.Visible(True);
+  EditAllWholeBlood.Visible(True);
+  EditAllStoredBlood.Visible(True);
+  EditVolumeTrombo.Visible(True);
+  EditVolumeDefect.Visible(True);
+  EditNumberOfPacketsTrombo.Visible(True);
+  EditNumberOfPacketsDefect.Visible(True);
+  EditNumberDosesTrombo.Visible(True);
+  EditNumberDosesDefect.Visible(True);
+
+  StringGrid.Visible(True);
+  DateCal.Visible(True);
+
+  CBoxTypeDefect.Visible(True);
+  CBoxTypeTrombo.Visible(True);
+
+  ButtonEdit.Visible(True);
+  ButtonAdd.Visible(True);
+  ButtonDelete.Visible(True);
+  ButtonBlock.Visible(True);
+end;
+
 end.

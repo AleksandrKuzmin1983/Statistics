@@ -9,6 +9,7 @@ type
   IBitBtnDeleteTag5 = interface
     function GetBitBtnDelete(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
     procedure ChangeEnabled(i: Boolean);
+    procedure Visible(i: boolean);
     procedure destroy;
   end;
 
@@ -18,6 +19,7 @@ type
   public
     function GetBitBtnDelete(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
     procedure ChangeEnabled(i: Boolean);
+    procedure Visible(i: boolean);
     procedure destroy;
   end;
 
@@ -56,8 +58,14 @@ begin
       Enabled:=false;
       OnClick:=ProcedureOnClick;
       name:='BitBtnDelete';
+      Visible:=False;
     end;
   end;
   result := TempBitBtnDelete;
 end;
+procedure TBitBtnDeleteTag5.Visible(i: boolean);
+begin
+  TempBitBtnDelete.Visible:=i;
+end;
+
 end.

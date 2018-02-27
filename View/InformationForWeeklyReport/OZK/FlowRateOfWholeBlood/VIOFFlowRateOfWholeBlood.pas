@@ -79,6 +79,7 @@ type
     procedure ButtonDeleted(Sender: TObject);
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm);  override;
     destructor destroy;  override;
@@ -111,24 +112,7 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
-
-
-
-{    ContentForStringGrid: IMIOFFlowRateOfWholeBlood;
-    AddRecord: IMIOFAddRecordFlowRateOfWholeBlood;
-    DeleteRecord: IMIOFDeleteRecordFlowRateOfWholeBlood;
-    ChangeRecord: IMIOFChangeRecordFlowRateOfWholeBlood;
-
-    ReasonConsumption: IComboboxTag5;
-
-    CancellationDateCal: IDTPickerTag5;
-    CheckFillStrFields: ICheckFillStringFields;
-    BlockMainMenu: IBlockMainMenu;
-
-    ButtonAdd: IBitBtnAddTag5;
-    ButtonDelete: IBitBtnDeleteTag5;
-    ButtonEdit: IBitBtnEditTag5;
-    ButtonBlock: IBitBtnBlockTag5;       }
+  Show;
   inherited;
 end;
 
@@ -416,7 +400,6 @@ begin
   Result:=StringGrid.GetStringGrid(40, 330, 820, 190, 5, 2, 12, NameForm);
   StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 2, DT_RIGHT, 3, DT_CENTER, 4, DT_LEFT, 7, DT_RIGHT);
   StringGrid.NumberOfFixedCol(0);
-  StringGrid.Visible(true);
   StringGrid.ColWidth(0,50);
   StringGrid.ColWidth(1,90);
   StringGrid.ColWidth(2,90);
@@ -442,4 +425,26 @@ begin
         j:=j+1;
       end;
 end;
+procedure TVIOFFlowRateOfWholeBlood.Show;
+begin
+  LabelCancellationDate.Visible(True);
+  LabelVolume.Visible(True);
+  LabelNumberOfDoses.Visible(True);
+  LabelReasonConsumption.Visible(True);
+
+  StringGrid.Visible(True);
+
+  CancellationDateCal.Visible(True);
+
+  EditVolume.Visible(True);
+  EditNumberOfDoses.Visible(True);
+
+  ReasonConsumption.Visible(True);
+
+  ButtonEdit.Visible(True);
+  ButtonAdd.Visible(True);
+  ButtonDelete.Visible(True);
+  ButtonBlock.Visible(True);
+end;
+
 end.

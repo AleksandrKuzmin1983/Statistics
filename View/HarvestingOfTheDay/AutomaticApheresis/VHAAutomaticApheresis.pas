@@ -160,6 +160,7 @@ type
     procedure ButtonDeleted(Sender: TObject);
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm); override;
     destructor destroy; override;
@@ -219,6 +220,7 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  Show;
   inherited;
 end;
 
@@ -325,7 +327,8 @@ begin
     AddRecord.AddRecordPlasmaComponents(EditVolumePlazma.ReadText, EditNumberDosesPlazma.ReadText, CBoxTypePlazma.GetItemsValue(CBoxTypePlazma.GetItemIndex));
     AddRecord.AddRecordPlasmaDefect(EditVolumeDefect.ReadText, EditNumberDosesDefect.ReadText, CBoxTypeDefect.GetItemsValue(CBoxTypeDefect.GetItemIndex));
     GetStringGrid(CurrentForm);
-    ShowMessage('Записи успешно добавлена!');
+    ShowMessage('Объем реинфузии - ' + IntToStr(StrToInt(EditAllStoredBlood.ReadText)-StrToInt(EditVolumePlazma.ReadText)-StrToInt(EditVolumeDefect.ReadText)) +
+      chr(13) + 'Количество консерванта - ' + IntToStr(StrToInt(EditAllStoredBlood.ReadText)-StrToInt(EditSentToPreserving.ReadText)));
     AfterSaving_Cancelling;
   end;
 end;
@@ -430,9 +433,10 @@ begin
       ChangeRecord.ChangeRecordPlasmaDoza(DateCal.GetDate, EditNumberOfDonors.ReadText);
       ChangeRecord.ChangeRecordPlasmaComponents(EditVolumePlazma.ReadText, EditNumberDosesPlazma.ReadText, CBoxTypePlazma.GetItemsValue(CBoxTypePlazma.GetItemIndex));
       ChangeRecord.ChangeRecordPlasmaDefect(EditVolumeDefect.ReadText, EditNumberDosesDefect.ReadText, CBoxTypeDefect.GetItemsValue(CBoxTypeDefect.GetItemIndex));
+      ShowMessage('Объем реинфузии - ' + IntToStr(StrToInt(EditAllStoredBlood.ReadText)-StrToInt(EditVolumePlazma.ReadText)-StrToInt(EditVolumeDefect.ReadText)) +
+        chr(13) + 'Количество консерванта - ' + IntToStr(StrToInt(EditAllStoredBlood.ReadText)-StrToInt(EditSentToPreserving.ReadText)));
       AfterSaving_Cancelling;
       GetStringGrid(CurrentForm);
-      ShowMessage('Запись успешно изменена!');
       ButtonEdit.ChangeCaption('Изменить');
       exit;
     end
@@ -820,7 +824,7 @@ begin
   result := CBoxTypeDefect.GetComboBox('CBoxTypeDefect', 470, 363, 110, 12, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
-  'WHERE (TypeOfDefects.Other=True) or (TypeOfDefects.Null=True)';
+  'WHERE (TypeOfDefects.Other=True)';
   CBoxTypeDefect.TheContentOfTheList(SQL);
   CBoxTypeDefect.WriteItemIndex(-1);
   CBoxTypeDefect.GetDROPPEDWIDTH(200);
@@ -846,7 +850,6 @@ begin
   StringGrid.ResultFormat(DT_CENTER, 1, DT_CENTER, 7, DT_CENTER, 9, DT_CENTER, 10, DT_CENTER, 11, DT_CENTER);
   Result:=StringGrid.GetStringGrid(30, 480, 840, 160, 12, 2, 9, NameForm);
   StringGrid.NumberOfFixedCol(0);
-  StringGrid.Visible(true);
   StringGrid.ColWidth(0,60);
   StringGrid.ColWidth(1,70);
   StringGrid.ColWidth(2,60);
@@ -893,4 +896,52 @@ begin
         j:=j+1;
       end;
 end;
+procedure TVHAAutomaticApheresis.Show;
+begin
+  LabelDate.Visible(True);
+  LabelNumberOfDonors.Visible(True);
+  LabelSentToPreserving.Visible(True);
+  LabelForLaboratoryResearch.Visible(True);
+  LabelAllWholeBlood.Visible(True);
+  LabelAllStoredBlood.Visible(True);
+  LabelBlood.Visible(True);
+  LabelVolume.Visible(True);
+  LabelNumberDoses.Visible(True);
+  LabelType.Visible(True);
+  LabelPlazma.Visible(True);
+  LabelDefectWholeBlood.Visible(True);
+
+  PanelGorBlood.Visible(True);
+  PanelVertBlood1.Visible(True);
+  PanelVertBlood2.Visible(True);
+  PanelVertBlood3.Visible(True);
+  PanelVertBlood4.Visible(True);
+  PanelVert1Components1.Visible(True);
+  PanelVert2Components1.Visible(True);
+  PanelVert3Components1.Visible(True);
+  PanelGor1Components1.Visible(True);
+  PanelGor2Components1.Visible(True);
+
+  EditNumberOfDonors.Visible(True);
+  EditSentToPreserving.Visible(True);
+  EditForLaboratoryResearch.Visible(True);
+  EditAllWholeBlood.Visible(True);
+  EditAllStoredBlood.Visible(True);
+  EditVolumePlazma.Visible(True);
+  EditVolumeDefect.Visible(True);
+  EditNumberDosesPlazma.Visible(True);
+  EditNumberDosesDefect.Visible(True);
+
+  StringGrid.Visible(True);
+  DateCal.Visible(True);
+
+  CBoxTypeDefect.Visible(True);
+  CBoxTypePlazma.Visible(True);
+
+  ButtonEdit.Visible(True);
+  ButtonAdd.Visible(True);
+  ButtonDelete.Visible(True);
+  ButtonBlock.Visible(True);
+end;
+
 end.

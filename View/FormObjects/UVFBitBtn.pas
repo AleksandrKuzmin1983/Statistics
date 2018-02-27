@@ -8,6 +8,7 @@ uses
 type
   IBitBtnTag5 = interface
     function GetBitBtn(CLeft, CTop: integer; CCaption: String; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
+    procedure Visible(i: boolean);
     procedure destroy;
   end;
 
@@ -16,6 +17,7 @@ type
     TempBitBtn: TBitBtn;
   public
     function GetBitBtn(CLeft, CTop: integer; CCaption: String; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
+    procedure Visible(i: boolean);
     procedure destroy;
   end;
 
@@ -47,9 +49,15 @@ begin
       Height:=50;
       Tag := 5;
       OnClick:=ProcedureOnClick;
+      Visible:=False;
     end;
   end;
   result := TempBitBtn;
+end;
+
+procedure TBitBtnTag5.Visible(i: boolean);
+begin
+  TempBitBtn.Visible:=i;
 end;
 
 end.

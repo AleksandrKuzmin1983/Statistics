@@ -13,6 +13,7 @@ type
     procedure Width(Value: integer);
     procedure FontSize(Value: integer);
     procedure Enabled(i: boolean);
+    procedure Visible(i: Boolean);
     procedure destroy;
   end;
 
@@ -26,6 +27,7 @@ type
     procedure Width(Value: integer);
     procedure FontSize(Value: integer);
     procedure Enabled(i: boolean);
+    procedure Visible(i: Boolean);
     procedure destroy;
   end;
 
@@ -67,9 +69,15 @@ begin
       Date := CDate;
       Font.Size := 12;
       Tag := 5;
+      Visible:=False;
     end;
   end;
   result := TempDTPicker;
+end;
+
+procedure TDTPickerTag5.Visible(i: Boolean);
+begin
+  TempDTPicker.Visible:=i;
 end;
 
 procedure TDTPickerTag5.Width(Value: integer);

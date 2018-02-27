@@ -9,6 +9,7 @@ type
   IBitBtnAddTag5 = interface
     function GetBitBtnAdd(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
     procedure ChangeEnabled(i: Boolean);
+    procedure Visible(i: boolean);
     procedure destroy;
   end;
 
@@ -18,6 +19,7 @@ type
   public
     function GetBitBtnAdd(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
     procedure ChangeEnabled(i: Boolean);
+    procedure Visible(i: boolean);
     procedure destroy;
   end;
 
@@ -56,8 +58,14 @@ begin
       Enabled:=false;
       OnClick:=ProcedureOnClick;
       name:='BitBtnAdd';
+      Visible:=False;
     end;
   end;
   result := TempBitBtnAdd;
 end;
+procedure TBitBtnAddTag5.Visible(i: boolean);
+begin
+  TempBitBtnAdd.Visible:=i;
+end;
+
 end.

@@ -22,7 +22,6 @@ uses
   MIOCChangeRecordConsumptionOfPlazma,
   MIOCConsumptionOfPlazma,
   UMSGlobalVariant;
-
 type
   IVIOCConsumptionOfPlazma = interface
   end;
@@ -84,6 +83,7 @@ type
     procedure ButtonDeleted(Sender: TObject);
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm);
     destructor destroy;  override;
@@ -118,6 +118,7 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  Show;
   inherited;
 end;
 
@@ -438,7 +439,6 @@ begin
   StringGrid.ColWidth(3,100);
   StringGrid.ColWidth(4,80);
   StringGrid.ColWidth(5,170);
-  StringGrid.Visible(true);
   StringGrid.WriteCells(0, 0, 'Код');
   StringGrid.WriteCells(1, 0, 'Дата');
   StringGrid.WriteCells(2, 0, 'Наименование продукции');
@@ -461,4 +461,28 @@ begin
         j:=j+1;
       end;
 end;
+procedure TVIOCConsumptionOfPlazma.Show;
+begin
+  LabelCancellationDate.Visible(True);
+  LabelTheNameOfPlazma.Visible(True);
+  LabelVolume.Visible(True);
+  LabelNumberOfDoses.Visible(True);
+  LabelReasonConsumption.Visible(True);
+
+  StringGrid.Visible(True);
+
+  CancellationDateCal.Visible(True);
+
+  EditVolume.Visible(True);
+  EditNumberOfDoses.Visible(True);
+
+  ProductList.Visible(True);
+  ReasonConsumption.Visible(True);
+
+  ButtonEdit.Visible(True);
+  ButtonAdd.Visible(True);
+  ButtonDelete.Visible(True);
+  ButtonBlock.Visible(True);
+end;
+
 end.

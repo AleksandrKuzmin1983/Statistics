@@ -11,6 +11,7 @@ type
     procedure ChangeCaption(i: Boolean);
     function GetCaption: Boolean;
     procedure ChangeEnabled(i: Boolean);
+    procedure Visible(i: boolean);
     procedure destroy;
   end;
 
@@ -22,6 +23,7 @@ type
     procedure ChangeCaption(i: Boolean);
     function GetCaption: Boolean;
     procedure ChangeEnabled(i: Boolean);
+    procedure Visible(i: boolean);
     procedure destroy;
   end;
 
@@ -35,6 +37,11 @@ begin
   if TempBitBtnBlock.Caption='Разблокировать'
     then Result:=True
       else Result:=False;
+end;
+
+procedure TBitBtnBlockTag5.Visible(i: boolean);
+begin
+  TempBitBtnBlock.Visible:=i;
 end;
 
 procedure TBitBtnBlockTag5.ChangeCaption(i: Boolean);
@@ -72,6 +79,7 @@ begin
       Tag := 5;
       OnClick:=ProcedureOnClick;
       name:='BitBtnBlock';
+      Visible:=False;
     end;
   end;
   result := TempBitBtnBlock;

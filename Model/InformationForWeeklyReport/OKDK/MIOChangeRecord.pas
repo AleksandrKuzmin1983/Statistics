@@ -9,7 +9,7 @@ uses
 
 type
   IMIOChangeRecord = interface
-    procedure ChangeRecord(Date: Extended; NameTap: String; Num: String; Id: String);
+    procedure ChangeRecord(Date: Extended; NameTap: String; Num: String; Id: String; Outing: String);
     procedure destroy;
   end;
 
@@ -19,7 +19,7 @@ type
     TempConnect: ITempAdoQuery;
     TempQuery: TADOQuery;
   public
-    procedure ChangeRecord(Date: Extended; NameTap: String; Num: String; Id: String);
+    procedure ChangeRecord(Date: Extended; NameTap: String; Num: String; Id: String; Outing: String);
     procedure destroy;
   end;
 
@@ -27,7 +27,7 @@ implementation
 
 { TTheNumberOfTromboDonations }
 
-procedure TMIOChangeRecord.ChangeRecord(Date: Extended; NameTap: String; Num: String; Id: String);
+procedure TMIOChangeRecord.ChangeRecord(Date: Extended; NameTap: String; Num: String; Id: String; Outing: String);
 begin
   if not Assigned(TempConnect) then
     TempConnect := TTempAdoQuery.create;
@@ -41,7 +41,8 @@ begin
       SQL.Clear;
       SQL.Add('UPDATE NewOKDK SET NewOKDK.DateTap = #' + FormatDateTime('mm''/''dd''/''yyyy', dateOf(Date)) + '#, ' +
         'NewOKDK.Tap=''' + NameTap + ''', ' +
-        'NewOKDK.Numb=' + Num + ' ' +
+        'NewOKDK.Numb=' + Num + ', ' +
+        'NewOKDK.Outing=' + Outing + ' ' +
         'WHERE NewOKDK.Код=' + Id);
       ExecSQL;
     end;

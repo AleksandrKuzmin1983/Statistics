@@ -119,6 +119,7 @@ type
 
     function GetButtonAction(NameForm: TForm): TBitBtn;
     procedure ButtonAct(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm); override;
     destructor destroy; override;
@@ -167,6 +168,7 @@ begin
   GetFiltratDoses(CurrentForm);
 
   GetButtonAction(CurrentForm);
+  Show;
   inherited;
 end;
 
@@ -438,6 +440,43 @@ begin
   if not Assigned(TromboVolume) then
     TromboVolume := TEditTag5.create;
   Result:=TromboVolume.GetEdit(290, 380, 110, 12, True, NameForm);
+end;
+
+procedure TProcurementOfTheComponentsTotal.Show;
+begin
+  StartDate.Visible(True);
+  EndDate.Visible(True);
+  Volume.Visible(True);
+  Doses.Visible(True);
+  Pacets.Visible(True);
+  NameStat1.Visible(True);
+  NameStat2.Visible(True);
+  NameStat3.Visible(True);
+  NameStat4.Visible(True);
+  NameStat5.Visible(True);
+  NameStat6.Visible(True);
+
+  StartDateCal.Visible(True);
+  EndDateCal.Visible(True);
+
+  PanelVertical.Visible(True);
+  PanelGorizontal.Visible(True);
+
+  ErSuspVolume.Visible(True);
+  ErSuspDoses.Visible(True);
+  PlasmaTotalVolume.Visible(True);
+  PlasmaTotalDoses.Visible(True);
+  PlasmaBloodVolume.Visible(True);
+  PlasmaBloodDoses.Visible(True);
+  PlasmaAPAVolume.Visible(True);
+  PlasmaAPADoses.Visible(True);
+  TromboVolume.Visible(True);
+  TromboDoses.Visible(True);
+  TromboPacets.Visible(True);
+  FiltratVolume.Visible(True);
+  FiltratDoses.Visible(True);
+
+  ButtonAction.Visible(True);
 end;
 
 //Label

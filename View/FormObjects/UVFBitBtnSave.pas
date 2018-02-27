@@ -8,6 +8,7 @@ uses
 type
   IBitBtnSaveTag5 = interface
     function GetBitBtnSave(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
+    procedure Visible(i: boolean);
     procedure ChangeEnabled(i: Boolean);
   end;
 
@@ -16,6 +17,7 @@ type
     TempBitBtnSave: TBitBtn;
   public
     function GetBitBtnSave(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
+    procedure Visible(i: boolean);
     procedure ChangeEnabled(i: Boolean);
   end;
 implementation
@@ -46,8 +48,14 @@ begin
       Enabled:=False;
       OnClick:=ProcedureOnClick;
       name:='BitBtnSave';
+      Visible:=False;
     end;
   end;
   result := TempBitBtnSave;
 end;
+procedure TBitBtnSaveTag5.Visible(i: boolean);
+begin
+  TempBitBtnSave.Visible:=i;
+end;
+
 end.

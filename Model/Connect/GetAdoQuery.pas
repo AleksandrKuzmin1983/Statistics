@@ -25,10 +25,14 @@ implementation
 { Connecting }
 
 constructor TTempAdoQuery.create;
+var
+  CurrentDir: String;
 begin
+  CurrentDir:=ExtractFileDir(ExtractFileDir(ParamStr(0)));
   if not Assigned(Connect) then
     Connect := TADOConnection.create(nil);
-  Connect.ConnectionString:='FILE NAME=..\Model\Connect\ConnectingStringx64.udl';
+  Connect.ConnectionString:='FILE NAME=' + CurrentDir + '\Model\Connect\ConnectingStringx64.udl';
+//  Connect.ConnectionString:='FILE NAME=..\Model\Connect\ConnectingStringx64.udl';
   Connect.LoginPrompt := False;
   Connect.KeepConnection := False;
 end;

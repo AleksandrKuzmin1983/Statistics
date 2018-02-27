@@ -241,6 +241,7 @@ type
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
     procedure CheckBoxOnClick(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm); override;
     destructor destroy; override;
@@ -342,6 +343,7 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  Show;
 end;
 
 destructor TVHMManualHarvesting.destroy;
@@ -456,6 +458,7 @@ var
   i: integer;
 begin
   CheckBox.WriteChecked(false);
+  CheckBoxOuting.WriteChecked(false);
   DateCal.WriteDateTime(date());
   for i := CBoxVolumeOfDonation.GetItemsCount downto 0 do
     if CBoxVolumeOfDonation.GetItemsValue(i)='450' then CBoxVolumeOfDonation.WriteItemIndex(i);
@@ -952,15 +955,15 @@ begin
       end;
       True:
       begin
-        EditNumberOfDoses2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberOfDoses.ReadText));
-        EditVolumeErSusp2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeErSusp.ReadText));
-        EditNumberDosesErSusp2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesErSusp.ReadText));
-        EditVolumePlazma2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumePlazma.ReadText));
-        EditNumberDosesPlazma2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesPlazma.ReadText));
-        EditVolumeFiltrat2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeFiltrat.ReadText));
-        EditNumberDosesFiltrat2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesPlazma.ReadText));
-        EditVolumeDefect2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeDefect.ReadText));
-        EditNumberDosesDefect2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesDefect.ReadText));
+        EditNumberOfDoses2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberOfDoses2.ReadText));
+        EditVolumeErSusp2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeErSusp2.ReadText));
+        EditNumberDosesErSusp2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesErSusp2.ReadText));
+        EditVolumePlazma2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumePlazma2.ReadText));
+        EditNumberDosesPlazma2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesPlazma2.ReadText));
+        EditVolumeFiltrat2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeFiltrat2.ReadText));
+        EditNumberDosesFiltrat2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesPlazma2.ReadText));
+        EditVolumeDefect2.WriteText(CheckFillStrFields.CheckStringFields(EditVolumeDefect2.ReadText));
+        EditNumberDosesDefect2.WriteText(CheckFillStrFields.CheckStringFields(EditNumberDosesDefect2.ReadText));
 
         if ValueChecksOnTheAdequacy.CheckZeroValues(EditNumberOfDoses2.ReadText, 'Количество доз второго вида гемаконов почему-то равна нулю!' + chr(13) + 'Если все донации происходили с использованием одного вида гемаконов, то уберите галочку "Заготовка происходила в разных гемаконах"') then
         begin
@@ -1445,7 +1448,7 @@ begin
   result := CBoxTypeDefect.GetComboBox('CBoxTypeDefect', 340, 413, 90, 10, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
-  'WHERE (TypeOfDefects.Other=True) or (TypeOfDefects.Null=True)';
+  'WHERE (TypeOfDefects.Other=True)';
   CBoxTypeDefect.TheContentOfTheList(SQL);
   CBoxTypeDefect.WriteItemIndex(-1);
   CBoxTypeDefect.GetDROPPEDWIDTH(200);
@@ -1691,7 +1694,7 @@ begin
   result := CBoxTypeDefect2.GetComboBox('CBoxTypeDefect2', 780, 413, 90, 10, NameForm);
   SQL:='SELECT TypeOfDefects.TypeDef ' +
   'FROM TypeOfDefects ' +
-  'WHERE (TypeOfDefects.Other=True) or (TypeOfDefects.Null=True)';
+  'WHERE (TypeOfDefects.Other=True)';
   CBoxTypeDefect2.TheContentOfTheList(SQL);
   CBoxTypeDefect2.WriteItemIndex(-1);
   CBoxTypeDefect2.GetDROPPEDWIDTH(200);
@@ -1718,7 +1721,6 @@ begin
   StringGrid.ResultFormat(DT_CENTER, 1, DT_CENTER, 11, DT_CENTER, 14, DT_CENTER, 19, DT_CENTER, 36, DT_CENTER);
   Result:=StringGrid.GetStringGrid(30, 480, 840, 160, 20, 2, 9, NameForm);
   StringGrid.NumberOfFixedCol(0);
-  StringGrid.Visible(true);
   StringGrid.ColWidth(0,60);
   StringGrid.ColWidth(1,60);
   StringGrid.ColWidth(2,55);
@@ -1789,5 +1791,72 @@ begin
         j:=j+1;
       end;
 end;
-end.
+
+procedure TVHMManualHarvesting.Show;
+begin
+  LabelDate.Visible(true);
+  LabelNumberOfDonors.Visible(true);
+  LabelVolumeOfDonation.Visible(true);
+  LabelNumberOfDoses.Visible(true);
+  LabelSentToPreserving.Visible(true);
+  LabelForLaboratoryResearch.Visible(true);
+  LabelAllWholeBlood.Visible(true);
+  LabelAllStoredBlood.Visible(true);
+  LabelBlood.Visible(true);
+  LabelVolume.Visible(true);
+  LabelNumberDoses.Visible(true);
+  LabelType.Visible(true);
+  LabelErSusp.Visible(true);
+  LabelPlazma.Visible(true);
+  LabelFiltrat.Visible(true);
+  LabelDefectWholeBlood.Visible(true);
+
+  PanelGorBlood.Visible(true);
+  PanelVertBlood1.Visible(true);
+  PanelVertBlood2.Visible(true);
+  PanelVertBlood3.Visible(true);
+  PanelVertBlood4.Visible(true);
+  PanelVert1Components1.Visible(true);
+  PanelVert2Components1.Visible(true);
+  PanelVert3Components1.Visible(true);
+  PanelGor1Components1.Visible(true);
+  PanelGor2Components1.Visible(true);
+  PanelGor3Components1.Visible(true);
+  PanelGor4Components1.Visible(true);
+
+  EditNumberOfDonors.Visible(true);
+  EditNumberOfDoses.Visible(true);
+  EditSentToPreserving.Visible(true);
+  EditForLaboratoryResearch.Visible(true);
+  EditAllWholeBlood.Visible(true);
+  EditAllStoredBlood.Visible(true);
+  EditVolumeErSusp.Visible(true);
+  EditVolumePlazma.Visible(true);
+  EditVolumeFiltrat.Visible(true);
+  EditVolumeDefect.Visible(true);
+  EditNumberDosesErSusp.Visible(true);
+  EditNumberDosesPlazma.Visible(true);
+  EditNumberDosesFiltrat.Visible(true);
+  EditNumberDosesDefect.Visible(true);
+
+  StringGrid.Visible(true);
+  DateCal.Visible(true);
+  CheckBox.Visible(true);
+  CheckBoxOuting.Visible(true);
+
+  CBoxVolumeOfDonation.Visible(true);
+  CBoxTypeErSusp.Visible(true);
+  CBoxTypeDefect.Visible(true);
+  CBoxTypePlazma.Visible(true);
+  CBoxTypeErSusp2.Visible(true);
+  CBoxTypeDefect2.Visible(true);
+  CBoxTypePlazma2.Visible(true);
+
+  ButtonEdit.Visible(true);
+  ButtonAdd.Visible(true);
+  ButtonDelete.Visible(true);
+  ButtonBlock.Visible(true);
+end;
+
+end.
 

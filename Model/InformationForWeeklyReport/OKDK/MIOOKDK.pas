@@ -13,6 +13,7 @@ type
     function GetReportDate(i: integer): string;
     function GetTheNameOfTap(i: integer): string;
     function GetVolume(i: integer): string;
+    function GetOuting(i: integer): string;
     function GetRowCount: integer;
     procedure GetContent;
     procedure destroy;
@@ -24,6 +25,7 @@ type
     ReportDate: String;
     TheNameOfTap: String;
     Volume: String;
+    Outing: String;
   end;
 
   TMIOOKDK = class(TInterfacedObject,
@@ -39,6 +41,7 @@ type
     function GetReportDate(i: integer): string;
     function GetTheNameOfTap(i: integer): string;
     function GetVolume(i: integer): string;
+    function GetOuting(i: integer): string;
     function GetRowCount: integer;
     procedure GetContent;
     procedure destroy;
@@ -51,6 +54,11 @@ implementation
 function TMIOOKDK.GetReportDate(i: integer): string;
 begin
   result := ResultMass[i].ReportDate;
+end;
+
+function TMIOOKDK.GetOuting(i: integer): string;
+begin
+  result := ResultMass[i].Outing;
 end;
 
 function TMIOOKDK.GetRowCount: integer;
@@ -89,7 +97,7 @@ begin
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
   TempQuery.SQL.Clear;
-  SQL:='SELECT NewOKDK.Код, NewOKDK.DateTap, NewOKDK.Tap, NewOKDK.Numb ' +
+  SQL:='SELECT NewOKDK.Код, NewOKDK.DateTap, NewOKDK.Tap, NewOKDK.Numb, NewOKDK.Outing ' +
   'FROM NewOKDK ' +
   'ORDER BY NewOKDK.DateTap DESC;';
   Try
@@ -113,6 +121,7 @@ begin
       ResultMass[i].ReportDate:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[1].value));
       ResultMass[i].TheNameOfTap:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[2].value));
       ResultMass[i].Volume:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[3].value));
+      if VarToStr(CheckNull.CheckedValue(TempQuery.Fields[4].value))='True' then ResultMass[i].Outing:='Да' else ResultMass[i].Outing:='Нет';
       TempQuery.Next;
     end;
   end;

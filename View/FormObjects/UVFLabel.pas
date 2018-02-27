@@ -54,6 +54,7 @@ begin
     Caption := CCaption;
     Font.name := 'Times New Roman';
     Tag := 5;
+    Visible:=False;
   end;
   result:=TempLabel;
 end;

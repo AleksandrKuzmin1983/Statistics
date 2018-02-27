@@ -53,6 +53,9 @@
 			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.1.8.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<VerInfo_MinorVer>1</VerInfo_MinorVer>
+			<VerInfo_Release>8</VerInfo_Release>
 			<Icon_MainIcon>MainForm_Icon1.ico</Icon_MainIcon>
 			<Manifest_File>None</Manifest_File>
 		</PropertyGroup>
@@ -193,6 +196,43 @@
 			<DCCReference Include="..\Model\HarvestingOfTheDay\Sitoferez\MHSDeleteRecordSitoferez.pas"/>
 			<DCCReference Include="..\Model\HarvestingOfTheDay\Sitoferez\MHSAddRecordSitoferez.pas"/>
 			<DCCReference Include="..\Model\HarvestingOfTheDay\Sitoferez\MHSChangeRecordSitoferez.pas"/>
+			<DCCReference Include="..\Model\Reports\DailyReportToTheKray\MRDDailyReportToTheKray.pas"/>
+			<DCCReference Include="..\View\Reports\DailyReportToTheKray\VRDDailyReportTheKray.pas">
+				<Form>$R *.res</Form>
+			</DCCReference>
+			<DCCReference Include="..\View\FormObjects\UVFMainMenu.pas"/>
+			<DCCReference Include="..\Model\Reports\DeilyReportToTheZav\MRDDeilyReportToTheZav.pas"/>
+			<DCCReference Include="..\View\Reports\DeilyReportToTheZav\VRDDeilyReportToTheZav.pas"/>
+			<DCCReference Include="..\Model\Reports\DeilyReportToTheZav\MRDPlanDeilyReportToTheZav.pas"/>
+			<DCCReference Include="..\Model\Reports\DeilyReportToTheZav\MRDStatInfoDeilyReportToTheZav.pas"/>
+			<DCCReference Include="..\View\Reports\WeeklyReport\VRWWeeklyReport.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWWeeklyReportProduction.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWTableForDefect.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWSecondTable.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWDonorsAndProcedures.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWResultsOfTheProducts.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWDonorsAndProceduresOuting.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWReasonsForMedicalExemptions.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWLPUConsultation.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWCancellation_Kray.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWIncompleteWeekFirstTable.pas"/>
+			<DCCReference Include="..\View\Reports\WeeklyIncompleteWeek\VRWWeeklyIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWTableForDefectIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWSecondTableIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWResultsOfTheProductsIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWDonorsAndProceduresIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWDonorsAndProceduresIncompleteWeekOuting.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWMedicalExemptionsIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWLPUConsultationIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWCancellation_KrayIncomlpeteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWResultsOfTheProductsIncompleteWeek2.pas"/>
+			<DCCReference Include="..\Model\MonthlyPlan\MMMonthlyPlan.pas"/>
+			<DCCReference Include="..\View\MonthlyPlan\VMMonthlyPlan.pas"/>
+			<DCCReference Include="..\Model\MonthlyPlan\MMDeleteRecordMonthlyPlan.pas"/>
+			<DCCReference Include="..\Model\MonthlyPlan\MMChangeRecordMonthlyPlan.pas"/>
+			<DCCReference Include="..\Model\MonthlyPlan\MMAddRecoedMonthlyPlan.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFListBox.pas"/>
+			<DCCReference Include="..\Model\MonthlyPlan\MMListOfDate.pas"/>
 			<None Include="ModelSupport_MainForm\default.txaPackage"/>
 			<None Include="ModelSupport_MainForm\default.txvpck"/>
 			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>

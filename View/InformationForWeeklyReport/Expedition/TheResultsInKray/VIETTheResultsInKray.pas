@@ -83,6 +83,7 @@ type
     procedure ButtonDeleted(Sender: TObject);
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm); override;
     destructor destroy; override;
@@ -117,6 +118,7 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  Show;
   inherited;
 end;
 
@@ -452,4 +454,28 @@ begin
       end;
 end;
 
+procedure TVIETTheResultsInKray.Show;
+begin
+  LabelReportDate.Visible(True);
+  LabelTheNameOfTheEnvironment.Visible(True);
+  LabelVolume.Visible(True);
+  LabelNumberOfDoses.Visible(True);
+  LabelNumberOfPackets.Visible(True);
+
+  StringGrid.Visible(True);
+
+  ReportDateCal.Visible(True);
+
+  EditVolume.Visible(True);
+  EditNumberOfDoses.Visible(True);
+  EditNumberOfPackets.Visible(True);
+
+  ProductList.Visible(True);
+
+  ButtonEdit.Visible(True);
+  ButtonAdd.Visible(True);
+  ButtonDelete.Visible(True);
+  ButtonBlock.Visible(True);
+end;
+
 end.

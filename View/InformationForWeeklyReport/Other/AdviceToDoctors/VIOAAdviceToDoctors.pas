@@ -70,6 +70,7 @@ type
     procedure ButtonDeleted(Sender: TObject);
     function GetButtonBlock(NameForm: TForm): TBitBtn;
     procedure ButtonBlocked(Sender: TObject);
+    procedure Show;
   public
     constructor create(form: TForm); override;
     destructor destroy; override;
@@ -99,6 +100,7 @@ begin
   GetButtonAdd(form);
   GetButtonDelete(form);
   GetButtonBlock(form);
+  Show;
   inherited;
 end;
 
@@ -351,7 +353,6 @@ begin
   StringGrid.ColWidth(1,100);
   StringGrid.ColWidth(2,130);
   StringGrid.ColWidth(3,100);
-  StringGrid.Visible(true);
   StringGrid.WriteCells(0, 0, 'Код');
   StringGrid.WriteCells(1, 0, 'Дата');
   StringGrid.WriteCells(2, 0, 'Трансфузиологом');
@@ -369,6 +370,25 @@ begin
         StringGrid.WriteCells(3, i+1, ContentForStringGrid.GetLaboratoryScientist(j));
         j:=j+1;
       end;
+end;
+
+procedure TAdviceToDoctors.Show;
+begin
+  LabelReportDate.Visible(True);
+  LabelTheDoctorTransfuziolog.Visible(True);
+  LabelMedicalLaboratoryScientist.Visible(True);
+
+  StringGrid.Visible(True);
+
+  ReportDateCal.Visible(True);
+
+  EditTheDoctorTransfuziolog.Visible(True);
+  EditMedicalLaboratoryScientist.Visible(True);
+
+  ButtonEdit.Visible(True);
+  ButtonAdd.Visible(True);
+  ButtonDelete.Visible(True);
+  ButtonBlock.Visible(True);
 end;
 
 end.
