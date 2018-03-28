@@ -3,207 +3,518 @@ unit MIETTheResultsInKray;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
-  UCheckNull,
-  GetAdoQuery;
+  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
+  USCheckFillStringFields,
+  USBlockMainMenu,
+  MFLabel,
+  MFTitleLabel,
+  MFEdit,
+  MFDateTimePicker,
+  MFBitBtnAdd,
+  MFBitBtnDelete,
+  MFBitBtnEdit,
+  MFBitBtnBlock,
+  MFStringGrid,
+  MFComboBox,
+  BIEChangeRecordResultsInKray,
+  BIEAddRecordResultsInKray,
+  BIEDeleteRecordResultsInKray,
+  BIETTheResultsInKray,
+  USGlobalVariant;
 
 type
-  IMIETTheResultsInKray = interface
-    function GetKod(i: integer): string;
-    function GetReportDate(i: integer): string;
-    function GetTheNameOfTheEnvironment(i: integer): string;
-    function GetVolume(i: integer): string;
-    function GetNumberOfDoses(i: integer): string;
-    function GetNumberOfPackets(i: integer): string;
-    function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
-    procedure GetContent;
-  end;
 
-  TResultRecord=Record
+  TMIETTheResultsInKray = class(TUSGlobalVariant)
   private
-    Kod: string;
-    ReportDate: String;
-    TheNameOfTheEnvironment: String;
-    Volume: String;
-    NumberOfDoses: String;
-    NumberOfPackets: String;
-  end;
-
-  TMIETTheResultsInKray = class(TInterfacedObject,
-    IMIETTheResultsInKray)
-  private
+    LabelReportDate: TMFLabel;
+    LabelTheNameOfTheEnvironment: TMFLabel;
+    LabelVolume: TMFLabel;
+    LabelNumberOfDoses: TMFLabel;
+    LabelNumberOfPackets: TMFLabel;
+    Title: TMFTitleLabel;
     SQL: String;
-    TempConnect: ITempAdoQuery;
-    TempQuery: TADOQuery;
-    CheckNull: TCheckNull;
-    ResultMass: array of TResultRecord;
+
+    StringGrid: TMFStringGrid;
+    ContentForStringGrid: IBIETTheResultsInKray;
+    AddRecord: IBIEAddRecordResultsInKray;
+    DeleteRecord: IBIEDeleteRecordResultsInKray;
+    ChangeRecord: IBIEChangeRecordResultsInKray;
+
+    EditVolume: TMFEdit;
+    EditNumberOfDoses: TMFEdit;
+    EditNumberOfPackets: TMFEdit;
+
+    ProductList: TMFComboBox;
+
+    ReportDateCal: TMFDateTimePicker;
+    CheckFillStrFields: IUSCheckFillStringFields;
+    BlockMainMenu: IUSBlockMainMenu;
+
+    ButtonAdd: TMFBitBtnAdd;
+    ButtonDelete: TMFBitBtnDelete;
+    ButtonEdit: TMFBitBtnEdit;
+    ButtonBlock: TMFBitBtnBlock;
+    CurrentForm: TForm;
+    function GetLabelReportDate(NameForm: TForm): TLabel;
+    function GetLabelTheNameOfTheEnvironment(NameForm: TForm): TLabel;
+    function GetLabelVolume(NameForm: TForm): TLabel;
+    function GetLabelNumberOfDoses(NameForm: TForm): TLabel;
+    function GetLabelNumberOfPackets(NameForm: TForm): TLabel;
+    function GetLabelTitle(NameForm: TForm): TLabel;
+
+    function GetStringGrid(NameForm: TForm): TStringGrid;
+
+    function GetEditVolume(NameForm: TForm): TEdit;
+    function GetEditNumberOfDoses(NameForm: TForm): TEdit;
+    function GetEditNumberOfPackets(NameForm: TForm): TEdit;
+
+    function GetProductList(NameForm: TForm): TComboBox;
+
+    function GetCalendarReportDateCal(NameForm: TForm): TDateTimePicker;
+
+    function GetButtonEdit(NameForm: TForm): TBitBtn;
+    procedure ButtonEdited(Sender: TObject);
+    function GetButtonAdd(NameForm: TForm): TBitBtn;
+    procedure ButtonAdded(Sender: TObject);
+    function GetButtonDelete(NameForm: TForm): TBitBtn;
+    procedure ButtonDeleted(Sender: TObject);
+    function GetButtonBlock(NameForm: TForm): TBitBtn;
+    procedure ButtonBlocked(Sender: TObject);
+    procedure Show;
   public
-    function GetKod(i: integer): string;
-    function GetReportDate(i: integer): string;
-    function GetTheNameOfTheEnvironment(i: integer): string;
-    function GetVolume(i: integer): string;
-    function GetNumberOfDoses(i: integer): string;
-    function GetNumberOfPackets(i: integer): string;
-    function GetRowCount: integer;
-    procedure OpenConnect;
-    procedure Insert;
-    procedure post;
-    procedure CloseConnect;
-    procedure ExecSQL;
-    procedure Clear;
-    procedure AddSQL(SQL: string);
-    procedure WriteValue(NumberField: integer; Value: Variant);
-    procedure GetContent;
+    constructor create(form: TForm); override;
+    destructor destroy; override;
   end;
 
 implementation
 
-{ TTheNumberOfTromboDonations }
+{ TBloodProduct }
 
-procedure TMIETTheResultsInKray.AddSQL(SQL: string);
+constructor TMIETTheResultsInKray.create(form: TForm);
 begin
-  TempQuery.SQL.Add(SQL);
+  CurrentForm := form;
+
+  GetLabelReportDate(form);
+  GetLabelTheNameOfTheEnvironment(form);
+  GetLabelVolume(form);
+  GetLabelNumberOfDoses(form);
+  GetLabelNumberOfPackets(form);
+  GetLabelTitle(form);
+
+  GetStringGrid(form);
+
+  GetCalendarReportDateCal(form);
+
+  GetEditVolume(form);
+  GetEditNumberOfDoses(form);
+  GetEditNumberOfPackets(form);
+
+  GetProductList(form);
+
+  GetButtonEdit(form);
+  GetButtonAdd(form);
+  GetButtonDelete(form);
+  GetButtonBlock(form);
+  Show;
+  inherited;
 end;
 
-procedure TMIETTheResultsInKray.Clear;
+destructor TMIETTheResultsInKray.destroy;
 begin
-  TempQuery.SQL.Clear;
+  LabelReportDate.destroy;
+  LabelTheNameOfTheEnvironment.destroy;
+  LabelVolume.destroy;
+  LabelNumberOfDoses.destroy;
+  LabelNumberOfPackets.destroy;
+  Title.destroy;
+
+  StringGrid.destroy;
+
+  EditVolume.destroy;
+  EditNumberOfDoses.destroy;
+  EditNumberOfPackets.destroy;
+
+  ProductList.destroy;
+
+  ReportDateCal.destroy;
+
+  ButtonAdd.destroy;
+  ButtonDelete.destroy;
+  ButtonEdit.destroy;
+  ButtonBlock.destroy;
+  inherited;
 end;
 
-procedure TMIETTheResultsInKray.CloseConnect;
-begin
-  TempQuery.Close;
-end;
+// Button
 
-procedure TMIETTheResultsInKray.GetContent;
-var i: integer;
+// Добавление новой записи
+
+procedure TMIETTheResultsInKray.ButtonAdded(Sender: TObject);
 begin
-  if not Assigned(CheckNull) then
-    CheckNull := TCheckNull.create;
-  if not Assigned(TempConnect) then
-    TempConnect := TTempAdoQuery.create;
-  if not Assigned(TempQuery) then
-    TempQuery := TADOQuery.create(nil);
-  TempQuery.Connection := TempConnect.GetConnect;
-  TempQuery.Close;
-  TempQuery.SQL.Clear;
-  SQL:='SELECT Exped.Код, Exped.ДАТАЛЗ, Exped.НС, Exped.ЛЗО, Exped.ЛЗД, Exped.ЛЗПАК ' +
-  'FROM TypeOfLPUandOther INNER JOIN Exped ON TypeOfLPUandOther.NameRecord = Exped.ВЛЗ ' +
-  'WHERE (((Exped.ЛЗД)>=0) AND ((TypeOfLPUandOther.Krasn)=True)) ' +
-  'ORDER BY Exped.ДАТАЛЗ DESC;';
-  try
-    TempQuery.SQL.Add(SQL);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
-  end;
-  try
-    TempQuery.Open;
-  Except
-    ShowMessage('Нет подключения в базе данных!' + chr(13) + 'Обратитесь к администратору!');
-  end;
-  if not TempQuery.IsEmpty then
+  if not Assigned(CheckFillStrFields) then
+    CheckFillStrFields := TUSCheckFillStringFields.create;
+  EditVolume.WriteText(CheckFillStrFields.CheckStringFields
+    (EditVolume.ReadText));
+  EditNumberOfDoses.WriteText(CheckFillStrFields.CheckStringFields
+    (EditNumberOfDoses.ReadText));
+  EditNumberOfPackets.WriteText(CheckFillStrFields.CheckStringFields
+    (EditNumberOfPackets.ReadText));
+  if (EditVolume.ReadText = '0') or (EditNumberOfDoses.ReadText = '0') or
+    (ProductList.GetItemIndex = -1) then
   begin
-    SetLength(ResultMass, TempQuery.RecordCount);
-    TempQuery.Recordset.MoveFirst;
-    for i:=0 to TempQuery.RecordCount-1 do
-    begin
-      ResultMass[i].Kod:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].value));
-      ResultMass[i].ReportDate:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[1].value));
-      ResultMass[i].TheNameOfTheEnvironment:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[2].value));
-      ResultMass[i].Volume:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[3].value));
-      ResultMass[i].NumberOfDoses:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[4].value));
-      ResultMass[i].NumberOfPackets:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[5].value));
-      TempQuery.Next;
-    end;
+    Showmessage('Все поля должны быть заполнены!');
+    exit;
+  End;
+  if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0) = 6 then
+  begin
+    if not Assigned(AddRecord) then
+      AddRecord := TBIEAddRecordResultsInKray.create;
+    AddRecord.AddRecord(ReportDateCal.GetDate,
+      ProductList.GetItemsValue(ProductList.GetItemIndex), EditVolume.ReadText,
+      EditNumberOfDoses.ReadText, EditNumberOfPackets.ReadText);
+    Showmessage('Запись успешно добавлена!');
+    GetStringGrid(CurrentForm);
+    StringGrid.Visible(True);
   end;
-  TempQuery.Close;
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  EditNumberOfPackets.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
 end;
 
-procedure TMIETTheResultsInKray.ExecSQL;
+// Разблокировка кнопок
+
+procedure TMIETTheResultsInKray.ButtonBlocked(Sender: TObject);
 begin
-  TempQuery.ExecSQL;
+  if ButtonBlock.GetCaption then
+  begin
+    ButtonEdit.ChangeEnabled(True);
+    ButtonAdd.ChangeEnabled(True);
+    ButtonDelete.ChangeEnabled(True);
+    ButtonBlock.ChangeCaption(True);
+  end
+  else
+  begin
+    ButtonEdit.ChangeEnabled(False);
+    ButtonAdd.ChangeEnabled(False);
+    ButtonDelete.ChangeEnabled(False);
+    ButtonBlock.ChangeCaption(False);
+  end;
 end;
 
-function TMIETTheResultsInKray.GetReportDate(i: integer): string;
+// Кнопка удаления
+
+procedure TMIETTheResultsInKray.ButtonDeleted(Sender: TObject);
 begin
-  result := ResultMass[i].ReportDate;
+  if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0,
+    StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0) = 6 then
+  begin
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TBIEDeleteRecordResultsInKray.create;
+    DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0,
+      StringGrid.CurrentRow)));
+    GetStringGrid(CurrentForm);
+    StringGrid.Visible(True);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount - 1);
+    Showmessage('Запись успешно удалена!');
+  end;
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  EditNumberOfPackets.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
 end;
 
-function TMIETTheResultsInKray.GetRowCount: integer;
+// Внесение изменений
+
+procedure TMIETTheResultsInKray.ButtonEdited(Sender: TObject);
+var
+  i: integer;
 begin
-  result:=Length(ResultMass);
+  if not Assigned(CheckFillStrFields) then
+    CheckFillStrFields := TUSCheckFillStringFields.create;
+  if not Assigned(BlockMainMenu) then
+    BlockMainMenu := TUSBlockMainMenu.create;
+  if ButtonEdit.GetCaption = 'Изменить' then
+  begin
+    BlockMainMenu.BlockMainMenu(False, CurrentForm);
+    ButtonBlock.ChangeEnabled(False);
+    ButtonAdd.ChangeEnabled(False);
+    ButtonDelete.ChangeEnabled(False);
+    StringGrid.Enabled(False);
+    ReportDateCal.WriteDateTime(StrToDate(StringGrid.GetValue(1,
+      StringGrid.CurrentRow)));
+    for i := 0 to ProductList.GetItemsCount - 1 do
+      if VarToStr(StringGrid.GetValue(2, StringGrid.CurrentRow))
+        = ProductList.GetItemsValue(i) then
+        ProductList.WriteItemIndex(i);
+    if ProductList.GetItemIndex = -1 then
+      Showmessage
+        ('Название изменяемой продукции для данной записи задано не верно!' +
+        chr(13) + 'Обратитесь к администратору!');
+    EditVolume.WriteText(VarToStr(StringGrid.GetValue(3,
+      StringGrid.CurrentRow)));
+    EditNumberOfDoses.WriteText(VarToStr(StringGrid.GetValue(4,
+      StringGrid.CurrentRow)));
+    EditNumberOfPackets.WriteText
+      (VarToStr(StringGrid.GetValue(5, StringGrid.CurrentRow)));
+  end;
+  if ButtonEdit.GetCaption = 'Сохранить изменения' then
+  begin
+    EditVolume.WriteText(CheckFillStrFields.CheckStringFields
+      (EditVolume.ReadText));
+    EditNumberOfDoses.WriteText(CheckFillStrFields.CheckStringFields
+      (EditNumberOfDoses.ReadText));
+    EditNumberOfPackets.WriteText(CheckFillStrFields.CheckStringFields
+      (EditNumberOfPackets.ReadText));
+    if (EditVolume.ReadText = '0') or (EditNumberOfDoses.ReadText = '0') or
+      (ProductList.GetItemIndex = -1) then
+    begin
+      Showmessage('Все поля должны быть заполнены!');
+      exit;
+    End;
+    BlockMainMenu.BlockMainMenu(True, CurrentForm);
+    ButtonBlock.ChangeEnabled(True);
+    ButtonAdd.ChangeEnabled(True);
+    ButtonDelete.ChangeEnabled(True);
+    StringGrid.Enabled(True);
+    if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0) = 6
+    then
+    begin
+      if not Assigned(ChangeRecord) then
+        ChangeRecord := TBIEChangeRecordResultsInKray.create;
+      ChangeRecord.ChangeRecord(ReportDateCal.GetDate,
+        ProductList.GetItemsValue(ProductList.GetItemIndex),
+        EditVolume.ReadText, EditNumberOfDoses.ReadText,
+        EditNumberOfPackets.ReadText, StringGrid.GetValue(0,
+        StringGrid.CurrentRow));
+      Showmessage('Запись успешно изменена!');
+    end
+    else
+    begin
+      EditVolume.WriteText('0');
+      EditNumberOfDoses.WriteText('0');
+      EditNumberOfPackets.WriteText('0');
+      ProductList.WriteItemIndex(-1);
+      ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+      ButtonEdit.ChangeCaption('Изменить');
+      exit;
+    end;
+    GetStringGrid(CurrentForm);
+    StringGrid.Visible(True);
+    EditVolume.WriteText('0');
+    EditNumberOfDoses.WriteText('0');
+    EditNumberOfPackets.WriteText('0');
+    ProductList.WriteItemIndex(-1);
+    ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+  end;
+  if ButtonEdit.GetCaption = 'Изменить' then
+    ButtonEdit.ChangeCaption('Сохранить изменения')
+  else
+    ButtonEdit.ChangeCaption('Изменить');
 end;
 
-function TMIETTheResultsInKray.GetNumberOfDoses(i: integer): string;
+// Создание кнопок
+
+function TMIETTheResultsInKray.GetButtonAdd(NameForm: TForm): TBitBtn;
 begin
-  result := ResultMass[i].NumberOfDoses;
+  if not Assigned(ButtonAdd) then
+    ButtonAdd := TMFBitBtnAdd.create;
+  Result := ButtonAdd.GetBitBtnAdd(0, 0, ButtonAdded, NameForm);
 end;
 
-function TMIETTheResultsInKray.GetNumberOfPackets(i: integer): string;
+function TMIETTheResultsInKray.GetButtonBlock(NameForm: TForm): TBitBtn;
 begin
-  result := ResultMass[i].NumberOfPackets;
+  if not Assigned(ButtonBlock) then
+    ButtonBlock := TMFBitBtnBlock.create;
+  Result := ButtonBlock.GetBitBtnBlock(0, 0, ButtonBlocked, NameForm);
 end;
 
-procedure TMIETTheResultsInKray.Insert;
+function TMIETTheResultsInKray.GetButtonDelete(NameForm: TForm): TBitBtn;
 begin
-  Try
-  TempQuery.Insert;
-  Except
-    ShowMessage('Не могу добавить запись к базу данных (MIETTheResultsInKray)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
-
+  if not Assigned(ButtonDelete) then
+    ButtonDelete := TMFBitBtnDelete.create;
+  Result := ButtonDelete.GetBitBtnDelete(0, 0, ButtonDeleted, NameForm);
 end;
 
-procedure TMIETTheResultsInKray.OpenConnect;
+function TMIETTheResultsInKray.GetButtonEdit(NameForm: TForm): TBitBtn;
 begin
-  Try
-  TempQuery.Open;
-  Except
-    ShowMessage('Не могу подключиться к базе данных (MIETTheResultsInKray)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
+  if not Assigned(ButtonEdit) then
+    ButtonEdit := TMFBitBtnEdit.create;
+  Result := ButtonEdit.GetBitBtnEdit(0, 0, ButtonEdited, NameForm);
 end;
 
-procedure TMIETTheResultsInKray.post;
+// TDateTimePicker
+
+function TMIETTheResultsInKray.GetCalendarReportDateCal(NameForm: TForm)
+  : TDateTimePicker;
 begin
-  Try
-  TempQuery.Post;
-  Except
-    ShowMessage('Не могу сохранить изменения в базе данных (MIETTheResultsInKray)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
+  if not Assigned(ReportDateCal) then
+    ReportDateCal := TMFDateTimePicker.create;
+  Result := ReportDateCal.GetDTPicker(400, 80, StartOfTheWeek(Date) - 7,
+    NameForm);
 end;
 
-procedure TMIETTheResultsInKray.WriteValue(NumberField: integer;
-  Value: Variant);
+// Edit
+
+function TMIETTheResultsInKray.GetEditVolume(NameForm: TForm): TEdit;
 begin
-  Try
-  TempQuery.Fields[NumberField].Value:=Value;
-  Except
-    ShowMessage('Не могу записать значение поля (MIETTheResultsInKray)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
+  if not Assigned(EditVolume) then
+    EditVolume := TMFEdit.create;
+  Result := EditVolume.GetEdit(400, 160, 185, 12, False, NameForm);
+  EditVolume.NumberOnly(True);
 end;
 
-function TMIETTheResultsInKray.GetTheNameOfTheEnvironment(i: integer): string;
+function TMIETTheResultsInKray.GetEditNumberOfDoses(NameForm: TForm): TEdit;
 begin
-  result := ResultMass[i].TheNameOfTheEnvironment;
+  if not Assigned(EditNumberOfDoses) then
+    EditNumberOfDoses := TMFEdit.create;
+  Result := EditNumberOfDoses.GetEdit(400, 200, 185, 12, False, NameForm);
+  EditNumberOfDoses.NumberOnly(True);
 end;
 
-function TMIETTheResultsInKray.GetVolume(i: integer): string;
+function TMIETTheResultsInKray.GetEditNumberOfPackets(NameForm: TForm): TEdit;
 begin
-  result := ResultMass[i].Volume;
+  if not Assigned(EditNumberOfPackets) then
+    EditNumberOfPackets := TMFEdit.create;
+  Result := EditNumberOfPackets.GetEdit(400, 240, 185, 12, False, NameForm);
+  EditNumberOfPackets.NumberOnly(True);
 end;
 
-function TMIETTheResultsInKray.GetKod(i: integer): string;
+// Label
+
+function TMIETTheResultsInKray.GetLabelTitle(NameForm: TForm): TLabel;
 begin
-  result := ResultMass[i].Kod;
+  if not Assigned(Title) then
+    Title := TMFTitleLabel.create;
+  Result := Title.GetTitleLabel(25,
+    'Выдача трансфузионных сред в г. Красноярск', NameForm);
+end;
+
+function TMIETTheResultsInKray.GetLabelReportDate(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelReportDate) then
+    LabelReportDate := TMFLabel.create;
+  Result := LabelReportDate.GetTempLabel(50, 80, 16, 'Отчетная неделя: ',
+    NameForm);
+end;
+
+function TMIETTheResultsInKray.GetLabelTheNameOfTheEnvironment
+  (NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelTheNameOfTheEnvironment) then
+    LabelTheNameOfTheEnvironment := TMFLabel.create;
+  Result := LabelTheNameOfTheEnvironment.GetTempLabel(50, 120, 14,
+    'Наименование продукции: ', NameForm);
+end;
+
+function TMIETTheResultsInKray.GetLabelVolume(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelVolume) then
+    LabelVolume := TMFLabel.create;
+  Result := LabelVolume.GetTempLabel(50, 160, 14, 'Объем продукции: ',
+    NameForm);
+end;
+
+function TMIETTheResultsInKray.GetLabelNumberOfDoses(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelNumberOfDoses) then
+    LabelNumberOfDoses := TMFLabel.create;
+  Result := LabelNumberOfDoses.GetTempLabel(50, 200, 14, 'Количество доз: ',
+    NameForm);
+end;
+
+function TMIETTheResultsInKray.GetLabelNumberOfPackets(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelNumberOfPackets) then
+    LabelNumberOfPackets := TMFLabel.create;
+  Result := LabelNumberOfPackets.GetTempLabel(50, 240, 14,
+    'Количество пакетов тромбоконцентрата: ', NameForm);
+end;
+
+// ComboBox
+
+function TMIETTheResultsInKray.GetProductList(NameForm: TForm): TComboBox;
+begin
+  if not Assigned(ProductList) then
+    ProductList := TMFComboBox.create;
+  Result := ProductList.GetComboBox('ProductList', 285, 120, 300, 14, NameForm);
+  SQL := 'SELECT NameProducts.ShortName, NameProducts.id ' +
+    'FROM NameProducts ' + 'WHERE (NameProducts.ForExped=True);';
+  ProductList.TheContentOfTheList(SQL);
+end;
+
+// StringGrid
+
+function TMIETTheResultsInKray.GetStringGrid(NameForm: TForm): TStringGrid;
+Var
+  i, j: integer;
+begin
+  i := 0;
+  j := 0;
+  if not Assigned(StringGrid) then
+    StringGrid := TMFStringGrid.create;
+  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 2, DT_LEFT, 3, DT_RIGHT, 4,
+    DT_RIGHT, 5, DT_RIGHT);
+  Result := StringGrid.GetStringGrid(40, 330, 820, 190, 6, 2, 12, NameForm);
+  StringGrid.NumberOfFixedCol(0);
+  StringGrid.ColWidth(0, 40);
+  StringGrid.ColWidth(1, 90);
+  StringGrid.ColWidth(2, 250);
+  StringGrid.ColWidth(3, 90);
+  StringGrid.ColWidth(4, 90);
+  StringGrid.ColWidth(5, 90);
+  StringGrid.Visible(True);
+  StringGrid.WriteCells(0, 0, 'Код');
+  StringGrid.WriteCells(1, 0, 'Дата');
+  StringGrid.WriteCells(2, 0, 'Наименование продукции');
+  StringGrid.WriteCells(3, 0, 'Объем, мл');
+  StringGrid.WriteCells(4, 0, 'Дозы, шт');
+  StringGrid.WriteCells(5, 0, 'Пакеты, шт');
+  if not Assigned(ContentForStringGrid) then
+    ContentForStringGrid := TBIETTheResultsInKray.create;
+  ContentForStringGrid.GetContent;
+  if ContentForStringGrid.GetRowCount > 0 then
+    for i := 0 to ContentForStringGrid.GetRowCount - 1 do
+    begin
+      if StringGrid.GetValue(0, 1) <> '' then
+        StringGrid.AddRowCount;
+      StringGrid.WriteCells(0, i + 1, ContentForStringGrid.GetKod(j));
+      StringGrid.WriteCells(1, i + 1, ContentForStringGrid.GetReportDate(j));
+      StringGrid.WriteCells(2, i + 1,
+        ContentForStringGrid.GetTheNameOfTheEnvironment(j));
+      StringGrid.WriteCells(3, i + 1, ContentForStringGrid.GetVolume(j));
+      StringGrid.WriteCells(4, i + 1, ContentForStringGrid.GetNumberOfDoses(j));
+      StringGrid.WriteCells(5, i + 1,
+        ContentForStringGrid.GetNumberOfPackets(j));
+      j := j + 1;
+    end;
+end;
+
+procedure TMIETTheResultsInKray.Show;
+begin
+  LabelReportDate.Visible(True);
+  LabelTheNameOfTheEnvironment.Visible(True);
+  LabelVolume.Visible(True);
+  LabelNumberOfDoses.Visible(True);
+  LabelNumberOfPackets.Visible(True);
+
+  StringGrid.Visible(True);
+
+  ReportDateCal.Visible(True);
+
+  EditVolume.Visible(True);
+  EditNumberOfDoses.Visible(True);
+  EditNumberOfPackets.Visible(True);
+
+  ProductList.Visible(True);
+
+  ButtonEdit.Visible(True);
+  ButtonAdd.Visible(True);
+  ButtonDelete.Visible(True);
+  ButtonBlock.Visible(True);
 end;
 
 end.

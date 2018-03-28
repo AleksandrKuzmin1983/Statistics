@@ -3,195 +3,1025 @@ unit MHAAutomaticApheresis;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
-  UCheckNull,
-  GetAdoQuery;
+  Vcl.ExtCtrls, WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
+  USCheckFillStringFields,
+  USBlockMainMenu,
+  MFLabel,
+  MFTitleLabel,
+  MFEdit,
+  MFDateTimePicker,
+  MFBitBtnAdd,
+  MFBitBtnDelete,
+  MFBitBtnEdit,
+  MFBitBtnBlock,
+  MFStringGrid,
+  MFComboBox,
+  MFPanel,
+  BHAAutomaticApheresis,
+  BHAAddRecordAutomaticApheresis,
+  BHADeleteRecordAutomaticApheresis,
+  BHAChangeRecordAutomaticApheresis,
+  USCheckForExistenceOfRecord,
+  USValueChecksOnTheAdequacy,
+
+  USGlobalVariant;
 
 type
 
-  TResultRecord=Record
+  TMHAAutomaticApheresis = class(TUSGlobalVariant)
   private
-    Date: String;
-    NumberOfDonors: String;
-    SentToPreserving: String;
-    ForLaboratoryResearch: String;
-    AllWholeBlood: String;
-    AllStoredBlood: String;
-    VolomePlazma: String;
-    NumberOfDosesPlazma: String;
-    TypePlazma: String;
-    VolomeDefect: String;
-    NumberOfDosesDefect: String;
-    TypeDefect: String;
-  end;
+    // шапка
+    LabelDate: TMFLabel;
+    LabelNumberOfDonors: TMFLabel;
+    // кровь
+    LabelSentToPreserving: TMFLabel;
+    LabelForLaboratoryResearch: TMFLabel;
+    LabelAllWholeBlood: TMFLabel;
+    LabelAllStoredBlood: TMFLabel;
+    LabelBlood: TMFLabel;
 
-  IMHAAutomaticApheresis = interface
-    function GetDate(i: integer): string;
-    function GetNumberOfDonors(i: integer): string;
-    function GetSentToPreserving(i: integer): string;
-    function GetForLaboratoryResearch(i: integer): string;
-    function GetAllWholeBlood(i: integer): string;
-    function GetAllStoredBlood(i: integer): string;
-    function GetVolomePlazma(i: integer): string;
-    function GetNumberOfDosesPlazma(i: integer): string;
-    function GetTypePlazma(i: integer): string;
-    function GetVolomeDefect(i: integer): string;
-    function GetNumberOfDosesDefect(i: integer): string;
-    function GetTypeDefect(i: integer): string;
-    function GetRowCount: integer;
-    procedure GetContent;
-  end;
+    LabelVolume: TMFLabel;
+    LabelNumberDoses: TMFLabel;
+    LabelType: TMFLabel;
+    LabelPlazma: TMFLabel;
+    LabelDefectWholeBlood: TMFLabel;
 
-  TMHAAutomaticApheresis = class(TInterfacedObject,
-    IMHAAutomaticApheresis)
-  private
+    Title: TMFTitleLabel;
     SQL: String;
-    TempConnect: ITempAdoQuery;
-    TempQuery: TADOQuery;
-    CheckNull: TCheckNull;
-    ResultMass: array of TResultRecord;
+
+    // таблица "кровь"
+    PanelGorBlood: TMFPanel;
+    PanelVertBlood1: TMFPanel;
+    PanelVertBlood2: TMFPanel;
+    PanelVertBlood3: TMFPanel;
+    PanelVertBlood4: TMFPanel;
+    // таблица "компоненты"
+    PanelGor1Components1: TMFPanel;
+    PanelGor2Components1: TMFPanel;
+    PanelVert1Components1: TMFPanel;
+    PanelVert2Components1: TMFPanel;
+    PanelVert3Components1: TMFPanel;
+
+    // шапка
+    DateCal: TMFDateTimePicker;
+    EditNumberOfDonors: TMFEdit;
+    // таблица "кровь"
+    EditSentToPreserving: TMFEdit;
+    EditForLaboratoryResearch: TMFEdit;
+    EditAllWholeBlood: TMFEdit;
+    EditAllStoredBlood: TMFEdit;
+    // таблица "компоненты"
+    EditVolumePlazma: TMFEdit;
+    EditVolumeDefect: TMFEdit;
+    EditNumberDosesPlazma: TMFEdit;
+    EditNumberDosesDefect: TMFEdit;
+
+    CBoxTypeDefect: TMFComboBox;
+    CBoxTypePlazma: TMFComboBox;
+
+    StringGrid: TMFStringGrid;
+    ContentForStringGrid: IBHAAutomaticApheresis;
+    AddRecord: IBHAAddRecordAutomaticApheresis;
+    DeleteRecord: IBHADeleteRecordAutomaticApheresis;
+    ChangeRecord: IBHAChangeRecordAutomaticApheresis;
+
+    ValueChecksOnTheAdequacy: IUSValueChecksOnTheAdequacy;
+    CheckFillStrFields: TUSCheckFillStringFields;
+    BlockMainMenu: IUSBlockMainMenu;
+
+    ButtonAdd: TMFBitBtnAdd;
+    ButtonDelete: TMFBitBtnDelete;
+    ButtonEdit: TMFBitBtnEdit;
+    ButtonBlock: TMFBitBtnBlock;
+
+    CheckForExistenceOfRecord: IUSCheckForExistenceOfRecord;
+    CurrentForm: TForm;
+
+    function CheckingBeforeSaving: boolean;
+    procedure AfterSaving_Cancelling;
+
+    function GetLabelDate(NameForm: TForm): TLabel;
+    function GetLabelNumberOfDonors(NameForm: TForm): TLabel;
+    function GetLabelSentToPreserving(NameForm: TForm): TLabel;
+    function GetLabelForLaboratoryResearch(NameForm: TForm): TLabel;
+    function GetLabelAllWholeBlood(NameForm: TForm): TLabel;
+    function GetLabelAllStoredBlood(NameForm: TForm): TLabel;
+    function GetLabelBlood(NameForm: TForm): TLabel;
+    function GetLabelVolume(NameForm: TForm): TLabel;
+    function GetLabelNumberDoses(NameForm: TForm): TLabel;
+    function GetLabelType(NameForm: TForm): TLabel;
+    function GetLabelPlazma(NameForm: TForm): TLabel;
+    function GetLabelDefectWholeBlood(NameForm: TForm): TLabel;
+
+    function GetLabelTitle(NameForm: TForm): TLabel;
+
+    function GetPanelGorBlood(NameForm: TForm): TPanel;
+    function GetPanelVertBlood1(NameForm: TForm): TPanel;
+    function GetPanelVertBlood2(NameForm: TForm): TPanel;
+    function GetPanelVertBlood3(NameForm: TForm): TPanel;
+    function GetPanelVertBlood4(NameForm: TForm): TPanel;
+    function GetPanelGor1Components1(NameForm: TForm): TPanel;
+    function GetPanelGor2Components1(NameForm: TForm): TPanel;
+    function GetPanelVert1Components1(NameForm: TForm): TPanel;
+    function GetPanelVert2Components1(NameForm: TForm): TPanel;
+    function GetPanelVert3Components1(NameForm: TForm): TPanel;
+
+    function GetEditNumberOfDonors(NameForm: TForm): TEdit;
+    function GetEditSentToPreserving(NameForm: TForm): TEdit;
+    function GetEditForLaboratoryResearch(NameForm: TForm): TEdit;
+    function GetEditAllWholeBlood(NameForm: TForm): TEdit;
+    function GetEditAllStoredBlood(NameForm: TForm): TEdit;
+    function GetEditVolumePlazma(NameForm: TForm): TEdit;
+    function GetEditVolumeDefect(NameForm: TForm): TEdit;
+    function GetEditNumberDosesPlazma(NameForm: TForm): TEdit;
+    function GetEditNumberDosesDefect(NameForm: TForm): TEdit;
+
+    function GetCBoxTypeDefect(NameForm: TForm): TComboBox;
+    function GetCBoxTypePlazma(NameForm: TForm): TComboBox;
+
+    function GetStringGrid(NameForm: TForm): TStringGrid;
+    function GetCalendarDateCal(NameForm: TForm): TDateTimePicker;
+
+    function GetButtonEdit(NameForm: TForm): TBitBtn;
+    procedure ButtonEdited(Sender: TObject);
+    function GetButtonAdd(NameForm: TForm): TBitBtn;
+    procedure ButtonAdded(Sender: TObject);
+    function GetButtonDelete(NameForm: TForm): TBitBtn;
+    procedure ButtonDeleted(Sender: TObject);
+    function GetButtonBlock(NameForm: TForm): TBitBtn;
+    procedure ButtonBlocked(Sender: TObject);
+    procedure Show;
   public
-    function GetDate(i: integer): string;
-    function GetNumberOfDonors(i: integer): string;
-    function GetSentToPreserving(i: integer): string;
-    function GetForLaboratoryResearch(i: integer): string;
-    function GetAllWholeBlood(i: integer): string;
-    function GetAllStoredBlood(i: integer): string;
-    function GetVolomePlazma(i: integer): string;
-    function GetNumberOfDosesPlazma(i: integer): string;
-    function GetTypePlazma(i: integer): string;
-    function GetVolomeDefect(i: integer): string;
-    function GetNumberOfDosesDefect(i: integer): string;
-    function GetTypeDefect(i: integer): string;
-    function GetRowCount: integer;
-    procedure GetContent;
+    constructor create(form: TForm); override;
+    destructor destroy; override;
   end;
 
 implementation
 
-{ TTheNumberOfTromboDonations }
+{ TBloodProduct }
 
-function TMHAAutomaticApheresis.GetAllStoredBlood(i: integer): string;
+constructor TMHAAutomaticApheresis.create(form: TForm);
 begin
-  result := ResultMass[i].AllStoredBlood;
+  CurrentForm := form;
+
+  GetLabelDate(form);
+  GetLabelNumberOfDonors(form);
+  GetLabelSentToPreserving(form);
+  GetLabelForLaboratoryResearch(form);
+  GetLabelAllWholeBlood(form);
+  GetLabelAllStoredBlood(form);
+  GetLabelBlood(form);
+  GetLabelVolume(form);
+  GetLabelNumberDoses(form);
+  GetLabelType(form);
+  GetLabelPlazma(form);
+  GetLabelDefectWholeBlood(form);
+
+  GetLabelTitle(form);
+
+  GetPanelGorBlood(form);
+  GetPanelVertBlood1(form);
+  GetPanelVertBlood2(form);
+  GetPanelVertBlood3(form);
+  GetPanelVertBlood4(form);
+  GetPanelVert1Components1(form);
+  GetPanelVert2Components1(form);
+  GetPanelVert3Components1(form);
+  GetPanelGor1Components1(form);
+  GetPanelGor2Components1(form);
+
+  GetEditNumberOfDonors(form);
+  GetEditSentToPreserving(form);
+  GetEditForLaboratoryResearch(form);
+  GetEditAllWholeBlood(form);
+  GetEditAllStoredBlood(form);
+  GetEditVolumePlazma(form);
+  GetEditVolumeDefect(form);
+  GetEditNumberDosesPlazma(form);
+  GetEditNumberDosesDefect(form);
+
+  GetStringGrid(form);
+  GetCalendarDateCal(form);
+
+  GetCBoxTypeDefect(form);
+  GetCBoxTypePlazma(form);
+
+  GetButtonEdit(form);
+  GetButtonAdd(form);
+  GetButtonDelete(form);
+  GetButtonBlock(form);
+  Show;
+  inherited;
 end;
 
-function TMHAAutomaticApheresis.GetAllWholeBlood(i: integer): string;
+destructor TMHAAutomaticApheresis.destroy;
 begin
-  result := ResultMass[i].AllWholeBlood;
+  LabelDate.destroy;
+  LabelNumberOfDonors.destroy;
+  // кровь
+  LabelSentToPreserving.destroy;
+  LabelForLaboratoryResearch.destroy;
+  LabelAllWholeBlood.destroy;
+  LabelAllStoredBlood.destroy;
+  LabelBlood.destroy;
+  // компоненты 1
+  LabelVolume.destroy;
+  LabelNumberDoses.destroy;
+  LabelType.destroy;
+  LabelPlazma.destroy;
+  LabelDefectWholeBlood.destroy;
+
+  Title.destroy;
+
+  // таблица "кровь"
+  PanelGorBlood.destroy;
+  PanelVertBlood1.destroy;
+  PanelVertBlood2.destroy;
+  PanelVertBlood3.destroy;
+  PanelVertBlood4.destroy;
+  // таблица "компоненты 1"
+  PanelGor1Components1.destroy;
+  PanelGor2Components1.destroy;
+  PanelVert1Components1.destroy;
+  PanelVert2Components1.destroy;
+  PanelVert3Components1.destroy;
+
+  // шапка
+  EditNumberOfDonors.destroy;
+
+  // таблица "кровь"
+  EditSentToPreserving.destroy;
+  EditForLaboratoryResearch.destroy;
+  EditAllWholeBlood.destroy;
+  EditAllStoredBlood.destroy;
+  // таблица "компоненты 1"
+  EditVolumePlazma.destroy;
+  EditVolumeDefect.destroy;
+  EditNumberDosesPlazma.destroy;
+  EditNumberDosesDefect.destroy;
+
+  CBoxTypePlazma.destroy;
+  CBoxTypeDefect.destroy;
+
+  StringGrid.destroy;
+
+  DateCal.destroy;
+
+  ButtonAdd.destroy;
+  ButtonDelete.destroy;
+  ButtonEdit.destroy;
+  ButtonBlock.destroy;
+  inherited;
 end;
 
-procedure TMHAAutomaticApheresis.GetContent;
-var i: integer;
+// Button
+
+procedure TMHAAutomaticApheresis.AfterSaving_Cancelling;
+var
+  i: integer;
 begin
-  if not Assigned(CheckNull) then
-    CheckNull := TCheckNull.create;
-  if not Assigned(TempConnect) then
-    TempConnect := TTempAdoQuery.create;
-  if not Assigned(TempQuery) then
-    TempQuery := TADOQuery.create(nil);
-  TempQuery.Connection := TempConnect.GetConnect;
-  TempQuery.Close;
-  TempQuery.SQL.Clear;
-  SQL:='SELECT top 100 Plasma.ДатаП, Plasma.КДП, Plasma.НаКонП, Plasma.ЛабП, Plasma.ЦелП, ' +
-  'Plasma.КонП, PlasmaComponents.КПЛП, PlasmaComponents.ДПЛП, PlasmaComponents.ВидПЛП, ' +
-  'PlazmaBrak.КБРП, PlazmaBrak.ДБРП, PlazmaBrak.ВидБРП ' +
-  'FROM ((Plasma INNER JOIN PlazmaDoza ON Plasma.ДатаП = PlazmaDoza.ДатаП) ' +
-  'INNER JOIN PlasmaComponents ON PlazmaDoza.КодПл = PlasmaComponents.КодДП) ' +
-  'INNER JOIN PlazmaBrak ON PlasmaComponents.КодДП = PlazmaBrak.КодКП ' +
-  'ORDER BY Plasma.ДатаП DESC;';
-  try
-    TempQuery.SQL.Add(SQL);
-  except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
-  end;
-  try
-    TempQuery.Open;
-  Except
-    ShowMessage('Нет подключения в базе данных (MHAAutomaticApheresis)!' + chr(13) + 'Обратитесь к администратору!');
-  end;
-  Try
-  if not TempQuery.IsEmpty then
+  DateCal.WriteDateTime(date());
+  EditNumberOfDonors.WriteText('0');
+  EditSentToPreserving.WriteText('0');
+  EditForLaboratoryResearch.WriteText('0');
+  EditAllWholeBlood.WriteText('0');
+  EditAllStoredBlood.WriteText('0');
+  EditVolumePlazma.WriteText('0');
+  EditNumberDosesPlazma.WriteText('0');
+  EditVolumeDefect.WriteText('0');
+  EditNumberDosesDefect.WriteText('0');
+  CBoxTypePlazma.WriteItemIndex(1);
+  CBoxTypeDefect.WriteItemIndex(-1);
+end;
+
+// Добавление новой записи
+
+procedure TMHAAutomaticApheresis.ButtonAdded(Sender: TObject);
+begin
+  if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0) = 6 then
   begin
-    SetLength(ResultMass, TempQuery.RecordCount);
-    TempQuery.Recordset.MoveFirst;
-    for i:=0 to TempQuery.RecordCount-1 do
-    begin
-      ResultMass[i].Date:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].value));
-      ResultMass[i].NumberOfDonors:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[1].value));
-      ResultMass[i].SentToPreserving:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[2].value));
-      ResultMass[i].ForLaboratoryResearch:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[3].value));
-      ResultMass[i].AllWholeBlood:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[4].value));
-      ResultMass[i].AllStoredBlood:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[5].value));
-      ResultMass[i].VolomePlazma:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[6].value));
-      ResultMass[i].NumberOfDosesPlazma:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[7].value));
-      ResultMass[i].TypePlazma:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[8].value));
-      ResultMass[i].VolomeDefect:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[9].value));
-      ResultMass[i].NumberOfDosesDefect:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[10].value));
-      ResultMass[i].TypeDefect:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[11].value));
-      TempQuery.Next;
+    if not Assigned(CheckForExistenceOfRecord) then
+      CheckForExistenceOfRecord := TUSCheckForExistenceOfRecord.create;
+    SQL := 'SELECT ДатаП ' + 'FROM Plasma ' + 'WHERE Plasma.ДатаП=#' +
+      FormatDateTime('mm''/''dd''/''yyyy', dateOf(DateCal.GetDate)) + '# ';
+    if CheckForExistenceOfRecord.CheckForExistenceOfRecord(SQL) then
+      exit;
+    if CheckingBeforeSaving then
+      exit;
+    if not Assigned(AddRecord) then
+      AddRecord := TBHAAddRecordAutomaticApheresis.create;
+    AddRecord.AddRecordPlasma(DateCal.GetDate, EditNumberOfDonors.ReadText,
+      EditSentToPreserving.ReadText, EditForLaboratoryResearch.ReadText,
+      EditAllWholeBlood.ReadText, EditAllStoredBlood.ReadText);
+    AddRecord.AddRecordPlasmaDoza(DateCal.GetDate, EditNumberOfDonors.ReadText);
+    AddRecord.AddRecordPlasmaComponents(EditVolumePlazma.ReadText,
+      EditNumberDosesPlazma.ReadText,
+      CBoxTypePlazma.GetItemsValue(CBoxTypePlazma.GetItemIndex));
+    AddRecord.AddRecordPlasmaDefect(EditVolumeDefect.ReadText,
+      EditNumberDosesDefect.ReadText,
+      CBoxTypeDefect.GetItemsValue(CBoxTypeDefect.GetItemIndex));
+    GetStringGrid(CurrentForm);
+    StringGrid.Visible(True);
+    ShowMessage('Объем реинфузии - ' +
+      IntToStr(StrToInt(EditAllStoredBlood.ReadText) -
+      StrToInt(EditVolumePlazma.ReadText) - StrToInt(EditVolumeDefect.ReadText))
+      + chr(13) + 'Количество консерванта - ' +
+      IntToStr(StrToInt(EditAllStoredBlood.ReadText) -
+      StrToInt(EditSentToPreserving.ReadText)));
+    AfterSaving_Cancelling;
+  end;
+end;
+
+// Разблокировка кнопок
+
+procedure TMHAAutomaticApheresis.ButtonBlocked(Sender: TObject);
+begin
+  if ButtonBlock.GetCaption then
+  begin
+    ButtonEdit.ChangeEnabled(True);
+    ButtonAdd.ChangeEnabled(True);
+    ButtonDelete.ChangeEnabled(True);
+    ButtonBlock.ChangeCaption(True);
+  end
+  else
+  begin
+    ButtonEdit.ChangeEnabled(False);
+    ButtonAdd.ChangeEnabled(False);
+    ButtonDelete.ChangeEnabled(False);
+    ButtonBlock.ChangeCaption(False);
+  end;
+end;
+
+// Кнопка удаления
+
+procedure TMHAAutomaticApheresis.ButtonDeleted(Sender: TObject);
+begin
+  if MessageDlg('Удалить запись от ' + VarToStr(StringGrid.GetValue(0,
+    StringGrid.CurrentRow)) + ' числа?', mtConfirmation, [mbYes, mbNo], 0) = 6
+  then
+  begin
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TBHADeleteRecordAutomaticApheresis.create;
+    DeleteRecord.DeleteRecord(StringGrid.GetValue(0, StringGrid.CurrentRow));
+    GetStringGrid(CurrentForm);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount - 1);
+    StringGrid.Visible(True);
+    ShowMessage('Запись успешно удалена!');
+  end;
+  AfterSaving_Cancelling;
+end;
+
+// Внесение изменений
+procedure TMHAAutomaticApheresis.ButtonEdited(Sender: TObject);
+var
+  i: integer;
+begin
+  if not Assigned(ChangeRecord) then
+    ChangeRecord := TBHAChangeRecordAutomaticApheresis.create;
+  ChangeRecord.GetTempId(FormatDateTime('mm''/''dd''/''yyyy',
+    StrToDateTime(StringGrid.GetValue(0, StringGrid.CurrentRow))));
+
+  if not Assigned(CheckFillStrFields) then
+    CheckFillStrFields := TUSCheckFillStringFields.create;
+  if not Assigned(BlockMainMenu) then
+    BlockMainMenu := TUSBlockMainMenu.create;
+
+  if ButtonEdit.GetCaption = 'Изменить' then
+  begin
+    BlockMainMenu.BlockMainMenu(False, CurrentForm);
+    ButtonBlock.ChangeEnabled(False);
+    ButtonAdd.ChangeEnabled(False);
+    ButtonDelete.ChangeEnabled(False);
+    StringGrid.Enabled(False);
+    DateCal.WriteDateTime(StrToDate(StringGrid.GetValue(0,
+      StringGrid.CurrentRow)));
+    DateCal.Enabled(False);
+    EditNumberOfDonors.WriteText(StringGrid.GetValue(1, StringGrid.CurrentRow));
+
+    EditSentToPreserving.WriteText(StringGrid.GetValue(2,
+      StringGrid.CurrentRow));
+    EditForLaboratoryResearch.WriteText(StringGrid.GetValue(3,
+      StringGrid.CurrentRow));
+    EditAllWholeBlood.WriteText(StringGrid.GetValue(4, StringGrid.CurrentRow));
+    EditAllStoredBlood.WriteText(StringGrid.GetValue(5, StringGrid.CurrentRow));
+    EditVolumePlazma.WriteText(StringGrid.GetValue(6, StringGrid.CurrentRow));
+    EditNumberDosesPlazma.WriteText(StringGrid.GetValue(7,
+      StringGrid.CurrentRow));
+    for i := 0 to CBoxTypePlazma.GetItemsCount do
+      if CBoxTypePlazma.GetItemsValue(i) = StringGrid.GetValue(8,
+        StringGrid.CurrentRow) then
+      begin
+        CBoxTypePlazma.WriteItemIndex(i);
+        break;
+      end;
+    EditVolumeDefect.WriteText(StringGrid.GetValue(9, StringGrid.CurrentRow));
+    EditNumberDosesDefect.WriteText(StringGrid.GetValue(10,
+      StringGrid.CurrentRow));
+    for i := 0 to CBoxTypeDefect.GetItemsCount do
+      if CBoxTypeDefect.GetItemsValue(i) = StringGrid.GetValue(11,
+        StringGrid.CurrentRow) then
+      begin
+        CBoxTypeDefect.WriteItemIndex(i);
+        break;
+      end;
+  end;
+
+  if ButtonEdit.GetCaption = 'Сохранить изменения' then
+  begin
+    try
+      if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0) = 6
+      then
+      begin
+        BlockMainMenu.BlockMainMenu(True, CurrentForm);
+        ButtonBlock.ChangeEnabled(True);
+        ButtonAdd.ChangeEnabled(True);
+        ButtonDelete.ChangeEnabled(True);
+        DateCal.Enabled(True);
+        StringGrid.Enabled(True);
+        if CheckingBeforeSaving then
+          exit;
+        ChangeRecord.ChangeRecordPlasma(DateCal.GetDate,
+          EditNumberOfDonors.ReadText, EditSentToPreserving.ReadText,
+          EditForLaboratoryResearch.ReadText, EditAllWholeBlood.ReadText,
+          EditAllStoredBlood.ReadText);
+        ChangeRecord.ChangeRecordPlasmaDoza(DateCal.GetDate,
+          EditNumberOfDonors.ReadText);
+        ChangeRecord.ChangeRecordPlasmaComponents(EditVolumePlazma.ReadText,
+          EditNumberDosesPlazma.ReadText,
+          CBoxTypePlazma.GetItemsValue(CBoxTypePlazma.GetItemIndex));
+        ChangeRecord.ChangeRecordPlasmaDefect(EditVolumeDefect.ReadText,
+          EditNumberDosesDefect.ReadText,
+          CBoxTypeDefect.GetItemsValue(CBoxTypeDefect.GetItemIndex));
+        ShowMessage('Объем реинфузии - ' +
+          IntToStr(StrToInt(EditAllStoredBlood.ReadText) -
+          StrToInt(EditVolumePlazma.ReadText) -
+          StrToInt(EditVolumeDefect.ReadText)) + chr(13) +
+          'Количество консерванта - ' +
+          IntToStr(StrToInt(EditAllStoredBlood.ReadText) -
+          StrToInt(EditSentToPreserving.ReadText)));
+        AfterSaving_Cancelling;
+        GetStringGrid(CurrentForm);
+        StringGrid.Visible(True);
+        ButtonEdit.ChangeCaption('Изменить');
+        exit;
+      end
+      else
+      begin
+        ButtonEdit.ChangeCaption('Изменить');
+        BlockMainMenu.BlockMainMenu(True, CurrentForm);
+        ButtonBlock.ChangeEnabled(True);
+        ButtonAdd.ChangeEnabled(True);
+        ButtonDelete.ChangeEnabled(True);
+        DateCal.Enabled(True);
+        StringGrid.Enabled(True);
+        AfterSaving_Cancelling;
+        exit;
+      end;
+    except
+      On e: EDatabaseError do
+        MessageDlg(e.message, mtError, [mbOK], 0);
     end;
   end;
-  Except
-    ShowMessage('Не могу взять данные с базы данных для заполнения таблицы (MHAAutomaticApheresis)!' + chr(13) + 'Обратитесь к администратору!');
-  End;
-  TempQuery.Close;
+  if ButtonEdit.GetCaption = 'Изменить' then
+    ButtonEdit.ChangeCaption('Сохранить изменения')
+  else
+    ButtonEdit.ChangeCaption('Изменить');
 end;
 
-function TMHAAutomaticApheresis.GetRowCount: integer;
+// Создание кнопок
+function TMHAAutomaticApheresis.GetButtonAdd(NameForm: TForm): TBitBtn;
 begin
-  result:=Length(ResultMass);
+  if not Assigned(ButtonAdd) then
+    ButtonAdd := TMFBitBtnAdd.create;
+  Result := ButtonAdd.GetBitBtnAdd(670, 0, ButtonAdded, NameForm);
 end;
 
-function TMHAAutomaticApheresis.GetDate(i: integer): string;
+function TMHAAutomaticApheresis.GetButtonBlock(NameForm: TForm): TBitBtn;
 begin
-  result := ResultMass[i].Date;
+  if not Assigned(ButtonBlock) then
+    ButtonBlock := TMFBitBtnBlock.create;
+  Result := ButtonBlock.GetBitBtnBlock(670, 0, ButtonBlocked, NameForm);
 end;
 
-function TMHAAutomaticApheresis.GetForLaboratoryResearch(i: integer): string;
+function TMHAAutomaticApheresis.GetButtonDelete(NameForm: TForm): TBitBtn;
 begin
-  result := ResultMass[i].ForLaboratoryResearch;
+  if not Assigned(ButtonDelete) then
+    ButtonDelete := TMFBitBtnDelete.create;
+  Result := ButtonDelete.GetBitBtnDelete(670, 0, ButtonDeleted, NameForm);
 end;
 
-function TMHAAutomaticApheresis.GetSentToPreserving(i: integer): string;
+function TMHAAutomaticApheresis.GetButtonEdit(NameForm: TForm): TBitBtn;
 begin
-  result := ResultMass[i].SentToPreserving;
+  if not Assigned(ButtonEdit) then
+    ButtonEdit := TMFBitBtnEdit.create;
+  Result := ButtonEdit.GetBitBtnEdit(670, 0, ButtonEdited, NameForm);
 end;
 
-function TMHAAutomaticApheresis.GetTypeDefect(i: integer): string;
+// TDateTimePicker
+function TMHAAutomaticApheresis.GetCalendarDateCal(NameForm: TForm)
+  : TDateTimePicker;
 begin
-  result := ResultMass[i].TypeDefect;
+  if not Assigned(DateCal) then
+    DateCal := TMFDateTimePicker.create;
+  Result := DateCal.GetDTPicker(220, 70, date(), NameForm);
+  DateCal.Width(100);
+  DateCal.FontSize(10);
 end;
 
-function TMHAAutomaticApheresis.GetTypePlazma(i: integer): string;
+function TMHAAutomaticApheresis.CheckingBeforeSaving: boolean;
+var
+  value1: integer;
 begin
-  result := ResultMass[i].TypePlazma;
+  if not Assigned(CheckFillStrFields) then
+    CheckFillStrFields := TUSCheckFillStringFields.create;
+  EditNumberOfDonors.WriteText(CheckFillStrFields.CheckStringFields
+    (EditNumberOfDonors.ReadText));
+  EditSentToPreserving.WriteText(CheckFillStrFields.CheckStringFields
+    (EditSentToPreserving.ReadText));
+  EditForLaboratoryResearch.WriteText(CheckFillStrFields.CheckStringFields
+    (EditForLaboratoryResearch.ReadText));
+  EditAllWholeBlood.WriteText(CheckFillStrFields.CheckStringFields
+    (EditAllWholeBlood.ReadText));
+  EditAllStoredBlood.WriteText(CheckFillStrFields.CheckStringFields
+    (EditAllStoredBlood.ReadText));
+  EditVolumePlazma.WriteText(CheckFillStrFields.CheckStringFields
+    (EditVolumePlazma.ReadText));
+  EditNumberDosesPlazma.WriteText(CheckFillStrFields.CheckStringFields
+    (EditNumberDosesPlazma.ReadText));
+  EditVolumeDefect.WriteText(CheckFillStrFields.CheckStringFields
+    (EditVolumeDefect.ReadText));
+  EditNumberDosesDefect.WriteText(CheckFillStrFields.CheckStringFields
+    (EditNumberDosesDefect.ReadText));
+  if not Assigned(ValueChecksOnTheAdequacy) then
+    ValueChecksOnTheAdequacy := TUSValueChecksOnTheAdequacy.create;
+  if ValueChecksOnTheAdequacy.CheckZeroValues(EditNumberOfDonors.ReadText,
+    'Количество доноров не может равняться нулю!') then
+  begin
+    Result := True;
+    exit;
+  end;
+  if ValueChecksOnTheAdequacy.CheckZeroValues(EditSentToPreserving.ReadText,
+    'Количество отправленной крови на консервирование не может равняться нулю!')
+  then
+  begin
+    Result := True;
+    exit;
+  end;
+  if ValueChecksOnTheAdequacy.CheckZeroValues
+    (EditForLaboratoryResearch.ReadText,
+    'Количество крови отправленной на лабораторные исследования не может равняться нулю!')
+  then
+  begin
+    Result := True;
+    exit;
+  end;
+  if ValueChecksOnTheAdequacy.CheckZeroValues(EditAllWholeBlood.ReadText,
+    'Количество цельной крови не может равняться нулю!') then
+  begin
+    Result := True;
+    exit;
+  end;
+  if ValueChecksOnTheAdequacy.CheckZeroValues(EditAllStoredBlood.ReadText,
+    'Количество консервированной крови не может равняться нулю!') then
+  begin
+    Result := True;
+    exit;
+  end;
+  if ValueChecksOnTheAdequacy.CheckingEqualities
+    (StrToInt(EditForLaboratoryResearch.ReadText),
+    20 * StrToInt(EditNumberOfDonors.ReadText),
+    'Количество крови на лабораторные исследования не соответствует количеству доноров!')
+  then
+  begin
+    Result := True;
+    exit;
+  end;
+  value1 := StrToInt(EditSentToPreserving.ReadText) +
+    StrToInt(EditForLaboratoryResearch.ReadText);
+  if ValueChecksOnTheAdequacy.CheckingEqualities(value1,
+    StrToInt(EditAllWholeBlood.ReadText),
+    'Количество цельной крови не совпадает с суммой "Отправлено на консервирование" и "На лабораторные иследования"!')
+  then
+  begin
+    Result := True;
+    exit;
+  end;
+  Result := False;
 end;
 
-function TMHAAutomaticApheresis.GetVolomeDefect(i: integer): string;
+// шапка
+function TMHAAutomaticApheresis.GetLabelDate(NameForm: TForm): TLabel;
 begin
-  result := ResultMass[i].VolomeDefect;
+  if not Assigned(LabelDate) then
+    LabelDate := TMFLabel.create;
+  Result := LabelDate.GetTempLabel(30, 70, 14, 'Дата заготовки: ', NameForm);
 end;
 
-function TMHAAutomaticApheresis.GetVolomePlazma(i: integer): string;
+function TMHAAutomaticApheresis.GetLabelNumberOfDonors(NameForm: TForm): TLabel;
 begin
-  result := ResultMass[i].VolomePlazma;
+  if not Assigned(LabelNumberOfDonors) then
+    LabelNumberOfDonors := TMFLabel.create;
+  Result := LabelNumberOfDonors.GetTempLabel(30, 105, 14,
+    'Количество доноров: ', NameForm);
 end;
 
-function TMHAAutomaticApheresis.GetNumberOfDonors(i: integer): string;
+function TMHAAutomaticApheresis.GetEditNumberOfDonors(NameForm: TForm): TEdit;
 begin
-  result := ResultMass[i].NumberOfDonors;
+  if not Assigned(EditNumberOfDonors) then
+    EditNumberOfDonors := TMFEdit.create;
+  Result := EditNumberOfDonors.GetEdit(220, 105, 100, 12, False, NameForm);
+  EditNumberOfDonors.NumberOnly(True);
 end;
 
-function TMHAAutomaticApheresis.GetNumberOfDosesDefect(i: integer): string;
+// таблица "кровь"
+function TMHAAutomaticApheresis.GetLabelSentToPreserving
+  (NameForm: TForm): TLabel;
 begin
-  result := ResultMass[i].NumberOfDosesDefect;
+  if not Assigned(LabelSentToPreserving) then
+    LabelSentToPreserving := TMFLabel.create;
+  Result := LabelSentToPreserving.GetTempLabel(100, 190, 12,
+    'Отправлено на консервирование, мл: ', NameForm);
+  LabelSentToPreserving.WordWrap(True);
+  LabelSentToPreserving.Width(150);
+  LabelSentToPreserving.Height(40);
 end;
 
-function TMHAAutomaticApheresis.GetNumberOfDosesPlazma(i: integer): string;
+function TMHAAutomaticApheresis.GetLabelForLaboratoryResearch
+  (NameForm: TForm): TLabel;
 begin
-  result := ResultMass[i].NumberOfDosesPlazma;
+  if not Assigned(LabelForLaboratoryResearch) then
+    LabelForLaboratoryResearch := TMFLabel.create;
+  Result := LabelForLaboratoryResearch.GetTempLabel(265, 190, 12,
+    'На лабораторные иследования, мл: ', NameForm);
+  LabelForLaboratoryResearch.WordWrap(True);
+  LabelForLaboratoryResearch.Width(120);
+  LabelForLaboratoryResearch.Height(40);
+end;
+
+function TMHAAutomaticApheresis.GetLabelAllWholeBlood(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelAllWholeBlood) then
+    LabelAllWholeBlood := TMFLabel.create;
+  Result := LabelAllWholeBlood.GetTempLabel(400, 190, 12,
+    'Всего цельной крови, мл: ', NameForm);
+  LabelAllWholeBlood.WordWrap(True);
+  LabelAllWholeBlood.Width(100);
+  LabelAllWholeBlood.Height(40);
+end;
+
+function TMHAAutomaticApheresis.GetLabelAllStoredBlood(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelAllStoredBlood) then
+    LabelAllStoredBlood := TMFLabel.create;
+  Result := LabelAllStoredBlood.GetTempLabel(515, 190, 12,
+    'Всего конс-ной крови, мл: ', NameForm);
+  LabelAllStoredBlood.WordWrap(True);
+  LabelAllStoredBlood.Width(120);
+  LabelAllStoredBlood.Height(40);
+end;
+
+function TMHAAutomaticApheresis.GetLabelBlood(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelBlood) then
+    LabelBlood := TMFLabel.create;
+  Result := LabelBlood.GetTempLabel(30, 240, 12, 'Кровь: ', NameForm);
+  LabelBlood.Width(120);
+end;
+
+function TMHAAutomaticApheresis.GetEditSentToPreserving(NameForm: TForm): TEdit;
+begin
+  if not Assigned(EditSentToPreserving) then
+    EditSentToPreserving := TMFEdit.create;
+  Result := EditSentToPreserving.GetEdit(100, 240, 155, 10, False, NameForm);
+  EditSentToPreserving.NumberOnly(True);
+end;
+
+function TMHAAutomaticApheresis.GetEditForLaboratoryResearch
+  (NameForm: TForm): TEdit;
+begin
+  if not Assigned(EditForLaboratoryResearch) then
+    EditForLaboratoryResearch := TMFEdit.create;
+  Result := EditForLaboratoryResearch.GetEdit(265, 240, 125, 10, False,
+    NameForm);
+  EditForLaboratoryResearch.NumberOnly(True);
+end;
+
+function TMHAAutomaticApheresis.GetEditAllWholeBlood(NameForm: TForm): TEdit;
+begin
+  if not Assigned(EditAllWholeBlood) then
+    EditAllWholeBlood := TMFEdit.create;
+  Result := EditAllWholeBlood.GetEdit(400, 240, 105, 10, False, NameForm);
+  EditAllWholeBlood.NumberOnly(True);
+end;
+
+function TMHAAutomaticApheresis.GetEditAllStoredBlood(NameForm: TForm): TEdit;
+begin
+  if not Assigned(EditAllStoredBlood) then
+    EditAllStoredBlood := TMFEdit.create;
+  Result := EditAllStoredBlood.GetEdit(515, 240, 105, 10, False, NameForm);
+  EditAllStoredBlood.NumberOnly(True);
+end;
+
+function TMHAAutomaticApheresis.GetPanelGorBlood(NameForm: TForm): TPanel;
+begin
+  if not Assigned(PanelGorBlood) then
+    PanelGorBlood := TMFPanel.create;
+  Result := PanelGorBlood.GetTempPanel(30, 232, 1, 590, 0, NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetPanelVertBlood1(NameForm: TForm): TPanel;
+begin
+  if not Assigned(PanelVertBlood1) then
+    PanelVertBlood1 := TMFPanel.create;
+  Result := PanelVertBlood1.GetTempPanel(95, 190, 75, 1, 0, NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetPanelVertBlood2(NameForm: TForm): TPanel;
+begin
+  if not Assigned(PanelVertBlood2) then
+    PanelVertBlood2 := TMFPanel.create;
+  Result := PanelVertBlood2.GetTempPanel(260, 190, 75, 1, 0, NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetPanelVertBlood3(NameForm: TForm): TPanel;
+begin
+  if not Assigned(PanelVertBlood3) then
+    PanelVertBlood3 := TMFPanel.create;
+  Result := PanelVertBlood3.GetTempPanel(395, 190, 75, 1, 0, NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetPanelVertBlood4(NameForm: TForm): TPanel;
+begin
+  if not Assigned(PanelVertBlood4) then
+    PanelVertBlood4 := TMFPanel.create;
+  Result := PanelVertBlood4.GetTempPanel(510, 190, 75, 1, 0, NameForm);
+end;
+
+// таблица компонентов
+function TMHAAutomaticApheresis.GetLabelVolume(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelVolume) then
+    LabelVolume := TMFLabel.create;
+  Result := LabelVolume.GetTempLabel(210, 293, 12, 'Объем, мл: ', NameForm);
+  LabelVolume.WordWrap(True);
+  LabelVolume.Width(80);
+end;
+
+function TMHAAutomaticApheresis.GetLabelNumberDoses(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelNumberDoses) then
+    LabelNumberDoses := TMFLabel.create;
+  Result := LabelNumberDoses.GetTempLabel(310, 293, 12, 'Количество доз, шт: ',
+    NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetLabelType(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelType) then
+    LabelType := TMFLabel.create;
+  Result := LabelType.GetTempLabel(470, 293, 12, 'Вид продукци: ', NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetLabelPlazma(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelPlazma) then
+    LabelPlazma := TMFLabel.create;
+  Result := LabelPlazma.GetTempLabel(30, 328, 14, 'Плазма: ', NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetLabelDefectWholeBlood
+  (NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelDefectWholeBlood) then
+    LabelDefectWholeBlood := TMFLabel.create;
+  Result := LabelDefectWholeBlood.GetTempLabel(30, 365, 14,
+    'Брак цельной крови: ', NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetPanelGor1Components1
+  (NameForm: TForm): TPanel;
+begin
+  if not Assigned(PanelGor1Components1) then
+    PanelGor1Components1 := TMFPanel.create;
+  Result := PanelGor1Components1.GetTempPanel(30, 320, 1, 550, 0, NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetPanelGor2Components1
+  (NameForm: TForm): TPanel;
+begin
+  if not Assigned(PanelGor2Components1) then
+    PanelGor2Components1 := TMFPanel.create;
+  Result := PanelGor2Components1.GetTempPanel(30, 358, 1, 550, 0, NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetPanelVert1Components1
+  (NameForm: TForm): TPanel;
+begin
+  if not Assigned(PanelVert1Components1) then
+    PanelVert1Components1 := TMFPanel.create;
+  Result := PanelVert1Components1.GetTempPanel(205, 293, 110, 1, 0, NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetPanelVert2Components1
+  (NameForm: TForm): TPanel;
+begin
+  if not Assigned(PanelVert2Components1) then
+    PanelVert2Components1 := TMFPanel.create;
+  Result := PanelVert2Components1.GetTempPanel(305, 293, 110, 1, 0, NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetPanelVert3Components1
+  (NameForm: TForm): TPanel;
+begin
+  if not Assigned(PanelVert3Components1) then
+    PanelVert3Components1 := TMFPanel.create;
+  Result := PanelVert3Components1.GetTempPanel(465, 293, 110, 1, 0, NameForm);
+end;
+
+function TMHAAutomaticApheresis.GetEditVolumePlazma(NameForm: TForm): TEdit;
+begin
+  if not Assigned(EditVolumePlazma) then
+    EditVolumePlazma := TMFEdit.create;
+  Result := EditVolumePlazma.GetEdit(210, 325, 90, 12, False, NameForm);
+  EditVolumePlazma.NumberOnly(True);
+end;
+
+function TMHAAutomaticApheresis.GetEditVolumeDefect(NameForm: TForm): TEdit;
+begin
+  if not Assigned(EditVolumeDefect) then
+    EditVolumeDefect := TMFEdit.create;
+  Result := EditVolumeDefect.GetEdit(210, 363, 90, 12, False, NameForm);
+  EditVolumeDefect.NumberOnly(True);
+end;
+
+function TMHAAutomaticApheresis.GetEditNumberDosesPlazma
+  (NameForm: TForm): TEdit;
+begin
+  if not Assigned(EditNumberDosesPlazma) then
+    EditNumberDosesPlazma := TMFEdit.create;
+  Result := EditNumberDosesPlazma.GetEdit(310, 325, 150, 12, False, NameForm);
+  EditNumberDosesPlazma.NumberOnly(True);
+end;
+
+function TMHAAutomaticApheresis.GetEditNumberDosesDefect
+  (NameForm: TForm): TEdit;
+begin
+  if not Assigned(EditNumberDosesDefect) then
+    EditNumberDosesDefect := TMFEdit.create;
+  Result := EditNumberDosesDefect.GetEdit(310, 363, 150, 12, False, NameForm);
+  EditNumberDosesDefect.NumberOnly(True);
+end;
+
+function TMHAAutomaticApheresis.GetCBoxTypePlazma(NameForm: TForm): TComboBox;
+begin
+  if not Assigned(CBoxTypePlazma) then
+    CBoxTypePlazma := TMFComboBox.create;
+  Result := CBoxTypePlazma.GetComboBox('CBoxTypePlazma', 470, 325, 110, 12,
+    NameForm);
+  SQL := 'SELECT NameProducts.ShortName, NameProducts.id ' +
+    'FROM NameProducts ' +
+    'WHERE (((NameProducts.Visible)=True) AND ((NameProducts.TypeProduct)="Плазма") and ((NameProducts.AUTO)=true))';
+  CBoxTypePlazma.TheContentOfTheList(SQL);
+  CBoxTypePlazma.WriteItemIndex(0);
+end;
+
+function TMHAAutomaticApheresis.GetCBoxTypeDefect(NameForm: TForm): TComboBox;
+begin
+  if not Assigned(CBoxTypeDefect) then
+    CBoxTypeDefect := TMFComboBox.create;
+  Result := CBoxTypeDefect.GetComboBox('CBoxTypeDefect', 470, 363, 110, 12,
+    NameForm);
+  SQL := 'SELECT TypeOfDefects.TypeDef ' + 'FROM TypeOfDefects ' +
+    'WHERE (TypeOfDefects.Other=True)';
+  CBoxTypeDefect.TheContentOfTheList(SQL);
+  CBoxTypeDefect.WriteItemIndex(-1);
+  CBoxTypeDefect.GetDROPPEDWIDTH(200);
+end;
+
+// Label
+function TMHAAutomaticApheresis.GetLabelTitle(NameForm: TForm): TLabel;
+begin
+  if not Assigned(Title) then
+    Title := TMFTitleLabel.create;
+  Result := Title.GetTitleLabel(19,
+    'Ввод ежедневных данных по заготовке плазмы автоматическим аферезом',
+    NameForm);
+end;
+
+// StringGrid
+function TMHAAutomaticApheresis.GetStringGrid(NameForm: TForm): TStringGrid;
+Var
+  i, j: integer;
+begin
+  i := 0;
+  j := 0;
+  if not Assigned(StringGrid) then
+    StringGrid := TMFStringGrid.create;
+  StringGrid.ResultFormat(DT_CENTER, 1, DT_CENTER, 7, DT_CENTER, 9, DT_CENTER,
+    10, DT_CENTER, 11, DT_CENTER);
+  Result := StringGrid.GetStringGrid(30, 480, 840, 160, 12, 2, 9, NameForm);
+  StringGrid.NumberOfFixedCol(0);
+  StringGrid.ColWidth(0, 60);
+  StringGrid.ColWidth(1, 70);
+  StringGrid.ColWidth(2, 60);
+  StringGrid.ColWidth(3, 70);
+  StringGrid.ColWidth(4, 80);
+  StringGrid.ColWidth(5, 80);
+  StringGrid.ColWidth(6, 65);
+  StringGrid.ColWidth(7, 80);
+  StringGrid.ColWidth(8, 90);
+  StringGrid.ColWidth(9, 90);
+  StringGrid.ColWidth(10, 95);
+  StringGrid.ColWidth(11, 90);
+  StringGrid.WriteCells(0, 0, 'Дата');
+  StringGrid.WriteCells(1, 0, 'Кол-во дон.');
+  StringGrid.WriteCells(2, 0, 'На консерв.');
+  StringGrid.WriteCells(3, 0, 'На лабор-е');
+  StringGrid.WriteCells(4, 0, 'Всего цел. кр.');
+  StringGrid.WriteCells(5, 0, 'Консерв-я кр.');
+  StringGrid.WriteCells(6, 0, 'V плазмы');
+  StringGrid.WriteCells(7, 0, 'Кол-во доз пл.');
+  StringGrid.WriteCells(8, 0, 'Вид плазмы');
+  StringGrid.WriteCells(9, 0, 'V брака цел. кр.');
+  StringGrid.WriteCells(10, 0, 'Кол-во доз брака');
+  StringGrid.WriteCells(11, 0, 'Вид брака');
+  if not Assigned(ContentForStringGrid) then
+    ContentForStringGrid := TBHAAutomaticApheresis.create;
+  ContentForStringGrid.GetContent;
+  if ContentForStringGrid.GetRowCount > 0 then
+    for i := 0 to ContentForStringGrid.GetRowCount - 1 do
+    begin
+      if StringGrid.GetValue(0, 1) <> '' then
+        StringGrid.AddRowCount;
+      StringGrid.WriteCells(0, i + 1, ContentForStringGrid.GetDate(j));
+      StringGrid.WriteCells(1, i + 1,
+        ContentForStringGrid.GetNumberOfDonors(j));
+      StringGrid.WriteCells(2, i + 1,
+        ContentForStringGrid.GetSentToPreserving(j));
+      StringGrid.WriteCells(3, i + 1,
+        ContentForStringGrid.GetForLaboratoryResearch(j));
+      StringGrid.WriteCells(4, i + 1, ContentForStringGrid.GetAllWholeBlood(j));
+      StringGrid.WriteCells(5, i + 1,
+        ContentForStringGrid.GetAllStoredBlood(j));
+      StringGrid.WriteCells(6, i + 1, ContentForStringGrid.GetVolomePlazma(j));
+      StringGrid.WriteCells(7, i + 1,
+        ContentForStringGrid.GetNumberOfDosesPlazma(j));
+      StringGrid.WriteCells(8, i + 1, ContentForStringGrid.GetTypePlazma(j));
+      StringGrid.WriteCells(9, i + 1, ContentForStringGrid.GetVolomeDefect(j));
+      StringGrid.WriteCells(10, i + 1,
+        ContentForStringGrid.GetNumberOfDosesDefect(j));
+      StringGrid.WriteCells(11, i + 1, ContentForStringGrid.GetTypeDefect(j));
+      j := j + 1;
+    end;
+end;
+
+procedure TMHAAutomaticApheresis.Show;
+begin
+  LabelDate.Visible(True);
+  LabelNumberOfDonors.Visible(True);
+  LabelSentToPreserving.Visible(True);
+  LabelForLaboratoryResearch.Visible(True);
+  LabelAllWholeBlood.Visible(True);
+  LabelAllStoredBlood.Visible(True);
+  LabelBlood.Visible(True);
+  LabelVolume.Visible(True);
+  LabelNumberDoses.Visible(True);
+  LabelType.Visible(True);
+  LabelPlazma.Visible(True);
+  LabelDefectWholeBlood.Visible(True);
+
+  PanelGorBlood.Visible(True);
+  PanelVertBlood1.Visible(True);
+  PanelVertBlood2.Visible(True);
+  PanelVertBlood3.Visible(True);
+  PanelVertBlood4.Visible(True);
+  PanelVert1Components1.Visible(True);
+  PanelVert2Components1.Visible(True);
+  PanelVert3Components1.Visible(True);
+  PanelGor1Components1.Visible(True);
+  PanelGor2Components1.Visible(True);
+
+  EditNumberOfDonors.Visible(True);
+  EditSentToPreserving.Visible(True);
+  EditForLaboratoryResearch.Visible(True);
+  EditAllWholeBlood.Visible(True);
+  EditAllStoredBlood.Visible(True);
+  EditVolumePlazma.Visible(True);
+  EditVolumeDefect.Visible(True);
+  EditNumberDosesPlazma.Visible(True);
+  EditNumberDosesDefect.Visible(True);
+
+  StringGrid.Visible(True);
+  DateCal.Visible(True);
+
+  CBoxTypeDefect.Visible(True);
+  CBoxTypePlazma.Visible(True);
+
+  ButtonEdit.Visible(True);
+  ButtonAdd.Visible(True);
+  ButtonDelete.Visible(True);
+  ButtonBlock.Visible(True);
 end;
 
 end.

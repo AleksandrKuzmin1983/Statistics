@@ -3,151 +3,602 @@ unit MIETTheResultsInLPU;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
-  UCheckNull,
-  GetAdoQuery;
+  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
+  USCheckFillStringFields,
+  USBlockMainMenu,
+  MFLabel,
+  MFTitleLabel,
+  MFEdit,
+  MFDateTimePicker,
+  MFBitBtnAdd,
+  MFBitBtnDelete,
+  MFBitBtnEdit,
+  MFBitBtnBlock,
+  MFStringGrid,
+  MFComboBox,
+  BIEAddRecordResultsInLPU,
+  BIEDeleteRecordResultsInLPU,
+  BIEChangeRecordResultsInLPU,
+  BIETTheResultsInLPU,
+  USGlobalVariant;
 
 type
-  IMIETTheResultsInLPU = interface
-    function GetKod(i: integer): string;
-    function GetReportDate(i: integer): string;
-    function GetTypeOfLPU(i: integer): string;
-    function GetTheNameOfTheEnvironment(i: integer): string;
-    function GetVolume(i: integer): string;
-    function GetNumberOfDoses(i: integer): string;
-    function GetPercentage(i: integer): string;
-    function GetNumberOfPackets(i: integer): string;
-    function GetRowCount: integer;
-    procedure GetContent;
-  end;
 
-  TResultRecord=Record
+  TMIETTheResultsInLPU = class(TUSGlobalVariant)
   private
-    Kod: string;
-    ReportDate: String;
-    TypeOfLPU: String;
-    TheNameOfTheEnvironment: String;
-    Volume: String;
-    NumberOfDoses: String;
-    Percentage: String;
-    NumberOfPackets: String;
-  end;
-
-  TMIETTheResultsInLPU = class(TInterfacedObject,
-    IMIETTheResultsInLPU)
-  private
+    LabelReportDate: TMFLabel;
+    LabelTheNameOfTheEnvironment: TMFLabel;
+    LabelTypeOfLPU: TMFLabel;
+    LabelVolume: TMFLabel;
+    LabelNumberOfDoses: TMFLabel;
+    LabelPercentage: TMFLabel;
+    LabelNumberOfPackets: TMFLabel;
+    Title: TMFTitleLabel;
     SQL: String;
-    TempConnect: ITempAdoQuery;
-    TempQuery: TADOQuery;
-    CheckNull: TCheckNull;
-    ResultMass: array of TResultRecord;
+
+    StringGrid: TMFStringGrid;
+    ContentForStringGrid: IBIETTheResultsInLPU;
+    AddRecord: IBIEAddRecordResultsInLPU;
+    DeleteRecord: IBIEDeleteRecordResultsInLPU;
+    ChangeRecord: IBIEChangeRecordResultsInLPU;
+
+    EditVolume: TMFEdit;
+    EditNumberOfDoses: TMFEdit;
+    EditPercentage: TMFEdit;
+    EditNumberOfPackets: TMFEdit;
+
+    ProductList: TMFComboBox;
+    TypeLPUList: TMFComboBox;
+
+    ReportDateCal: TMFDateTimePicker;
+    CheckFillStrFields: IUSCheckFillStringFields;
+    BlockMainMenu: IUSBlockMainMenu;
+
+    ButtonAdd: TMFBitBtnAdd;
+    ButtonDelete: TMFBitBtnDelete;
+    ButtonEdit: TMFBitBtnEdit;
+    ButtonBlock: TMFBitBtnBlock;
+    CurrentForm: TForm;
+    function GetLabelReportDate(NameForm: TForm): TLabel;
+    function GetLabelTheNameOfTheEnvironment(NameForm: TForm): TLabel;
+    function GetLabelTypeOfLPU(NameForm: TForm): TLabel;
+    function GetLabelVolume(NameForm: TForm): TLabel;
+    function GetLabelNumberOfDoses(NameForm: TForm): TLabel;
+    function GetLabelPercentage(NameForm: TForm): TLabel;
+    function GetLabelNumberOfPackets(NameForm: TForm): TLabel;
+    function GetLabelTitle(NameForm: TForm): TLabel;
+
+    function GetStringGrid(NameForm: TForm): TStringGrid;
+
+    function GetEditVolume(NameForm: TForm): TEdit;
+    function GetEditNumberOfDoses(NameForm: TForm): TEdit;
+    function GetEditPercentage(NameForm: TForm): TEdit;
+    function GetEditNumberOfPackets(NameForm: TForm): TEdit;
+
+    function GetProductList(NameForm: TForm): TComboBox;
+    function GetTypeLPUList(NameForm: TForm): TComboBox;
+
+    function GetCalendarReportDateCal(NameForm: TForm): TDateTimePicker;
+
+    function GetButtonEdit(NameForm: TForm): TBitBtn;
+    procedure ButtonEdited(Sender: TObject);
+    function GetButtonAdd(NameForm: TForm): TBitBtn;
+    procedure ButtonAdded(Sender: TObject);
+    function GetButtonDelete(NameForm: TForm): TBitBtn;
+    procedure ButtonDeleted(Sender: TObject);
+    function GetButtonBlock(NameForm: TForm): TBitBtn;
+    procedure ButtonBlocked(Sender: TObject);
+    procedure Show;
   public
-    function GetKod(i: integer): string;
-    function GetReportDate(i: integer): string;
-    function GetTypeOfLPU(i: integer): string;
-    function GetTheNameOfTheEnvironment(i: integer): string;
-    function GetVolume(i: integer): string;
-    function GetNumberOfDoses(i: integer): string;
-    function GetPercentage(i: integer): string;
-    function GetNumberOfPackets(i: integer): string;
-    function GetRowCount: integer;
-    procedure GetContent;
+    constructor create(form: TForm); override;
+    destructor destroy; override;
   end;
 
 implementation
 
-{ TTheNumberOfTromboDonations }
+{ TBloodProduct }
 
-procedure TMIETTheResultsInLPU.GetContent;
-var i: integer;
+constructor TMIETTheResultsInLPU.create(form: TForm);
 begin
-  if not Assigned(CheckNull) then
-    CheckNull := TCheckNull.create;
-  if not Assigned(TempConnect) then
-    TempConnect := TTempAdoQuery.create;
-  if not Assigned(TempQuery) then
-    TempQuery := TADOQuery.create(nil);
-  TempQuery.Connection := TempConnect.GetConnect;
-  TempQuery.Close;
-  TempQuery.SQL.Clear;
-  SQL:='SELECT Exped.Код, Exped.ДАТАЛЗ, Exped.НС, TypeOfLPUandOther.NameRecord, ' +
-  'Exped.ЛЗО, Exped.ЛЗД, Exped.ЛЗПР, Exped.ЛЗПАК ' +
-  'FROM TypeOfLPUandOther INNER JOIN Exped ON TypeOfLPUandOther.NameRecord = Exped.ВЛЗ ' +
-  'WHERE (((Exped.ЛЗД)>=0) AND ((TypeOfLPUandOther.TypeLPU)=True)) ' +
-  'ORDER BY Exped.ДАТАЛЗ DESC;';
-  Try
-    TempQuery.SQL.Add(SQL);
-  Except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
-  End;
-  try
-    TempQuery.Open;
-  Except
-    ShowMessage('Нет подключения в базе данных!' + chr(13) + 'Обратитесь к администратору!');
-  end;
-  if not TempQuery.IsEmpty then
+  CurrentForm := form;
+
+  GetLabelReportDate(form);
+  GetLabelTheNameOfTheEnvironment(form);
+  GetLabelTypeOfLPU(form);
+  GetLabelVolume(form);
+  GetLabelNumberOfDoses(form);
+  GetLabelPercentage(form);
+  GetLabelNumberOfPackets(form);
+  GetLabelTitle(form);
+
+  GetStringGrid(form);
+
+  GetCalendarReportDateCal(form);
+
+  GetEditVolume(form);
+  GetEditNumberOfDoses(form);
+  GetEditPercentage(form);
+  GetEditNumberOfPackets(form);
+
+  GetProductList(form);
+  GetTypeLPUList(form);
+
+  GetButtonEdit(form);
+  GetButtonAdd(form);
+  GetButtonDelete(form);
+  GetButtonBlock(form);
+  Show;
+  inherited;
+end;
+
+destructor TMIETTheResultsInLPU.destroy;
+begin
+  LabelReportDate.destroy;
+  LabelTheNameOfTheEnvironment.destroy;
+  LabelTypeOfLPU.destroy;
+  LabelVolume.destroy;
+  LabelNumberOfDoses.destroy;
+  LabelPercentage.destroy;
+  LabelNumberOfPackets.destroy;
+  Title.destroy;
+
+  StringGrid.destroy;
+
+  EditVolume.destroy;
+  EditNumberOfDoses.destroy;
+  EditPercentage.destroy;
+  EditNumberOfPackets.destroy;
+
+  ProductList.destroy;
+  TypeLPUList.destroy;
+
+  ReportDateCal.destroy;
+
+  ButtonAdd.destroy;
+  ButtonDelete.destroy;
+  ButtonEdit.destroy;
+  ButtonBlock.destroy;
+  inherited;
+end;
+
+// Button
+
+// Добавление новой записи
+
+procedure TMIETTheResultsInLPU.ButtonAdded(Sender: TObject);
+begin
+  if not Assigned(CheckFillStrFields) then
+    CheckFillStrFields := TUSCheckFillStringFields.create;
+  EditVolume.WriteText(CheckFillStrFields.CheckStringFields
+    (EditVolume.ReadText));
+  EditNumberOfDoses.WriteText(CheckFillStrFields.CheckStringFields
+    (EditNumberOfDoses.ReadText));
+  EditPercentage.WriteText(CheckFillStrFields.CheckStringFields
+    (EditPercentage.ReadText));
+  EditNumberOfPackets.WriteText(CheckFillStrFields.CheckStringFields
+    (EditNumberOfPackets.ReadText));
+  if (EditVolume.ReadText = '0') or (EditNumberOfDoses.ReadText = '0') or
+    (EditPercentage.ReadText = '0') or (ProductList.GetItemIndex = -1) or
+    (TypeLPUList.GetItemIndex = -1) then
   begin
-    SetLength(ResultMass, TempQuery.RecordCount);
-    TempQuery.Recordset.MoveFirst;
-    for i:=0 to TempQuery.RecordCount-1 do
-    begin
-      ResultMass[i].Kod:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].value));
-      ResultMass[i].ReportDate:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[1].value));
-      ResultMass[i].TypeOfLPU:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[2].value));
-      ResultMass[i].TheNameOfTheEnvironment:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[3].value));
-      ResultMass[i].Volume:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[4].value));
-      ResultMass[i].NumberOfDoses:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[5].value));
-      ResultMass[i].Percentage:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[6].value));
-      ResultMass[i].NumberOfPackets:=VarToStr(CheckNull.CheckedValue(TempQuery.Fields[7].value));
-      TempQuery.Next;
-    end;
+    Showmessage('Все поля должны быть заполнены!');
+    exit;
+  End;
+  if MessageDlg('Сохранить запись?', mtConfirmation, [mbYes, mbNo], 0) = 6 then
+  begin
+    if not Assigned(AddRecord) then
+      AddRecord := TBIEAddRecordResultsInLPU.create;
+    AddRecord.AddRecord(ReportDateCal.GetDate,
+      ProductList.GetItemsValue(ProductList.GetItemIndex),
+      TypeLPUList.GetItemsValue(TypeLPUList.GetItemIndex), EditVolume.ReadText,
+      EditNumberOfDoses.ReadText, EditPercentage.ReadText,
+      EditNumberOfPackets.ReadText);
+    Showmessage('Запись успешно добавлена!');
+    GetStringGrid(CurrentForm);
+    StringGrid.Visible(True);
   end;
-  TempQuery.Close;
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  EditPercentage.WriteText('0');
+  EditNumberOfPackets.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  TypeLPUList.WriteItemIndex(-1);
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
 end;
 
-function TMIETTheResultsInLPU.GetReportDate(i: integer): string;
+// Разблокировка кнопок
+
+procedure TMIETTheResultsInLPU.ButtonBlocked(Sender: TObject);
 begin
-  result := ResultMass[i].ReportDate;
+  if ButtonBlock.GetCaption then
+  begin
+    ButtonEdit.ChangeEnabled(True);
+    ButtonAdd.ChangeEnabled(True);
+    ButtonDelete.ChangeEnabled(True);
+    ButtonBlock.ChangeCaption(True);
+  end
+  else
+  begin
+    ButtonEdit.ChangeEnabled(False);
+    ButtonAdd.ChangeEnabled(False);
+    ButtonDelete.ChangeEnabled(False);
+    ButtonBlock.ChangeCaption(False);
+  end;
 end;
 
-function TMIETTheResultsInLPU.GetRowCount: integer;
+// Кнопка удаления
+
+procedure TMIETTheResultsInLPU.ButtonDeleted(Sender: TObject);
 begin
-  result:=Length(ResultMass);
+  if MessageDlg('Удалить запись номер ' + VarToStr(StringGrid.GetValue(0,
+    StringGrid.CurrentRow)) + '?', mtConfirmation, [mbYes, mbNo], 0) = 6 then
+  begin
+    if not Assigned(DeleteRecord) then
+      DeleteRecord := TBIEDeleteRecordResultsInLPU.create;
+    DeleteRecord.DeleteRecord(VarToStr(StringGrid.GetValue(0,
+      StringGrid.CurrentRow)));
+    GetStringGrid(CurrentForm);
+    StringGrid.Visible(True);
+    StringGrid.DeleteLastRow(StringGrid.GetRowCount - 1);
+    Showmessage('Запись успешно удалена!');
+  end;
+  EditVolume.WriteText('0');
+  EditNumberOfDoses.WriteText('0');
+  EditPercentage.WriteText('0');
+  EditNumberOfPackets.WriteText('0');
+  ProductList.WriteItemIndex(-1);
+  TypeLPUList.WriteItemIndex(-1);
+  ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
 end;
 
-function TMIETTheResultsInLPU.GetNumberOfDoses(i: integer): string;
+// Внесение изменений
+
+procedure TMIETTheResultsInLPU.ButtonEdited(Sender: TObject);
+var
+  i: integer;
 begin
-  result := ResultMass[i].NumberOfDoses;
+  if not Assigned(CheckFillStrFields) then
+    CheckFillStrFields := TUSCheckFillStringFields.create;
+  if not Assigned(BlockMainMenu) then
+    BlockMainMenu := TUSBlockMainMenu.create;
+  if ButtonEdit.GetCaption = 'Изменить' then
+  begin
+    BlockMainMenu.BlockMainMenu(False, CurrentForm);
+    ButtonBlock.ChangeEnabled(False);
+    ButtonAdd.ChangeEnabled(False);
+    ButtonDelete.ChangeEnabled(False);
+    StringGrid.Enabled(False);
+
+    ReportDateCal.WriteDateTime(StrToDate(StringGrid.GetValue(1,
+      StringGrid.CurrentRow)));
+    for i := 0 to ProductList.GetItemsCount - 1 do
+      if VarToStr(StringGrid.GetValue(2, StringGrid.CurrentRow))
+        = ProductList.GetItemsValue(i) then
+        ProductList.WriteItemIndex(i);
+    if ProductList.GetItemIndex = -1 then
+      Showmessage
+        ('Название изменяемой продукции для данной записи задано не верно!' +
+        chr(13) + 'Обратитесь к администратору!');
+    for i := 0 to TypeLPUList.GetItemsCount - 1 do
+      if VarToStr(StringGrid.GetValue(3, StringGrid.CurrentRow))
+        = TypeLPUList.GetItemsValue(i) then
+        TypeLPUList.WriteItemIndex(i);
+    if TypeLPUList.GetItemIndex = -1 then
+      Showmessage('Вид ЛПУ для данной записи задан не верно!' + chr(13) +
+        'Обратитесь к администратору!');
+    EditVolume.WriteText(VarToStr(StringGrid.GetValue(4,
+      StringGrid.CurrentRow)));
+    EditNumberOfDoses.WriteText(VarToStr(StringGrid.GetValue(5,
+      StringGrid.CurrentRow)));
+    EditPercentage.WriteText(VarToStr(StringGrid.GetValue(6,
+      StringGrid.CurrentRow)));
+    EditNumberOfPackets.WriteText
+      (VarToStr(StringGrid.GetValue(7, StringGrid.CurrentRow)));
+  end;
+  if ButtonEdit.GetCaption = 'Сохранить изменения' then
+  begin
+    EditVolume.WriteText(CheckFillStrFields.CheckStringFields
+      (EditVolume.ReadText));
+    EditNumberOfDoses.WriteText(CheckFillStrFields.CheckStringFields
+      (EditNumberOfDoses.ReadText));
+    EditPercentage.WriteText(CheckFillStrFields.CheckStringFields
+      (EditPercentage.ReadText));
+    EditNumberOfPackets.WriteText(CheckFillStrFields.CheckStringFields
+      (EditNumberOfPackets.ReadText));
+    if (EditVolume.ReadText = '0') or (EditNumberOfDoses.ReadText = '0') or
+      (EditPercentage.ReadText = '0') or (ProductList.GetItemIndex = -1) or
+      (TypeLPUList.GetItemIndex = -1) then
+    begin
+      Showmessage('Все поля должны быть заполнены!');
+      exit;
+    End;
+    BlockMainMenu.BlockMainMenu(True, CurrentForm);
+    ButtonBlock.ChangeEnabled(True);
+    ButtonAdd.ChangeEnabled(True);
+    ButtonDelete.ChangeEnabled(True);
+    StringGrid.Enabled(True);
+    if MessageDlg('Сохранить изменения?', mtConfirmation, [mbYes, mbNo], 0) = 6
+    then
+    begin
+      if not Assigned(ChangeRecord) then
+        ChangeRecord := TBIEChangeRecordResultsInLPU.create;
+      ChangeRecord.ChangeRecord(ReportDateCal.GetDate,
+        ProductList.GetItemsValue(ProductList.GetItemIndex),
+        TypeLPUList.GetItemsValue(TypeLPUList.GetItemIndex),
+        EditVolume.ReadText, EditNumberOfDoses.ReadText,
+        EditPercentage.ReadText, EditNumberOfPackets.ReadText,
+        StringGrid.GetValue(0, StringGrid.CurrentRow));
+      GetStringGrid(CurrentForm);
+      StringGrid.Visible(True);
+      Showmessage('Запись успешно изменена!');
+    end
+    else
+    begin
+      EditVolume.WriteText('0');
+      EditNumberOfDoses.WriteText('0');
+      EditPercentage.WriteText('0');
+      EditNumberOfPackets.WriteText('0');
+      ProductList.WriteItemIndex(-1);
+      TypeLPUList.WriteItemIndex(-1);
+      ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+      ButtonEdit.ChangeCaption('Изменить');
+      exit;
+    end;
+    EditVolume.WriteText('0');
+    EditNumberOfDoses.WriteText('0');
+    EditPercentage.WriteText('0');
+    EditNumberOfPackets.WriteText('0');
+    ProductList.WriteItemIndex(-1);
+    TypeLPUList.WriteItemIndex(-1);
+    ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+  end;
+  if ButtonEdit.GetCaption = 'Изменить' then
+    ButtonEdit.ChangeCaption('Сохранить изменения')
+  else
+    ButtonEdit.ChangeCaption('Изменить');
 end;
 
-function TMIETTheResultsInLPU.GetNumberOfPackets(i: integer): string;
+// Создание кнопок
+
+function TMIETTheResultsInLPU.GetButtonAdd(NameForm: TForm): TBitBtn;
 begin
-  result := ResultMass[i].NumberOfPackets;
+  if not Assigned(ButtonAdd) then
+    ButtonAdd := TMFBitBtnAdd.create;
+  Result := ButtonAdd.GetBitBtnAdd(0, 0, ButtonAdded, NameForm);
 end;
 
-function TMIETTheResultsInLPU.GetPercentage(i: integer): string;
+function TMIETTheResultsInLPU.GetButtonBlock(NameForm: TForm): TBitBtn;
 begin
-  result := ResultMass[i].Percentage;
+  if not Assigned(ButtonBlock) then
+    ButtonBlock := TMFBitBtnBlock.create;
+  Result := ButtonBlock.GetBitBtnBlock(0, 0, ButtonBlocked, NameForm);
 end;
 
-function TMIETTheResultsInLPU.GetTheNameOfTheEnvironment(i: integer): string;
+function TMIETTheResultsInLPU.GetButtonDelete(NameForm: TForm): TBitBtn;
 begin
-  result := ResultMass[i].TheNameOfTheEnvironment;
+  if not Assigned(ButtonDelete) then
+    ButtonDelete := TMFBitBtnDelete.create;
+  Result := ButtonDelete.GetBitBtnDelete(0, 0, ButtonDeleted, NameForm);
 end;
 
-function TMIETTheResultsInLPU.GetTypeOfLPU(i: integer): string;
+function TMIETTheResultsInLPU.GetButtonEdit(NameForm: TForm): TBitBtn;
 begin
-  result := ResultMass[i].TypeOfLPU;
+  if not Assigned(ButtonEdit) then
+    ButtonEdit := TMFBitBtnEdit.create;
+  Result := ButtonEdit.GetBitBtnEdit(0, 0, ButtonEdited, NameForm);
 end;
 
-function TMIETTheResultsInLPU.GetVolume(i: integer): string;
+// TDateTimePicker
+
+function TMIETTheResultsInLPU.GetCalendarReportDateCal(NameForm: TForm)
+  : TDateTimePicker;
 begin
-  result := ResultMass[i].Volume;
+  if not Assigned(ReportDateCal) then
+    ReportDateCal := TMFDateTimePicker.create;
+  Result := ReportDateCal.GetDTPicker(400, 80, StartOfTheWeek(Date) - 7,
+    NameForm);
 end;
 
-function TMIETTheResultsInLPU.GetKod(i: integer): string;
+// Edit
+
+function TMIETTheResultsInLPU.GetEditVolume(NameForm: TForm): TEdit;
 begin
-  result := ResultMass[i].Kod;
+  if not Assigned(EditVolume) then
+    EditVolume := TMFEdit.create;
+  Result := EditVolume.GetEdit(400, 185, 185, 12, False, NameForm);
+  EditVolume.NumberOnly(True);
 end;
+
+function TMIETTheResultsInLPU.GetEditNumberOfDoses(NameForm: TForm): TEdit;
+begin
+  if not Assigned(EditNumberOfDoses) then
+    EditNumberOfDoses := TMFEdit.create;
+  Result := EditNumberOfDoses.GetEdit(400, 220, 185, 12, False, NameForm);
+  EditNumberOfDoses.NumberOnly(True);
+end;
+
+function TMIETTheResultsInLPU.GetEditPercentage(NameForm: TForm): TEdit;
+begin
+  if not Assigned(EditPercentage) then
+    EditPercentage := TMFEdit.create;
+  Result := EditPercentage.GetEdit(400, 255, 185, 12, False, NameForm);
+  EditPercentage.NumberOnly(True);
+end;
+
+function TMIETTheResultsInLPU.GetEditNumberOfPackets(NameForm: TForm): TEdit;
+begin
+  if not Assigned(EditNumberOfPackets) then
+    EditNumberOfPackets := TMFEdit.create;
+  Result := EditNumberOfPackets.GetEdit(400, 290, 185, 12, False, NameForm);
+  EditNumberOfPackets.NumberOnly(True);
+end;
+
+// Label
+
+function TMIETTheResultsInLPU.GetLabelTitle(NameForm: TForm): TLabel;
+begin
+  if not Assigned(Title) then
+    Title := TMFTitleLabel.create;
+  Result := Title.GetTitleLabel(25, 'Выдача трансфузионных сред в ЛПУ',
+    NameForm);
+end;
+
+function TMIETTheResultsInLPU.GetLabelReportDate(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelReportDate) then
+    LabelReportDate := TMFLabel.create;
+  Result := LabelReportDate.GetTempLabel(50, 80, 16, 'Отчетная неделя: ',
+    NameForm);
+end;
+
+function TMIETTheResultsInLPU.GetLabelTheNameOfTheEnvironment
+  (NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelTheNameOfTheEnvironment) then
+    LabelTheNameOfTheEnvironment := TMFLabel.create;
+  Result := LabelTheNameOfTheEnvironment.GetTempLabel(50, 115, 14,
+    'Наименование продукции: ', NameForm);
+end;
+
+function TMIETTheResultsInLPU.GetLabelTypeOfLPU(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelTypeOfLPU) then
+    LabelTypeOfLPU := TMFLabel.create;
+  Result := LabelTypeOfLPU.GetTempLabel(50, 150, 14, 'Вид ЛПУ: ', NameForm);
+end;
+
+function TMIETTheResultsInLPU.GetLabelVolume(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelVolume) then
+    LabelVolume := TMFLabel.create;
+  Result := LabelVolume.GetTempLabel(50, 185, 14, 'Объем продукции: ',
+    NameForm);
+end;
+
+function TMIETTheResultsInLPU.GetLabelNumberOfDoses(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelNumberOfDoses) then
+    LabelNumberOfDoses := TMFLabel.create;
+  Result := LabelNumberOfDoses.GetTempLabel(50, 220, 14, 'Количество доз: ',
+    NameForm);
+end;
+
+function TMIETTheResultsInLPU.GetLabelPercentage(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelPercentage) then
+    LabelPercentage := TMFLabel.create;
+  Result := LabelPercentage.GetTempLabel(50, 255, 14,
+    'Процент от объема по заявкам: ', NameForm);
+end;
+
+function TMIETTheResultsInLPU.GetLabelNumberOfPackets(NameForm: TForm): TLabel;
+begin
+  if not Assigned(LabelNumberOfPackets) then
+    LabelNumberOfPackets := TMFLabel.create;
+  Result := LabelNumberOfPackets.GetTempLabel(50, 290, 14,
+    'Количество пакетов тромбоконцентрата: ', NameForm);
+end;
+
+// ComboBox
+
+function TMIETTheResultsInLPU.GetProductList(NameForm: TForm): TComboBox;
+begin
+  if not Assigned(ProductList) then
+    ProductList := TMFComboBox.create;
+  Result := ProductList.GetComboBox('ProductList', 285, 115, 300, 14, NameForm);
+  SQL := 'SELECT NameProducts.ShortName, NameProducts.id ' +
+    'FROM NameProducts ' + 'WHERE (NameProducts.ForExped=True);';
+  ProductList.TheContentOfTheList(SQL);
+end;
+
+function TMIETTheResultsInLPU.GetTypeLPUList(NameForm: TForm): TComboBox;
+begin
+  if not Assigned(TypeLPUList) then
+    TypeLPUList := TMFComboBox.create;
+  Result := TypeLPUList.GetComboBox('TypeLPUList', 400, 150, 185, 14, NameForm);
+  SQL := 'SELECT TypeOfLPUandOther.NameRecord ' + 'FROM TypeOfLPUandOther ' +
+    'WHERE (((TypeOfLPUandOther.TypeLPU)=True));';
+  TypeLPUList.TheContentOfTheList(SQL);
+end;
+
+procedure TMIETTheResultsInLPU.Show;
+begin
+  LabelReportDate.Visible(True);
+  LabelTheNameOfTheEnvironment.Visible(True);
+  LabelTypeOfLPU.Visible(True);
+  LabelVolume.Visible(True);
+  LabelNumberOfDoses.Visible(True);
+  LabelPercentage.Visible(True);
+  LabelNumberOfPackets.Visible(True);
+
+  StringGrid.Visible(True);
+
+  ReportDateCal.Visible(True);
+
+  EditVolume.Visible(True);
+  EditNumberOfDoses.Visible(True);
+  EditPercentage.Visible(True);
+  EditNumberOfPackets.Visible(True);
+
+  ProductList.Visible(True);
+  TypeLPUList.Visible(True);
+
+  ButtonEdit.Visible(True);
+  ButtonAdd.Visible(True);
+  ButtonDelete.Visible(True);
+  ButtonBlock.Visible(True);
+end;
+
+// StringGrid
+
+function TMIETTheResultsInLPU.GetStringGrid(NameForm: TForm): TStringGrid;
+Var
+  i, j: integer;
+begin
+  if not Assigned(StringGrid) then
+    StringGrid := TMFStringGrid.create;
+  StringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 4, DT_RIGHT, 5, DT_RIGHT, 6,
+    DT_RIGHT, 7, DT_RIGHT);
+  Result := StringGrid.GetStringGrid(40, 330, 820, 190, 8, 2, 11, NameForm);
+  StringGrid.NumberOfFixedCol(0);
+  StringGrid.ColWidth(0, 40);
+  StringGrid.ColWidth(1, 75);
+  StringGrid.ColWidth(2, 230);
+  StringGrid.ColWidth(3, 110);
+  StringGrid.ColWidth(4, 80);
+  StringGrid.ColWidth(5, 70);
+  StringGrid.ColWidth(6, 100);
+  StringGrid.ColWidth(7, 85);
+  StringGrid.Visible(True);
+  StringGrid.WriteCells(0, 0, 'Код');
+  StringGrid.WriteCells(1, 0, 'Дата');
+  StringGrid.WriteCells(2, 0, 'Наименование продукции');
+  StringGrid.WriteCells(3, 0, 'Вид ЛПУ');
+  StringGrid.WriteCells(4, 0, 'Объем, мл');
+  StringGrid.WriteCells(5, 0, 'Дозы, шт');
+  StringGrid.WriteCells(6, 0, '% выполнения');
+  StringGrid.WriteCells(7, 0, 'Пакеты, шт');
+  if not Assigned(ContentForStringGrid) then
+    ContentForStringGrid := TBIETTheResultsInLPU.create;
+  ContentForStringGrid.GetContent;
+  if ContentForStringGrid.GetRowCount > 0 then
+    for i := 0 to ContentForStringGrid.GetRowCount - 1 do
+    begin
+      if StringGrid.GetValue(0, 1) <> '' then
+        StringGrid.AddRowCount;
+      StringGrid.WriteCells(0, i + 1, ContentForStringGrid.GetKod(j));
+      StringGrid.WriteCells(1, i + 1, ContentForStringGrid.GetReportDate(j));
+      StringGrid.WriteCells(2, i + 1, ContentForStringGrid.GetTypeOfLPU(j));
+      StringGrid.WriteCells(3, i + 1,
+        ContentForStringGrid.GetTheNameOfTheEnvironment(j));
+      StringGrid.WriteCells(4, i + 1, ContentForStringGrid.GetVolume(j));
+      StringGrid.WriteCells(5, i + 1, ContentForStringGrid.GetNumberOfDoses(j));
+      StringGrid.WriteCells(6, i + 1, ContentForStringGrid.GetPercentage(j));
+      StringGrid.WriteCells(7, i + 1,
+        ContentForStringGrid.GetNumberOfPackets(j));
+      j := j + 1;
+    end;
+end;
+
 end.

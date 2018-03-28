@@ -1,0 +1,669 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{709DE9AA-5148-450A-92C3-3C39637AE22C}</ProjectGuid>
+			<ProjectVersion>13.4</ProjectVersion>
+			<MainSource>KKCKLF.dpr</MainSource>
+			<Config Condition="'$(Config)'==''">Debug</Config>
+			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+			<FrameworkType>VCL</FrameworkType>
+			<Base>True</Base>
+			<Platform Condition="'$(Platform)'==''">Win32</Platform>
+			<TargetedPlatforms>1</TargetedPlatforms>
+			<AppType>Application</AppType>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+			<Cfg_2_Win32>true</Cfg_2_Win32>
+			<CfgParent>Cfg_2</CfgParent>
+			<Cfg_2>true</Cfg_2>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_UnitSearchPath>$(BDS)\Source\DUnit\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+			<VerInfo_Locale>1049</VerInfo_Locale>
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;$(DCC_Namespace)</DCC_Namespace>
+			<DCC_DependencyCheckOutputName>MainForm.exe</DCC_DependencyCheckOutputName>
+			<DCC_ImageBase>00400000</DCC_ImageBase>
+			<DCC_Platform>x86</DCC_Platform>
+			<DCC_E>false</DCC_E>
+			<DCC_N>false</DCC_N>
+			<DCC_S>false</DCC_S>
+			<DCC_F>false</DCC_F>
+			<DCC_K>false</DCC_K>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+			<DCC_DebugInformation>false</DCC_DebugInformation>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.1.8.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<VerInfo_MinorVer>1</VerInfo_MinorVer>
+			<VerInfo_Release>8</VerInfo_Release>
+			<Icon_MainIcon>KKCKLF_Icon.ico</Icon_MainIcon>
+			<Manifest_File>None</Manifest_File>
+		</PropertyGroup>
+		<ItemGroup>
+			<DelphiCompile Include="$(MainSource)">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<DCCReference Include="..\View\BloobStatLF.pas">
+				<Form>MyMainForm</Form>
+			</DCCReference>
+			<DCCReference Include="..\BaseAdapters\Connect\GetAdoConnect.pas"/>
+			<DCCReference Include="..\Model\Queries\NumberOfDonations\MQNNumberOfDonations.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\NumberOfDonations\BQNTheNumberOfBloodDonations.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\NumberOfDonations\BQNTheNumberOfPlasmaDonations.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\NumberOfDonations\BQNTheNumberOfTromboDonations.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\BloodProduct\BQBTheAmountOfBloodOnPreserving.pas"/>
+			<DCCReference Include="..\Model\Queries\BloodProduct\MQBBloodProduct.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\BloodProduct\BQBTheNumberOfWholeBlood.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFLabel.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFTitleLabel.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFEdit.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFDateTimePicker.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFBitBtn.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\BloodProduct\BQBTheNumberOfConservedBlood.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\BloodProduct\BQBTheAmountOfReinfusionWithAPA.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\BloodProduct\BQBTheAmountOfReinfusionWithTrombo.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfErSuspensionsValumeTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPProcurementOfTheComponentsTotal.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFPanel.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfErSuspensionsDosesTotal.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfPlasmaVolumeTotal.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfPlasmaDosesTotal.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfPlasmaBloodVolumeTotal.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfPlasmaBloodDosesTotal.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfPlasmaAPAVolumeTotal.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfPlasmaAPADosesTotal.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfTromboVolumeTotal.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfTromboDosesTotal.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfTromboPacetsTotal.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfFiltratVolumeTotal.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\ProcurementOfTheComponentsTotal\BQPHarvestingOfFiltratDosesTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHHarvestingOfBloodComponentsByTypes.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFStringGrid.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\HarvestingOfBloodComponentsByTypes\BQHBloodComponents.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\HarvestingOfBloodComponentsByTypes\BQHBloodComponentsPlasma.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\HarvestingOfBloodComponentsByTypes\BQHPlasmaAPA.pas"/>
+			<DCCReference Include="..\BaseAdapters\Queries\HarvestingOfBloodComponentsByTypes\BQHTrombo.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFComboBox.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFBitBtnSave.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFBitBtnDelete.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFBitBtnBlock.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFBitBtnAdd.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFBitBtnEdit.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOATheAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Other\AmountOfUsableErSusp\BIOATheAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Other\AdviceToDoctors\BIOAAdviceToDoctors.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AdviceToDoctors\MIOAAdviceToDoctors.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Other\CheckLPU\BIOCCheckLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\CheckLPU\MIOCCheckLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIETTheResultsInLPU.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Expedition\TheResultsInLPU\BIETTheResultsInLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIETTheResultsInKray.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Expedition\TheResultsInKray\BIETTheResultsInKray.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Expedition\Cancellation\BIECCancellation.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\Cancellation\MIECCancellation.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\BIOCConsumptionOfErythrocyteEnvironments.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\MIOCConsumptionOfErythrocyteEnvironments.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\BIOCConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\MIOCConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\BIOCConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\MIOCConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\FlowRateOfWholeBlood\MIOFFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\FlowRateOfWholeBlood\BIOFFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIOOKDK.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OKDK\BIOOKDK.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OKDK\BIOCurrentType.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OKDK\BIOTypeOfSelectRow.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OKDK\BIONameTypeOfSelectRow.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OKDK\BIOAddRecord.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OKDK\BIODeleteRecord.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OKDK\BIOChangeRecord.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Expedition\Cancellation\BIECAddRecordCancellation.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Expedition\Cancellation\BIECDeleteRecordCancellation.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Expedition\Cancellation\BIEChangeRecordCancellation.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Expedition\TheResultsInKray\BIEChangeRecordResultsInKray.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Expedition\TheResultsInKray\BIEAddRecordResultsInKray.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Expedition\TheResultsInKray\BIEDeleteRecordResultsInKray.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Expedition\TheResultsInLPU\BIEAddRecordResultsInLPU.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Expedition\TheResultsInLPU\BIEChangeRecordResultsInLPU.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Expedition\TheResultsInLPU\BIEDeleteRecordResultsInLPU.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Other\AdviceToDoctors\BIOAAddRecordResultsInAdviceToDoctor.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Other\AdviceToDoctors\BIOAChangeRecordResultsInAdviceToDoctor.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Other\AdviceToDoctors\BIOADeleteRecordResultsInAdviceToDoctor.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Other\AmountOfUsableErSusp\BIOADeleteRecordResultsAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Other\AmountOfUsableErSusp\BIOAAddRecordResultsAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Other\AmountOfUsableErSusp\BIOAChangeRecordResultsAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Other\CheckLPU\BIOCAddRecordResultsCheckLPU.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Other\CheckLPU\BIOCChangeRecordResultsCheckLPU.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\Other\CheckLPU\BIOCDeleteRecordResultsCheckLPU.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\BIOCAddRecordConsumption.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\BIOCChangeRecordConsumption.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\BIOCDeleteRecordConsumption.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\BIOCAddRecordConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\BIOCChangeRecordConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\BIOCDeleteRecordConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\BIOCAddRecordConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\BIOCChangeRecordConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\BIOCDeleteRecordConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\FlowRateOfWholeBlood\BIOFAddRecordFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\FlowRateOfWholeBlood\BIOFChangeRecordFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\BaseAdapters\InformationForWeeklyReport\OZK\FlowRateOfWholeBlood\BIOFDeleteRecordFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\ManualHarvesting\MHMManualHarvesting.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFCheckBox.pas"/>
+			<DCCReference Include="..\BaseAdapters\HarvestingOfTheDay\ManualHarvesting\BHMManualHarvesting.pas"/>
+			<DCCReference Include="..\BaseAdapters\HarvestingOfTheDay\ManualHarvesting\BHMAddRecordManualHarvesting.pas"/>
+			<DCCReference Include="..\BaseAdapters\HarvestingOfTheDay\ManualHarvesting\BHMDeleteRecordManualHarvesting.pas"/>
+			<DCCReference Include="..\BaseAdapters\HarvestingOfTheDay\ManualHarvesting\BHMChangeRecordManualHarvesting.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\AutomaticApheresis\MHAAutomaticApheresis.pas"/>
+			<DCCReference Include="..\BaseAdapters\HarvestingOfTheDay\AutomaticApheresis\BHAAutomaticApheresis.pas"/>
+			<DCCReference Include="..\BaseAdapters\HarvestingOfTheDay\AutomaticApheresis\BHADeleteRecordAutomaticApheresis.pas"/>
+			<DCCReference Include="..\BaseAdapters\HarvestingOfTheDay\AutomaticApheresis\BHAAddRecordAutomaticApheresis.pas"/>
+			<DCCReference Include="..\BaseAdapters\HarvestingOfTheDay\AutomaticApheresis\BHAChangeRecordAutomaticApheresis.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\Sitoferez\MHSSitoferez.pas"/>
+			<DCCReference Include="..\BaseAdapters\HarvestingOfTheDay\Sitoferez\BHSSitoferez.pas"/>
+			<DCCReference Include="..\BaseAdapters\HarvestingOfTheDay\Sitoferez\BHSDeleteRecordSitoferez.pas"/>
+			<DCCReference Include="..\BaseAdapters\HarvestingOfTheDay\Sitoferez\BHSAddRecordSitoferez.pas"/>
+			<DCCReference Include="..\BaseAdapters\HarvestingOfTheDay\Sitoferez\BHSChangeRecordSitoferez.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\DailyReportToTheKray\BRDDailyReportToTheKray.pas"/>
+			<DCCReference Include="..\Model\Reports\DailyReportToTheKray\MRDDailyReportTheKray.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFMainMenu.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\DeilyReportToTheZav\BRDDeilyReportToTheZav.pas"/>
+			<DCCReference Include="..\Model\Reports\DeilyReportToTheZav\MRDDeilyReportToTheZav.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\DeilyReportToTheZav\BRDPlanDeilyReportToTheZav.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\DeilyReportToTheZav\BRDStatInfoDeilyReportToTheZav.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWWeeklyReport.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyReport\BRWWeeklyReportProduction.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyReport\BRWTableForDefect.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyReport\BRWSecondTable.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyReport\BRWDonorsAndProcedures.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyReport\BRWResultsOfTheProducts.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyReport\BRWDonorsAndProceduresOuting.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyReport\BRWReasonsForMedicalExemptions.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyReport\BRWLPUConsultation.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyReport\BRWCancellation_Kray.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyIncompleteWeek\BRWIncompleteWeekFirstTable.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWWeeklyIncompleteWeek.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyIncompleteWeek\BRWTableForDefectIncompleteWeek.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyIncompleteWeek\BRWSecondTableIncompleteWeek.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyIncompleteWeek\BRWResultsOfTheProductsIncompleteWeek.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyIncompleteWeek\BRWDonorsAndProceduresIncompleteWeek.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyIncompleteWeek\BRWDonorsAndProceduresIncompleteWeekOuting.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyIncompleteWeek\BRWMedicalExemptionsIncompleteWeek.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyIncompleteWeek\BRWLPUConsultationIncompleteWeek.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyIncompleteWeek\BRWCancellation_KrayIncomlpeteWeek.pas"/>
+			<DCCReference Include="..\BaseAdapters\Reports\WeeklyIncompleteWeek\BRWResultsOfTheProductsIncompleteWeek2.pas"/>
+			<DCCReference Include="..\BaseAdapters\MonthlyPlan\BMMonthlyPlan.pas"/>
+			<DCCReference Include="..\Model\MonthlyPlan\MMMonthlyPlan.pas"/>
+			<DCCReference Include="..\BaseAdapters\MonthlyPlan\BMDeleteRecordMonthlyPlan.pas"/>
+			<DCCReference Include="..\BaseAdapters\MonthlyPlan\BMChangeRecordMonthlyPlan.pas"/>
+			<DCCReference Include="..\BaseAdapters\MonthlyPlan\BMAddRecoedMonthlyPlan.pas"/>
+			<DCCReference Include="..\Model\FormObjects\MFListBox.pas"/>
+			<DCCReference Include="..\BaseAdapters\MonthlyPlan\BMListOfDate.pas"/>
+			<DCCReference Include="..\Systems\USBlockMainMenu.pas"/>
+			<DCCReference Include="..\Systems\USCheckFillStringFields.pas"/>
+			<DCCReference Include="..\Systems\USCheckForExistenceOfRecord.pas"/>
+			<DCCReference Include="..\Systems\USCheckNull.pas"/>
+			<DCCReference Include="..\Systems\USContentOfTheList.pas"/>
+			<DCCReference Include="..\Systems\USGlobalVariant.pas"/>
+			<DCCReference Include="..\Systems\USMoldCleaning.pas"/>
+			<DCCReference Include="..\Systems\USValueChecksOnTheAdequacy.pas"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\MainFormUnit1\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\ConnectingUnit1\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\MQNTheNumberOfBloodDonations\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\MQNTheNumberOfPlasmaDonations\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\MQNTheNumberOfTromboDonations\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\GetDataSoursUnit1\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\GetDataSoursUnit1\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\VQNNumberOfDonations\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\UVFLabel\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\UCheckNull\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\MQBTheNumberOfConservedBlood\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\MQBTheNumberOfWholeBlood\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\VQBBloodProduct\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\UMSBlockMainMenu\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_MainForm\UMSMoldCleaning\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\VQBBloodProduct\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\VIOOKDK\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\VIOOKDK\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\UVFLabel\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\UMSMoldCleaning\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\UMSBlockMainMenu\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\UCheckNull\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQNTheNumberOfTromboDonations\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQNTheNumberOfPlasmaDonations\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQNTheNumberOfBloodDonations\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQBTheNumberOfWholeBlood\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQBTheNumberOfConservedBlood\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MHMCheckForExistenceOfRecord\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MHMCheckForExistenceOfRecord\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MainForm\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MainForm\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHAAutomaticApheresis\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHAAutomaticApheresis\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHAAddRecordAutomaticApheresis\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHAAddRecordAutomaticApheresis\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USBlockMainMenu\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOATheAmountOfUsableErSusp\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfFiltratDosesTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRDStatInfoDeilyReportToTheZav\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRDDailyReportToTheKray\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCAddRecordConsumption\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USMoldCleaning\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USValueChecksOnTheAdequacy\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCAddRecordConsumptionOfTrombo\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIODeleteRecord\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOAChangeRecordResultsAmountOfUsableErSusp\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFMainMenu\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOFFlowRateOfWholeBlood\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHSDeleteRecordSitoferez\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCChangeRecordResultsCheckLPU\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCChangeRecordConsumption\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MRWWeeklyReport\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWReasonsForMedicalExemptions\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIECAddRecordCancellation\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQHPlasmaAPA\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BloobStatLF\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHSAddRecordSitoferez\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQBTheAmountOfReinfusionWithAPA\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQBTheAmountOfReinfusionWithTrombo\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\UCheckNull\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfPlasmaBloodVolumeTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BMChangeRecordMonthlyPlan\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWResultsOfTheProducts\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MHSSitoferez\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHADeleteRecordAutomaticApheresis\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFBitBtnDelete\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQPProcurementOfTheComponentsTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWSecondTable\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFCheckBox\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQBTheNumberOfConservedBlood\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEChangeRecordCancellation\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWTableForDefectIncompleteWeek\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIONameTypeOfSelectRow\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWTableForDefect\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFTitleLabel\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQNTheNumberOfPlasmaDonations\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCurrentType\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOCConsumptionOfTrombo\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEChangeRecordResultsInKray\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOAChangeRecordResultsInAdviceToDoctor\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOADeleteRecordResultsAmountOfUsableErSusp\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfPlasmaAPAVolumeTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQNTheNumberOfPlasmaDonations\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQBBloodProduct\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQHHarvestingOfBloodComponentsByTypes\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfPlasmaVolumeTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\KKCKLF\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFBitBtnAdd\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\UVFLabel\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCDeleteRecordConsumption\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWLPUConsultation\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFPanel\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEDeleteRecordResultsInKray\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIETTheResultsInKray\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MHAAutomaticApheresis\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWCancellation_KrayIncomlpeteWeek\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USCheckNull\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQBTheNumberOfWholeBlood\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQBTheNumberOfConservedBlood\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCConsumptionOfTrombo\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BMMonthlyPlan\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCChangeRecordConsumptionOfTrombo\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOChangeRecord\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWDonorsAndProceduresIncompleteWeekOuting\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIETTheResultsInLPU\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MMMonthlyPlan\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFBitBtnEdit\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfPlasmaDosesTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCDeleteRecordConsumptionOfTrombo\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\UMCGetDataSource\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfErSuspensionsValumeTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWMedicalExemptionsIncompleteWeek\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfTromboDosesTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFDateTimePicker\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCDeleteRecordResultsCheckLPU\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIECCancellation\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOAAdviceToDoctors\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWIncompleteWeekFirstTable\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOOKDK\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFComboBox\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFBitBtnBlock\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOOKDK\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MRWWeeklyIncompleteWeek\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOTypeOfSelectRow\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFStringGrid\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOFChangeRecordFlowRateOfWholeBlood\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQBTheAmountOfBloodOnPreserving\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOAddRecord\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHSSitoferez\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USCheckFillStringFields\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHMManualHarvesting\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfFiltratVolumeTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEAddRecordResultsInLPU\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHSChangeRecordSitoferez\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQNTheNumberOfTromboDonations\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOATheAmountOfUsableErSusp\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHAChangeRecordAutomaticApheresis\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOCConsumptionOfPlazma\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFBitBtnSave\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWWeeklyReportProduction\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQHTrombo\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHMDeleteRecordManualHarvesting\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\UMSMoldCleaning\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQHBloodComponentsPlasma\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFListBox\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCConsumptionOfPlazma\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\UMSBlockMainMenu\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOFAddRecordFlowRateOfWholeBlood\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfTromboVolumeTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfPlasmaAPADosesTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWLPUConsultationIncompleteWeek\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MRDDeilyReportToTheZav\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfTromboPacetsTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIECDeleteRecordCancellation\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOAAddRecordResultsAmountOfUsableErSusp\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRDPlanDeilyReportToTheZav\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQNNumberOfDonations\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfPlasmaBloodDosesTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\GetAdoConnect\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWDonorsAndProceduresIncompleteWeek\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\VQBBloodProduct\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFBitBtn\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BMDeleteRecordMonthlyPlan\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWCancellation_Kray\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCCheckLPU\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfErSuspensionsDosesTotal\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCConsumptionOfErythrocyteEnvironments\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOADeleteRecordResultsInAdviceToDoctor\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCDeleteRecordConsumptionOfPlazma\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWDonorsAndProcedures\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOFFlowRateOfWholeBlood\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOCCheckLPU\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEAddRecordResultsInKray\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWDonorsAndProceduresOuting\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BMAddRecoedMonthlyPlan\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USCheckForExistenceOfRecord\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCChangeRecordConsumptionOfPlazma\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOAAdviceToDoctors\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MRDDailyReportTheKray\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWSecondTableIncompleteWeek\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOAAddRecordResultsInAdviceToDoctor\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIETTheResultsInLPU\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCAddRecordConsumptionOfPlazma\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQBTheNumberOfWholeBlood\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USContentOfTheList\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIECCancellation\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIETTheResultsInKray\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWResultsOfTheProductsIncompleteWeek2\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOFDeleteRecordFlowRateOfWholeBlood\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFLabel\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQNTheNumberOfBloodDonations\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USGlobalVariant\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MHMManualHarvesting\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHMChangeRecordManualHarvesting\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQNTheNumberOfTromboDonations\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQHBloodComponents\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEChangeRecordResultsInLPU\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQNTheNumberOfBloodDonations\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCAddRecordResultsCheckLPU\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEDeleteRecordResultsInLPU\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHMAddRecordManualHarvesting\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRDDeilyReportToTheZav\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BMListOfDate\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWResultsOfTheProductsIncompleteWeek\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFEdit\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOCConsumptionOfErythrocyteEnvironments\default.txvpck"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\KKCKLF\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\GetAdoConnect\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOADeleteRecordResultsAmountOfUsableErSusp\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfPlasmaBloodDosesTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIETTheResultsInKray\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWLPUConsultation\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOCConsumptionOfPlazma\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCConsumptionOfPlazma\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USGlobalVariant\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFBitBtnAdd\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MRDDeilyReportToTheZav\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MMMonthlyPlan\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHADeleteRecordAutomaticApheresis\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USMoldCleaning\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIETTheResultsInLPU\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQNTheNumberOfPlasmaDonations\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWTableForDefect\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOFFlowRateOfWholeBlood\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHMManualHarvesting\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfErSuspensionsDosesTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOFDeleteRecordFlowRateOfWholeBlood\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfPlasmaBloodVolumeTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOCConsumptionOfTrombo\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQNTheNumberOfBloodDonations\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOAAdviceToDoctors\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWDonorsAndProcedures\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRDStatInfoDeilyReportToTheZav\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOAddRecord\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOAAddRecordResultsAmountOfUsableErSusp\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\UMCGetDataSource\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USValueChecksOnTheAdequacy\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USBlockMainMenu\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQNTheNumberOfTromboDonations\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEDeleteRecordResultsInLPU\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQPProcurementOfTheComponentsTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQBTheAmountOfReinfusionWithTrombo\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCDeleteRecordResultsCheckLPU\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BMListOfDate\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USCheckFillStringFields\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQHBloodComponentsPlasma\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfPlasmaVolumeTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCAddRecordConsumptionOfTrombo\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHSSitoferez\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIETTheResultsInKray\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MRWWeeklyIncompleteWeek\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWResultsOfTheProductsIncompleteWeek2\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFComboBox\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfTromboPacetsTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOFChangeRecordFlowRateOfWholeBlood\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWIncompleteWeekFirstTable\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BMDeleteRecordMonthlyPlan\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQNNumberOfDonations\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIETTheResultsInLPU\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWDonorsAndProceduresOuting\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MHAAutomaticApheresis\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQBTheAmountOfReinfusionWithAPA\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOOKDK\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEAddRecordResultsInKray\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHMDeleteRecordManualHarvesting\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWReasonsForMedicalExemptions\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCCheckLPU\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHAChangeRecordAutomaticApheresis\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIECCancellation\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFDateTimePicker\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOAAdviceToDoctors\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQBTheNumberOfConservedBlood\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFTitleLabel\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOCCheckLPU\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfTromboDosesTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFMainMenu\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHSChangeRecordSitoferez\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRDPlanDeilyReportToTheZav\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfErSuspensionsValumeTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFBitBtnDelete\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFListBox\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BloobStatLF\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFBitBtn\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOAChangeRecordResultsAmountOfUsableErSusp\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BMMonthlyPlan\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfTromboVolumeTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCurrentType\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BMAddRecoedMonthlyPlan\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWMedicalExemptionsIncompleteWeek\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQBTheAmountOfBloodOnPreserving\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCDeleteRecordConsumption\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWSecondTableIncompleteWeek\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHMAddRecordManualHarvesting\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFStringGrid\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQHBloodComponents\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHSDeleteRecordSitoferez\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHMChangeRecordManualHarvesting\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCChangeRecordConsumptionOfTrombo\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOCConsumptionOfErythrocyteEnvironments\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USCheckForExistenceOfRecord\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCConsumptionOfErythrocyteEnvironments\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOOKDK\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MHMManualHarvesting\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWCancellation_KrayIncomlpeteWeek\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQHTrombo\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFBitBtnBlock\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOFAddRecordFlowRateOfWholeBlood\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCDeleteRecordConsumptionOfTrombo\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MRDDailyReportTheKray\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWLPUConsultationIncompleteWeek\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIECDeleteRecordCancellation\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfPlasmaDosesTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfPlasmaAPAVolumeTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USCheckNull\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfFiltratVolumeTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BMChangeRecordMonthlyPlan\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCChangeRecordConsumptionOfPlazma\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQHPlasmaAPA\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFPanel\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCDeleteRecordConsumptionOfPlazma\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCAddRecordConsumptionOfPlazma\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCAddRecordConsumption\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOFFlowRateOfWholeBlood\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQBTheNumberOfWholeBlood\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIONameTypeOfSelectRow\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCChangeRecordResultsCheckLPU\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWDonorsAndProceduresIncompleteWeekOuting\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BHSAddRecordSitoferez\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWResultsOfTheProducts\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEChangeRecordResultsInLPU\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOChangeRecord\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MRWWeeklyReport\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIODeleteRecord\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRDDeilyReportToTheZav\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQHHarvestingOfBloodComponentsByTypes\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOAChangeRecordResultsInAdviceToDoctor\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEChangeRecordResultsInKray\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MQBBloodProduct\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIOATheAmountOfUsableErSusp\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWTableForDefectIncompleteWeek\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFCheckBox\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWResultsOfTheProductsIncompleteWeek\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEAddRecordResultsInLPU\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOTypeOfSelectRow\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRDDailyReportToTheKray\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIECAddRecordCancellation\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOAAddRecordResultsInAdviceToDoctor\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWCancellation_Kray\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCChangeRecordConsumption\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWSecondTable\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MIECCancellation\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCAddRecordResultsCheckLPU\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFEdit\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOATheAmountOfUsableErSusp\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfPlasmaAPADosesTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFBitBtnEdit\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOADeleteRecordResultsInAdviceToDoctor\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\USContentOfTheList\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWDonorsAndProceduresIncompleteWeek\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEDeleteRecordResultsInKray\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MHSSitoferez\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFBitBtnSave\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\MFLabel\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BRWWeeklyReportProduction\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIOCConsumptionOfTrombo\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BQPHarvestingOfFiltratDosesTotal\default.txaPackage"/>
+			<None Include="..\MainForm\ModelSupport_KKCKLF\BIEChangeRecordCancellation\default.txaPackage"/>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Delphi.Personality>
+					<Source>
+						<Source Name="MainSource">KKCKLF.dpr</Source>
+					</Source>
+					<Parameters>
+						<Parameters Name="UseLauncher">False</Parameters>
+						<Parameters Name="LoadAllSymbols">True</Parameters>
+						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+					</Parameters>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
+						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">0</VersionInfo>
+						<VersionInfo Name="Release">0</VersionInfo>
+						<VersionInfo Name="Build">0</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">1049</VersionInfo>
+						<VersionInfo Name="CodePage">1251</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
+						<VersionInfoKeys Name="LegalTrademarks"/>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments"/>
+					</VersionInfoKeys>
+					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k160.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclofficexp160.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+					</Excluded_Packages>
+				</Delphi.Personality>
+				<Platforms>
+					<Platform value="Win64">False</Platform>
+					<Platform value="Win32">True</Platform>
+				</Platforms>
+				<ModelSupport>True</ModelSupport>
+				<UnitTesting>
+					<TestProjectName>D:\git\Statistics-dev-0.2.6(Структура изменена. Возвращаемся к тестам)\Test\KKCKLFTests.dproj</TestProjectName>
+				</UnitTesting>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+	</Project>
