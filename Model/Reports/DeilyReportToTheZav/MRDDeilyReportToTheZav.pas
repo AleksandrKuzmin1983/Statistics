@@ -1,219 +1,186 @@
 unit MRDDeilyReportToTheZav;
 
 interface
-
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
-  GetAdoQuery,
-  UCheckNull;
+  System.Classes, Winapi.Windows, System.SysUtils, Vcl.Controls, Vcl.Forms,
+  Vcl.Menus, frxClass, frxDBSet, frxPreview, frxExportPDF, System.Win.Registry,
+  BRDDeilyReportToTheZav,
+  BRDPlanDeilyReportToTheZav,
+  BRDStatInfoDeilyReportToTheZav,
+  MFMainMenu,
+  USGlobalVariant;
 
 type
-  IMRDDeilyReportToTheZav = interface
-    function GetVolumeWholeBlood: string;
-    function GetPercentWholeBlood: string;
-    function GetVolumeConsBlood: string;
-    function GetPercentConsBlood: string;
-    function GetVolumePlasmaTotal: string;
-    function GetPercentPlasmaTotal: string;
-    function GetVolumePlasmaAPA: string;
-    function GetPercentPlasmaAPA: string;
-    function GetVolumeErSusp: string;
-    function GetPercentErSusp: string;
-    function GetVolumeTrombo: string;
-    function GetNumberDosesTromb: string;
-    function GetNumberPacketsTromb: string;
-  end;
-
-  TMRDDeilyReportToTheZav = class(TInterfacedObject, IMRDDeilyReportToTheZav)
+  TVRDDeilyReportToTheZav = class(TGlobalVariant)
   private
-    TempConnect: ITempAdoQuery;
-    TempQuery: TADOQuery;
-    CheckNull: ICheckNull;
-    TempValue: Real;
-    TempSQL: String;
-    procedure GetSQL(CSQL: String);
+    TempForm: TForm;
+    frxTempReport: TfrxReport;
+    frxTempPreview: TfrxPreview;
+    frxTempExportPDF:TfrxPDFExport;
+    DailyReportTheZav: IMRDDeilyReportToTheZav;
+    PlanDeilyReportToTheZav: IMRDPlanDeilyReportToTheZav;
+    StatInfoDeilyReportToTheZav: IMRDStatInfoDeilyReportToTheZav;
+    MainMenu: TUVFMainMenu;
+    procedure GetReport(CurrentForm: TForm);
+    procedure GetMainMenu;
+    procedure OnClickMenuClose(Sender: TObject);
+    procedure OnClickPrintReport(Sender: TObject);
+    procedure OnClickExportPDF(Sender: TObject);
+    function GetDesktopFolderPath: string;
+    procedure PreviewMouseWheel(Sender: TObject; Shift: TShiftState;
+  WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+    { Private declarations }
   public
-    function GetVolumeWholeBlood: string;
-    function GetPercentWholeBlood: string;
-    function GetVolumeConsBlood: string;
-    function GetPercentConsBlood: string;
-    function GetVolumePlasmaTotal: string;
-    function GetPercentPlasmaTotal: string;
-    function GetVolumePlasmaAPA: string;
-    function GetPercentPlasmaAPA: string;
-    function GetVolumeErSusp: string;
-    function GetPercentErSusp: string;
-    function GetVolumeTrombo: string;
-    function GetNumberDosesTromb: string;
-    function GetNumberPacketsTromb: string;
-    constructor create;
+    constructor Create(form: TForm);  override;
+    destructor destroy;   override;
+    { Public declarations }
   end;
 
 implementation
 
-{ TTheNumberOfBloodDonations }
+{ TVRDDailyReportTheKrayVer2 }
 
-constructor TMRDDeilyReportToTheZav.create;
+constructor TVRDDeilyReportToTheZav.Create(form: TForm);
 begin
-  if not Assigned(TempConnect) then
-    TempConnect := TTempAdoQuery.create;
-  if not Assigned(CheckNull) then
-    CheckNull := TCheckNull.create;
-  if not Assigned(TempQuery) then
-    TempQuery := TADOQuery.create(nil);
-  TempQuery.Connection := TempConnect.GetConnect;
-  TempQuery.Close;
+  TempForm:=form;
+  GetMainMenu;
+  with TempForm do
+  begin
+    BorderStyle:=bsSingle;
+    Position:=poScreenCenter;
+    BorderIcons:=BorderIcons-[biSystemMenu];
+    Width := 860;
+    Height:=750;
+    OnMouseWheel:=PreviewMouseWheel;
+  end;
+  GetReport(TempForm);
+  frxTempReport.ShowReport;
+  TempForm.ShowModal;
+  inherited;
 end;
 
-procedure TMRDDeilyReportToTheZav.GetSQL(CSQL: String);
-begin
-  Try
-    With TempQuery do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Add(CSQL);
-      Open;
-      TempValue:=CheckNull.CheckedValue(TempQuery.Fields[0].value);
-      Close;
-    end;
-  Except
-  On e : EDatabaseError do
-    messageDlg(e.message, mtError, [mbOK],0);
-  End;
-end;
-
-function TMRDDeilyReportToTheZav.GetPercentWholeBlood: string;
+destructor TVRDDeilyReportToTheZav.destroy;
 begin
-  TempSQL:=
-    'SELECT (([(Нужный) Подсчет компонентов и крови за текущий месяц]![Объем цельной крови]+' +
-    '[(Нужный) Сумма крови и плазмы АПА]![Объем цельной крови АПА]+' +
-    '[(Нужный) Сумма крови и тромб-в]![Объем цельной крови с цитофереза])/1000)/[Plans]![ОЦК] AS [Пр цельной] ' +
-    'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц], [(Нужный) Сумма крови и плазмы АПА], ' +
-    '[(Нужный) К ежедневному отчету план], [(Нужный) К ежедневному отчету (календарь)], ' +
-    '[(Нужный) Сумма крови и тромб-в];';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0',TempValue*100)) + '%';
+  FreeAndNil(frxTempPreview);
+  FreeAndNil(frxTempReport);
+  MainMenu.destroy;
+  inherited;
 end;
 
-function TMRDDeilyReportToTheZav.GetVolumeWholeBlood: string;
+procedure TVRDDeilyReportToTheZav.GetMainMenu;
 begin
-  TempSQL:=
-      'SELECT ([(Нужный) Подсчет компонентов и крови за текущий месяц]![Объем цельной крови]+' +
-      '[(Нужный) Сумма крови и плазмы АПА]![Объем цельной крови АПА]+' +
-      '[(Нужный) Сумма крови и тромб-в]![Объем цельной крови с цитофереза])/1000 AS [Объем цельной крови] ' +
-      'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц], [(Нужный) Сумма крови и плазмы АПА], ' +
-      '[(Нужный) Сумма крови и тромб-в];';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0.000',TempValue));
+  if not Assigned(MainMenu) then
+    MainMenu := TUVFMainMenu.create;
+  MainMenu.GetTempMainMenu(TempForm);
+  MainMenu.OnClickCloseForm(OnClickMenuClose);
+  MainMenu.OnClickPrintReport(OnClickPrintReport);
+  MainMenu.OnClickExportPDF(OnClickExportPDF);
 end;
 
-function TMRDDeilyReportToTheZav.GetPercentConsBlood: string;
+procedure TVRDDeilyReportToTheZav.GetReport(CurrentForm: TForm);
+var
+  CurrentDir: string;
 begin
-  TempSQL:=
-    'SELECT (([(Нужный) Подсчет компонентов и крови за текущий месяц]![Объем консервированной крови]+' +
-    '[(Нужный) Сумма крови и плазмы АПА]![Объем консерв крови АПА]+' +
-    '[(Нужный) Сумма крови и тромб-в]![Объем консервированной крови с цитофереза])/1000)/[Plans]![ОКК] AS [Пр консервированной] ' +
-    'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц], ' +
-    '[(Нужный) Сумма крови и плазмы АПА], [(Нужный) К ежедневному отчету план], ' +
-    '[(Нужный) К ежедневному отчету (календарь)], [(Нужный) Сумма крови и тромб-в];';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0',TempValue*100)) + '%';
+  CurrentDir:=ExtractFileDir(ExtractFileDir(ParamStr(0)));
+  if not Assigned(DailyReportTheZav) then
+    DailyReportTheZav := TMRDDeilyReportToTheZav.create;
+
+  if not Assigned(PlanDeilyReportToTheZav) then
+    PlanDeilyReportToTheZav := TMRDPlanDeilyReportToTheZav.create;
+
+  if not Assigned(StatInfoDeilyReportToTheZav) then
+    StatInfoDeilyReportToTheZav := TMRDStatInfoDeilyReportToTheZav.create;
+
+  if not Assigned(frxTempPreview) then
+    frxTempPreview:=TfrxPreview.Create(CurrentForm);
+  frxTempPreview.Parent:=CurrentForm;
+  frxTempPreview.Align:=alClient;
+
+  if not Assigned(frxTempReport) then
+    frxTempReport:=TfrxReport.Create(CurrentForm);
+  frxTempReport.Clear;
+  frxTempReport.Preview:=frxTempPreview;
+
+  frxTempReport.LoadFromFile(CurrentDir + '\BaseAdapters\Reports\DeilyReportToTheZav\DeilyReportToTheZav.fr3');
+
+  frxTempReport.Variables.Variables['VolumeWholeBlood']:='''' + DailyReportTheZav.GetVolumeWholeBlood + '''';
+  frxTempReport.Variables.Variables['PercentWholeBlood']:='''' + DailyReportTheZav.GetPercentWholeBlood + '''';
+  frxTempReport.Variables.Variables['VolumeConsBlood']:='''' + DailyReportTheZav.GetVolumeConsBlood + '''';
+  frxTempReport.Variables.Variables['PercentConsBlood']:='''' + DailyReportTheZav.GetPercentConsBlood + '''';
+  frxTempReport.Variables.Variables['VolumePlasmaTotal']:='''' + DailyReportTheZav.GetVolumePlasmaTotal + '''';
+  frxTempReport.Variables.Variables['PercentPlasmaTotal']:='''' + DailyReportTheZav.GetPercentPlasmaTotal + '''';
+  frxTempReport.Variables.Variables['VolumePlasmaAPA']:='''' + DailyReportTheZav.GetVolumePlasmaAPA + '''';
+  frxTempReport.Variables.Variables['PercentPlasmaAPA']:='''' + DailyReportTheZav.GetPercentPlasmaAPA + '''';
+  frxTempReport.Variables.Variables['VolumeErSusp']:='''' + DailyReportTheZav.GetVolumeErSusp + '''';
+  frxTempReport.Variables.Variables['PercentErSusp']:='''' + DailyReportTheZav.GetPercentErSusp + '''';
+  frxTempReport.Variables.Variables['VolumeTrombo']:='''' + DailyReportTheZav.GetVolumeTrombo + '''';
+  frxTempReport.Variables.Variables['NumberDosesTromb']:='''' + DailyReportTheZav.GetNumberDosesTromb + '''';
+  frxTempReport.Variables.Variables['NumberPacketsTromb']:='''' + DailyReportTheZav.GetNumberPacketsTromb + '''';
+
+  frxTempReport.Variables.Variables['PlanVolumeWholeBlood']:='''' + PlanDeilyReportToTheZav.GetPlanVolumeWholeBlood + '''';
+  frxTempReport.Variables.Variables['PlanVolumeConsBlood']:='''' + PlanDeilyReportToTheZav.GetPlanVolumeConsBlood + '''';
+  frxTempReport.Variables.Variables['PlanVolumePlasmaTotal']:='''' + PlanDeilyReportToTheZav.GetPlanVolumePlasmaTotal + '''';
+  frxTempReport.Variables.Variables['PlanVolumePlasmaAPA']:='''' + PlanDeilyReportToTheZav.GetPlanVolumePlasmaAPA + '''';
+  frxTempReport.Variables.Variables['PlanVolumeErSusp']:='''' + PlanDeilyReportToTheZav.GetPlanVolumeErSusp + '''';
+  frxTempReport.Variables.Variables['PlanBloodProcedures']:='''' + PlanDeilyReportToTheZav.GetPlanBloodProcedures + '''';
+  frxTempReport.Variables.Variables['PlanAPAProcedures']:='''' + PlanDeilyReportToTheZav.GetPlanAPAProcedures + '''';
+  frxTempReport.Variables.Variables['PlanTromboProcedures']:='''' + PlanDeilyReportToTheZav.GetPlanTromboProcedures + '''';
+  frxTempReport.Variables.Variables['WorksDay']:='''' + PlanDeilyReportToTheZav.GetWorksDay + '''';
+
+  frxTempReport.Variables.Variables['BloodNumberProceduresDone']:='''' + StatInfoDeilyReportToTheZav.GetBloodNumberProceduresDone + '''';
+  frxTempReport.Variables.Variables['BloodRestImplementationOfThePlan']:='''' + StatInfoDeilyReportToTheZav.GetBloodRestImplementationOfThePlan + '''';
+  frxTempReport.Variables.Variables['BloodPercentageOfPlanProcedures']:='''' + StatInfoDeilyReportToTheZav.GetBloodPercentageOfPlanProcedures + '''';
+  frxTempReport.Variables.Variables['BloodTheNumberOfTreatmentsPerDay']:='''' + StatInfoDeilyReportToTheZav.GetBloodTheNumberOfTreatmentsPerDay + '''';
+  frxTempReport.Variables.Variables['BloodTheNumberOfTreatmentsPerDayWholeBlood']:='''' + StatInfoDeilyReportToTheZav.GetBloodTheNumberOfTreatmentsPerDayWholeBlood + '''';
+  frxTempReport.Variables.Variables['BloodNumberWholeBloodAtTheMomentToMatchThePlan']:='''' + StatInfoDeilyReportToTheZav.GetBloodNumberWholeBloodAtTheMomentToMatchThePlan + '''';
+  frxTempReport.Variables.Variables['PlasmaNumberProceduresDone']:='''' + StatInfoDeilyReportToTheZav.GetPlasmaNumberProceduresDone + '''';
+  frxTempReport.Variables.Variables['PlasmaRestImplementationOfThePlan']:='''' + StatInfoDeilyReportToTheZav.GetPlasmaRestImplementationOfThePlan + '''';
+  frxTempReport.Variables.Variables['PlasmaPercentageOfPlanProcedures']:='''' + StatInfoDeilyReportToTheZav.GetPlasmaPercentageOfPlanProcedures + '''';
+  frxTempReport.Variables.Variables['PlasmaTheNumberOfTreatmentsPerDay']:='''' + StatInfoDeilyReportToTheZav.GetPlasmaTheNumberOfTreatmentsPerDay + '''';
+  frxTempReport.Variables.Variables['TromboNumberProceduresDone']:='''' + StatInfoDeilyReportToTheZav.GetTromboNumberProceduresDone + '''';
+  frxTempReport.Variables.Variables['TromboRestImplementationOfThePlan']:='''' + StatInfoDeilyReportToTheZav.GetTromboRestImplementationOfThePlan + '''';
+  frxTempReport.Variables.Variables['TromboPercentageOfPlanProcedures']:='''' + StatInfoDeilyReportToTheZav.GetTromboPercentageOfPlanProcedures + '''';
+  frxTempReport.Variables.Variables['TromboTheNumberOfTreatmentsPerDay']:='''' + StatInfoDeilyReportToTheZav.GetTromboTheNumberOfTreatmentsPerDay + '''';
+  frxTempReport.Variables.Variables['BloodTheNumberOfTreatmentsPerDayErSusp']:='''' + StatInfoDeilyReportToTheZav.GetBloodTheNumberOfTreatmentsPerDayErSusp + '''';
 end;
 
-function TMRDDeilyReportToTheZav.GetVolumeConsBlood: string;
+procedure TVRDDeilyReportToTheZav.OnClickExportPDF(Sender: TObject);
 begin
-  TempSQL:=
-      'SELECT ([(Нужный) Подсчет компонентов и крови за текущий месяц]![Объем консервированной крови]+' +
-      '[(Нужный) Сумма крови и плазмы АПА]![Объем консерв крови АПА]+' +
-      '[(Нужный) Сумма крови и тромб-в]![Объем консервированной крови с цитофереза])/1000 AS [Объем консервированной крови] ' +
-      'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц], ' +
-      '[(Нужный) Сумма крови и плазмы АПА], [(Нужный) Сумма крови и тромб-в];';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0.000',TempValue));
+  if not Assigned(frxTempExportPDF) then
+    frxTempExportPDF:=TfrxPDFExport.Create(TempForm);
+  frxTempExportPDF.FileName:='Ежедневный отчет для заведующей за ' + DateToStr(date()) + '. Лесосибирский филиал.pdf';
+  frxTempExportPDF.DefaultPath:=GetDesktopFolderPath + '\';
+  frxTempReport.Export(frxTempExportPDF);
+  frxTempReport.ShowReport;
 end;
 
-function TMRDDeilyReportToTheZav.GetPercentPlasmaTotal: string;
+procedure TVRDDeilyReportToTheZav.OnClickMenuClose(Sender: TObject);
 begin
-  TempSQL:=
-    'SELECT (([(Нужный) Подсчет компонентов и крови за текущий месяц]![Объем плазмы]+' +
-    '[(Нужный) Сумма крови и плазмы АПА]![Объем плазмы АПА])/1000)/[Plans]![ОП] AS [Пр плазмы] ' +
-    'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц], ' +
-    '[(Нужный) Сумма крови и плазмы АПА], [(Нужный) К ежедневному отчету план];';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0',TempValue*100)) + '%';
+  TempForm.ModalResult:=mrOk;
 end;
 
-function TMRDDeilyReportToTheZav.GetVolumePlasmaTotal: string;
+procedure TVRDDeilyReportToTheZav.OnClickPrintReport(Sender: TObject);
 begin
-  TempSQL:=
-    'SELECT ([(Нужный) Подсчет компонентов и крови за текущий месяц]![Объем плазмы]+' +
-    '[(Нужный) Сумма крови и плазмы АПА]![Объем плазмы АПА])/1000 AS [Объем плазмы] ' +
-    'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц], [(Нужный) Сумма крови и плазмы АПА] ';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0.000',TempValue));
+  frxTempReport.Print;
 end;
 
-function TMRDDeilyReportToTheZav.GetPercentPlasmaAPA: string;
+function TVRDDeilyReportToTheZav.GetDesktopFolderPath: string;
+var
+  R: TRegistry;
 begin
-  TempSQL:=
-    'SELECT ([(Нужный) Сумма крови и плазмы АПА]![Объем плазмы АПА]/1000)/[Plans]![ОАПА] AS [Пр плазмы] ' +
-    'FROM [(Нужный) Сумма крови и плазмы АПА], [(Нужный) К ежедневному отчету план];';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0',TempValue*100)) + '%';
+  R:=TRegistry.Create;
+  R.RootKey:=HKEY_CURRENT_USER;
+  R.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders',False);
+  Result:=R.ReadString('Desktop');
+  R.CloseKey;
+  R.Free;
 end;
 
-function TMRDDeilyReportToTheZav.GetVolumePlasmaAPA: string;
+procedure TVRDDeilyReportToTheZav.PreviewMouseWheel(Sender: TObject;
+  Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint;
+  var Handled: Boolean);
 begin
-  TempSQL:=
-    'SELECT [(Нужный) Сумма крови и плазмы АПА]![Объем плазмы АПА]/1000 AS [Объем плазмы] ' +
-    'FROM [(Нужный) Сумма крови и плазмы АПА] ';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0.000',TempValue));
+  frxTempPreview.MouseWheelScroll(WheelDelta);
 end;
 
-function TMRDDeilyReportToTheZav.GetPercentErSusp: string;
-begin
-  TempSQL:=
-    'SELECT ([(Нужный) Подсчет компонентов и крови за текущий месяц]![Объем Эр взвеси]/1000)/[(Нужный) К ежедневному отчету план]![ОЭВ] AS [Пр эр взвесь] ' +
-    'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц], [(Нужный) К ежедневному отчету план];';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0',TempValue*100)) + '%';
-end;
-
-function TMRDDeilyReportToTheZav.GetVolumeErSusp: string;
-begin
-  TempSQL:=
-    'SELECT [(Нужный) Подсчет компонентов и крови за текущий месяц]![Объем Эр взвеси]/1000 AS [Объем эр взвеси] ' +
-    'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц] ';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0.000',TempValue));
-end;
-
-function TMRDDeilyReportToTheZav.GetVolumeTrombo: string;
-begin
-  TempSQL:=
-    'SELECT [(Нужный) Сумма крови и тромб-в]![Объем тромбоцитов]/1000 AS [Объем тромбоцитов] ' +
-    'FROM [(Нужный) Сумма крови и тромб-в]; ';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0.000',TempValue));
-end;
-
-function TMRDDeilyReportToTheZav.GetNumberDosesTromb: string;
-begin
-  TempSQL:=
-    'SELECT [(Нужный) Сумма крови и тромб-в].[Кол-во доз тромбо] ' +
-    'FROM [(Нужный) Сумма крови и тромб-в]; ';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0',TempValue)) + ' д.';
-end;
-
-function TMRDDeilyReportToTheZav.GetNumberPacketsTromb: string;
-begin
-  TempSQL:=
-    'SELECT [(Нужный) Сумма крови и тромб-в].[Кол-во пакетов] ' +
-    'FROM [(Нужный) Сумма крови и тромб-в]; ';
-  GetSQL(TempSQL);
-  result:=VarToStr(FormatFloat('0',TempValue)) + ' пак.';
-end;
 end.

@@ -1,0 +1,340 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{709DE9AA-5148-450A-92C3-3C39637AE22C}</ProjectGuid>
+			<ProjectVersion>13.4</ProjectVersion>
+			<MainSource>MainForm.dpr</MainSource>
+			<Config Condition="'$(Config)'==''">Debug</Config>
+			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+			<FrameworkType>VCL</FrameworkType>
+			<Base>True</Base>
+			<Platform Condition="'$(Platform)'==''">Win32</Platform>
+			<TargetedPlatforms>1</TargetedPlatforms>
+			<AppType>Application</AppType>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+			<Cfg_2_Win32>true</Cfg_2_Win32>
+			<CfgParent>Cfg_2</CfgParent>
+			<Cfg_2>true</Cfg_2>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_UnitSearchPath>$(BDS)\Source\DUnit\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+			<VerInfo_Locale>1049</VerInfo_Locale>
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;$(DCC_Namespace)</DCC_Namespace>
+			<DCC_DependencyCheckOutputName>MainForm.exe</DCC_DependencyCheckOutputName>
+			<DCC_ImageBase>00400000</DCC_ImageBase>
+			<DCC_Platform>x86</DCC_Platform>
+			<DCC_E>false</DCC_E>
+			<DCC_N>false</DCC_N>
+			<DCC_S>false</DCC_S>
+			<DCC_F>false</DCC_F>
+			<DCC_K>false</DCC_K>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+			<DCC_DebugInformation>false</DCC_DebugInformation>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.1.8.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<VerInfo_MinorVer>1</VerInfo_MinorVer>
+			<VerInfo_Release>8</VerInfo_Release>
+			<Icon_MainIcon>MainForm_Icon1.ico</Icon_MainIcon>
+			<Manifest_File>None</Manifest_File>
+		</PropertyGroup>
+		<ItemGroup>
+			<DelphiCompile Include="$(MainSource)">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<DCCReference Include="MainFormUnit1.pas">
+				<Form>MyMainForm</Form>
+			</DCCReference>
+			<DCCReference Include="..\Model\Connect\GetAdoQuery.pas"/>
+			<DCCReference Include="..\View\Queries\NumberOfDonations\VQNNumberOfDonations.pas"/>
+			<DCCReference Include="..\Model\Queries\NumberOfDonations\MQNTheNumberOfBloodDonations.pas"/>
+			<DCCReference Include="..\Model\Queries\NumberOfDonations\MQNTheNumberOfPlasmaDonations.pas"/>
+			<DCCReference Include="..\Model\Queries\NumberOfDonations\MQNTheNumberOfTromboDonations.pas"/>
+			<DCCReference Include="..\Model\Queries\BloodProduct\MQBTheAmountOfBloodOnPreserving.pas"/>
+			<DCCReference Include="..\View\Queries\BloodProduct\VQBBloodProduct.pas"/>
+			<DCCReference Include="..\Model\Queries\BloodProduct\MQBTheNumberOfWholeBlood.pas"/>
+			<DCCReference Include="..\Model\System\UCheckNull.pas"/>
+			<DCCReference Include="..\Model\System\UMSMoldCleaning.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFLabel.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFTitleLabel.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFEdit.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFDateTimePicker.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtn.pas"/>
+			<DCCReference Include="..\Model\Queries\BloodProduct\MQBTheNumberOfConservedBlood.pas"/>
+			<DCCReference Include="..\Model\Queries\BloodProduct\MQBTheAmountOfReinfusionWithAPA.pas"/>
+			<DCCReference Include="..\Model\Queries\BloodProduct\MQBTheAmountOfReinfusionWithTrombo.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfErSuspensionsValumeTotal.pas"/>
+			<DCCReference Include="..\View\Queries\ProcurementOfTheComponentsTotal\VQPProcurementOfTheComponentsTotal.pas">
+				<Form>/ UVFPanel in &apos;..\View\FormObjects\UVFPanel.pas&apos;;</Form>
+			</DCCReference>
+			<DCCReference Include="..\View\FormObjects\UVFPanel.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfErSuspensionsDosesTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfPlasmaVolumeTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfPlasmaDosesTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfPlasmaBloodVolumeTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfPlasmaBloodDosesTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfPlasmaAPAVolumeTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfPlasmaAPADosesTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfTromboVolumeTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfTromboDosesTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfTromboPacetsTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfFiltratVolumeTotal.pas"/>
+			<DCCReference Include="..\Model\Queries\ProcurementOfTheComponentsTotal\MQPHarvestingOfFiltratDosesTotal.pas"/>
+			<DCCReference Include="..\View\Queries\HarvestingOfBloodComponentsByTypes\VQHHarvestingOfBloodComponentsByTypes.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFStringGrid.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponents.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHBloodComponentsPlasma.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHPlasmaAPA.pas"/>
+			<DCCReference Include="..\Model\Queries\HarvestingOfBloodComponentsByTypes\MQHTrombo.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFComboBox.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnSave.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnDelete.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnBlock.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnAdd.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFDBGrid.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFDBNavigator.pas"/>
+			<DCCReference Include="..\Model\System\GetContent\UMSGContentOfTheList.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFBitBtnEdit.pas"/>
+			<DCCReference Include="..\Model\System\UMSBlockMainMenu.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Other\AmountOfUsableErSusp\VIOATheAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOATheAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AdviceToDoctors\MIOAAdviceToDoctors.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Other\AdviceToDoctors\VIOAAdviceToDoctors.pas"/>
+			<DCCReference Include="..\Model\System\UMSCheckFillStringFields.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\CheckLPU\MIOCCheckLPU.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Other\CheckLPU\VIOCCheckLPU.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Expedition\TheResultsInLPU\VIETTheResultsInLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIETTheResultsInLPU.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Expedition\TheResultsInKray\VIETTheResultsInKray.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIETTheResultsInKray.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\Cancellation\MIECCancellation.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\Expedition\Cancellation\VIECCancellation.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\MIOCConsumptionOfErythrocyteEnvironments.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\VIOCConsumptionOfErythrocyteEnvironments.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\MIOCConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\VIOCConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\MIOCConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\VIOCConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OZK\FlowRateOfWholeBlood\VIOFFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\FlowRateOofWholeBlood\MIOFFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\View\InformationForWeeklyReport\OKDK\VIOOKDK.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIOOKDK.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIOCurrentType.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIOTypeOfSelectRow.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIONameTypeOfSelectRow.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIOAddRecord.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIODeleteRecord.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OKDK\MIOChangeRecord.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\Cancellation\MIECAddRecordCancellation.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\Cancellation\MIECDeleteRecordCancellation.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\Cancellation\MIEChangeRecordCancellation.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIEChangeRecordResultsInKray.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIEAddRecordResultsInKray.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInKray\MIEDeleteRecordResultsInKray.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIEAddRecordResultsInLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIEChangeRecordResultsInLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Expedition\TheResultsInLPU\MIEDeleteRecordResultsInLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AdviceToDoctors\MIOAAddRecordResultsInAdviceToDoctor.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AdviceToDoctors\MIOAChangeRecordResultsInAdviceToDoctor.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AdviceToDoctors\MIOADeleteRecordResultsInAdviceToDoctor.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOADeleteRecordResultsAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOAAddRecordResultsAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\AmountOfUsableErSusp\MIOAChangeRecordResultsAmountOfUsableErSusp.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\CheckLPU\MIOCAddRecordResultsCheckLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\CheckLPU\MIOCChangeRecordResultsCheckLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\Other\CheckLPU\MIOCDeleteRecordResultsCheckLPU.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\MIOCAddRecordConsumption.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\MIOCChangeRecordConsumption.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfErythrocyteEnvironments\MIOCDeleteRecordConsumption.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\MIOCAddRecordConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\MIOCChangeRecordConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfPlazma\MIOCDeleteRecordConsumptionOfPlazma.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\MIOCAddRecordConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\MIOCChangeRecordConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\ConsumptionOfTrombo\MIOCDeleteRecordConsumptionOfTrombo.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\FlowRateOofWholeBlood\MIOFAddRecordFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\FlowRateOofWholeBlood\MIOFChangeRecordFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\Model\InformationForWeeklyReport\OZK\FlowRateOofWholeBlood\MIOFDeleteRecordFlowRateOfWholeBlood.pas"/>
+			<DCCReference Include="..\View\HarvestingOfTheDay\ManualHarvesting\VHMManualHarvesting.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFCheckBox.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\ManualHarvesting\MHMManualHarvesting.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\ManualHarvesting\MHMAddRecordManualHarvesting.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\ManualHarvesting\MHMDeleteRecordManualHarvesting.pas"/>
+			<DCCReference Include="..\Model\System\UMSGlobalVariant.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\ManualHarvesting\MHMChangeRecordManualHarvesting.pas"/>
+			<DCCReference Include="..\View\HarvestingOfTheDay\AutomaticApheresis\VHAAutomaticApheresis.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\AutomaticApheresis\MHAAutomaticApheresis.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\AutomaticApheresis\MHADeleteRecordAutomaticApheresis.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\AutomaticApheresis\MHAAddRecordAutomaticApheresis.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\AutomaticApheresis\MHAChangeRecordAutomaticApheresis.pas"/>
+			<DCCReference Include="..\Model\System\UMSCheckForExistenceOfRecord.pas"/>
+			<DCCReference Include="..\Model\System\UMSValueChecksOnTheAdequacy.pas"/>
+			<DCCReference Include="..\View\HarvestingOfTheDay\Sitoferez\VHSSitoferez.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\Sitoferez\MHSSitoferez.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\Sitoferez\MHSDeleteRecordSitoferez.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\Sitoferez\MHSAddRecordSitoferez.pas"/>
+			<DCCReference Include="..\Model\HarvestingOfTheDay\Sitoferez\MHSChangeRecordSitoferez.pas"/>
+			<DCCReference Include="..\Model\Reports\DailyReportToTheKray\MRDDailyReportToTheKray.pas"/>
+			<DCCReference Include="..\View\Reports\DailyReportToTheKray\VRDDailyReportTheKray.pas">
+				<Form>$R *.res</Form>
+			</DCCReference>
+			<DCCReference Include="..\View\FormObjects\UVFMainMenu.pas"/>
+			<DCCReference Include="..\Model\Reports\DeilyReportToTheZav\MRDDeilyReportToTheZav.pas"/>
+			<DCCReference Include="..\View\Reports\DeilyReportToTheZav\VRDDeilyReportToTheZav.pas"/>
+			<DCCReference Include="..\Model\Reports\DeilyReportToTheZav\MRDPlanDeilyReportToTheZav.pas"/>
+			<DCCReference Include="..\Model\Reports\DeilyReportToTheZav\MRDStatInfoDeilyReportToTheZav.pas"/>
+			<DCCReference Include="..\View\Reports\WeeklyReport\VRWWeeklyReport.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWWeeklyReportProduction.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWTableForDefect.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWSecondTable.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWDonorsAndProcedures.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWResultsOfTheProducts.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWDonorsAndProceduresOuting.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWReasonsForMedicalExemptions.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWLPUConsultation.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyReport\MRWCancellation_Kray.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWIncompleteWeekFirstTable.pas"/>
+			<DCCReference Include="..\View\Reports\WeeklyIncompleteWeek\VRWWeeklyIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWTableForDefectIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWSecondTableIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWResultsOfTheProductsIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWDonorsAndProceduresIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWDonorsAndProceduresIncompleteWeekOuting.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWMedicalExemptionsIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWLPUConsultationIncompleteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWCancellation_KrayIncomlpeteWeek.pas"/>
+			<DCCReference Include="..\Model\Reports\WeeklyIncompleteWeek\MRWResultsOfTheProductsIncompleteWeek2.pas"/>
+			<DCCReference Include="..\Model\MonthlyPlan\MMMonthlyPlan.pas"/>
+			<DCCReference Include="..\View\MonthlyPlan\VMMonthlyPlan.pas"/>
+			<DCCReference Include="..\Model\MonthlyPlan\MMDeleteRecordMonthlyPlan.pas"/>
+			<DCCReference Include="..\Model\MonthlyPlan\MMChangeRecordMonthlyPlan.pas"/>
+			<DCCReference Include="..\Model\MonthlyPlan\MMAddRecoedMonthlyPlan.pas"/>
+			<DCCReference Include="..\View\FormObjects\UVFListBox.pas"/>
+			<DCCReference Include="..\Model\MonthlyPlan\MMListOfDate.pas"/>
+			<DCCReference Include="..\Model\Connect\UMCGetDataSource.pas"/>
+			<None Include="ModelSupport_MainForm\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\MainForm\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\MainFormUnit1\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\ConnectingUnit1\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\MQNTheNumberOfBloodDonations\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\MQNTheNumberOfBloodDonations\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\MQNTheNumberOfPlasmaDonations\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\MQNTheNumberOfPlasmaDonations\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\MQNTheNumberOfTromboDonations\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\MQNTheNumberOfTromboDonations\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\GetDataSoursUnit1\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\GetDataSoursUnit1\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\VQNNumberOfDonations\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\UVFLabel\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\UVFLabel\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\UCheckNull\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\UCheckNull\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\MQBTheNumberOfConservedBlood\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\MQBTheNumberOfWholeBlood\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\MQBTheNumberOfConservedBlood\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\MQBTheNumberOfWholeBlood\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\VQBBloodProduct\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\VQBBloodProduct\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\UMSBlockMainMenu\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\UMSBlockMainMenu\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\UMSMoldCleaning\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\UMSMoldCleaning\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\MainForm\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\VIOOKDK\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\VIOOKDK\default.txaPackage"/>
+			<None Include="ModelSupport_MainForm\MHMCheckForExistenceOfRecord\default.txvpck"/>
+			<None Include="ModelSupport_MainForm\MHMCheckForExistenceOfRecord\default.txaPackage"/>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Delphi.Personality>
+					<Source>
+						<Source Name="MainSource">MainForm.dpr</Source>
+					</Source>
+					<Parameters>
+						<Parameters Name="UseLauncher">False</Parameters>
+						<Parameters Name="LoadAllSymbols">True</Parameters>
+						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+					</Parameters>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
+						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">0</VersionInfo>
+						<VersionInfo Name="Release">0</VersionInfo>
+						<VersionInfo Name="Build">0</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">1049</VersionInfo>
+						<VersionInfo Name="CodePage">1251</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
+						<VersionInfoKeys Name="LegalTrademarks"/>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments"/>
+					</VersionInfoKeys>
+					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k160.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclofficexp160.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+					</Excluded_Packages>
+				</Delphi.Personality>
+				<Platforms>
+					<Platform value="Win64">False</Platform>
+					<Platform value="Win32">True</Platform>
+				</Platforms>
+				<ModelSupport>True</ModelSupport>
+				<UnitTesting>
+					<TestProjectName>D:\git\Statistics-dev-0.2.4(Начинаем тесты)\MainForm\Test\MainFormTests.dproj</TestProjectName>
+				</UnitTesting>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+	</Project>
