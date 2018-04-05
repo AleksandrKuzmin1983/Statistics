@@ -3,7 +3,7 @@ unit MFEdit;
 interface
 
 uses
-  SysUtils, Graphics, StdCtrls, Forms, Classes, Controls;
+  SysUtils, CodeSiteLogging, Graphics, StdCtrls, Forms, Classes, Controls;
 
 type
   IMFEdit = interface
@@ -39,11 +39,15 @@ procedure TMFEdit.destroy;
 begin
   if Assigned(TempEdit) then
     FreeAndNil(TempEdit);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFEdit.destroy выполнена');
 end;
 
 procedure TMFEdit.Enabled(i: boolean);
 begin
   TempEdit.Enabled := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFEdit.Enabled выполнена', i);
 end;
 
 function TMFEdit.GetEdit(Cleft, Сtop, CWidth, FontSize: integer;
@@ -67,26 +71,35 @@ begin
     Visible := false;
   end;
   result := TempEdit;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFEdit.GetEdit выполнена', Result);
 end;
 
 procedure TMFEdit.NumberOnly(i: boolean);
 begin
   TempEdit.NumbersOnly := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFEdit.NumberOnly выполнена', i);
 end;
 
 function TMFEdit.ReadText: String;
 begin
   result := TempEdit.Text;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFEdit.ReadText выполнена', result);
 end;
 
 procedure TMFEdit.Visible(i: boolean);
 begin
   TempEdit.Visible := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFEdit.Visible выполнена', i);
 end;
 
 procedure TMFEdit.WriteText(Text: String);
 begin
   TempEdit.Text := Text;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFEdit.WriteText выполнена', text);
+end;
 end.

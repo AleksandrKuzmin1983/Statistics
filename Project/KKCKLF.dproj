@@ -225,7 +225,6 @@
 			<DCCReference Include="..\Systems\USCheckNull.pas"/>
 			<DCCReference Include="..\Systems\USContentOfTheList.pas"/>
 			<DCCReference Include="..\Systems\USGlobalVariant.pas"/>
-			<DCCReference Include="..\Systems\USMoldCleaning.pas"/>
 			<DCCReference Include="..\Systems\USValueChecksOnTheAdequacy.pas"/>
 			<None Include="..\MainForm\ModelSupport_MainForm\MainFormUnit1\default.txvpck"/>
 			<None Include="..\MainForm\ModelSupport_MainForm\ConnectingUnit1\default.txvpck"/>
