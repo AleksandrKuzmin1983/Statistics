@@ -3,7 +3,7 @@ unit MFBitBtnDelete;
 interface
 
 uses
-  SysUtils, Classes, Forms, Buttons;
+  SysUtils, Classes, Forms, CodeSiteLogging, Buttons;
 
 type
   IMFBitBtnDelete = interface
@@ -32,12 +32,16 @@ implementation
 procedure TMFBitBtnDelete.ChangeEnabled(i: Boolean);
 begin
   TempBitBtnDelete.Enabled := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnDelete.ChangeEnabled выполнена', i);
 end;
 
 procedure TMFBitBtnDelete.destroy;
 begin
   if Assigned(TempBitBtnDelete) then
     FreeAndNil(TempBitBtnDelete);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnDelete.destroy выполнена');
 end;
 
 function TMFBitBtnDelete.GetBitBtnDelete(CLeft, CTop: integer;
@@ -70,11 +74,15 @@ begin
     end;
   end;
   result := TempBitBtnDelete;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnDelete.GetBitBtnDelete выполнена');
 end;
 
 procedure TMFBitBtnDelete.Visible(i: Boolean);
 begin
   TempBitBtnDelete.Visible := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnDelete.Visible выполнена', i);
 end;
 
 end.

@@ -3,7 +3,7 @@ unit MFBitBtnSave;
 interface
 
 uses
-  Classes, Forms, Buttons;
+  Classes, Forms, CodeSiteLogging, SysUtils, Buttons;
 
 type
   IMFBitBtnSave = interface
@@ -30,6 +30,8 @@ implementation
 procedure TMFBitBtnSave.ChangeEnabled(i: boolean);
 begin
   TempBitBtnSave.Enabled := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnSave.ChangeEnabled выполнена', i);
 end;
 
 function TMFBitBtnSave.GetBitBtnSave(CLeft, CTop: integer;
@@ -62,11 +64,14 @@ begin
     end;
   end;
   result := TempBitBtnSave;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnSave.GetBitBtnSave выполнена');
 end;
 
 procedure TMFBitBtnSave.Visible(i: boolean);
 begin
   TempBitBtnSave.Visible := i;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnSave.Visible выполнена', i);
+end;
 end.

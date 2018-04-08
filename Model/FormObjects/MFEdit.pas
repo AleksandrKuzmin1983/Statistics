@@ -72,7 +72,7 @@ begin
   end;
   result := TempEdit;
 
-  CodeSite.Send(FormatDateTime('c', Now) + ' TMFEdit.GetEdit выполнена', Result);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFEdit.GetEdit выполнена');
 end;
 
 procedure TMFEdit.NumberOnly(i: boolean);

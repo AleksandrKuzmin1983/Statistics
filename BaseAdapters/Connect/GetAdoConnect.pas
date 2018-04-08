@@ -3,7 +3,7 @@ unit GetAdoConnect;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB;
+  SysUtils, CodeSiteLogging, Data.Win.ADODB;
 
 type
   ITempAdoQuery = interface
@@ -35,17 +35,23 @@ begin
     '\BaseAdapters\Connect\ConnectingStringx64.udl';
   Connect.LoginPrompt := False;
   Connect.KeepConnection := False;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TTempAdoQuery.create выполнена');
 end;
 
 procedure TTempAdoQuery.destroy;
 begin
   if Assigned(Connect) then
     Connect.Free;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TTempAdoQuery.destroy выполнена');
 end;
 
 function TTempAdoQuery.GetConnect: TADOConnection;
 begin
   result := Connect;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TTempAdoQuery.GetConnect выполнена');
 end;
 
 end.

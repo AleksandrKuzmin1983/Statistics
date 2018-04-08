@@ -3,7 +3,7 @@ unit MIETTheResultsInLPU;
 interface
 
 uses
-  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  WinProcs, SysUtils, StdCtrls, Buttons, CodeSiteLogging, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
   USCheckFillStringFields,
   USBlockMainMenu,
@@ -129,6 +129,8 @@ begin
   GetButtonDelete(form);
   GetButtonBlock(form);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.create выполнена');
   inherited;
 end;
 
@@ -159,6 +161,8 @@ begin
   ButtonDelete.destroy;
   ButtonEdit.destroy;
   ButtonBlock.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.destroy выполнена');
   inherited;
 end;
 
@@ -205,6 +209,8 @@ begin
   ProductList.WriteItemIndex(-1);
   TypeLPUList.WriteItemIndex(-1);
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.ButtonAdded выполнена');
 end;
 
 // Разблокировка кнопок
@@ -225,6 +231,8 @@ begin
     ButtonDelete.ChangeEnabled(False);
     ButtonBlock.ChangeCaption(False);
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.ButtonBlocked выполнена');
 end;
 
 // Кнопка удаления
@@ -250,6 +258,8 @@ begin
   ProductList.WriteItemIndex(-1);
   TypeLPUList.WriteItemIndex(-1);
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.ButtonDeleted выполнена');
 end;
 
 // Внесение изменений
@@ -357,6 +367,8 @@ begin
     ButtonEdit.ChangeCaption('Сохранить изменения')
   else
     ButtonEdit.ChangeCaption('Изменить');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.ButtonEdited выполнена');
 end;
 
 // Создание кнопок
@@ -366,6 +378,8 @@ begin
   if not Assigned(ButtonAdd) then
     ButtonAdd := TMFBitBtnAdd.create;
   Result := ButtonAdd.GetBitBtnAdd(0, 0, ButtonAdded, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetButtonAdd выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetButtonBlock(NameForm: TForm): TBitBtn;
@@ -373,6 +387,8 @@ begin
   if not Assigned(ButtonBlock) then
     ButtonBlock := TMFBitBtnBlock.create;
   Result := ButtonBlock.GetBitBtnBlock(0, 0, ButtonBlocked, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetButtonBlock выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetButtonDelete(NameForm: TForm): TBitBtn;
@@ -380,6 +396,8 @@ begin
   if not Assigned(ButtonDelete) then
     ButtonDelete := TMFBitBtnDelete.create;
   Result := ButtonDelete.GetBitBtnDelete(0, 0, ButtonDeleted, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetButtonDelete выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetButtonEdit(NameForm: TForm): TBitBtn;
@@ -387,6 +405,8 @@ begin
   if not Assigned(ButtonEdit) then
     ButtonEdit := TMFBitBtnEdit.create;
   Result := ButtonEdit.GetBitBtnEdit(0, 0, ButtonEdited, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetButtonEdit выполнена');
 end;
 
 // TDateTimePicker
@@ -398,6 +418,8 @@ begin
     ReportDateCal := TMFDateTimePicker.create;
   Result := ReportDateCal.GetDTPicker(400, 80, StartOfTheWeek(Date) - 7,
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetCalendarReportDateCal выполнена');
 end;
 
 // Edit
@@ -408,6 +430,8 @@ begin
     EditVolume := TMFEdit.create;
   Result := EditVolume.GetEdit(400, 185, 185, 12, False, NameForm);
   EditVolume.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetEditVolume выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetEditNumberOfDoses(NameForm: TForm): TEdit;
@@ -416,6 +440,8 @@ begin
     EditNumberOfDoses := TMFEdit.create;
   Result := EditNumberOfDoses.GetEdit(400, 220, 185, 12, False, NameForm);
   EditNumberOfDoses.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetEditNumberOfDoses выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetEditPercentage(NameForm: TForm): TEdit;
@@ -424,6 +450,8 @@ begin
     EditPercentage := TMFEdit.create;
   Result := EditPercentage.GetEdit(400, 255, 185, 12, False, NameForm);
   EditPercentage.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetEditPercentage выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetEditNumberOfPackets(NameForm: TForm): TEdit;
@@ -432,6 +460,8 @@ begin
     EditNumberOfPackets := TMFEdit.create;
   Result := EditNumberOfPackets.GetEdit(400, 290, 185, 12, False, NameForm);
   EditNumberOfPackets.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetEditNumberOfPackets выполнена');
 end;
 
 // Label
@@ -442,6 +472,8 @@ begin
     Title := TMFTitleLabel.create;
   Result := Title.GetTitleLabel(25, 'Выдача трансфузионных сред в ЛПУ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetLabelTitle выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetLabelReportDate(NameForm: TForm): TLabel;
@@ -450,6 +482,8 @@ begin
     LabelReportDate := TMFLabel.create;
   Result := LabelReportDate.GetTempLabel(50, 80, 16, 'Отчетная неделя: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetLabelReportDate выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetLabelTheNameOfTheEnvironment
@@ -459,6 +493,8 @@ begin
     LabelTheNameOfTheEnvironment := TMFLabel.create;
   Result := LabelTheNameOfTheEnvironment.GetTempLabel(50, 115, 14,
     'Наименование продукции: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetLabelTheNameOfTheEnvironment выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetLabelTypeOfLPU(NameForm: TForm): TLabel;
@@ -466,6 +502,8 @@ begin
   if not Assigned(LabelTypeOfLPU) then
     LabelTypeOfLPU := TMFLabel.create;
   Result := LabelTypeOfLPU.GetTempLabel(50, 150, 14, 'Вид ЛПУ: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetLabelTypeOfLPU выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetLabelVolume(NameForm: TForm): TLabel;
@@ -474,6 +512,8 @@ begin
     LabelVolume := TMFLabel.create;
   Result := LabelVolume.GetTempLabel(50, 185, 14, 'Объем продукции: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetLabelVolume выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetLabelNumberOfDoses(NameForm: TForm): TLabel;
@@ -482,6 +522,8 @@ begin
     LabelNumberOfDoses := TMFLabel.create;
   Result := LabelNumberOfDoses.GetTempLabel(50, 220, 14, 'Количество доз: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetLabelNumberOfDoses выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetLabelPercentage(NameForm: TForm): TLabel;
@@ -490,6 +532,8 @@ begin
     LabelPercentage := TMFLabel.create;
   Result := LabelPercentage.GetTempLabel(50, 255, 14,
     'Процент от объема по заявкам: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetLabelPercentage выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetLabelNumberOfPackets(NameForm: TForm): TLabel;
@@ -498,6 +542,8 @@ begin
     LabelNumberOfPackets := TMFLabel.create;
   Result := LabelNumberOfPackets.GetTempLabel(50, 290, 14,
     'Количество пакетов тромбоконцентрата: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetLabelNumberOfPackets выполнена');
 end;
 
 // ComboBox
@@ -510,6 +556,8 @@ begin
   SQL := 'SELECT NameProducts.ShortName, NameProducts.id ' +
     'FROM NameProducts ' + 'WHERE (NameProducts.ForExped=True);';
   ProductList.TheContentOfTheList(SQL);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetProductList выполнена');
 end;
 
 function TMIETTheResultsInLPU.GetTypeLPUList(NameForm: TForm): TComboBox;
@@ -520,6 +568,8 @@ begin
   SQL := 'SELECT TypeOfLPUandOther.NameRecord ' + 'FROM TypeOfLPUandOther ' +
     'WHERE (((TypeOfLPUandOther.TypeLPU)=True));';
   TypeLPUList.TheContentOfTheList(SQL);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetTypeLPUList выполнена');
 end;
 
 procedure TMIETTheResultsInLPU.Show;
@@ -548,6 +598,8 @@ begin
   ButtonAdd.Visible(True);
   ButtonDelete.Visible(True);
   ButtonBlock.Visible(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.Show выполнена');
 end;
 
 // StringGrid
@@ -599,6 +651,8 @@ begin
         ContentForStringGrid.GetNumberOfPackets(j));
       j := j + 1;
     end;
+
+    CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.GetStringGrid выполнена');
 end;
 
 end.

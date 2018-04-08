@@ -59,7 +59,7 @@ begin
   end;
   result := TempLabel;
 
-   CodeSite.Send(FormatDateTime('c', Now) + ' TMFLabel.GetTempLabel выполнена', result);
+   CodeSite.Send(FormatDateTime('c', Now) + ' TMFLabel.GetTempLabel выполнена');
 end;
 
 procedure TMFLabel.Height(i: integer);

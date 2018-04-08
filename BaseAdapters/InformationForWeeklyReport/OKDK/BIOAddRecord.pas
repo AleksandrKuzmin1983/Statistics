@@ -3,7 +3,7 @@ unit BIOAddRecord;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, DateUtils,
+  SysUtils, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB, DateUtils,
   USCheckNull,
   GetAdoConnect;
 
@@ -50,6 +50,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOAddRecord.AddRecord выполнена');
 end;
 
 procedure TBIOAddRecord.destroy;
@@ -58,6 +60,8 @@ begin
   TempConnect := nil;
   if Assigned(TempQuery) then
     TempQuery.Free;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOAddRecord.destroy выполнена');
 end;
 
 end.

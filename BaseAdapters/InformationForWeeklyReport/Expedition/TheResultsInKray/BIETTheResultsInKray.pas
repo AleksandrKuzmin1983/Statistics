@@ -3,7 +3,7 @@ unit BIETTheResultsInKray;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, CodeSiteLogging, Data.Win.ADODB, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -133,6 +133,8 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIETTheResultsInKray.GetContent выполнена');
 end;
 
 procedure TBIETTheResultsInKray.ExecSQL;
@@ -148,6 +150,8 @@ end;
 function TBIETTheResultsInKray.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIETTheResultsInKray.GetRowCount выполнена');
 end;
 
 function TBIETTheResultsInKray.GetNumberOfDoses(i: integer): string;
@@ -217,5 +221,4 @@ function TBIETTheResultsInKray.GetKod(i: integer): string;
 begin
   result := ResultMass[i].Kod;
 end;
-
 end.

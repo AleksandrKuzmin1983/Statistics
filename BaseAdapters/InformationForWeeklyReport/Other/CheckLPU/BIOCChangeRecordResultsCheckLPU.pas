@@ -3,7 +3,7 @@ unit BIOCChangeRecordResultsCheckLPU;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, DateUtils,
+  SysUtils, Data.Win.ADODB, Dialogs, CodeSiteLogging, Data.DB, DateUtils,
   USCheckNull,
   GetAdoConnect;
 
@@ -51,6 +51,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOCChangeRecordResultsCheckLPU.ChangeRecord выполнена');
 end;
 
 end.

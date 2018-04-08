@@ -3,7 +3,7 @@ unit BIECCancellation;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -108,6 +108,8 @@ begin
       + chr(13) + 'Обратитесь к администратору!');
   End;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIECCancellation.GetContent выполнена');
 end;
 
 function TBIECCancellation.GetReportDate(i: integer): string;
@@ -118,6 +120,8 @@ end;
 function TBIECCancellation.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIECCancellation.GetRowCount выполнена', result);
 end;
 
 function TBIECCancellation.GetNumberOfDoses(i: integer): string;

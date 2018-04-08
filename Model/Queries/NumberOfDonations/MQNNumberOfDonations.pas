@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, StdCtrls, Buttons, Variants,
-  Vcl.ComCtrls, DateUtils, Forms, Dialogs,
+  Vcl.ComCtrls, DateUtils, Forms, CodeSiteLogging, Dialogs,
   BQNTheNumberOfBloodDonations,
   BQNTheNumberOfPlasmaDonations,
   BQNTheNumberOfTromboDonations,
@@ -21,15 +21,15 @@ type
   private
     StartDate: TMFLabel;
     EndDate: TMFLabel;
-    NameStat1: TMFLabel;
-    NameStat2: TMFLabel;
-    NameStat3: TMFLabel;
+    NumberOfBloodDonationsLabel: TMFLabel;
+    NumberOfPlasmaDonationsLabel: TMFLabel;
+    NumberOfTromboDonationsLabel: TMFLabel;
 
     Title: TMFTitleLabel;
 
-    ResultEdit1: TMFEdit;
-    ResultEdit2: TMFEdit;
-    ResultEdit3: TMFEdit;
+    NumberOfBloodDonationsEdit: TMFEdit;
+    NumberOfPlasmaDonationsEdit: TMFEdit;
+    NumberOfTromboDonationsEdit: TMFEdit;
 
     StartDateCal: TMFDateTimePicker;
     EndDateCal: TMFDateTimePicker;
@@ -43,15 +43,15 @@ type
     TheNumberOfTromboDonations: IBQNTheNumberOfTromboDonations;
     function GetLabelStartDate(NameForm: TForm): TLabel;
     function GetLabelEndDate(NameForm: TForm): TLabel;
-    function GetLabelNameStat1(NameForm: TForm): TLabel;
-    function GetLabelNameStat2(NameForm: TForm): TLabel;
-    function GetLabelNameStat3(NameForm: TForm): TLabel;
+    function GetNumberOfBloodDonationsLabel(NameForm: TForm): TLabel;
+    function GetNumberOfPlasmaDonationsLabel(NameForm: TForm): TLabel;
+    function GetNumberOfTromboDonationsLabel(NameForm: TForm): TLabel;
 
     function GetLabelTitle(NameForm: TForm): TLabel;
 
-    function GetEdit1(NameForm: TForm): TEdit;
-    function GetEdit2(NameForm: TForm): TEdit;
-    function GetEdit3(NameForm: TForm): TEdit;
+    function GetNumberOfBloodDonationsEdit(NameForm: TForm): TEdit;
+    function GetNumberOfPlasmaDonationsEdit(NameForm: TForm): TEdit;
+    function GetNumberOfTromboDonationsEdit(NameForm: TForm): TEdit;
 
     function GetCalendarStartDate(NameForm: TForm): TDateTimePicker;
     function GetCalendarEndDate(NameForm: TForm): TDateTimePicker;
@@ -74,21 +74,23 @@ begin
 
   GetLabelStartDate(CurrentForm);
   GetLabelEndDate(CurrentForm);
-  GetLabelNameStat1(CurrentForm);
-  GetLabelNameStat2(CurrentForm);
-  GetLabelNameStat3(CurrentForm);
+  GetNumberOfBloodDonationsLabel(CurrentForm);
+  GetNumberOfPlasmaDonationsLabel(CurrentForm);
+  GetNumberOfTromboDonationsLabel(CurrentForm);
 
   GetLabelTitle(CurrentForm);
 
   GetCalendarStartDate(CurrentForm);
   GetCalendarEndDate(CurrentForm);
 
-  GetEdit1(CurrentForm);
-  GetEdit2(CurrentForm);
-  GetEdit3(CurrentForm);
+  GetNumberOfBloodDonationsEdit(CurrentForm);
+  GetNumberOfPlasmaDonationsEdit(CurrentForm);
+  GetNumberOfTromboDonationsEdit(CurrentForm);
 
   GetButtonAction(CurrentForm);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.create выполнена');
   inherited;
 end;
 
@@ -96,20 +98,22 @@ destructor TMQNNumberOfDonations.destroy;
 begin
   StartDate.destroy;
   EndDate.destroy;
-  NameStat1.destroy;
-  NameStat2.destroy;
-  NameStat3.destroy;
+  NumberOfBloodDonationsLabel.destroy;
+  NumberOfPlasmaDonationsLabel.destroy;
+  NumberOfTromboDonationsLabel.destroy;
 
   Title.destroy;
 
-  ResultEdit1.destroy;
-  ResultEdit2.destroy;
-  ResultEdit3.destroy;
+  NumberOfBloodDonationsEdit.destroy;
+  NumberOfPlasmaDonationsEdit.destroy;
+  NumberOfTromboDonationsEdit.destroy;
 
   StartDateCal.destroy;
   EndDateCal.destroy;
 
   ButtonAction.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.destroy выполнена');
   inherited;
 end;
 
@@ -125,44 +129,52 @@ begin
     if not Assigned(TheNumberOfBloodDonations) then
       TheNumberOfBloodDonations := TBQNTheNumberOfBloodDonations.create
         (StartDateCal.GetDate, EndDateCal.GetDate);
-    ResultEdit1.WriteText(TheNumberOfBloodDonations.GetValue);
+    NumberOfBloodDonationsEdit.WriteText(TheNumberOfBloodDonations.GetValue);
     TheNumberOfBloodDonations := nil;
 
     if not Assigned(TheNumberOfPlasmaDonations) then
       TheNumberOfPlasmaDonations := TBQNTheNumberOfPlasmaDonations.create
         (StartDateCal.GetDate, EndDateCal.GetDate);
-    ResultEdit2.WriteText(TheNumberOfPlasmaDonations.GetValue);
+    NumberOfPlasmaDonationsEdit.WriteText(TheNumberOfPlasmaDonations.GetValue);
     TheNumberOfPlasmaDonations := nil;
 
     if not Assigned(TheNumberOfTromboDonations) then
       TheNumberOfTromboDonations := TBQNTheNumberOfTromboDonations.create
         (StartDateCal.GetDate, EndDateCal.GetDate);
-    ResultEdit3.WriteText(TheNumberOfTromboDonations.GetValue);
+    NumberOfTromboDonationsEdit.WriteText(TheNumberOfTromboDonations.GetValue);
     TheNumberOfTromboDonations := nil;
 
     ShowMessage('«апрос выполнен!');
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.ButtonAct выполнена');
 end;
 
-function TMQNNumberOfDonations.GetEdit1(NameForm: TForm): TEdit;
+function TMQNNumberOfDonations.GetNumberOfBloodDonationsEdit(NameForm: TForm): TEdit;
 begin
-  if not Assigned(ResultEdit1) then
-    ResultEdit1 := TMFEdit.create;
-  Result := ResultEdit1.GetEdit(440, 180, 100, 12, True, NameForm);
+  if not Assigned(NumberOfBloodDonationsEdit) then
+    NumberOfBloodDonationsEdit := TMFEdit.create;
+  Result := NumberOfBloodDonationsEdit.GetEdit(440, 180, 100, 12, True, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetNumberOfBloodDonationsEdit выполнена');
 end;
 
-function TMQNNumberOfDonations.GetEdit2(NameForm: TForm): TEdit;
+function TMQNNumberOfDonations.GetNumberOfPlasmaDonationsEdit(NameForm: TForm): TEdit;
 begin
-  if not Assigned(ResultEdit2) then
-    ResultEdit2 := TMFEdit.create;
-  Result := ResultEdit2.GetEdit(440, 220, 100, 12, True, NameForm);
+  if not Assigned(NumberOfPlasmaDonationsEdit) then
+    NumberOfPlasmaDonationsEdit := TMFEdit.create;
+  Result := NumberOfPlasmaDonationsEdit.GetEdit(440, 220, 100, 12, True, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetNumberOfPlasmaDonationsEdit выполнена');
 end;
 
-function TMQNNumberOfDonations.GetEdit3(NameForm: TForm): TEdit;
+function TMQNNumberOfDonations.GetNumberOfTromboDonationsEdit(NameForm: TForm): TEdit;
 begin
-  if not Assigned(ResultEdit3) then
-    ResultEdit3 := TMFEdit.create;
-  Result := ResultEdit3.GetEdit(440, 260, 100, 12, True, NameForm);
+  if not Assigned(NumberOfTromboDonationsEdit) then
+    NumberOfTromboDonationsEdit := TMFEdit.create;
+  Result := NumberOfTromboDonationsEdit.GetEdit(440, 260, 100, 12, True, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetNumberOfTromboDonationsEdit выполнена');
 end;
 
 function TMQNNumberOfDonations.GetButtonAction(NameForm: TForm): TBitBtn;
@@ -171,6 +183,8 @@ begin
     ButtonAction := TMFBitBtn.create;
   Result := ButtonAction.GetBitBtn(360, 590, '—формировать', ButtonAct,
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetButtonAction выполнена');
 end;
 
 function TMQNNumberOfDonations.GetCalendarStartDate(NameForm: TForm)
@@ -190,6 +204,8 @@ begin
     StartDateCal := TMFDateTimePicker.create;
   Result := StartDateCal.GetDTPicker(250, 80, EncodeDate(CYear, CMonth, 1),
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetCalendarStartDate выполнена');
 end;
 
 function TMQNNumberOfDonations.GetCalendarEndDate(NameForm: TForm)
@@ -199,6 +215,8 @@ begin
     EndDateCal := TMFDateTimePicker.create;
   Result := EndDateCal.GetDTPicker(250, 120, EncodeDate(YearOf(Now),
     MonthOf(Now), 1) - 1, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetCalendarEndDate выполнена');
 end;
 
 function TMQNNumberOfDonations.GetLabelEndDate(NameForm: TForm): TLabel;
@@ -206,30 +224,38 @@ begin
   if not Assigned(EndDate) then
     EndDate := TMFLabel.create;
   Result := EndDate.GetTempLabel(50, 120, 20, ' онечна€ дата:', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetLabelEndDate выполнена');
 end;
 
-function TMQNNumberOfDonations.GetLabelNameStat1(NameForm: TForm): TLabel;
+function TMQNNumberOfDonations.GetNumberOfBloodDonationsLabel(NameForm: TForm): TLabel;
 begin
-  if not Assigned(NameStat1) then
-    NameStat1 := TMFLabel.create;
-  Result := NameStat1.GetTempLabel(50, 180, 20, ' оличество донаций крови:',
+  if not Assigned(NumberOfBloodDonationsLabel) then
+    NumberOfBloodDonationsLabel := TMFLabel.create;
+  Result := NumberOfBloodDonationsLabel.GetTempLabel(50, 180, 20, ' оличество донаций крови:',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetNumberOfBloodDonationsLabel выполнена');
 end;
 
-function TMQNNumberOfDonations.GetLabelNameStat2(NameForm: TForm): TLabel;
+function TMQNNumberOfDonations.GetNumberOfPlasmaDonationsLabel(NameForm: TForm): TLabel;
 begin
-  if not Assigned(NameStat2) then
-    NameStat2 := TMFLabel.create;
-  Result := NameStat2.GetTempLabel(50, 220, 20, ' оличество донаций плазмы:',
+  if not Assigned(NumberOfPlasmaDonationsLabel) then
+    NumberOfPlasmaDonationsLabel := TMFLabel.create;
+  Result := NumberOfPlasmaDonationsLabel.GetTempLabel(50, 220, 20, ' оличество донаций плазмы:',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetNumberOfPlasmaDonationsLabel выполнена');
 end;
 
-function TMQNNumberOfDonations.GetLabelNameStat3(NameForm: TForm): TLabel;
+function TMQNNumberOfDonations.GetNumberOfTromboDonationsLabel(NameForm: TForm): TLabel;
 begin
-  if not Assigned(NameStat3) then
-    NameStat3 := TMFLabel.create;
-  Result := NameStat3.GetTempLabel(50, 260, 20,
+  if not Assigned(NumberOfTromboDonationsLabel) then
+    NumberOfTromboDonationsLabel := TMFLabel.create;
+  Result := NumberOfTromboDonationsLabel.GetTempLabel(50, 260, 20,
     ' оличество донаций цитофереза:', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetNumberOfTromboDonationsLabel выполнена');
 end;
 
 function TMQNNumberOfDonations.GetLabelStartDate(NameForm: TForm): TLabel;
@@ -237,6 +263,8 @@ begin
   if not Assigned(StartDate) then
     StartDate := TMFLabel.create;
   Result := StartDate.GetTempLabel(50, 80, 20, 'Ќачальна€ дата:', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetLabelStartDate выполнена');
 end;
 
 function TMQNNumberOfDonations.GetLabelTitle(NameForm: TForm): TLabel;
@@ -245,24 +273,27 @@ begin
     Title := TMFTitleLabel.create;
   Result := Title.GetTitleLabel(25, ' оличество донаций и заготовленной крови',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetLabelTitle выполнена');
 end;
 
 procedure TMQNNumberOfDonations.Show;
 begin
   StartDate.Visible(True);
   EndDate.Visible(True);
-  NameStat1.Visible(True);
-  NameStat2.Visible(True);
-  NameStat3.Visible(True);
+  NumberOfBloodDonationsLabel.Visible(True);
+  NumberOfPlasmaDonationsLabel.Visible(True);
+  NumberOfTromboDonationsLabel.Visible(True);
 
   StartDateCal.Visible(True);
   EndDateCal.Visible(True);
 
-  ResultEdit1.Visible(True);
-  ResultEdit2.Visible(True);
-  ResultEdit3.Visible(True);
+  NumberOfBloodDonationsEdit.Visible(True);
+  NumberOfPlasmaDonationsEdit.Visible(True);
+  NumberOfTromboDonationsEdit.Visible(True);
 
   ButtonAction.Visible(True);
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.Show выполнена');
+end;
 end.

@@ -3,7 +3,7 @@ unit USContentOfTheList;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Data.DB, Dialogs,
+  SysUtils, Variants, CodeSiteLogging, Data.Win.ADODB, Data.DB, Dialogs,
   GetAdoConnect;
 
 type
@@ -38,6 +38,8 @@ begin
     FreeAndNil(TempConnect);
   TempConnect := nil;
   SetLength(TempArray, 0);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TUSBlockMainMenu.BlockMainMenu выполнена');
 end;
 
 procedure TUSContentOfTheList.GetContent(CSQL: String);
@@ -71,16 +73,22 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TUSBlockMainMenu.BlockMainMenu выполнена');
 end;
 
 function TUSContentOfTheList.GetContentOfTheList(i: integer): string;
 begin
   result := TempArray[i];
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TUSBlockMainMenu.BlockMainMenu выполнена');
 end;
 
 function TUSContentOfTheList.GetCount: integer;
 begin
   result := Length(TempArray);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TUSBlockMainMenu.BlockMainMenu выполнена');
 end;
 
 procedure TUSContentOfTheList.GetNameOfColumns(CSQL: String);
@@ -113,6 +121,8 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TUSContentOfTheList.GetNameOfColumns выполнена');
 end;
 
 end.

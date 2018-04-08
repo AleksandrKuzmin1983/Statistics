@@ -3,7 +3,7 @@ unit MFBitBtnEdit;
 interface
 
 uses
-  SysUtils, Classes, Forms, Buttons;
+  SysUtils, Classes, Forms, CodeSiteLogging, Buttons;
 
 type
   IMFBitBtnEdit = interface
@@ -36,17 +36,23 @@ implementation
 procedure TMFBitBtnEdit.ChangeCaption(Caption: string);
 begin
   TempBitBtnEdit.Caption := Caption;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnEdit.ChangeCaption выполнена', Caption);
 end;
 
 procedure TMFBitBtnEdit.ChangeEnabled(i: Boolean);
 begin
   TempBitBtnEdit.Enabled := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnEdit.ChangeEnabled выполнена', i);
 end;
 
 procedure TMFBitBtnEdit.destroy;
 begin
   if Assigned(TempBitBtnEdit) then
     FreeAndNil(TempBitBtnEdit);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnEdit.destroy выполнена');
 end;
 
 function TMFBitBtnEdit.GetBitBtnEdit(CLeft, CTop: integer;
@@ -79,16 +85,22 @@ begin
     end;
   end;
   result := TempBitBtnEdit;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnEdit.GetBitBtnEdit выполнена');
 end;
 
 function TMFBitBtnEdit.GetCaption: String;
 begin
   result := TempBitBtnEdit.Caption;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnEdit.GetCaption выполнена', result);
 end;
 
 procedure TMFBitBtnEdit.Visible(i: Boolean);
 begin
   TempBitBtnEdit.Visible := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnEdit.Visible выполнена', i);
 end;
 
 end.

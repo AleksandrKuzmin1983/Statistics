@@ -3,7 +3,7 @@ unit BIOOKDK;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, CodeSiteLogging, Data.Win.ADODB, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -63,6 +63,8 @@ end;
 function TBIOOKDK.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOOKDK.GetRowCount выполнена', result);
 end;
 
 function TBIOOKDK.GetTheNameOfTap(i: integer): string;
@@ -82,6 +84,8 @@ begin
   if Assigned(TempQuery) then
     TempQuery.Free;
   CheckNull := nil;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOOKDK.destroy выполнена');
 end;
 
 procedure TBIOOKDK.GetContent;
@@ -134,11 +138,12 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOOKDK.GetContent выполнена');
 end;
 
 function TBIOOKDK.GetKod(i: integer): string;
 begin
   result := ResultMass[i].Kod;
 end;
-
 end.

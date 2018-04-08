@@ -3,7 +3,7 @@ unit BIEAddRecordResultsInLPU;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, DateUtils,
+  SysUtils, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB, DateUtils,
   USCheckNull,
   GetAdoConnect;
 
@@ -56,6 +56,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIEAddRecordResultsInLPU.AddRecord выполнена');
 end;
 
 end.

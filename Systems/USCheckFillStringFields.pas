@@ -2,6 +2,10 @@ unit USCheckFillStringFields;
 
 interface
 
+Uses
+  SysUtils, CodeSiteLogging;
+
+
 type
   IUSCheckFillStringFields = interface
     function CheckStringFields(CheckValue: String): String;
@@ -24,6 +28,8 @@ begin
   if CheckValue <> '' then
     IncomingValue := CheckValue;
   result := IncomingValue;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TUSCheckFillStringFields.CheckStringFields выполнена', result);
 end;
 
 end.

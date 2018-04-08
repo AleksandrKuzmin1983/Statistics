@@ -3,7 +3,7 @@ unit MIOFFlowRateOfWholeBlood;
 interface
 
 uses
-  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids,
+  WinProcs, SysUtils, StdCtrls, Buttons, CodeSiteLogging, Vcl.Grids,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants, Data.DB,
   USCheckFillStringFields,
   USBlockMainMenu,
@@ -111,6 +111,8 @@ begin
   GetButtonDelete(form);
   GetButtonBlock(form);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.create выполнена');
   inherited;
 end;
 
@@ -135,6 +137,8 @@ begin
   ButtonDelete.destroy;
   ButtonEdit.destroy;
   ButtonBlock.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.destroy выполнена');
   inherited;
 end;
 
@@ -171,6 +175,8 @@ begin
   EditNumberOfDoses.WriteText('0');
   ReasonConsumption.WriteItemIndex(-1);
   CancellationDateCal.WriteDateTime(StartOfTheWeek(Date) - 3);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.ButtonAdded выполнена');
 end;
 
 // Разблокировка кнопок
@@ -191,6 +197,8 @@ begin
     ButtonDelete.ChangeEnabled(False);
     ButtonBlock.ChangeCaption(False);
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.ButtonBlocked выполнена');
 end;
 
 // Кнопка удаления
@@ -213,6 +221,8 @@ begin
   EditNumberOfDoses.WriteText('0');
   ReasonConsumption.WriteItemIndex(-1);
   CancellationDateCal.WriteDateTime(StartOfTheWeek(Date) - 3);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.ButtonDeleted выполнена');
 end;
 
 // Внесение изменений
@@ -295,6 +305,8 @@ begin
     ButtonEdit.ChangeCaption('Сохранить изменения')
   else
     ButtonEdit.ChangeCaption('Изменить');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.ButtonEdited выполнена');
 end;
 
 // Создание кнопок
@@ -304,6 +316,8 @@ begin
   if not Assigned(ButtonAdd) then
     ButtonAdd := TMFBitBtnAdd.create;
   Result := ButtonAdd.GetBitBtnAdd(0, 0, ButtonAdded, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetButtonAdd выполнена');
 end;
 
 function TMIOFFlowRateOfWholeBlood.GetButtonBlock(NameForm: TForm): TBitBtn;
@@ -311,6 +325,8 @@ begin
   if not Assigned(ButtonBlock) then
     ButtonBlock := TMFBitBtnBlock.create;
   Result := ButtonBlock.GetBitBtnBlock(0, 0, ButtonBlocked, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetButtonBlock выполнена');
 end;
 
 function TMIOFFlowRateOfWholeBlood.GetButtonDelete(NameForm: TForm): TBitBtn;
@@ -318,6 +334,8 @@ begin
   if not Assigned(ButtonDelete) then
     ButtonDelete := TMFBitBtnDelete.create;
   Result := ButtonDelete.GetBitBtnDelete(0, 0, ButtonDeleted, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetButtonDelete выполнена');
 end;
 
 function TMIOFFlowRateOfWholeBlood.GetButtonEdit(NameForm: TForm): TBitBtn;
@@ -325,6 +343,8 @@ begin
   if not Assigned(ButtonEdit) then
     ButtonEdit := TMFBitBtnEdit.create;
   Result := ButtonEdit.GetBitBtnEdit(0, 0, ButtonEdited, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetButtonEdit выполнена');
 end;
 
 // TDateTimePicker
@@ -336,6 +356,8 @@ begin
     CancellationDateCal := TMFDateTimePicker.create;
   Result := CancellationDateCal.GetDTPicker(400, 80, StartOfTheWeek(Date) - 3,
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetCalendarReportDateCal выполнена');
 end;
 
 // Edit
@@ -346,6 +368,8 @@ begin
     EditVolume := TMFEdit.create;
   Result := EditVolume.GetEdit(400, 120, 185, 12, False, NameForm);
   EditVolume.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetEditVolume выполнена');
 end;
 
 function TMIOFFlowRateOfWholeBlood.GetEditNumberOfDoses(NameForm: TForm): TEdit;
@@ -354,6 +378,8 @@ begin
     EditNumberOfDoses := TMFEdit.create;
   Result := EditNumberOfDoses.GetEdit(400, 160, 185, 12, False, NameForm);
   EditNumberOfDoses.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetEditNumberOfDoses выполнена');
 end;
 
 // Label
@@ -364,6 +390,8 @@ begin
     Title := TMFTitleLabel.create;
   Result := Title.GetTitleLabel(25, 'Расход цельной консервированнай крови',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetLabelTitle выполнена');
 end;
 
 function TMIOFFlowRateOfWholeBlood.GetLabelReportDate(NameForm: TForm): TLabel;
@@ -372,6 +400,8 @@ begin
     LabelCancellationDate := TMFLabel.create;
   Result := LabelCancellationDate.GetTempLabel(50, 80, 16, 'Дата расхода: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetLabelReportDate выполнена');
 end;
 
 function TMIOFFlowRateOfWholeBlood.GetLabelVolume(NameForm: TForm): TLabel;
@@ -380,6 +410,8 @@ begin
     LabelVolume := TMFLabel.create;
   Result := LabelVolume.GetTempLabel(50, 120, 14, 'Объем продукции: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetLabelVolume выполнена');
 end;
 
 function TMIOFFlowRateOfWholeBlood.GetLabelNumberOfDoses
@@ -389,6 +421,8 @@ begin
     LabelNumberOfDoses := TMFLabel.create;
   Result := LabelNumberOfDoses.GetTempLabel(50, 160, 14, 'Количество доз: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetLabelNumberOfDoses выполнена');
 end;
 
 function TMIOFFlowRateOfWholeBlood.GetLabelReasonConsumption
@@ -398,6 +432,8 @@ begin
     LabelReasonConsumption := TMFLabel.create;
   Result := LabelReasonConsumption.GetTempLabel(50, 200, 14,
     'Причина списания: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetLabelReasonConsumption выполнена');
 end;
 
 // ComboBox
@@ -418,6 +454,8 @@ begin
     On e: EDatabaseError do
       MessageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetReasonConsumption выполнена');
 end;
 
 // StringGrid
@@ -461,6 +499,8 @@ begin
         ContentForStringGrid.GetReasonConsumption(j));
       j := j + 1;
     end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.GetStringGrid выполнена');
 end;
 
 procedure TMIOFFlowRateOfWholeBlood.Show;
@@ -483,6 +523,8 @@ begin
   ButtonAdd.Visible(True);
   ButtonDelete.Visible(True);
   ButtonBlock.Visible(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.Show выполнена');
 end;
 
 end.

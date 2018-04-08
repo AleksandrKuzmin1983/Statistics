@@ -3,7 +3,7 @@ unit MHAAutomaticApheresis;
 interface
 
 uses
-  Vcl.ExtCtrls, WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  Vcl.ExtCtrls, WinProcs, SysUtils, CodeSiteLogging, StdCtrls, Buttons, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
   USCheckFillStringFields,
   USBlockMainMenu,
@@ -212,6 +212,8 @@ begin
   GetButtonDelete(form);
   GetButtonBlock(form);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.create выполнена');
   inherited;
 end;
 
@@ -272,6 +274,8 @@ begin
   ButtonDelete.destroy;
   ButtonEdit.destroy;
   ButtonBlock.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.destroy выполнена');
   inherited;
 end;
 
@@ -293,6 +297,8 @@ begin
   EditNumberDosesDefect.WriteText('0');
   CBoxTypePlazma.WriteItemIndex(1);
   CBoxTypeDefect.WriteItemIndex(-1);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.AfterSaving_Cancelling выполнена');
 end;
 
 // ƒобавление новой записи
@@ -331,6 +337,8 @@ begin
       StrToInt(EditSentToPreserving.ReadText)));
     AfterSaving_Cancelling;
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.ButtonAdded выполнена');
 end;
 
 // –азблокировка кнопок
@@ -351,6 +359,8 @@ begin
     ButtonDelete.ChangeEnabled(False);
     ButtonBlock.ChangeCaption(False);
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.ButtonBlocked выполнена');
 end;
 
 //  нопка удалени€
@@ -370,6 +380,8 @@ begin
     ShowMessage('«апись успешно удалена!');
   end;
   AfterSaving_Cancelling;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.ButtonDeleted выполнена');
 end;
 
 // ¬несение изменений
@@ -487,6 +499,8 @@ begin
     ButtonEdit.ChangeCaption('—охранить изменени€')
   else
     ButtonEdit.ChangeCaption('»зменить');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.ButtonEdited выполнена');
 end;
 
 // —оздание кнопок
@@ -495,6 +509,8 @@ begin
   if not Assigned(ButtonAdd) then
     ButtonAdd := TMFBitBtnAdd.create;
   Result := ButtonAdd.GetBitBtnAdd(670, 0, ButtonAdded, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetButtonAdd выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetButtonBlock(NameForm: TForm): TBitBtn;
@@ -502,6 +518,8 @@ begin
   if not Assigned(ButtonBlock) then
     ButtonBlock := TMFBitBtnBlock.create;
   Result := ButtonBlock.GetBitBtnBlock(670, 0, ButtonBlocked, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetButtonBlock выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetButtonDelete(NameForm: TForm): TBitBtn;
@@ -509,6 +527,8 @@ begin
   if not Assigned(ButtonDelete) then
     ButtonDelete := TMFBitBtnDelete.create;
   Result := ButtonDelete.GetBitBtnDelete(670, 0, ButtonDeleted, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetButtonDelete выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetButtonEdit(NameForm: TForm): TBitBtn;
@@ -516,6 +536,8 @@ begin
   if not Assigned(ButtonEdit) then
     ButtonEdit := TMFBitBtnEdit.create;
   Result := ButtonEdit.GetBitBtnEdit(670, 0, ButtonEdited, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetButtonEdit выполнена');
 end;
 
 // TDateTimePicker
@@ -527,6 +549,8 @@ begin
   Result := DateCal.GetDTPicker(220, 70, date(), NameForm);
   DateCal.Width(100);
   DateCal.FontSize(10);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetCalendarDateCal выполнена');
 end;
 
 function TMHAAutomaticApheresis.CheckingBeforeSaving: boolean;
@@ -608,6 +632,8 @@ begin
     exit;
   end;
   Result := False;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.CheckingBeforeSaving выполнена');
 end;
 
 // шапка
@@ -616,6 +642,8 @@ begin
   if not Assigned(LabelDate) then
     LabelDate := TMFLabel.create;
   Result := LabelDate.GetTempLabel(30, 70, 14, 'ƒата заготовки: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelDate выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetLabelNumberOfDonors(NameForm: TForm): TLabel;
@@ -624,6 +652,8 @@ begin
     LabelNumberOfDonors := TMFLabel.create;
   Result := LabelNumberOfDonors.GetTempLabel(30, 105, 14,
     ' оличество доноров: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelNumberOfDonors выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetEditNumberOfDonors(NameForm: TForm): TEdit;
@@ -632,6 +662,8 @@ begin
     EditNumberOfDonors := TMFEdit.create;
   Result := EditNumberOfDonors.GetEdit(220, 105, 100, 12, False, NameForm);
   EditNumberOfDonors.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetEditNumberOfDonors выполнена');
 end;
 
 // таблица "кровь"
@@ -645,6 +677,8 @@ begin
   LabelSentToPreserving.WordWrap(True);
   LabelSentToPreserving.Width(150);
   LabelSentToPreserving.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelSentToPreserving выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetLabelForLaboratoryResearch
@@ -657,6 +691,8 @@ begin
   LabelForLaboratoryResearch.WordWrap(True);
   LabelForLaboratoryResearch.Width(120);
   LabelForLaboratoryResearch.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelForLaboratoryResearch выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetLabelAllWholeBlood(NameForm: TForm): TLabel;
@@ -668,6 +704,8 @@ begin
   LabelAllWholeBlood.WordWrap(True);
   LabelAllWholeBlood.Width(100);
   LabelAllWholeBlood.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelAllWholeBlood выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetLabelAllStoredBlood(NameForm: TForm): TLabel;
@@ -679,6 +717,8 @@ begin
   LabelAllStoredBlood.WordWrap(True);
   LabelAllStoredBlood.Width(120);
   LabelAllStoredBlood.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelAllStoredBlood выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetLabelBlood(NameForm: TForm): TLabel;
@@ -687,6 +727,8 @@ begin
     LabelBlood := TMFLabel.create;
   Result := LabelBlood.GetTempLabel(30, 240, 12, ' ровь: ', NameForm);
   LabelBlood.Width(120);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelBlood выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetEditSentToPreserving(NameForm: TForm): TEdit;
@@ -695,6 +737,8 @@ begin
     EditSentToPreserving := TMFEdit.create;
   Result := EditSentToPreserving.GetEdit(100, 240, 155, 10, False, NameForm);
   EditSentToPreserving.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetEditSentToPreserving выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetEditForLaboratoryResearch
@@ -705,6 +749,8 @@ begin
   Result := EditForLaboratoryResearch.GetEdit(265, 240, 125, 10, False,
     NameForm);
   EditForLaboratoryResearch.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetEditForLaboratoryResearch выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetEditAllWholeBlood(NameForm: TForm): TEdit;
@@ -713,6 +759,8 @@ begin
     EditAllWholeBlood := TMFEdit.create;
   Result := EditAllWholeBlood.GetEdit(400, 240, 105, 10, False, NameForm);
   EditAllWholeBlood.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetEditAllWholeBlood выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetEditAllStoredBlood(NameForm: TForm): TEdit;
@@ -721,6 +769,8 @@ begin
     EditAllStoredBlood := TMFEdit.create;
   Result := EditAllStoredBlood.GetEdit(515, 240, 105, 10, False, NameForm);
   EditAllStoredBlood.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetEditAllStoredBlood выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetPanelGorBlood(NameForm: TForm): TPanel;
@@ -728,6 +778,8 @@ begin
   if not Assigned(PanelGorBlood) then
     PanelGorBlood := TMFPanel.create;
   Result := PanelGorBlood.GetTempPanel(30, 232, 1, 590, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetPanelGorBlood выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetPanelVertBlood1(NameForm: TForm): TPanel;
@@ -735,6 +787,8 @@ begin
   if not Assigned(PanelVertBlood1) then
     PanelVertBlood1 := TMFPanel.create;
   Result := PanelVertBlood1.GetTempPanel(95, 190, 75, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetPanelVertBlood1 выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetPanelVertBlood2(NameForm: TForm): TPanel;
@@ -742,6 +796,8 @@ begin
   if not Assigned(PanelVertBlood2) then
     PanelVertBlood2 := TMFPanel.create;
   Result := PanelVertBlood2.GetTempPanel(260, 190, 75, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetPanelVertBlood2 выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetPanelVertBlood3(NameForm: TForm): TPanel;
@@ -749,6 +805,8 @@ begin
   if not Assigned(PanelVertBlood3) then
     PanelVertBlood3 := TMFPanel.create;
   Result := PanelVertBlood3.GetTempPanel(395, 190, 75, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetPanelVertBlood3 выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetPanelVertBlood4(NameForm: TForm): TPanel;
@@ -756,6 +814,8 @@ begin
   if not Assigned(PanelVertBlood4) then
     PanelVertBlood4 := TMFPanel.create;
   Result := PanelVertBlood4.GetTempPanel(510, 190, 75, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetPanelVertBlood4 выполнена');
 end;
 
 // таблица компонентов
@@ -766,6 +826,8 @@ begin
   Result := LabelVolume.GetTempLabel(210, 293, 12, 'ќбъем, мл: ', NameForm);
   LabelVolume.WordWrap(True);
   LabelVolume.Width(80);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelVolume выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetLabelNumberDoses(NameForm: TForm): TLabel;
@@ -774,6 +836,8 @@ begin
     LabelNumberDoses := TMFLabel.create;
   Result := LabelNumberDoses.GetTempLabel(310, 293, 12, ' оличество доз, шт: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelNumberDoses выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetLabelType(NameForm: TForm): TLabel;
@@ -781,6 +845,8 @@ begin
   if not Assigned(LabelType) then
     LabelType := TMFLabel.create;
   Result := LabelType.GetTempLabel(470, 293, 12, '¬ид продукци: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelType выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetLabelPlazma(NameForm: TForm): TLabel;
@@ -788,6 +854,8 @@ begin
   if not Assigned(LabelPlazma) then
     LabelPlazma := TMFLabel.create;
   Result := LabelPlazma.GetTempLabel(30, 328, 14, 'ѕлазма: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelPlazma выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetLabelDefectWholeBlood
@@ -797,6 +865,8 @@ begin
     LabelDefectWholeBlood := TMFLabel.create;
   Result := LabelDefectWholeBlood.GetTempLabel(30, 365, 14,
     'Ѕрак цельной крови: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelDefectWholeBlood выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetPanelGor1Components1
@@ -805,6 +875,8 @@ begin
   if not Assigned(PanelGor1Components1) then
     PanelGor1Components1 := TMFPanel.create;
   Result := PanelGor1Components1.GetTempPanel(30, 320, 1, 550, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetPanelGor1Components1 выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetPanelGor2Components1
@@ -813,6 +885,8 @@ begin
   if not Assigned(PanelGor2Components1) then
     PanelGor2Components1 := TMFPanel.create;
   Result := PanelGor2Components1.GetTempPanel(30, 358, 1, 550, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetPanelGor2Components1 выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetPanelVert1Components1
@@ -821,6 +895,8 @@ begin
   if not Assigned(PanelVert1Components1) then
     PanelVert1Components1 := TMFPanel.create;
   Result := PanelVert1Components1.GetTempPanel(205, 293, 110, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetPanelVert1Components1 выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetPanelVert2Components1
@@ -829,6 +905,8 @@ begin
   if not Assigned(PanelVert2Components1) then
     PanelVert2Components1 := TMFPanel.create;
   Result := PanelVert2Components1.GetTempPanel(305, 293, 110, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetPanelVert2Components1 выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetPanelVert3Components1
@@ -837,6 +915,8 @@ begin
   if not Assigned(PanelVert3Components1) then
     PanelVert3Components1 := TMFPanel.create;
   Result := PanelVert3Components1.GetTempPanel(465, 293, 110, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetPanelVert3Components1 выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetEditVolumePlazma(NameForm: TForm): TEdit;
@@ -845,6 +925,8 @@ begin
     EditVolumePlazma := TMFEdit.create;
   Result := EditVolumePlazma.GetEdit(210, 325, 90, 12, False, NameForm);
   EditVolumePlazma.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetEditVolumePlazma выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetEditVolumeDefect(NameForm: TForm): TEdit;
@@ -853,6 +935,8 @@ begin
     EditVolumeDefect := TMFEdit.create;
   Result := EditVolumeDefect.GetEdit(210, 363, 90, 12, False, NameForm);
   EditVolumeDefect.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetEditVolumeDefect выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetEditNumberDosesPlazma
@@ -862,6 +946,8 @@ begin
     EditNumberDosesPlazma := TMFEdit.create;
   Result := EditNumberDosesPlazma.GetEdit(310, 325, 150, 12, False, NameForm);
   EditNumberDosesPlazma.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetEditNumberDosesPlazma выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetEditNumberDosesDefect
@@ -871,6 +957,8 @@ begin
     EditNumberDosesDefect := TMFEdit.create;
   Result := EditNumberDosesDefect.GetEdit(310, 363, 150, 12, False, NameForm);
   EditNumberDosesDefect.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetEditNumberDosesDefect выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetCBoxTypePlazma(NameForm: TForm): TComboBox;
@@ -884,6 +972,8 @@ begin
     'WHERE (((NameProducts.Visible)=True) AND ((NameProducts.TypeProduct)="ѕлазма") and ((NameProducts.AUTO)=true))';
   CBoxTypePlazma.TheContentOfTheList(SQL);
   CBoxTypePlazma.WriteItemIndex(0);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetCBoxTypePlazma выполнена');
 end;
 
 function TMHAAutomaticApheresis.GetCBoxTypeDefect(NameForm: TForm): TComboBox;
@@ -897,6 +987,8 @@ begin
   CBoxTypeDefect.TheContentOfTheList(SQL);
   CBoxTypeDefect.WriteItemIndex(-1);
   CBoxTypeDefect.GetDROPPEDWIDTH(200);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetCBoxTypeDefect выполнена');
 end;
 
 // Label
@@ -907,6 +999,8 @@ begin
   Result := Title.GetTitleLabel(19,
     '¬вод ежедневных данных по заготовке плазмы автоматическим аферезом',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetLabelTitle выполнена');
 end;
 
 // StringGrid
@@ -974,6 +1068,8 @@ begin
       StringGrid.WriteCells(11, i + 1, ContentForStringGrid.GetTypeDefect(j));
       j := j + 1;
     end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.GetStringGrid выполнена');
 end;
 
 procedure TMHAAutomaticApheresis.Show;
@@ -1022,6 +1118,8 @@ begin
   ButtonAdd.Visible(True);
   ButtonDelete.Visible(True);
   ButtonBlock.Visible(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis.Show выполнена');
 end;
 
 end.

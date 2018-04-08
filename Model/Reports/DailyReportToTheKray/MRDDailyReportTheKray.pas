@@ -3,7 +3,7 @@ unit MRDDailyReportTheKray;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  Winapi.Windows, Winapi.Messages, CodeSiteLogging, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus,
   frxClass, frxDBSet, frxPreview, frxExportPDF, System.Win.Registry,
@@ -55,6 +55,8 @@ begin
   GetReport(TempForm);
   frxTempReport.ShowReport;
   TempForm.ShowModal;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDailyReportTheKray.Create выполнена');
   inherited;
 end;
 
@@ -63,6 +65,8 @@ begin
   FreeAndNil(frxTempPreview);
   FreeAndNil(frxTempReport);
   MainMenu.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDailyReportTheKray.destroy выполнена');
   inherited;
 end;
 
@@ -74,6 +78,8 @@ begin
   MainMenu.OnClickCloseForm(OnClickMenuClose);
   MainMenu.OnClickPrintReport(OnClickPrintReport);
   MainMenu.OnClickExportPDF(OnClickExportPDF);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDailyReportTheKray.GetMainMenu выполнена');
 end;
 
 procedure TMRDDailyReportTheKray.GetReport(CurrentForm: TForm);
@@ -123,6 +129,8 @@ begin
     '''' + DailyReportTheKray.GetNumberDosesTromb + '''';
   frxTempReport.Variables.Variables['NumberPacketsTromb'] :=
     '''' + DailyReportTheKray.GetNumberPacketsTromb + '''';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDailyReportTheKray.GetReport выполнена');
 end;
 
 procedure TMRDDailyReportTheKray.OnClickExportPDF(Sender: TObject);
@@ -134,16 +142,22 @@ begin
   frxTepmExportPDF.DefaultPath := GetDesktopFolderPath + '\';
   frxTempReport.Export(frxTepmExportPDF);
   frxTempReport.ShowReport;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDailyReportTheKray.OnClickExportPDF выполнена');
 end;
 
 procedure TMRDDailyReportTheKray.OnClickMenuClose(Sender: TObject);
 begin
   TempForm.ModalResult := mrOk;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDailyReportTheKray.OnClickMenuClose выполнена');
 end;
 
 procedure TMRDDailyReportTheKray.OnClickPrintReport(Sender: TObject);
 begin
   frxTempReport.Print;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDailyReportTheKray.OnClickPrintReport выполнена');
 end;
 
 function TMRDDailyReportTheKray.GetDesktopFolderPath: string;
@@ -157,6 +171,8 @@ begin
   Result := R.ReadString('Desktop');
   R.CloseKey;
   R.Free;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDailyReportTheKray.GetDesktopFolderPath выполнена');
 end;
 
 procedure TMRDDailyReportTheKray.PreviewMouseWheel(Sender: TObject;
@@ -164,6 +180,8 @@ procedure TMRDDailyReportTheKray.PreviewMouseWheel(Sender: TObject;
   var Handled: Boolean);
 begin
   frxTempPreview.MouseWheelScroll(WheelDelta);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDailyReportTheKray.PreviewMouseWheel выполнена');
 end;
 
 end.

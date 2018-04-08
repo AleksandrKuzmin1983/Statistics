@@ -3,7 +3,7 @@ unit MIOCCheckLPU;
 interface
 
 uses
-  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  WinProcs, SysUtils, StdCtrls, Buttons, CodeSiteLogging, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
   USCheckFillStringFields,
   USBlockMainMenu,
@@ -92,6 +92,8 @@ begin
   GetButtonDelete(form);
   GetButtonBlock(form);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.create выполнена');
   inherited;
 end;
 
@@ -111,6 +113,8 @@ begin
   ButtonDelete.destroy;
   ButtonEdit.destroy;
   ButtonBlock.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.destroy выполнена');
   inherited;
 end;
 
@@ -140,6 +144,8 @@ begin
   end;
   EditCheckLPU.WriteText('0');
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.ButtonAdded выполнена');
 end;
 
 // Разблокировка кнопок
@@ -160,6 +166,8 @@ begin
     ButtonDelete.ChangeEnabled(False);
     ButtonBlock.ChangeCaption(False);
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.ButtonBlocked выполнена');
 end;
 
 // Кнопка удаления
@@ -180,6 +188,8 @@ begin
   end;
   EditCheckLPU.WriteText('0');
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.ButtonDeleted выполнена');
 end;
 
 // Внесение изменений
@@ -243,6 +253,8 @@ begin
     ButtonEdit.ChangeCaption('Сохранить изменения')
   else
     ButtonEdit.ChangeCaption('Изменить');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.ButtonEdited выполнена');
 end;
 
 // Создание кнопок
@@ -252,6 +264,8 @@ begin
   if not Assigned(ButtonAdd) then
     ButtonAdd := TMFBitBtnAdd.create;
   Result := ButtonAdd.GetBitBtnAdd(0, 0, ButtonAdded, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.GetButtonAdd выполнена');
 end;
 
 function TMIOCCheckLPU.GetButtonBlock(NameForm: TForm): TBitBtn;
@@ -259,6 +273,8 @@ begin
   if not Assigned(ButtonBlock) then
     ButtonBlock := TMFBitBtnBlock.create;
   Result := ButtonBlock.GetBitBtnBlock(0, 0, ButtonBlocked, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.GetButtonBlock выполнена');
 end;
 
 function TMIOCCheckLPU.GetButtonDelete(NameForm: TForm): TBitBtn;
@@ -266,6 +282,8 @@ begin
   if not Assigned(ButtonDelete) then
     ButtonDelete := TMFBitBtnDelete.create;
   Result := ButtonDelete.GetBitBtnDelete(0, 0, ButtonDeleted, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.GetButtonDelete выполнена');
 end;
 
 function TMIOCCheckLPU.GetButtonEdit(NameForm: TForm): TBitBtn;
@@ -273,6 +291,8 @@ begin
   if not Assigned(ButtonEdit) then
     ButtonEdit := TMFBitBtnEdit.create;
   Result := ButtonEdit.GetBitBtnEdit(0, 0, ButtonEdited, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.GetButtonEdit выполнена');
 end;
 
 // TDateTimePicker
@@ -284,6 +304,8 @@ begin
     ReportDateCal := TMFDateTimePicker.create;
   Result := ReportDateCal.GetDTPicker(400, 80, StartOfTheWeek(Date) - 7,
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.GetCalendarReportDateCal выполнена');
 end;
 
 // Edit
@@ -294,6 +316,8 @@ begin
     EditCheckLPU := TMFEdit.create;
   Result := EditCheckLPU.GetEdit(450, 130, 135, 12, False, NameForm);
   EditCheckLPU.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.GetEditCheckLPU выполнена');
 end;
 
 // Label
@@ -304,6 +328,8 @@ begin
     LabelReportDate := TMFLabel.create;
   Result := LabelReportDate.GetTempLabel(50, 80, 16, 'Отчетная неделя: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.GetLabelReportDate выполнена');
 end;
 
 function TMIOCCheckLPU.GetLabelCheckLPU(NameForm: TForm): TLabel;
@@ -312,6 +338,8 @@ begin
     LabelCheckLPU := TMFLabel.create;
   Result := LabelCheckLPU.GetTempLabel(50, 130, 14,
     'Количество консультаций трансфузиологом: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.GetLabelCheckLPU выполнена');
 end;
 
 function TMIOCCheckLPU.GetLabelTitle(NameForm: TForm): TLabel;
@@ -320,6 +348,8 @@ begin
     Title := TMFTitleLabel.create;
   Result := Title.GetTitleLabel(25, 'Количество проведенных проверок ЛПУ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.GetLabelTitle выполнена');
 end;
 
 // StringGrid
@@ -354,6 +384,8 @@ begin
       StringGrid.WriteCells(2, i + 1, ContentForStringGrid.GetCheckLPU(j));
       j := j + 1;
     end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.GetStringGrid выполнена');
 end;
 
 procedure TMIOCCheckLPU.Show;
@@ -371,6 +403,8 @@ begin
   ButtonAdd.Visible(True);
   ButtonDelete.Visible(True);
   ButtonBlock.Visible(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.Show выполнена');
 end;
 
 end.

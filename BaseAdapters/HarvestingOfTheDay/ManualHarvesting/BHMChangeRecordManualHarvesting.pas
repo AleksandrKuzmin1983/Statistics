@@ -3,7 +3,7 @@ unit BHMChangeRecordManualHarvesting;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, DateUtils,
+  SysUtils, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB, DateUtils,
   GetAdoConnect;
 
 type
@@ -81,6 +81,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMChangeRecordManualHarvesting.ChangeRecordBlood выполнена');
 end;
 
 procedure TBHMChangeRecordManualHarvesting.ChangeRecordBloodDoze(Date: Extended;
@@ -110,6 +112,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMChangeRecordManualHarvesting.ChangeRecordBloodDoze выполнена');
 end;
 
 procedure TBHMChangeRecordManualHarvesting.ChangeRecordBloodErSusp
@@ -137,6 +141,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMChangeRecordManualHarvesting.ChangeRecordBloodErSusp выполнена');
 end;
 
 procedure TBHMChangeRecordManualHarvesting.destroy;
@@ -145,6 +151,8 @@ begin
   TempConnect := nil;
   if Assigned(TempQuery) then
     TempQuery.Free;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMChangeRecordManualHarvesting.destroy выполнена');
 end;
 
 procedure TBHMChangeRecordManualHarvesting.GetTempId(VolumeErSusp: string;
@@ -181,6 +189,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMChangeRecordManualHarvesting.GetTempId выполнена');
 end;
 
 procedure TBHMChangeRecordManualHarvesting.ChangeRecordBloodPlazma
@@ -208,6 +218,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMChangeRecordManualHarvesting.ChangeRecordBloodPlazma выполнена');
 end;
 
 procedure TBHMChangeRecordManualHarvesting.ChangeRecordBloodFiltrat
@@ -233,6 +245,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMChangeRecordManualHarvesting.ChangeRecordBloodFiltrat выполнена');
 end;
 
 procedure TBHMChangeRecordManualHarvesting.ChangeRecordBloodDefect
@@ -259,6 +273,7 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMChangeRecordManualHarvesting.ChangeRecordBloodDefect выполнена');
+end;
 end.

@@ -3,7 +3,7 @@ unit MFPanel;
 interface
 
 uses
-  Graphics, Controls, SysUtils,
+  Graphics, Controls, SysUtils, CodeSiteLogging,
   Forms, Vcl.ExtCtrls;
 
 type
@@ -32,6 +32,8 @@ procedure TMFPanel.destroy;
 begin
   if Assigned(TempPanel) then
     FreeAndNil(TempPanel);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFPanel.destroy выполнена');
 end;
 
 function TMFPanel.GetTempPanel(CLeft, CTop, CHeight, CWidth, CColor: integer;
@@ -52,11 +54,15 @@ begin
     Visible := False;
   end;
   result := TempPanel;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFPanel.GetTempPanel выполнена');
 end;
 
 procedure TMFPanel.Visible(i: boolean);
 begin
   TempPanel.Visible := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFPanel.Visible выполнена', i);
 end;
 
 end.

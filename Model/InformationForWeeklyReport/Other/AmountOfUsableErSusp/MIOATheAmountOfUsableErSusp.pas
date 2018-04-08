@@ -3,7 +3,7 @@ unit MIOATheAmountOfUsableErSusp;
 interface
 
 uses
-  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  WinProcs, SysUtils, StdCtrls, CodeSiteLogging, Buttons, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
   USCheckFillStringFields,
   USBlockMainMenu,
@@ -100,6 +100,8 @@ begin
   GetButtonDelete(form);
   GetButtonBlock(form);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.create выполнена');
   inherited;
 end;
 
@@ -121,6 +123,8 @@ begin
   ButtonDelete.destroy;
   ButtonEdit.destroy;
   ButtonBlock.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.destroy выполнена');
   inherited;
 end;
 
@@ -157,6 +161,8 @@ begin
   EditVolume.WriteText('0');
   ProductList.WriteItemIndex(-1);
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.ButtonAdded выполнена');
 end;
 
 // Разблокировка кнопок
@@ -177,6 +183,8 @@ begin
     ButtonDelete.ChangeEnabled(False);
     ButtonBlock.ChangeCaption(False);
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.ButtonBlocked выполнена');
 end;
 
 // Кнопка удаления
@@ -198,6 +206,8 @@ begin
   EditVolume.WriteText('0');
   ProductList.WriteItemIndex(-1);
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.ButtonDeleted выполнена');
 end;
 
 // Внесение изменений
@@ -272,6 +282,8 @@ begin
     ButtonEdit.ChangeCaption('Сохранить изменения')
   else
     ButtonEdit.ChangeCaption('Изменить');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.ButtonEdited выполнена');
 end;
 
 // Создание кнопок
@@ -281,6 +293,8 @@ begin
   if not Assigned(ButtonAdd) then
     ButtonAdd := TMFBitBtnAdd.create;
   Result := ButtonAdd.GetBitBtnAdd(0, 0, ButtonAdded, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.GetButtonAdd выполнена');
 end;
 
 function TMIOATheAmountOfUsableErSusp.GetButtonBlock(NameForm: TForm): TBitBtn;
@@ -288,6 +302,8 @@ begin
   if not Assigned(ButtonBlock) then
     ButtonBlock := TMFBitBtnBlock.create;
   Result := ButtonBlock.GetBitBtnBlock(0, 0, ButtonBlocked, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.GetButtonBlock выполнена');
 end;
 
 function TMIOATheAmountOfUsableErSusp.GetButtonDelete(NameForm: TForm): TBitBtn;
@@ -295,6 +311,8 @@ begin
   if not Assigned(ButtonDelete) then
     ButtonDelete := TMFBitBtnDelete.create;
   Result := ButtonDelete.GetBitBtnDelete(0, 0, ButtonDeleted, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.GetButtonDelete выполнена');
 end;
 
 function TMIOATheAmountOfUsableErSusp.GetButtonEdit(NameForm: TForm): TBitBtn;
@@ -302,6 +320,8 @@ begin
   if not Assigned(ButtonEdit) then
     ButtonEdit := TMFBitBtnEdit.create;
   Result := ButtonEdit.GetBitBtnEdit(0, 0, ButtonEdited, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.GetButtonEdit выполнена');
 end;
 
 // TDateTimePicker
@@ -313,6 +333,8 @@ begin
     ReportDateCal := TMFDateTimePicker.create;
   Result := ReportDateCal.GetDTPicker(400, 80, StartOfTheWeek(Date) - 7,
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.GetCalendarReportDateCal выполнена');
 end;
 
 // Edit
@@ -323,6 +345,8 @@ begin
     EditVolume := TMFEdit.create;
   Result := EditVolume.GetEdit(400, 180, 185, 12, False, NameForm);
   EditVolume.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.GetEditVolume выполнена');
 end;
 
 // Label
@@ -334,6 +358,8 @@ begin
     LabelReportDate := TMFLabel.create;
   Result := LabelReportDate.GetTempLabel(50, 80, 16, 'Отчетная неделя: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.GetLabelReportDate выполнена');
 end;
 
 function TMIOATheAmountOfUsableErSusp.GetLabelProductList
@@ -343,6 +369,8 @@ begin
     LabelProductList := TMFLabel.create;
   Result := LabelProductList.GetTempLabel(50, 130, 16, 'Название продукци: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.GetLabelProductList выполнена');
 end;
 
 function TMIOATheAmountOfUsableErSusp.GetLabelVolume(NameForm: TForm): TLabel;
@@ -351,6 +379,8 @@ begin
     LabelVolume := TMFLabel.create;
   Result := LabelVolume.GetTempLabel(50, 180, 16,
     'Произведено годной продукции, мл: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.GetLabelVolume выполнена');
 end;
 
 function TMIOATheAmountOfUsableErSusp.GetLabelTitle(NameForm: TForm): TLabel;
@@ -360,6 +390,8 @@ begin
   Result := Title.GetTitleLabel(18,
     'Объем годных эритроцитарных сред заготовленных за отчетную неделю',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.GetLabelTitle выполнена');
 end;
 
 // ComboBox
@@ -373,6 +405,8 @@ begin
   SQL := 'SELECT NameProducts.ShortName, NameProducts.id FROM NameProducts ' +
     'WHERE (((NameProducts.TypeProduct)="Эр взвесь") And NameProducts.Production=True);';
   ProductList.TheContentOfTheList(SQL);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.GetProductList выполнена');
 end;
 
 function TMIOATheAmountOfUsableErSusp.GetStringGrid(NameForm: TForm)
@@ -408,6 +442,8 @@ begin
       StringGrid.WriteCells(3, i + 1, ContentForStringGrid.GetVolume(j));
       j := j + 1;
     end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.GetStringGrid выполнена');
 end;
 
 procedure TMIOATheAmountOfUsableErSusp.Show;
@@ -428,6 +464,8 @@ begin
   ButtonAdd.Visible(True);
   ButtonDelete.Visible(True);
   ButtonBlock.Visible(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp.Show выполнена');
 end;
 
 end.

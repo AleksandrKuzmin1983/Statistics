@@ -3,7 +3,7 @@ unit BHMManualHarvesting;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -97,11 +97,15 @@ implementation
 function TBHMManualHarvesting.GetAllStoredBlood(i: integer): string;
 begin
   result := ResultMass[i].AllStoredBlood;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMManualHarvesting.GetAllStoredBlood выполнена', result);
 end;
 
 function TBHMManualHarvesting.GetAllWholeBlood(i: integer): string;
 begin
   result := ResultMass[i].AllWholeBlood;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMManualHarvesting.GetAllWholeBlood выполнена', result);
 end;
 
 procedure TBHMManualHarvesting.GetContent;
@@ -198,11 +202,15 @@ begin
       + chr(13) + 'Обратитесь к администратору!');
   End;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMManualHarvesting.GetContent выполнена');
 end;
 
 function TBHMManualHarvesting.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMManualHarvesting.GetRowCount выполнена', result);
 end;
 
 function TBHMManualHarvesting.GetDate(i: integer): string;
@@ -294,5 +302,4 @@ function TBHMManualHarvesting.GetOuting(i: integer): string;
 begin
   result := ResultMass[i].Outing;
 end;
-
 end.

@@ -3,7 +3,7 @@ unit BHAAutomaticApheresis;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, CodeSiteLogging, Data.Win.ADODB, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -152,11 +152,15 @@ begin
       + chr(13) + 'Обратитесь к администратору!');
   End;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHAAutomaticApheresis.GetContent выполнена');
 end;
 
 function TBHAAutomaticApheresis.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHAAutomaticApheresis.GetRowCount выполнена', result);
 end;
 
 function TBHAAutomaticApheresis.GetDate(i: integer): string;
@@ -208,5 +212,4 @@ function TBHAAutomaticApheresis.GetNumberOfDosesPlazma(i: integer): string;
 begin
   result := ResultMass[i].NumberOfDosesPlazma;
 end;
-
 end.

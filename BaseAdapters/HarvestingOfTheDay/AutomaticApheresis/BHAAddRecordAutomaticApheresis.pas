@@ -3,7 +3,7 @@ unit BHAAddRecordAutomaticApheresis;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, DateUtils,
+  SysUtils, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB, DateUtils,
   USCheckNull,
   GetAdoConnect;
 
@@ -66,6 +66,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHAAddRecordAutomaticApheresis.AddRecordPlasma выполнена');
 end;
 
 procedure TBHAAddRecordAutomaticApheresis.AddRecordPlasmaDoza(Date: Extended;
@@ -92,6 +94,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHAAddRecordAutomaticApheresis.AddRecordPlasmaDoza выполнена');
 end;
 
 procedure TBHAAddRecordAutomaticApheresis.AddRecordPlasmaComponents
@@ -122,6 +126,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHAAddRecordAutomaticApheresis.AddRecordPlasmaComponents выполнена');
 end;
 
 procedure TBHAAddRecordAutomaticApheresis.AddRecordPlasmaDefect
@@ -146,6 +152,7 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHAAddRecordAutomaticApheresis.AddRecordPlasmaDefect выполнена');
+end;
 end.

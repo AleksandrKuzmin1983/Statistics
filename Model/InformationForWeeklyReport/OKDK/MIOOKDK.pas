@@ -3,7 +3,7 @@ unit MIOOKDK;
 interface
 
 uses
-  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  WinProcs, SysUtils, StdCtrls, CodeSiteLogging, Buttons, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
   USCheckFillStringFields,
   USBlockMainMenu,
@@ -127,6 +127,8 @@ begin
   GetButtonDelete(form);
   GetButtonBlock(form);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.create выполнена');
   inherited;
 end;
 
@@ -151,6 +153,8 @@ begin
   ButtonAdd.destroy;
   ButtonDelete.destroy;
   ButtonBlock.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.destroy выполнена');
   inherited;
 end;
 
@@ -160,6 +164,8 @@ begin
     TempCheckBox := TMFCheckBox.create;
   result := TempCheckBox.GetCheckBox(400, 210, 200, 40, 14, False, 'ВЫЕЗД!',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetTempCheckBox выполнена');
 end;
 
 // Button
@@ -198,6 +204,8 @@ begin
   NameTapsList.Clear;
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
   TempCheckBox.WriteChecked(False);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.ButtonAdded выполнена');
 end;
 
 // Разблокировка кнопок
@@ -218,6 +226,8 @@ begin
     ButtonDelete.ChangeEnabled(False);
     ButtonBlock.ChangeCaption(False);
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.ButtonBlocked выполнена');
 end;
 
 // Кнопка удаления
@@ -246,6 +256,8 @@ begin
     DeleteRecord.destroy;
     DeleteRecord := nil;
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.ButtonDeleted выполнена');
 end;
 
 // Внесение изменений
@@ -361,6 +373,8 @@ begin
     ButtonEdit.ChangeCaption('Сохранить изменения')
   else
     ButtonEdit.ChangeCaption('Изменить');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.ButtonEdited выполнена');
 end;
 
 // Создание кнопок
@@ -370,6 +384,8 @@ begin
   if not Assigned(ButtonAdd) then
     ButtonAdd := TMFBitBtnAdd.create;
   result := ButtonAdd.GetBitBtnAdd(0, 0, ButtonAdded, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetButtonAdd выполнена');
 end;
 
 function TMIOOKDK.GetButtonBlock(NameForm: TForm): TBitBtn;
@@ -377,6 +393,8 @@ begin
   if not Assigned(ButtonBlock) then
     ButtonBlock := TMFBitBtnBlock.create;
   result := ButtonBlock.GetBitBtnBlock(0, 0, ButtonBlocked, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetButtonBlock выполнена');
 end;
 
 function TMIOOKDK.GetButtonDelete(NameForm: TForm): TBitBtn;
@@ -384,6 +402,8 @@ begin
   if not Assigned(ButtonDelete) then
     ButtonDelete := TMFBitBtnDelete.create;
   result := ButtonDelete.GetBitBtnDelete(0, 0, ButtonDeleted, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetButtonDelete выполнена');
 end;
 
 function TMIOOKDK.GetButtonEdit(NameForm: TForm): TBitBtn;
@@ -391,6 +411,8 @@ begin
   if not Assigned(ButtonEdit) then
     ButtonEdit := TMFBitBtnEdit.create;
   result := ButtonEdit.GetBitBtnEdit(0, 0, ButtonEdited, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetButtonEdit выполнена');
 end;
 
 // TDateTimePicker
@@ -401,6 +423,8 @@ begin
     ReportDateCal := TMFDateTimePicker.create;
   result := ReportDateCal.GetDTPicker(400, 80, StartOfTheWeek(Date) - 7,
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetCalendarReportDateCal выполнена');
 end;
 
 // Edit
@@ -411,6 +435,8 @@ begin
     EditVolume := TMFEdit.create;
   result := EditVolume.GetEdit(400, 185, 185, 12, False, NameForm);
   EditVolume.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetEditVolume выполнена');
 end;
 
 // Label
@@ -420,6 +446,8 @@ begin
   if not Assigned(Title) then
     Title := TMFTitleLabel.create;
   result := Title.GetTitleLabel(25, 'Информация с ОКДК', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetLabelTitle выполнена');
 end;
 
 function TMIOOKDK.GetLabelReportDate(NameForm: TForm): TLabel;
@@ -428,6 +456,8 @@ begin
     LabelReportDate := TMFLabel.create;
   result := LabelReportDate.GetTempLabel(50, 80, 16, 'Отчетная неделя: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetLabelReportDate выполнена');
 end;
 
 function TMIOOKDK.GetLabelTypeOfTap(NameForm: TForm): TLabel;
@@ -435,6 +465,8 @@ begin
   if not Assigned(LabelTypeOfTap) then
     LabelTypeOfTap := TMFLabel.create;
   result := LabelTypeOfTap.GetTempLabel(50, 115, 14, 'Тип: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetLabelTypeOfTap выполнена');
 end;
 
 function TMIOOKDK.GetLabelNameTap(NameForm: TForm): TLabel;
@@ -442,6 +474,8 @@ begin
   if not Assigned(LabelNameTap) then
     LabelNameTap := TMFLabel.create;
   result := LabelNameTap.GetTempLabel(50, 150, 14, 'Наименование: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetLabelNameTap выполнена');
 end;
 
 function TMIOOKDK.GetLabelVolume(NameForm: TForm): TLabel;
@@ -449,6 +483,8 @@ begin
   if not Assigned(LabelVolume) then
     LabelVolume := TMFLabel.create;
   result := LabelVolume.GetTempLabel(50, 185, 14, 'Количество: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetLabelVolume выполнена');
 end;
 
 // ComboBox
@@ -463,6 +499,8 @@ begin
     'ORDER BY TypesOfTaps.Type DESC;';
   TypeOfTapList.TheContentOfTheList(SQL);
   TypeOfTapList.GetOnChange(OnChangeListOfType);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetTypeOfTapList выполнена');
 end;
 
 procedure TMIOOKDK.OnChangeListOfType(Sender: TObject);
@@ -490,6 +528,8 @@ begin
   TypeOfTapList.Enabled(True);
   CurrentTypeOfTap.destroy;
   CurrentTypeOfTap := nil;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.OnChangeListOfType выполнена');
 end;
 
 procedure TMIOOKDK.Show;
@@ -514,6 +554,8 @@ begin
   ButtonAdd.Visible(True);
   ButtonDelete.Visible(True);
   ButtonBlock.Visible(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.Show выполнена');
 end;
 
 function TMIOOKDK.GetNameTapsList(NameForm: TForm): TComboBox;
@@ -523,6 +565,8 @@ begin
   result := NameTapsList.GetComboBox('NameTapsList', 400, 150, 185, 14,
     NameForm);
   NameTapsList.GetDROPPEDWIDTH(220);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetNameTapsList выполнена');
 end;
 
 // StringGrid
@@ -564,6 +608,8 @@ begin
       StringGrid.WriteCells(4, i + 1, ContentForStringGrid.GetOuting(j));
       j := j + 1;
     end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.GetStringGrid выполнена');
 end;
 
 end.

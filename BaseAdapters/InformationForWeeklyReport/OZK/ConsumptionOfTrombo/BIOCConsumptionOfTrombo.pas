@@ -3,7 +3,7 @@ unit BIOCConsumptionOfTrombo;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -112,6 +112,8 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOCConsumptionOfTrombo.GetContent выполнена');
 end;
 
 function TBIOCConsumptionOfTrombo.GetCancellationDate(i: integer): string;
@@ -122,6 +124,8 @@ end;
 function TBIOCConsumptionOfTrombo.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOCConsumptionOfTrombo.GetRowCount выполнена');
 end;
 
 function TBIOCConsumptionOfTrombo.GetNumberOfDoses(i: integer): string;

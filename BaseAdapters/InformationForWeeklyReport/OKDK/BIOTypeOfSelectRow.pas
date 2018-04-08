@@ -3,7 +3,7 @@ unit BIOTypeOfSelectRow;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -34,6 +34,8 @@ begin
   if Assigned(TempQuery) then
     TempQuery.Free;
   CheckNull := nil;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOTypeOfSelectRow.destroy выполнена');
 end;
 
 function TBIOTypeOfSelectRow.GetCurrentTypeOfSelectRow(StringBoxValue
@@ -58,6 +60,7 @@ begin
   End;
   result := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].value));
   TempQuery.Close;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOTypeOfSelectRow.GetCurrentTypeOfSelectRow выполнена');
+end;
 end.

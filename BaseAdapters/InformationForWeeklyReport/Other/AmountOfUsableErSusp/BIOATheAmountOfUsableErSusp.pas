@@ -3,7 +3,7 @@ unit BIOATheAmountOfUsableErSusp;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -93,11 +93,15 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOATheAmountOfUsableErSusp.GetContent выполнена');
 end;
 
 function TBIOATheAmountOfUsableErSusp.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOATheAmountOfUsableErSusp.GetRowCount выполнена');
 end;
 
 function TBIOATheAmountOfUsableErSusp.GetVolume(i: integer): string;

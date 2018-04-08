@@ -3,7 +3,7 @@ unit MIETTheResultsInKray;
 interface
 
 uses
-  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  WinProcs, SysUtils, StdCtrls, Buttons, CodeSiteLogging, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
   USCheckFillStringFields,
   USBlockMainMenu,
@@ -117,6 +117,8 @@ begin
   GetButtonDelete(form);
   GetButtonBlock(form);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.create выполнена');
   inherited;
 end;
 
@@ -143,6 +145,8 @@ begin
   ButtonDelete.destroy;
   ButtonEdit.destroy;
   ButtonBlock.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.destroy выполнена');
   inherited;
 end;
 
@@ -182,6 +186,8 @@ begin
   EditNumberOfPackets.WriteText('0');
   ProductList.WriteItemIndex(-1);
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.ButtonAdded выполнена');
 end;
 
 // Разблокировка кнопок
@@ -202,6 +208,8 @@ begin
     ButtonDelete.ChangeEnabled(False);
     ButtonBlock.ChangeCaption(False);
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.ButtonBlocked выполнена');
 end;
 
 // Кнопка удаления
@@ -225,6 +233,8 @@ begin
   EditNumberOfPackets.WriteText('0');
   ProductList.WriteItemIndex(-1);
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.ButtonDeleted выполнена');
 end;
 
 // Внесение изменений
@@ -314,6 +324,8 @@ begin
     ButtonEdit.ChangeCaption('Сохранить изменения')
   else
     ButtonEdit.ChangeCaption('Изменить');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.ButtonEdited выполнена');
 end;
 
 // Создание кнопок
@@ -323,6 +335,8 @@ begin
   if not Assigned(ButtonAdd) then
     ButtonAdd := TMFBitBtnAdd.create;
   Result := ButtonAdd.GetBitBtnAdd(0, 0, ButtonAdded, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetButtonAdd выполнена');
 end;
 
 function TMIETTheResultsInKray.GetButtonBlock(NameForm: TForm): TBitBtn;
@@ -330,6 +344,8 @@ begin
   if not Assigned(ButtonBlock) then
     ButtonBlock := TMFBitBtnBlock.create;
   Result := ButtonBlock.GetBitBtnBlock(0, 0, ButtonBlocked, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetButtonBlock выполнена');
 end;
 
 function TMIETTheResultsInKray.GetButtonDelete(NameForm: TForm): TBitBtn;
@@ -337,6 +353,8 @@ begin
   if not Assigned(ButtonDelete) then
     ButtonDelete := TMFBitBtnDelete.create;
   Result := ButtonDelete.GetBitBtnDelete(0, 0, ButtonDeleted, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetButtonDelete выполнена');
 end;
 
 function TMIETTheResultsInKray.GetButtonEdit(NameForm: TForm): TBitBtn;
@@ -344,6 +362,8 @@ begin
   if not Assigned(ButtonEdit) then
     ButtonEdit := TMFBitBtnEdit.create;
   Result := ButtonEdit.GetBitBtnEdit(0, 0, ButtonEdited, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetButtonEdit выполнена');
 end;
 
 // TDateTimePicker
@@ -355,6 +375,8 @@ begin
     ReportDateCal := TMFDateTimePicker.create;
   Result := ReportDateCal.GetDTPicker(400, 80, StartOfTheWeek(Date) - 7,
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetCalendarReportDateCal выполнена');
 end;
 
 // Edit
@@ -365,6 +387,8 @@ begin
     EditVolume := TMFEdit.create;
   Result := EditVolume.GetEdit(400, 160, 185, 12, False, NameForm);
   EditVolume.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetEditVolume выполнена');
 end;
 
 function TMIETTheResultsInKray.GetEditNumberOfDoses(NameForm: TForm): TEdit;
@@ -373,6 +397,8 @@ begin
     EditNumberOfDoses := TMFEdit.create;
   Result := EditNumberOfDoses.GetEdit(400, 200, 185, 12, False, NameForm);
   EditNumberOfDoses.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetEditNumberOfDoses выполнена');
 end;
 
 function TMIETTheResultsInKray.GetEditNumberOfPackets(NameForm: TForm): TEdit;
@@ -381,6 +407,8 @@ begin
     EditNumberOfPackets := TMFEdit.create;
   Result := EditNumberOfPackets.GetEdit(400, 240, 185, 12, False, NameForm);
   EditNumberOfPackets.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetEditNumberOfPackets выполнена');
 end;
 
 // Label
@@ -391,6 +419,8 @@ begin
     Title := TMFTitleLabel.create;
   Result := Title.GetTitleLabel(25,
     'Выдача трансфузионных сред в г. Красноярск', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetLabelTitle выполнена');
 end;
 
 function TMIETTheResultsInKray.GetLabelReportDate(NameForm: TForm): TLabel;
@@ -399,6 +429,8 @@ begin
     LabelReportDate := TMFLabel.create;
   Result := LabelReportDate.GetTempLabel(50, 80, 16, 'Отчетная неделя: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetLabelReportDate выполнена');
 end;
 
 function TMIETTheResultsInKray.GetLabelTheNameOfTheEnvironment
@@ -408,6 +440,8 @@ begin
     LabelTheNameOfTheEnvironment := TMFLabel.create;
   Result := LabelTheNameOfTheEnvironment.GetTempLabel(50, 120, 14,
     'Наименование продукции: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetLabelTheNameOfTheEnvironment выполнена');
 end;
 
 function TMIETTheResultsInKray.GetLabelVolume(NameForm: TForm): TLabel;
@@ -416,6 +450,8 @@ begin
     LabelVolume := TMFLabel.create;
   Result := LabelVolume.GetTempLabel(50, 160, 14, 'Объем продукции: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetLabelVolume выполнена');
 end;
 
 function TMIETTheResultsInKray.GetLabelNumberOfDoses(NameForm: TForm): TLabel;
@@ -424,6 +460,8 @@ begin
     LabelNumberOfDoses := TMFLabel.create;
   Result := LabelNumberOfDoses.GetTempLabel(50, 200, 14, 'Количество доз: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetLabelNumberOfDoses выполнена');
 end;
 
 function TMIETTheResultsInKray.GetLabelNumberOfPackets(NameForm: TForm): TLabel;
@@ -432,6 +470,8 @@ begin
     LabelNumberOfPackets := TMFLabel.create;
   Result := LabelNumberOfPackets.GetTempLabel(50, 240, 14,
     'Количество пакетов тромбоконцентрата: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetLabelNumberOfPackets выполнена');
 end;
 
 // ComboBox
@@ -444,6 +484,8 @@ begin
   SQL := 'SELECT NameProducts.ShortName, NameProducts.id ' +
     'FROM NameProducts ' + 'WHERE (NameProducts.ForExped=True);';
   ProductList.TheContentOfTheList(SQL);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetProductList выполнена');
 end;
 
 // StringGrid
@@ -491,6 +533,8 @@ begin
         ContentForStringGrid.GetNumberOfPackets(j));
       j := j + 1;
     end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.GetStringGrid выполнена');
 end;
 
 procedure TMIETTheResultsInKray.Show;
@@ -515,6 +559,8 @@ begin
   ButtonAdd.Visible(True);
   ButtonDelete.Visible(True);
   ButtonBlock.Visible(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray.Show выполнена');
 end;
 
 end.

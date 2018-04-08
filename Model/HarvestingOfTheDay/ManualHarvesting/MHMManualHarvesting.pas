@@ -3,7 +3,7 @@ unit MHMManualHarvesting;
 interface
 
 uses
-  Vcl.ExtCtrls, WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  Vcl.ExtCtrls, WinProcs, SysUtils, StdCtrls, CodeSiteLogging, Buttons, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
   USCheckFillStringFields,
   USBlockMainMenu,
@@ -342,6 +342,8 @@ begin
   GetButtonDelete(form);
   GetButtonBlock(form);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.create выполнена');
 end;
 
 destructor TMHMManualHarvesting.destroy;
@@ -446,6 +448,8 @@ begin
   ButtonDelete.destroy;
   ButtonEdit.destroy;
   ButtonBlock.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.destroy выполнена');
   inherited;
 end;
 
@@ -495,6 +499,8 @@ begin
   CBoxTypeErSusp2.WriteItemIndex(1);
   CBoxTypePlazma2.WriteItemIndex(0);
   CBoxTypeDefect2.WriteItemIndex(-1);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.AfterSaving_Cancelling выполнена');
 end;
 
 // Добавление новой записи
@@ -603,6 +609,8 @@ begin
     ShowMessage('Записи успешно добавлена!');
     AfterSaving_Cancelling;
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.ButtonAdded выполнена');
 end;
 
 // Разблокировка кнопок
@@ -623,6 +631,8 @@ begin
     ButtonDelete.ChangeEnabled(false);
     ButtonBlock.ChangeCaption(false);
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.ButtonBlocked выполнена');
 end;
 
 // Кнопка удаления
@@ -642,6 +652,8 @@ begin
     ShowMessage('Запись успешно удалена!');
   end;
   AfterSaving_Cancelling;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.ButtonDeleted выполнена');
 end;
 
 // Внесение изменений
@@ -809,6 +821,8 @@ begin
     ButtonEdit.ChangeCaption('Сохранить изменения')
   else
     ButtonEdit.ChangeCaption('Изменить');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.ButtonEdited выполнена');
 end;
 
 // Создание кнопок
@@ -817,6 +831,8 @@ begin
   if not Assigned(ButtonAdd) then
     ButtonAdd := TMFBitBtnAdd.create;
   Result := ButtonAdd.GetBitBtnAdd(670, 0, ButtonAdded, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetButtonAdd выполнена');
 end;
 
 function TMHMManualHarvesting.GetButtonBlock(NameForm: TForm): TBitBtn;
@@ -824,6 +840,8 @@ begin
   if not Assigned(ButtonBlock) then
     ButtonBlock := TMFBitBtnBlock.create;
   Result := ButtonBlock.GetBitBtnBlock(670, 0, ButtonBlocked, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetButtonBlock выполнена');
 end;
 
 function TMHMManualHarvesting.GetButtonDelete(NameForm: TForm): TBitBtn;
@@ -831,6 +849,8 @@ begin
   if not Assigned(ButtonDelete) then
     ButtonDelete := TMFBitBtnDelete.create;
   Result := ButtonDelete.GetBitBtnDelete(670, 0, ButtonDeleted, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetButtonDelete выполнена');
 end;
 
 function TMHMManualHarvesting.GetButtonEdit(NameForm: TForm): TBitBtn;
@@ -838,6 +858,8 @@ begin
   if not Assigned(ButtonEdit) then
     ButtonEdit := TMFBitBtnEdit.create;
   Result := ButtonEdit.GetBitBtnEdit(670, 0, ButtonEdited, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetButtonEdit выполнена');
 end;
 
 // TDateTimePicker
@@ -849,6 +871,8 @@ begin
   Result := DateCal.GetDTPicker(200, 70, date(), NameForm);
   DateCal.Width(100);
   DateCal.FontSize(8);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetCalendarDateCal выполнена');
 end;
 
 function TMHMManualHarvesting.GetCheckBoxOuting(NameForm: TForm): TCheckBox;
@@ -857,6 +881,8 @@ begin
     CheckBoxOuting := TMFCheckBox.create;
   Result := CheckBoxOuting.GetCheckBox(450, 120, 200, 40, 14, false, 'ВЫЕЗД!',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetCheckBoxOuting выполнена');
 end;
 
 function TMHMManualHarvesting.GetCheckBox(NameForm: TForm): TCheckBox;
@@ -866,6 +892,8 @@ begin
   Result := CheckBox.GetCheckBox(450, 75, 200, 40, 12, false,
     'Заготовка происходила в разных гемаконах', NameForm);
   CheckBox.OnClick(CheckBoxOnClick);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetCheckBox выполнена');
 end;
 
 procedure TMHMManualHarvesting.CheckBoxOnClick(Sender: TObject);
@@ -930,6 +958,8 @@ begin
     CBoxTypeDefect2.Visible(false);
     CBoxVolumeOfDonation2.Visible(false);
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.CheckBoxOnClick выполнена');
 end;
 
 function TMHMManualHarvesting.CheckingBeforeSaving: boolean;
@@ -1210,6 +1240,8 @@ begin
       end;
   end;
   Result := false;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.CheckingBeforeSaving выполнена');
 end;
 
 // шапка
@@ -1218,6 +1250,8 @@ begin
   if not Assigned(LabelDate) then
     LabelDate := TMFLabel.create;
   Result := LabelDate.GetTempLabel(30, 70, 12, 'Дата заготовки: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelDate выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelNumberOfDonors(NameForm: TForm): TLabel;
@@ -1226,6 +1260,8 @@ begin
     LabelNumberOfDonors := TMFLabel.create;
   Result := LabelNumberOfDonors.GetTempLabel(30, 95, 12, 'Количество доноров: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelNumberOfDonors выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelVolumeOfDonation(NameForm: TForm): TLabel;
@@ -1234,6 +1270,8 @@ begin
     LabelVolumeOfDonation := TMFLabel.create;
   Result := LabelVolumeOfDonation.GetTempLabel(30, 120, 12, 'Объем донаций: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelVolumeOfDonation выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelNumberOfDoses(NameForm: TForm): TLabel;
@@ -1242,6 +1280,8 @@ begin
     LabelNumberOfDoses := TMFLabel.create;
   Result := LabelNumberOfDoses.GetTempLabel(30, 145, 12, 'Количество доз: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelNumberOfDoses выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditNumberOfDonors(NameForm: TForm): TEdit;
@@ -1250,6 +1290,8 @@ begin
     EditNumberOfDonors := TMFEdit.create;
   Result := EditNumberOfDonors.GetEdit(200, 95, 100, 10, false, NameForm);
   EditNumberOfDonors.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditNumberOfDonors выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditNumberOfDoses(NameForm: TForm): TEdit;
@@ -1258,6 +1300,8 @@ begin
     EditNumberOfDoses := TMFEdit.create;
   Result := EditNumberOfDoses.GetEdit(200, 145, 100, 10, false, NameForm);
   EditNumberOfDoses.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditNumberOfDoses выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditNumberOfDoses2(NameForm: TForm): TEdit;
@@ -1267,6 +1311,8 @@ begin
   Result := EditNumberOfDoses2.GetEdit(320, 145, 100, 10, false, NameForm);
   EditNumberOfDoses2.NumberOnly(True);
   EditNumberOfDoses2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditNumberOfDoses2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetCBoxVolumeOfDonation(NameForm: TForm)
@@ -1287,6 +1333,8 @@ begin
   for i := CBoxVolumeOfDonation.GetItemsCount downto 0 do
     if CBoxVolumeOfDonation.GetItemsValue(i) = '450' then
       CBoxVolumeOfDonation.WriteItemIndex(i);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetCBoxVolumeOfDonation выполнена');
 end;
 
 function TMHMManualHarvesting.GetCBoxVolumeOfDonation2(NameForm: TForm)
@@ -1308,6 +1356,8 @@ begin
     if CBoxVolumeOfDonation2.GetItemsValue(i) = '350' then
       CBoxVolumeOfDonation2.WriteItemIndex(i);
   CBoxVolumeOfDonation2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetCBoxVolumeOfDonation2 выполнена');
 end;
 
 // таблица "кровь"
@@ -1320,6 +1370,8 @@ begin
   LabelSentToPreserving.WordWrap(True);
   LabelSentToPreserving.Width(150);
   LabelSentToPreserving.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelSentToPreserving выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelForLaboratoryResearch
@@ -1332,6 +1384,8 @@ begin
   LabelForLaboratoryResearch.WordWrap(True);
   LabelForLaboratoryResearch.Width(120);
   LabelForLaboratoryResearch.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelForLaboratoryResearch выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelAllWholeBlood(NameForm: TForm): TLabel;
@@ -1343,6 +1397,8 @@ begin
   LabelAllWholeBlood.WordWrap(True);
   LabelAllWholeBlood.Width(100);
   LabelAllWholeBlood.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelAllWholeBlood выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelAllStoredBlood(NameForm: TForm): TLabel;
@@ -1354,6 +1410,8 @@ begin
   LabelAllStoredBlood.WordWrap(True);
   LabelAllStoredBlood.Width(120);
   LabelAllStoredBlood.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelAllStoredBlood выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelBlood(NameForm: TForm): TLabel;
@@ -1362,6 +1420,8 @@ begin
     LabelBlood := TMFLabel.create;
   Result := LabelBlood.GetTempLabel(30, 240, 12, 'Кровь: ', NameForm);
   LabelBlood.Width(120);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelBlood выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditSentToPreserving(NameForm: TForm): TEdit;
@@ -1370,6 +1430,8 @@ begin
     EditSentToPreserving := TMFEdit.create;
   Result := EditSentToPreserving.GetEdit(100, 240, 155, 10, false, NameForm);
   EditSentToPreserving.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditSentToPreserving выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditForLaboratoryResearch
@@ -1380,6 +1442,8 @@ begin
   Result := EditForLaboratoryResearch.GetEdit(265, 240, 125, 10, false,
     NameForm);
   EditForLaboratoryResearch.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditForLaboratoryResearch выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditAllWholeBlood(NameForm: TForm): TEdit;
@@ -1388,6 +1452,8 @@ begin
     EditAllWholeBlood := TMFEdit.create;
   Result := EditAllWholeBlood.GetEdit(400, 240, 105, 10, false, NameForm);
   EditAllWholeBlood.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditAllWholeBlood выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditAllStoredBlood(NameForm: TForm): TEdit;
@@ -1396,6 +1462,8 @@ begin
     EditAllStoredBlood := TMFEdit.create;
   Result := EditAllStoredBlood.GetEdit(515, 240, 105, 10, false, NameForm);
   EditAllStoredBlood.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditAllStoredBlood выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelGorBlood(NameForm: TForm): TPanel;
@@ -1403,6 +1471,8 @@ begin
   if not Assigned(PanelGorBlood) then
     PanelGorBlood := TMFPanel.create;
   Result := PanelGorBlood.GetTempPanel(30, 232, 1, 590, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelGorBlood выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelVertBlood1(NameForm: TForm): TPanel;
@@ -1410,6 +1480,8 @@ begin
   if not Assigned(PanelVertBlood1) then
     PanelVertBlood1 := TMFPanel.create;
   Result := PanelVertBlood1.GetTempPanel(95, 190, 75, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelVertBlood1 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelVertBlood2(NameForm: TForm): TPanel;
@@ -1417,6 +1489,8 @@ begin
   if not Assigned(PanelVertBlood2) then
     PanelVertBlood2 := TMFPanel.create;
   Result := PanelVertBlood2.GetTempPanel(260, 190, 75, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelVertBlood2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelVertBlood3(NameForm: TForm): TPanel;
@@ -1424,6 +1498,8 @@ begin
   if not Assigned(PanelVertBlood3) then
     PanelVertBlood3 := TMFPanel.create;
   Result := PanelVertBlood3.GetTempPanel(395, 190, 75, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelVertBlood3 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelVertBlood4(NameForm: TForm): TPanel;
@@ -1431,6 +1507,8 @@ begin
   if not Assigned(PanelVertBlood4) then
     PanelVertBlood4 := TMFPanel.create;
   Result := PanelVertBlood4.GetTempPanel(510, 190, 75, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelVertBlood4 выполнена');
 end;
 
 // таблица "компоненты 1"
@@ -1441,6 +1519,8 @@ begin
   Result := LabelVolume.GetTempLabel(140, 290, 12, 'Объем, мл: ', NameForm);
   LabelVolume.WordWrap(True);
   LabelVolume.Width(80);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelVolume выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelNumberDoses(NameForm: TForm): TLabel;
@@ -1452,6 +1532,8 @@ begin
   LabelNumberDoses.WordWrap(True);
   LabelNumberDoses.Width(80);
   LabelNumberDoses.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelNumberDoses выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelType(NameForm: TForm): TLabel;
@@ -1462,6 +1544,8 @@ begin
   LabelType.WordWrap(True);
   LabelType.Width(80);
   LabelType.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelType выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelErSusp(NameForm: TForm): TLabel;
@@ -1472,6 +1556,8 @@ begin
   LabelErSusp.WordWrap(True);
   LabelErSusp.Width(100);
   LabelErSusp.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelErSusp выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelPlazma(NameForm: TForm): TLabel;
@@ -1482,6 +1568,8 @@ begin
   LabelPlazma.WordWrap(True);
   LabelPlazma.Width(100);
   LabelPlazma.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelPlazma выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelFiltrat(NameForm: TForm): TLabel;
@@ -1492,6 +1580,8 @@ begin
   LabelFiltrat.WordWrap(True);
   LabelFiltrat.Width(100);
   LabelFiltrat.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelFiltrat выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelDefectWholeBlood(NameForm: TForm): TLabel;
@@ -1503,6 +1593,8 @@ begin
   LabelDefectWholeBlood.WordWrap(True);
   LabelDefectWholeBlood.Width(100);
   LabelDefectWholeBlood.Height(40);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelDefectWholeBlood выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelGor1Components1(NameForm: TForm): TPanel;
@@ -1510,6 +1602,8 @@ begin
   if not Assigned(PanelGor1Components1) then
     PanelGor1Components1 := TMFPanel.create;
   Result := PanelGor1Components1.GetTempPanel(30, 328, 1, 400, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelGor1Components1 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelGor2Components1(NameForm: TForm): TPanel;
@@ -1517,6 +1611,8 @@ begin
   if not Assigned(PanelGor2Components1) then
     PanelGor2Components1 := TMFPanel.create;
   Result := PanelGor2Components1.GetTempPanel(30, 355, 1, 400, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelGor2Components1 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelGor3Components1(NameForm: TForm): TPanel;
@@ -1524,6 +1620,8 @@ begin
   if not Assigned(PanelGor3Components1) then
     PanelGor3Components1 := TMFPanel.create;
   Result := PanelGor3Components1.GetTempPanel(30, 383, 1, 400, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelGor3Components1 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelGor4Components1(NameForm: TForm): TPanel;
@@ -1531,6 +1629,8 @@ begin
   if not Assigned(PanelGor4Components1) then
     PanelGor4Components1 := TMFPanel.create;
   Result := PanelGor4Components1.GetTempPanel(30, 411, 1, 400, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelGor4Components1 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelVert1Components1(NameForm: TForm): TPanel;
@@ -1538,6 +1638,8 @@ begin
   if not Assigned(PanelVert1Components1) then
     PanelVert1Components1 := TMFPanel.create;
   Result := PanelVert1Components1.GetTempPanel(135, 293, 157, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelVert1Components1 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelVert2Components1(NameForm: TForm): TPanel;
@@ -1545,6 +1647,8 @@ begin
   if not Assigned(PanelVert2Components1) then
     PanelVert2Components1 := TMFPanel.create;
   Result := PanelVert2Components1.GetTempPanel(235, 293, 157, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelVert2Components1 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelVert3Components1(NameForm: TForm): TPanel;
@@ -1552,6 +1656,8 @@ begin
   if not Assigned(PanelVert3Components1) then
     PanelVert3Components1 := TMFPanel.create;
   Result := PanelVert3Components1.GetTempPanel(335, 293, 157, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelVert3Components1 выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditVolumeErSusp(NameForm: TForm): TEdit;
@@ -1560,6 +1666,8 @@ begin
     EditVolumeErSusp := TMFEdit.create;
   Result := EditVolumeErSusp.GetEdit(140, 330, 90, 10, false, NameForm);
   EditVolumeErSusp.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditVolumeErSusp выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditVolumePlazma(NameForm: TForm): TEdit;
@@ -1568,6 +1676,8 @@ begin
     EditVolumePlazma := TMFEdit.create;
   Result := EditVolumePlazma.GetEdit(140, 358, 90, 10, false, NameForm);
   EditVolumePlazma.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditVolumePlazma выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditVolumeFiltrat(NameForm: TForm): TEdit;
@@ -1576,6 +1686,8 @@ begin
     EditVolumeFiltrat := TMFEdit.create;
   Result := EditVolumeFiltrat.GetEdit(140, 386, 90, 10, false, NameForm);
   EditVolumeFiltrat.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditVolumeFiltrat выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditVolumeDefect(NameForm: TForm): TEdit;
@@ -1584,6 +1696,8 @@ begin
     EditVolumeDefect := TMFEdit.create;
   Result := EditVolumeDefect.GetEdit(140, 414, 90, 10, false, NameForm);
   EditVolumeDefect.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditVolumeDefect выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditNumberDosesErSusp(NameForm: TForm): TEdit;
@@ -1592,6 +1706,8 @@ begin
     EditNumberDosesErSusp := TMFEdit.create;
   Result := EditNumberDosesErSusp.GetEdit(240, 330, 90, 10, false, NameForm);
   EditNumberDosesErSusp.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditNumberDosesErSusp выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditNumberDosesPlazma(NameForm: TForm): TEdit;
@@ -1600,6 +1716,8 @@ begin
     EditNumberDosesPlazma := TMFEdit.create;
   Result := EditNumberDosesPlazma.GetEdit(240, 358, 90, 10, false, NameForm);
   EditNumberDosesPlazma.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditNumberDosesPlazma выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditNumberDosesFiltrat(NameForm: TForm): TEdit;
@@ -1608,6 +1726,8 @@ begin
     EditNumberDosesFiltrat := TMFEdit.create;
   Result := EditNumberDosesFiltrat.GetEdit(240, 386, 90, 10, false, NameForm);
   EditNumberDosesFiltrat.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditNumberDosesFiltrat выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditNumberDosesDefect(NameForm: TForm): TEdit;
@@ -1616,6 +1736,8 @@ begin
     EditNumberDosesDefect := TMFEdit.create;
   Result := EditNumberDosesDefect.GetEdit(240, 414, 90, 10, false, NameForm);
   EditNumberDosesDefect.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditNumberDosesDefect выполнена');
 end;
 
 function TMHMManualHarvesting.GetCBoxTypeErSusp(NameForm: TForm): TComboBox;
@@ -1630,6 +1752,8 @@ begin
   CBoxTypeErSusp.TheContentOfTheList(SQL);
   CBoxTypeErSusp.WriteItemIndex(2);
   CBoxTypeErSusp.GetDROPPEDWIDTH(200);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetCBoxTypeErSusp выполнена');
 end;
 
 function TMHMManualHarvesting.GetCBoxTypePlazma(NameForm: TForm): TComboBox;
@@ -1644,6 +1768,8 @@ begin
   CBoxTypePlazma.TheContentOfTheList(SQL);
   CBoxTypePlazma.WriteItemIndex(1);
   CBoxTypePlazma.GetDROPPEDWIDTH(200);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetCBoxTypePlazma выполнена');
 end;
 
 function TMHMManualHarvesting.GetCBoxTypeDefect(NameForm: TForm): TComboBox;
@@ -1657,6 +1783,8 @@ begin
   CBoxTypeDefect.TheContentOfTheList(SQL);
   CBoxTypeDefect.WriteItemIndex(-1);
   CBoxTypeDefect.GetDROPPEDWIDTH(200);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetCBoxTypeDefect выполнена');
 end;
 
 // таблица "компоненты 2"
@@ -1668,6 +1796,8 @@ begin
   LabelVolume2.WordWrap(True);
   LabelVolume2.Width(80);
   LabelVolume2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelVolume2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelNumberDoses2(NameForm: TForm): TLabel;
@@ -1680,6 +1810,8 @@ begin
   LabelNumberDoses2.Width(80);
   LabelNumberDoses2.Height(40);
   LabelNumberDoses2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelNumberDoses2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelType2(NameForm: TForm): TLabel;
@@ -1691,6 +1823,8 @@ begin
   LabelType2.Width(80);
   LabelType2.Height(40);
   LabelType2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelType2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelErSusp2(NameForm: TForm): TLabel;
@@ -1702,6 +1836,8 @@ begin
   LabelErSusp2.Width(100);
   LabelErSusp2.Height(40);
   LabelErSusp2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelErSusp2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelPlazma2(NameForm: TForm): TLabel;
@@ -1713,6 +1849,8 @@ begin
   LabelPlazma2.Width(100);
   LabelPlazma2.Height(40);
   LabelPlazma2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelPlazma2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelFiltrat2(NameForm: TForm): TLabel;
@@ -1724,6 +1862,8 @@ begin
   LabelFiltrat2.Width(100);
   LabelFiltrat2.Height(40);
   LabelFiltrat2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelFiltrat2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetLabelDefectWholeBlood2
@@ -1737,6 +1877,8 @@ begin
   LabelDefectWholeBlood2.Width(100);
   LabelDefectWholeBlood2.Height(40);
   LabelDefectWholeBlood2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelDefectWholeBlood2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelGor1Components2(NameForm: TForm): TPanel;
@@ -1745,6 +1887,8 @@ begin
     PanelGor1Components2 := TMFPanel.create;
   Result := PanelGor1Components2.GetTempPanel(470, 328, 1, 400, 0, NameForm);
   PanelGor1Components2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelGor1Components2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelGor2Components2(NameForm: TForm): TPanel;
@@ -1753,6 +1897,8 @@ begin
     PanelGor2Components2 := TMFPanel.create;
   Result := PanelGor2Components2.GetTempPanel(470, 355, 1, 400, 0, NameForm);
   PanelGor2Components2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelGor2Components2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelGor3Components2(NameForm: TForm): TPanel;
@@ -1761,6 +1907,8 @@ begin
     PanelGor3Components2 := TMFPanel.create;
   Result := PanelGor3Components2.GetTempPanel(470, 383, 1, 400, 0, NameForm);
   PanelGor3Components2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelGor3Components2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelGor4Components2(NameForm: TForm): TPanel;
@@ -1769,6 +1917,8 @@ begin
     PanelGor4Components2 := TMFPanel.create;
   Result := PanelGor4Components2.GetTempPanel(470, 411, 1, 400, 0, NameForm);
   PanelGor4Components2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelGor4Components2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelVert1Components2(NameForm: TForm): TPanel;
@@ -1777,6 +1927,8 @@ begin
     PanelVert1Components2 := TMFPanel.create;
   Result := PanelVert1Components2.GetTempPanel(575, 293, 157, 1, 0, NameForm);
   PanelVert1Components2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelVert1Components2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelVert2Components2(NameForm: TForm): TPanel;
@@ -1785,6 +1937,8 @@ begin
     PanelVert2Components2 := TMFPanel.create;
   Result := PanelVert2Components2.GetTempPanel(675, 293, 157, 1, 0, NameForm);
   PanelVert2Components2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelVert2Components2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetPanelVert3Components2(NameForm: TForm): TPanel;
@@ -1793,6 +1947,8 @@ begin
     PanelVert3Components2 := TMFPanel.create;
   Result := PanelVert3Components2.GetTempPanel(775, 293, 157, 1, 0, NameForm);
   PanelVert3Components2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetPanelVert3Components2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditVolumeErSusp2(NameForm: TForm): TEdit;
@@ -1802,6 +1958,8 @@ begin
   Result := EditVolumeErSusp2.GetEdit(580, 330, 90, 10, false, NameForm);
   EditVolumeErSusp2.NumberOnly(True);
   EditVolumeErSusp2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditVolumeErSusp2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditVolumePlazma2(NameForm: TForm): TEdit;
@@ -1811,6 +1969,8 @@ begin
   Result := EditVolumePlazma2.GetEdit(580, 358, 90, 10, false, NameForm);
   EditVolumePlazma2.NumberOnly(True);
   EditVolumePlazma2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditVolumePlazma2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditVolumeFiltrat2(NameForm: TForm): TEdit;
@@ -1820,6 +1980,8 @@ begin
   Result := EditVolumeFiltrat2.GetEdit(580, 386, 90, 10, false, NameForm);
   EditVolumeFiltrat2.NumberOnly(True);
   EditVolumeFiltrat2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditVolumeFiltrat2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditVolumeDefect2(NameForm: TForm): TEdit;
@@ -1829,6 +1991,8 @@ begin
   Result := EditVolumeDefect2.GetEdit(580, 414, 90, 10, false, NameForm);
   EditVolumeDefect2.NumberOnly(True);
   EditVolumeDefect2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditVolumeDefect2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditNumberDosesErSusp2(NameForm: TForm): TEdit;
@@ -1838,6 +2002,8 @@ begin
   Result := EditNumberDosesErSusp2.GetEdit(680, 330, 90, 10, false, NameForm);
   EditNumberDosesErSusp2.NumberOnly(True);
   EditNumberDosesErSusp2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditNumberDosesErSusp2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditNumberDosesPlazma2(NameForm: TForm): TEdit;
@@ -1847,6 +2013,8 @@ begin
   Result := EditNumberDosesPlazma2.GetEdit(680, 358, 90, 10, false, NameForm);
   EditNumberDosesPlazma2.NumberOnly(True);
   EditNumberDosesPlazma2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditNumberDosesPlazma2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditNumberDosesFiltrat2
@@ -1857,6 +2025,8 @@ begin
   Result := EditNumberDosesFiltrat2.GetEdit(680, 386, 90, 10, false, NameForm);
   EditNumberDosesFiltrat2.NumberOnly(True);
   EditNumberDosesFiltrat2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditNumberDosesFiltrat2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetEditNumberDosesDefect2(NameForm: TForm): TEdit;
@@ -1866,6 +2036,8 @@ begin
   Result := EditNumberDosesDefect2.GetEdit(680, 414, 90, 10, false, NameForm);
   EditNumberDosesDefect2.NumberOnly(True);
   EditNumberDosesDefect2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetEditNumberDosesDefect2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetCBoxTypeErSusp2(NameForm: TForm): TComboBox;
@@ -1881,6 +2053,8 @@ begin
   CBoxTypeErSusp2.WriteItemIndex(1);
   CBoxTypeErSusp2.GetDROPPEDWIDTH(200);
   CBoxTypeErSusp2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetCBoxTypeErSusp2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetCBoxTypePlazma2(NameForm: TForm): TComboBox;
@@ -1896,6 +2070,8 @@ begin
   CBoxTypePlazma2.WriteItemIndex(0);
   CBoxTypePlazma2.GetDROPPEDWIDTH(200);
   CBoxTypePlazma2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetCBoxTypePlazma2 выполнена');
 end;
 
 function TMHMManualHarvesting.GetCBoxTypeDefect2(NameForm: TForm): TComboBox;
@@ -1910,6 +2086,8 @@ begin
   CBoxTypeDefect2.WriteItemIndex(-1);
   CBoxTypeDefect2.GetDROPPEDWIDTH(200);
   CBoxTypeDefect2.Visible(false);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetCBoxTypeDefect2 выполнена');
 end;
 
 // Label
@@ -1919,6 +2097,8 @@ begin
     Title := TMFTitleLabel.create;
   Result := Title.GetTitleLabel(20,
     'Ввод ежедневных данных по заготовке крови "ручным" способом', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetLabelTitle выполнена');
 end;
 
 // StringGrid
@@ -2015,6 +2195,8 @@ begin
       StringGrid.WriteCells(19, i + 1, ContentForStringGrid.GetOuting(j));
       j := j + 1;
     end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.GetStringGrid выполнена');
 end;
 
 procedure TMHMManualHarvesting.Show;
@@ -2078,6 +2260,7 @@ begin
   ButtonAdd.Visible(True);
   ButtonDelete.Visible(True);
   ButtonBlock.Visible(True);
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.Show выполнена');
+end;
 end.

@@ -3,7 +3,7 @@ unit BIOFFlowRateOfWholeBlood;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -102,6 +102,8 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOFFlowRateOfWholeBlood.GetContent выполнена');
 end;
 
 procedure TBIOFFlowRateOfWholeBlood.destroy;
@@ -111,6 +113,8 @@ begin
   if Assigned(TempQuery) then
     TempQuery.Free;
   CheckNull := nil;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOFFlowRateOfWholeBlood.destroy выполнена');
 end;
 
 function TBIOFFlowRateOfWholeBlood.GetCancellationDate(i: integer): string;
@@ -121,6 +125,8 @@ end;
 function TBIOFFlowRateOfWholeBlood.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOFFlowRateOfWholeBlood.GetRowCount выполнена');
 end;
 
 function TBIOFFlowRateOfWholeBlood.GetNumberOfDoses(i: integer): string;

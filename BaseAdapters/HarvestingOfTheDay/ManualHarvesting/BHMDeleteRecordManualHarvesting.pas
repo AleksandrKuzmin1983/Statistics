@@ -3,7 +3,7 @@ unit BHMDeleteRecordManualHarvesting;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, DateUtils,
+  SysUtils, Data.Win.ADODB, Dialogs, CodeSiteLogging, Data.DB, DateUtils,
   USCheckNull,
   GetAdoConnect;
 
@@ -50,6 +50,7 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMDeleteRecordManualHarvesting.DeleteRecord выполнена');
+end;
 end.

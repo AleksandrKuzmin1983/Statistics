@@ -3,7 +3,7 @@ unit MFStringGrid;
 interface
 
 uses
-  Vcl.Grids, SysUtils, Graphics, StdCtrls, Forms, Classes, Controls, Variants,
+  Vcl.Grids, SysUtils, Graphics, StdCtrls, Forms, Classes, CodeSiteLogging, Controls, Variants,
   WinProcs;
 
 type
@@ -62,6 +62,8 @@ implementation
 procedure TMFStringGrid.AddRowCount;
 begin
   TempStringGrid.RowCount := TempStringGrid.RowCount + 1;
+
+//  CodeSite.Send(FormatDateTime('c', Now) + ' TMFStringGrid.AddRowCount выполнена', TempStringGrid.RowCount);
 end;
 
 procedure TMFStringGrid.ResultFormat(PTitleRow: word; PCol1: integer;
@@ -111,11 +113,15 @@ end;
 procedure TMFStringGrid.ColWidth(NumberCol, Value: integer);
 begin
   TempStringGrid.ColWidths[NumberCol] := Value;
+
+//  CodeSite.Send(FormatDateTime('c', Now) + ' TMFStringGrid.ColWidth выполнена', Value);
 end;
 
 function TMFStringGrid.CurrentRow: integer;
 begin
   Result := TempStringGrid.Row;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFStringGrid.CurrentRow выполнена', Result);
 end;
 
 procedure TMFStringGrid.DeleteLastRow(NumberDelRow: integer);
@@ -128,22 +134,30 @@ begin
       Cells[NumberDelRow, RowCount - 1] := '';
     RowCount := RowCount - 1;
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFStringGrid.DeleteLastRow выполнена');
 end;
 
 procedure TMFStringGrid.destroy;
 begin
   if Assigned(TempStringGrid) then
     FreeAndNil(TempStringGrid);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFStringGrid.destroy выполнена');
 end;
 
 procedure TMFStringGrid.Enabled(i: Boolean);
 begin
   TempStringGrid.Enabled := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFStringGrid.Enabled выполнена', i);
 end;
 
 function TMFStringGrid.GetRowCount: integer;
 begin
   Result := TempStringGrid.RowCount;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFStringGrid.GetRowCount выполнена', Result);
 end;
 
 function TMFStringGrid.GetStringGrid(Cleft, Сtop, CWidth, CHeight, CColCount,
@@ -174,26 +188,37 @@ begin
     OnDrawCell := FormatTitleRowCell;
   end;
   Result := TempStringGrid;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFStringGrid.GetStringGrid выполнена');
 end;
 
 function TMFStringGrid.GetValue(CCol, CRow: integer): String;
 begin
   Result := TempStringGrid.Cells[CCol, CRow];
+
+//  CodeSite.Send(FormatDateTime('c', Now) + ' TMFStringGrid.GetValue выполнена', Result);
 end;
 
 procedure TMFStringGrid.NumberOfFixedCol(i: integer);
 begin
   TempStringGrid.FixedCols := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFStringGrid.NumberOfFixedCol выполнена', i);
 end;
 
 procedure TMFStringGrid.Visible(Value: Boolean);
 begin
   TempStringGrid.Visible := Value;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFStringGrid.Visible выполнена', Value);
 end;
 
 procedure TMFStringGrid.WriteCells(ColCell, RowCell: integer; Value: String);
 begin
   TempStringGrid.Cells[ColCell, RowCell] := VarToStr(Value);
+
+{  CodeSite.Send(FormatDateTime('c', Now) + ' TMFStringGrid.WriteCells выполнена TempStringGrid.Cells[' + IntToStr(ColCell) +
+    ' ,' + IntToStr(RowCell) + '] =', VarToStr(Value));       }
 end;
 
 end.

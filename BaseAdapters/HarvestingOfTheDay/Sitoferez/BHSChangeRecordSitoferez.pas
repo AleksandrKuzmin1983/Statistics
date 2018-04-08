@@ -3,7 +3,7 @@ unit BHSChangeRecordSitoferez;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, DateUtils,
+  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, CodeSiteLogging, DateUtils,
   GetAdoConnect;
 
 type
@@ -70,6 +70,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHSChangeRecordSitoferez.ChangeRecordTrombo выполнена');
 end;
 
 procedure TBHSChangeRecordSitoferez.ChangeRecordTromboDoza(Date: Extended;
@@ -96,6 +98,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHSChangeRecordSitoferez.ChangeRecordTromboDoza выполнена');
 end;
 
 procedure TBHSChangeRecordSitoferez.GetTempId(Date: String);
@@ -127,6 +131,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHSChangeRecordSitoferez.GetTempId выполнена');
 end;
 
 procedure TBHSChangeRecordSitoferez.ChangeRecordTromboComponents
@@ -156,6 +162,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHSChangeRecordSitoferez.ChangeRecordTromboComponents выполнена');
 end;
 
 procedure TBHSChangeRecordSitoferez.ChangeRecordTromboDefect
@@ -184,6 +192,7 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHSChangeRecordSitoferez.ChangeRecordTromboDefect выполнена');
+end;
 end.

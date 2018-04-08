@@ -3,7 +3,7 @@ unit MRWWeeklyReport;
 interface
 
 uses
-  Winapi.Windows, System.SysUtils, Vcl.Controls, Vcl.Forms, Vcl.Menus,
+  Winapi.Windows, System.SysUtils, Vcl.Controls, CodeSiteLogging, Vcl.Forms, Vcl.Menus,
   System.Classes,
   frxClass, frxDBSet, frxPreview, frxExportPDF, System.Win.Registry, dialogs,
   variants,
@@ -78,6 +78,8 @@ begin
   GetReport(TempForm);
   frxTempReport.ShowReport;
   TempForm.ShowModal;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.Create выполнена');
   inherited;
 end;
 
@@ -86,6 +88,8 @@ begin
   FreeAndNil(frxTempPreview);
   FreeAndNil(frxTempReport);
   MainMenu.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.destroy выполнена');
   inherited;
 end;
 
@@ -97,6 +101,8 @@ begin
   MainMenu.OnClickCloseForm(OnClickMenuClose);
   MainMenu.OnClickPrintReport(OnClickPrintReport);
   MainMenu.OnClickExportPDF(OnClickExportPDF);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.GetMainMenu выполнена');
 end;
 
 procedure TMRWWeeklyReport.GetReport(CurrentForm: TForm);
@@ -369,6 +375,8 @@ begin
       frxTempReport.Variables.Variables['Kray' + IntToStr(i + 1)] :=
         '''' + Cancellation_Kray.GetValueDoses(i) + '''';
   ShowMessage('Недельный отчет сформирован ... возможно даже успешно!');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.GetReport выполнена');
 end;
 
 procedure TMRWWeeklyReport.frxDefectGetValue(const VarName: String;
@@ -378,6 +386,8 @@ begin
     Value := ar[frxDefect.RecNo, 0];
   if CompareText(VarName, 'Volume') = 0 then
     Value := ar[frxDefect.RecNo, 1];
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.frxDefectGetValue выполнена');
 end;
 
 procedure TMRWWeeklyReport.OnClickExportPDF(Sender: TObject);
@@ -389,16 +399,22 @@ begin
   frxTempExportPDF.DefaultPath := GetDesktopFolderPath + '\';
   frxTempReport.Export(frxTempExportPDF);
   frxTempReport.ShowReport;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.OnClickExportPDF выполнена');
 end;
 
 procedure TMRWWeeklyReport.OnClickMenuClose(Sender: TObject);
 begin
   TempForm.ModalResult := mrOk;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.OnClickMenuClose выполнена');
 end;
 
 procedure TMRWWeeklyReport.OnClickPrintReport(Sender: TObject);
 begin
   frxTempReport.Print;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.OnClickPrintReport выполнена');
 end;
 
 procedure TMRWWeeklyReport.PreviewMouseWheel(Sender: TObject;
@@ -406,6 +422,8 @@ procedure TMRWWeeklyReport.PreviewMouseWheel(Sender: TObject;
   var Handled: Boolean);
 begin
   frxTempPreview.MouseWheelScroll(WheelDelta);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.PreviewMouseWheel выполнена');
 end;
 
 function TMRWWeeklyReport.GetDesktopFolderPath: string;
@@ -419,6 +437,8 @@ begin
   Result := R.ReadString('Desktop');
   R.CloseKey;
   R.Free;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.GetDesktopFolderPath выполнена');
 end;
 
 end.

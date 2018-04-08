@@ -3,7 +3,7 @@ unit MFComboBox;
 interface
 
 uses
-  Messages, SysUtils, Dialogs, Graphics, StdCtrls, Forms, Classes, Controls,
+  Messages, SysUtils, Dialogs, Graphics, StdCtrls, Forms, Classes, CodeSiteLogging, Controls,
   Data.Win.ADODB, Variants,
   USContentOfTheList;
 
@@ -61,25 +61,31 @@ implementation
 procedure TMFComboBox.Clear;
 begin
   TempComboBox.Clear;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.Clear выполнена');
 end;
 
 procedure TMFComboBox.DeleteRecord(i: integer);
 begin
   TempComboBox.Items.Delete(i);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.DeleteRecord выполнена', i);
 end;
 
 procedure TMFComboBox.destroy;
 begin
-  // if Assigned(ContentOfTheList) then
-  // FreeAndNil(ContentOfTheList);
   ContentOfTheList := nil;
   if Assigned(TempComboBox) then
     FreeAndNil(TempComboBox);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.destroy выполнена');
 end;
 
 procedure TMFComboBox.Enabled(i: Boolean);
 begin
   TempComboBox.Enabled := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.Enabled выполнена', i);
 end;
 
 function TMFComboBox.GetComboBox(CName: String;
@@ -103,26 +109,36 @@ begin
     Visible := False;
   end;
   result := TempComboBox;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.GetComboBox выполнена');
 end;
 
 procedure TMFComboBox.GetDROPPEDWIDTH(DWIDTH: integer);
 begin
   DROPPEDWIDTH := DWIDTH;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.GetDROPPEDWIDTH выполнена');
 end;
 
 function TMFComboBox.GetItemIndex: integer;
 begin
   result := TempComboBox.ItemIndex;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.GetItemIndex выполнена', result);
 end;
 
 function TMFComboBox.GetItemsCount: integer;
 begin
   result := TempComboBox.Items.Count;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.GetItemsCount выполнена', result);
 end;
 
 function TMFComboBox.GetItemsValue(i: integer): String;
 begin
   result := TempComboBox.Items[i];
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.GetItemsValue выполнена', result);
 end;
 
 procedure TMFComboBox.GetListOfTheNameColumns(SQL: String);
@@ -137,11 +153,15 @@ begin
     begin
       TempComboBox.Items.Add(ContentOfTheList.GetContentOfTheList(i - 1));
     end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.GetListOfTheNameColumns выполнена', SQL);
 end;
 
 procedure TMFComboBox.GetOnChange(ProcedureOnChange: TNotifyEvent);
 begin
   TempComboBox.OnChange := ProcedureOnChange;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.Clear выполнена');
 end;
 
 procedure TMFComboBox.TheContentOfTheList(SQL: String);
@@ -156,31 +176,42 @@ begin
     begin
       TempComboBox.Items.Add(ContentOfTheList.GetContentOfTheList(i));
     end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.GetOnChange выполнена', SQL);
 end;
 
 procedure TMFComboBox.Visible(i: Boolean);
 begin
   TempComboBox.Visible := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.Visible выполнена', i);
 end;
 
 procedure TMFComboBox.WidthDropDownList(Sender: TObject);
 begin
   TempComboBox.Perform(CB_SETDROPPEDWIDTH, DROPPEDWIDTH, 0);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.WidthDropDownList выполнена');
 end;
 
 procedure TMFComboBox.WriteItemIndex(i: integer);
 begin
   TempComboBox.ItemIndex := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.WriteItemIndex выполнена', i);
 end;
 
 procedure TMFComboBox.WriteText(Text: String);
 begin
   TempComboBox.Text := Text;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.WriteText выполнена', Text);
 end;
 
 procedure TMFComboBox.AddItem(Text: String);
 begin
   TempComboBox.Items.Add(Text);
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFComboBox.AddItem выполнена', Text);
+end;
 end.

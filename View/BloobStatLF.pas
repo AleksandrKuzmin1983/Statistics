@@ -129,10 +129,11 @@ implementation
 
 procedure TMyMainForm.CloseButtonClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.CloseButtonClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   Close;
-
   CodeSite.Send('Завершение программы выполнено - ' + FormatDateTime('c', Now));
 end;
 
@@ -146,9 +147,10 @@ begin
   Perform(WM_NCPAINT, Handle, 0);
 
   CodeSite.Destination := TCodeSiteDestination.Create(CodeSite);
-  CodeSite.Destination.LogFile.FilePath:=ExtractFilePath(Application.ExeName);
+  CodeSite.Destination.LogFile.FilePath:=ExtractFilePath(Application.ExeName) + '/logs';
   CodeSite.Destination.LogFile.FileName:='Log.csl';
   CodeSite.Destination.LogFile.Active:=true;
+  CodeSite.Destination.LogFile.MaxSize:=3072;
   CodeSite.Send(' ');
   CodeSite.Send('Запуск программы выполнен!!! - ' + FormatDateTime('c', Now));
   CodeSite.Send(' ');
@@ -156,112 +158,157 @@ end;
 
 procedure TMyMainForm.HandlyHarvestingClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.HandlyHarvestingClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMHMManualHarvesting.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting - Создан');
 end;
 
 procedure TMyMainForm.AutoAferezClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.AutoAferezClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMHAAutomaticApheresis.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHAAutomaticApheresis - Создан');
 end;
 
 procedure TMyMainForm.CitoferezClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.CitoferezClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMHSSitoferez.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMHSSitoferez - Создан');
 end;
 
 procedure TMyMainForm.BCancellationClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.BCancellationClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMIECCancellation.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIECCancellation - Создан');
 end;
 
 procedure TMyMainForm.ResultsInKrayClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.ResultsInKrayClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMIETTheResultsInKray.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInKray - Создан');
 end;
 
 procedure TMyMainForm.ResultsLPUClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.ResultsLPUClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMIETTheResultsInLPU.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU - Создан');
 end;
 
 procedure TMyMainForm.VIO_OKDKClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.VIO_OKDKClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMIOOKDK.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK - Создан');
 end;
 
 procedure TMyMainForm.AdviceDoctorsClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.AdviceDoctorsClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMIOAAdviceToDoctors.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors - Создан');
 end;
 
 procedure TMyMainForm.AmountUsableErSuspClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.AmountUsableErSuspClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMIOATheAmountOfUsableErSusp.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOATheAmountOfUsableErSusp - Создан');
 end;
 
 procedure TMyMainForm.BCheckLPUClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.BCheckLPUClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMIOCCheckLPU.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU - Создан');
 end;
 
 procedure TMyMainForm.ConsumptionErythrocyteEnvironmentsClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.ConsumptionErythrocyteEnvironmentsClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMIOCConsumptionOfErythrocyteEnvironments.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfErythrocyteEnvironments - Создан');
 end;
 
 procedure TMyMainForm.ConsumptionPlazmaClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.ConsumptionPlazmaClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMIOCConsumptionOfPlazma.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma - Создан');
 end;
 
 procedure TMyMainForm.ConsumptionTromboClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.ConsumptionTromboClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMIOCConsumptionOfTrombo.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfTrombo - Создан');
 end;
 
 procedure TMyMainForm.FlowRateWholeBloodClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.FlowRateWholeBloodClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMIOFFlowRateOfWholeBlood.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood - Создан');
 end;
 
 procedure TMyMainForm.MonthlyPlanClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.MonthlyPlanClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMMMonthlyPlan.Create(self);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan - Создан');
 end;
 
 procedure TMyMainForm.BloodProductionClick(Sender: TObject);
 begin
-  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата BloodProductionClick');
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.BloodProductionClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
   CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
@@ -271,7 +318,7 @@ end;
 
 procedure TMyMainForm.HarvestingBloodComponentsByTypesClick(Sender: TObject);
 begin
-  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата HarvestingBloodComponentsByTypesClick');
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.HarvestingBloodComponentsByTypesClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
   CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
@@ -281,7 +328,7 @@ end;
 
 procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
 begin
-  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата QueryNumberOfDonationsClick');
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.QueryNumberOfDonationsClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
   CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
@@ -291,7 +338,7 @@ end;
 
 procedure TMyMainForm.ProcurementOfComponentsTotalClick(Sender: TObject);
 begin
-  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата ProcurementOfComponentsTotalClick');
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.ProcurementOfComponentsTotalClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
   CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
@@ -301,24 +348,31 @@ end;
 
 procedure TMyMainForm.KrasnEveryDayClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.KrasnEveryDayClick');
   if not Assigned(ReportForm1) then
     Application.CreateForm(TForm, ReportForm1);
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMRDDailyReportTheKray.Create(ReportForm1);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDailyReportTheKray - Создан');
 end;
 
 procedure TMyMainForm.DeilyReportToTheZavClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.DeilyReportToTheZavClick');
   if not Assigned(ReportForm1) then
     Application.CreateForm(TForm, ReportForm1);
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
+  CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
   GlobalVariant := TMRDDeilyReportToTheZav.Create(ReportForm1);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDeilyReportToTheZav - Создан');
 end;
 
 procedure TMyMainForm.WeeklyReportClick(Sender: TObject);
 begin
+  CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.WeeklyReportClick');
   if MonthOf(StartOfTheWeek(Date() - 7)) = MonthOf(EndOfTheWeek(Date() - 7))
   then
   begin
@@ -326,7 +380,9 @@ begin
       Application.CreateForm(TForm, ReportForm1);
     if Assigned(GlobalVariant) then
       GlobalVariant.destroy;
+    CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
     GlobalVariant := TMRWWeeklyReport.Create(ReportForm1);
+    CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport - Создан');
   end
   else
   begin
@@ -334,12 +390,14 @@ begin
       Application.CreateForm(TForm, ReportForm1);
     if Assigned(GlobalVariant) then
       GlobalVariant.destroy;
+    CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
     GlobalVariant := TMRWWeeklyIncompleteWeek.Create(ReportForm1);
+    CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyIncompleteWeek - Создан');
   end;
 end;
 
 procedure TMyMainForm.Help1Click(Sender: TObject);
 begin
-  //
+  //WinExec('hh.exe help.chm',SW_SHOW);
 end;
 end.

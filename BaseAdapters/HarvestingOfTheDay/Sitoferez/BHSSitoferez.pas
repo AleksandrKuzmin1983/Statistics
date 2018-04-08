@@ -3,7 +3,7 @@ unit BHSSitoferez;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, Dialogs, CodeSiteLogging, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -162,11 +162,15 @@ begin
       + chr(13) + 'Обратитесь к администратору!');
   End;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHSSitoferez.GetContent выполнена');
 end;
 
 function TBHSSitoferez.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHSSitoferez.GetRowCount выполнена', result);
 end;
 
 function TBHSSitoferez.GetDate(i: integer): string;
@@ -228,5 +232,4 @@ function TBHSSitoferez.GetNumberOfDosesTrombo(i: integer): string;
 begin
   result := ResultMass[i].NumberOfDosesTrombo;
 end;
-
 end.
