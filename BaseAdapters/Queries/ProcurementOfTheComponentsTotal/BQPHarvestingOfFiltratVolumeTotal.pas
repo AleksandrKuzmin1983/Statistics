@@ -3,7 +3,7 @@ unit BQPHarvestingOfFiltratVolumeTotal;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB,
+  SysUtils, Variants, CodeSiteLogging, Data.Win.ADODB,
   GetAdoConnect,
   USCheckNull;
 
@@ -52,11 +52,15 @@ begin
   FiltratVolumeTotal :=
     VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQPHarvestingOfFiltratVolumeTotal.create выполнена');
 end;
 
 function TBQPHarvestingOfFiltratVolumeTotal.GetValue: string;
 begin
   result := FiltratVolumeTotal;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQPHarvestingOfFiltratVolumeTotal.GetValue выполнена');
 end;
 
 end.

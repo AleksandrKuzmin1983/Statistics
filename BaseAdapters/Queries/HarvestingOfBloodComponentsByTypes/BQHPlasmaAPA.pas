@@ -3,7 +3,7 @@ unit BQHPlasmaAPA;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -82,26 +82,36 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHPlasmaAPA.create выполнена');
 end;
 
 function TBQHPlasmaAPA.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHPlasmaAPA.GetRowCount выполнена');
 end;
 
 function TBQHPlasmaAPA.GetVolume(i: integer): string;
 begin
   result := ResultMass[i].Volume;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHPlasmaAPA.GetVolume выполнена');
 end;
 
 function TBQHPlasmaAPA.GetName(i: integer): string;
 begin
   result := ResultMass[i].Name;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHPlasmaAPA.GetName выполнена');
 end;
 
 function TBQHPlasmaAPA.GetNumber(i: integer): string;
 begin
   result := ResultMass[i].Number;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHPlasmaAPA.GetNumber выполнена');
 end;
 
 end.

@@ -3,7 +3,7 @@ unit BRWDonorsAndProceduresOuting;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -88,6 +88,8 @@ begin
     TempArray[i] := CheckNull.CheckedValue(TempQuery.Fields[i].value);
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWDonorsAndProceduresOuting.create выполнена');
 end;
 
 function TBRWDonorsAndProceduresOuting.GetValue(i: integer): string;
@@ -96,6 +98,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0', TempArray[i]));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWDonorsAndProceduresOuting.GetValue выполнена', result);
 end;
 
 end.

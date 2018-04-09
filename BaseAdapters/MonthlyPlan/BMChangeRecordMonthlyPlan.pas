@@ -3,7 +3,7 @@ unit BMChangeRecordMonthlyPlan;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, DateUtils,
+  SysUtils, Data.Win.ADODB, Dialogs, CodeSiteLogging, Data.DB, DateUtils,
   GetAdoConnect;
 
 type
@@ -46,6 +46,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBMChangeRecordMonthlyPlan.AddRecordDays выполнена');
 end;
 
 end.

@@ -3,7 +3,7 @@ unit BQBTheAmountOfReinfusionWithAPA;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -58,11 +58,15 @@ begin
     CheckNull.CheckedValue(TempQuery.Fields[1].value) - CheckNull.CheckedValue
     (TempQuery.Fields[2].value));
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQBTheAmountOfReinfusionWithAPA.create выполнена');
 end;
 
 function TBQBTheAmountOfReinfusionWithAPA.GetValue: string;
 begin
   result := AmountOfRWAPA;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQBTheAmountOfReinfusionWithAPA.GetValue выполнена');
 end;
 
 end.

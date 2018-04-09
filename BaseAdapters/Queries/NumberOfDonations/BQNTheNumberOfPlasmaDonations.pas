@@ -3,7 +3,7 @@ unit BQNTheNumberOfPlasmaDonations;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Data.DB, Dialogs,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Data.DB, Dialogs,
   USCheckNull,
   GetAdoConnect;
 
@@ -53,6 +53,8 @@ begin
   TempQuery.Open;
   NumberOfPD := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQNTheNumberOfPlasmaDonations.create выполнена');
 end;
 
 { procedure TTheNumberOfPlasmaDonations.Free;
@@ -63,6 +65,8 @@ end;
 function TBQNTheNumberOfPlasmaDonations.GetValue: string;
 begin
   result := NumberOfPD;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQNTheNumberOfPlasmaDonations.GetValue выполнена');
 end;
 
 end.

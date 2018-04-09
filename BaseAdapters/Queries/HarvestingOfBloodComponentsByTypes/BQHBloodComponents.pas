@@ -3,7 +3,7 @@ unit BQHBloodComponents;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -82,26 +82,36 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHBloodComponents.create выполнена');
 end;
 
 function TBQHBloodComponents.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHBloodComponents.GetRowCount выполнена');
 end;
 
 function TBQHBloodComponents.GetVolume(i: integer): string;
 begin
   result := ResultMass[i].Volume;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHBloodComponents.GetVolume выполнена');
 end;
 
 function TBQHBloodComponents.GetName(i: integer): string;
 begin
   result := ResultMass[i].Name;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHBloodComponents.GetName выполнена');
 end;
 
 function TBQHBloodComponents.GetNumber(i: integer): string;
 begin
   result := ResultMass[i].Number;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHBloodComponents.GetNumber выполнена');
 end;
 
 end.

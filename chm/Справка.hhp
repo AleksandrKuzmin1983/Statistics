@@ -1,0 +1,18 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=Справка.chm
+Contents file=TableOfContents.hhc
+Display compile progress=No
+Full text search stop list file=Search.stp
+Full-text search=Yes
+Index file=Index.hhk
+Language=0x419 Русский (Россия)
+Title=HelpFile
+
+
+[FILES]
+BloodProductionOfTheDay.htm
+BrieflyAboutTheProgram.htm
+
+[INFOTYPES]
+

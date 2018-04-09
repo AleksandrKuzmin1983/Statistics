@@ -3,7 +3,7 @@ unit BRWSecondTableIncompleteWeek;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -56,6 +56,8 @@ begin
     TempQuery := TADOQuery.create(nil);
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTableIncompleteWeek.create выполнена');
 end;
 
 procedure TBRWSecondTableIncompleteWeek.GetSQL(CSQL: String);
@@ -75,6 +77,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTableIncompleteWeek.GetSQL выполнена');
 end;
 
 function TBRWSecondTableIncompleteWeek.GetProductWholeBlood: string;
@@ -89,6 +93,8 @@ begin
     '[(Нужный) Сумма крови и тромб-в за пред неделю];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTableIncompleteWeek.GetProductWholeBlood выполнена', result);
 end;
 
 function TBRWSecondTableIncompleteWeek.GetVolumeReinfusion: string;
@@ -102,6 +108,8 @@ begin
     '[(Нужный) Сумма крови и тромб-в за пред неделю];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTableIncompleteWeek.GetVolumeReinfusion выполнена', result);
 end;
 
 function TBRWSecondTableIncompleteWeek.
@@ -112,6 +120,8 @@ begin
     'FROM [Произведено годной Эр вз 1];';
   GetSQL(TempSQL);
   result := 'Эр вз фил - ' + VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTableIncompleteWeek.GetPreparedFitProductionErSuspFiltr выполнена', result);
 end;
 
 function TBRWSecondTableIncompleteWeek.GetPreparedFitProductionErSusp: string;
@@ -126,6 +136,7 @@ begin
   else
     result := 'Эр вз - ' + result;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTableIncompleteWeek.GetPreparedFitProductionErSusp выполнена', result);
 end;
 
 function TBRWSecondTableIncompleteWeek.GetPreparedFitProductionSZP: string;
@@ -138,9 +149,10 @@ begin
     '[(Нужный) Сумма крови и плазмы АПА за пред неделю], [К недельному объем плазмы];';
   GetSQL(TempSQL);
   result := 'СЗП - ' + VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTableIncompleteWeek.GetPreparedFitProductionSZP выполнена', result);
 end;
 
-//
 function TBRWSecondTableIncompleteWeek.GetOutingProductWholeBlood: string;
 begin
   TempSQL := 'SELECT Sum(Blood.ЦелК)/1000 AS [Sum-ЦелК] ' +
@@ -154,6 +166,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTableIncompleteWeek.GetOutingProductWholeBlood выполнена', result);
 end;
 
 function TBRWSecondTableIncompleteWeek.
@@ -169,6 +183,8 @@ begin
     result := ' '
   else
     result := 'Эр вз фил - ' + VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTableIncompleteWeek.GetOutingPreparedFitProductionErSuspFiltr выполнена', result);
 end;
 
 function TBRWSecondTableIncompleteWeek.
@@ -185,6 +201,8 @@ begin
     result := ' '
   else
     result := 'Эр вз - ' + result;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTableIncompleteWeek.GetOutingPreparedFitProductionErSusp выполнена', result);
 end;
 
 function TBRWSecondTableIncompleteWeek.
@@ -203,6 +221,8 @@ begin
     result := ' '
   else
     result := 'СЗП - ' + VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTableIncompleteWeek.GetOutingPreparedFitProductionSZP выполнена', result);
 end;
 
 end.

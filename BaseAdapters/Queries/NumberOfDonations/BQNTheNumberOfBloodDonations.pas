@@ -3,7 +3,7 @@ unit BQNTheNumberOfBloodDonations;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -52,11 +52,15 @@ begin
   End;
   NumberOfBD := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQNTheNumberOfBloodDonations.create выполнена');
 end;
 
 function TBQNTheNumberOfBloodDonations.GetValue: string;
 begin
   result := NumberOfBD;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQNTheNumberOfBloodDonations.GetValue выполнена');
 end;
 
 end.

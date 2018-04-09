@@ -3,7 +3,7 @@ unit BQPHarvestingOfTromboPacetsTotal;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB,
+  SysUtils, Variants, CodeSiteLogging, Data.Win.ADODB,
   GetAdoConnect,
   USCheckNull;
 
@@ -49,11 +49,15 @@ begin
   TromboPacetsTotal :=
     VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQPHarvestingOfTromboPacetsTotal.create выполнена');
 end;
 
 function TBQPHarvestingOfTromboPacetsTotal.GetValue: string;
 begin
   result := TromboPacetsTotal;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQPHarvestingOfTromboPacetsTotal.GetValue выполнена');
 end;
 
 end.

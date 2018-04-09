@@ -3,7 +3,7 @@ unit BQBTheAmountOfBloodOnPreserving;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -58,11 +58,15 @@ begin
     CheckNull.CheckedValue(TempQuery.Fields[1].value) + CheckNull.CheckedValue
     (TempQuery.Fields[0].value));
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQBTheAmountOfBloodOnPreserving.create выполнена');
 end;
 
 function TBQBTheAmountOfBloodOnPreserving.GetValue: string;
 begin
   result := AmountOfBP;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQBTheAmountOfBloodOnPreserving.GetValue выполнена');
 end;
 
 end.

@@ -3,7 +3,7 @@ unit BRWTableForDefect;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -57,6 +57,8 @@ begin
   if Assigned(TempQueryWholeBlood) then
     TempQueryWholeBlood.Free;
   CheckNull := nil;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWTableForDefect.destroy выполнена');
 end;
 
 procedure TBRWTableForDefect.GetContent;
@@ -215,26 +217,35 @@ begin
   TempQueryErSusp.Close;
   TempQueryPlasma.Close;
   TempQueryWholeBlood.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWTableForDefect.GetContent выполнена');
 end;
 
 function TBRWTableForDefect.GetTypeOfDefect(i: integer): string;
 begin
   result := ResultMass[i].TypeOfDefect;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWTableForDefect.GetTypeOfDefect выполнена', result);
 end;
 
 function TBRWTableForDefect.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWTableForDefect.GetRowCount выполнена', result);
 end;
 
 function TBRWTableForDefect.GetVolume(i: integer): string;
 begin
   result := ResultMass[i].Volume;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWTableForDefect.GetVolume выполнена', result);
 end;
 
 function TBRWTableForDefect.GetTypeOfProduct(i: integer): string;
 begin
   result := ResultMass[i].TypeOfProduct;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWTableForDefect.GetTypeOfProduct выполнена', result);
+end;
 end.

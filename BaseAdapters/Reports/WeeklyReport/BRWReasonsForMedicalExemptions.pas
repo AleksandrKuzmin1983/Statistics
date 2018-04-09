@@ -3,7 +3,7 @@ unit BRWReasonsForMedicalExemptions;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, CodeSiteLogging, Dialogs, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -160,23 +160,31 @@ begin
     end;
     TempQuery.Close;
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWReasonsForMedicalExemptions.create выполнена');
 end;
 
 function TBRWReasonsForMedicalExemptions.GetValueNumber(i: Integer): string;
 
 begin
   result := IntToStr(TempArray[i].number);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWReasonsForMedicalExemptions.GetValueNumber выполнена', result);
 end;
 
 function TBRWReasonsForMedicalExemptions.GetValueName(i: Integer): string;
 
 begin
   result := TempArray[i].name;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWReasonsForMedicalExemptions.GetValueName выполнена', result);
 end;
 
 function TBRWReasonsForMedicalExemptions.GetValueOuting(i: Integer): string;
 begin
   result := IntToStr(TempArray[i].numberOuting);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWReasonsForMedicalExemptions.GetValueOuting выполнена', result);
 end;
 
 end.

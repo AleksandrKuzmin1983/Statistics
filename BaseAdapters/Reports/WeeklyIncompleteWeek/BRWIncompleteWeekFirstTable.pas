@@ -3,7 +3,7 @@ unit BRWIncompleteWeekFirstTable;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, CodeSiteLogging, Dialogs, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -101,6 +101,8 @@ begin
     TempArray[i] := CheckNull.CheckedValue(TempQuery.Fields[i].value);
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWIncompleteWeekFirstTable.create выполнена');
 end;
 
 function TBRWIncompleteWeekFirstTable.GetValueLitr(i: integer): string;
@@ -110,6 +112,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0.000', TempArray[i] / 1000));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWIncompleteWeekFirstTable.GetValueLitr выполнена', result);
 end;
 
 function TBRWIncompleteWeekFirstTable.GetValuePlan(i: integer): string;
@@ -118,6 +122,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0.000', TempArray[i]));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWIncompleteWeekFirstTable.GetValuePlan выполнена', result);
 end;
 
 function TBRWIncompleteWeekFirstTable.GetValuePercent(i: integer): string;
@@ -126,6 +132,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0', TempArray[i] / 10)) + '%';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWIncompleteWeekFirstTable.GetValuePercent выполнена', result);
 end;
 
 function TBRWIncompleteWeekFirstTable.GetValueTromboPacketsDoses
@@ -135,6 +143,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0', TempArray[i]));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWIncompleteWeekFirstTable.GetValueTromboPacketsDoses выполнена', result);
 end;
 
 end.

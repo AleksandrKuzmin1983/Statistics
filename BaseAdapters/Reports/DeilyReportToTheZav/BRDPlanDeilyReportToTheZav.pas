@@ -3,7 +3,7 @@ unit BRDPlanDeilyReportToTheZav;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -56,6 +56,8 @@ begin
     TempQuery := TADOQuery.create(nil);
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDPlanDeilyReportToTheZav.GetPercentConsBlood выполнена');
 end;
 
 procedure TBRDPlanDeilyReportToTheZav.GetSQL(CSQL: String);
@@ -75,6 +77,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDPlanDeilyReportToTheZav.GetPercentConsBlood выполнена');
 end;
 
 function TBRDPlanDeilyReportToTheZav.GetPlanVolumeWholeBlood: string;
@@ -84,6 +88,8 @@ begin
     + 'FROM [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDPlanDeilyReportToTheZav.GetPlanVolumeWholeBlood выполнена', result);
 end;
 
 function TBRDPlanDeilyReportToTheZav.GetPlanVolumeConsBlood: string;
@@ -93,6 +99,8 @@ begin
     + 'FROM [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDPlanDeilyReportToTheZav.GetPlanVolumeConsBlood выполнена', result);
 end;
 
 function TBRDPlanDeilyReportToTheZav.GetPlanVolumePlasmaTotal: string;
@@ -102,6 +110,8 @@ begin
     'FROM [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDPlanDeilyReportToTheZav.GetPlanVolumePlasmaTotal выполнена', result);
 end;
 
 function TBRDPlanDeilyReportToTheZav.GetPlanVolumePlasmaAPA: string;
@@ -111,6 +121,8 @@ begin
     'FROM [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDPlanDeilyReportToTheZav.GetPlanVolumePlasmaAPA выполнена', result);
 end;
 
 function TBRDPlanDeilyReportToTheZav.GetPlanVolumeErSusp: string;
@@ -120,6 +132,8 @@ begin
     + 'FROM [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDPlanDeilyReportToTheZav.GetPlanVolumeErSusp выполнена', result);
 end;
 
 function TBRDPlanDeilyReportToTheZav.GetPlanBloodProcedures: string;
@@ -129,6 +143,8 @@ begin
     + 'FROM [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDPlanDeilyReportToTheZav.GetPlanBloodProcedures выполнена', result);
 end;
 
 function TBRDPlanDeilyReportToTheZav.GetPlanAPAProcedures: string;
@@ -138,6 +154,8 @@ begin
     + 'FROM [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDPlanDeilyReportToTheZav.GetPlanAPAProcedures выполнена', result);
 end;
 
 function TBRDPlanDeilyReportToTheZav.GetPlanTromboProcedures: string;
@@ -147,6 +165,8 @@ begin
     + 'FROM [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDPlanDeilyReportToTheZav.GetPlanTromboProcedures выполнена', result);
 end;
 
 function TBRDPlanDeilyReportToTheZav.GetWorksDay: string;
@@ -156,6 +176,8 @@ begin
     + 'FROM [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDPlanDeilyReportToTheZav.GetWorksDay выполнена', result);
 end;
 
 end.

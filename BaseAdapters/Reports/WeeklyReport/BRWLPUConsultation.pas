@@ -3,7 +3,7 @@ unit BRWLPUConsultation;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, CodeSiteLogging, Dialogs, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -43,10 +43,11 @@ begin
     TempQuery := TADOQuery.create(nil);
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWLPUConsultation.create выполнена');
 end;
 
 procedure TBRWLPUConsultation.GetSQL(CSQL: String);
-
 begin
   Try
     With TempQuery do
@@ -62,33 +63,44 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWLPUConsultation.GetSQL выполнена');
 end;
 
 function TBRWLPUConsultation.GetTransfusiolog: string;
 begin
-  TempSQL := 'SELECT Consultations.ВТ ' + 'FROM Consultations ' +
+  TempSQL := 'SELECT Sum(Consultations.ВТ) as [SUM-ВТ] ' +
+    'FROM Consultations ' +
     'WHERE (((Consultations.ДатаКон)<=Date()-Weekday(Date())+1 ' +
     'And (Consultations.ДатаКон)>=Date()-Weekday(Date())-5));';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWLPUConsultation.GetTransfusiolog выполнена', result);
 end;
 
 function TBRWLPUConsultation.GetLaboratory: string;
 begin
-  TempSQL := 'SELECT Consultations.ВЛ ' + 'FROM Consultations ' +
+  TempSQL := 'SELECT Sum(Consultations.ВЛ) as [SUM-ВЛ] ' +
+    'FROM Consultations ' +
     'WHERE (((Consultations.ДатаКон)<=Date()-Weekday(Date())+1 ' +
     'And (Consultations.ДатаКон)>=Date()-Weekday(Date())-5));';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWLPUConsultation.GetLaboratory выполнена', result);
 end;
 
 function TBRWLPUConsultation.GetCheckLPU: string;
 begin
-  TempSQL := 'SELECT Consultations.ПЛПУ ' + 'FROM Consultations ' +
+  TempSQL := 'SELECT Sum(Consultations.ПЛПУ) as [SUM-ПЛПУ] ' +
+    'FROM Consultations ' +
     'WHERE (((Consultations.ДатаКон)<=Date()-Weekday(Date())+1 ' +
     'And (Consultations.ДатаКон)>=Date()-Weekday(Date())-5));';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWLPUConsultation.GetCheckLPU выполнена', result);
 end;
 
 end.
