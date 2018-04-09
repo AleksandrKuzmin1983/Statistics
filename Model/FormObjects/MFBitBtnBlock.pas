@@ -3,7 +3,7 @@ unit MFBitBtnBlock;
 interface
 
 uses
-  SysUtils, Classes, Forms, Buttons;
+  SysUtils, Classes, Forms, CodeSiteLogging, Buttons;
 
 type
   IMFBitBtnBlock = interface
@@ -39,11 +39,15 @@ begin
     Result := True
   else
     Result := False;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnAdd.GetCaption выполнена', Result);
 end;
 
 procedure TMFBitBtnBlock.Visible(i: Boolean);
 begin
   TempBitBtnBlock.Visible := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnAdd.Visible выполнена', i);
 end;
 
 procedure TMFBitBtnBlock.ChangeCaption(i: Boolean);
@@ -51,18 +55,24 @@ begin
   if i then
     TempBitBtnBlock.Caption := '«аблокировать'
   else
-    TempBitBtnBlock.Caption := '–азблокировать'
+    TempBitBtnBlock.Caption := '–азблокировать';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnAdd.ChangeCaption выполнена', TempBitBtnBlock.Caption);
 end;
 
 procedure TMFBitBtnBlock.ChangeEnabled(i: Boolean);
 begin
   TempBitBtnBlock.Enabled := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnAdd.ChangeEnabled выполнена', i);
 end;
 
 procedure TMFBitBtnBlock.destroy;
 begin
   if Assigned(TempBitBtnBlock) then
     FreeAndNil(TempBitBtnBlock);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnAdd.destroy выполнена');
 end;
 
 function TMFBitBtnBlock.GetBitBtnBlock(CLeft, CTop: integer;
@@ -94,6 +104,8 @@ begin
     end;
   end;
   Result := TempBitBtnBlock;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnAdd.GetBitBtnBlock выполнена');
 end;
 
 end.

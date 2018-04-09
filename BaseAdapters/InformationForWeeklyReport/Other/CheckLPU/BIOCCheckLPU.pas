@@ -3,7 +3,7 @@ unit BIOCCheckLPU;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -85,11 +85,15 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOCCheckLPU.GetContent выполнена');
 end;
 
 function TBIOCCheckLPU.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOCCheckLPU.GetRowCount выполнена');
 end;
 
 function TBIOCCheckLPU.GetCheckLPU(i: integer): string;

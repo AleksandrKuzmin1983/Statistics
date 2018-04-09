@@ -3,7 +3,7 @@ unit BIODeleteRecord;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, DateUtils,
+  SysUtils, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB, DateUtils,
   USCheckNull,
   GetAdoConnect;
 
@@ -45,6 +45,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIODeleteRecord.DeleteRecord выполнена');
 end;
 
 procedure TBIODeleteRecord.destroy;
@@ -53,6 +55,7 @@ begin
   TempConnect := nil;
   if Assigned(TempQuery) then
     TempQuery.Free;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIODeleteRecord.destroy выполнена');
+end;
 end.

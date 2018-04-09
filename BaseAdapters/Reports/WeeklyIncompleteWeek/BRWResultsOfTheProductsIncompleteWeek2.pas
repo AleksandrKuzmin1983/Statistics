@@ -3,7 +3,7 @@ unit BRWResultsOfTheProductsIncompleteWeek2;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -103,6 +103,8 @@ begin
     TempArray[i] := CheckNull.CheckedValue(TempQuery.Fields[i].value);
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWResultsOfTheProductsIncompleteWeek2.create выполнена');
 end;
 
 function TBRWResultsOfTheProductsIncompleteWeek2.GetValueLitr
@@ -113,6 +115,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0.000', TempArray[i] / 1000));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWResultsOfTheProductsIncompleteWeek2.GetValueLitr выполнена', result);
 end;
 
 function TBRWResultsOfTheProductsIncompleteWeek2.GetValueDoses
@@ -122,6 +126,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0', TempArray[i]));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWResultsOfTheProductsIncompleteWeek2.GetValueDoses выполнена', result);
 end;
 
 function TBRWResultsOfTheProductsIncompleteWeek2.GetValuePercent
@@ -131,6 +137,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0', TempArray[i])) + '%';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWResultsOfTheProductsIncompleteWeek2.GetValuePercent выполнена', result);
 end;
 
 end.

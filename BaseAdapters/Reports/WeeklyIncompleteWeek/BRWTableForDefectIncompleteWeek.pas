@@ -3,7 +3,7 @@ unit BRWTableForDefectIncompleteWeek;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, CodeSiteLogging, Data.Win.ADODB, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -58,6 +58,8 @@ begin
   if Assigned(TempQueryWholeBlood) then
     TempQueryWholeBlood.Free;
   CheckNull := nil;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWTableForDefectIncompleteWeek.destroy выполнена');
 end;
 
 procedure TBRWTableForDefectIncompleteWeek.GetContent;
@@ -216,26 +218,36 @@ begin
   TempQueryErSusp.Close;
   TempQueryPlasma.Close;
   TempQueryWholeBlood.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWTableForDefectIncompleteWeek.GetContent выполнена');
 end;
 
 function TBRWTableForDefectIncompleteWeek.GetTypeOfDefect(i: integer): string;
 begin
   result := ResultMass[i].TypeOfDefect;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWTableForDefectIncompleteWeek.GetContent выполнена', result);
 end;
 
 function TBRWTableForDefectIncompleteWeek.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWTableForDefectIncompleteWeek.GetContent выполнена', result);
 end;
 
 function TBRWTableForDefectIncompleteWeek.GetVolume(i: integer): string;
 begin
   result := ResultMass[i].Volume;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWTableForDefectIncompleteWeek.GetContent выполнена', result);
 end;
 
 function TBRWTableForDefectIncompleteWeek.GetTypeOfProduct(i: integer): string;
 begin
   result := ResultMass[i].TypeOfProduct;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWTableForDefectIncompleteWeek.GetContent выполнена', result);
 end;
 
 end.

@@ -3,7 +3,7 @@ unit BIOCConsumptionOfErythrocyteEnvironments;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, CodeSiteLogging, Data.Win.ADODB, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -108,6 +108,8 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOCConsumptionOfErythrocyteEnvironments.GetContent выполнена');
 end;
 
 function TBIOCConsumptionOfErythrocyteEnvironments.GetCancellationDate
@@ -119,6 +121,8 @@ end;
 function TBIOCConsumptionOfErythrocyteEnvironments.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOCConsumptionOfErythrocyteEnvironments.GetRowCount выполнена');
 end;
 
 function TBIOCConsumptionOfErythrocyteEnvironments.GetNumberOfDoses

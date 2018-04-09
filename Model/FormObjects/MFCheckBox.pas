@@ -3,7 +3,7 @@ unit MFCheckBox;
 interface
 
 uses
-  Graphics, SysUtils, StdCtrls, Forms, Classes, Controls;
+  Graphics, SysUtils, StdCtrls, Forms, Classes, CodeSiteLogging, Controls;
 
 type
   IMFCheckBox = interface
@@ -40,6 +40,8 @@ implementation
 function TMFCheckBox.GetChecked: boolean;
 begin
   Result := TempCheckBox.Checked;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFCheckBox.GetChecked выполнена', Result);
 end;
 
 function TMFCheckBox.CheckedString: String;
@@ -48,17 +50,23 @@ begin
     Result := 'true'
   else
     Result := 'false';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFCheckBox.CheckedString выполнена', Result);
 end;
 
 procedure TMFCheckBox.destroy;
 begin
   if Assigned(TempCheckBox) then
     FreeAndNil(TempCheckBox);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFCheckBox.destroy выполнена');
 end;
 
 procedure TMFCheckBox.Enabled(i: boolean);
 begin
   TempCheckBox.Enabled := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFCheckBox.Enabled выполнена', i);
 end;
 
 function TMFCheckBox.GetCheckBox(Cleft, Сtop, CWidth, CHeight,
@@ -83,21 +91,29 @@ begin
     Visible := False;
   end;
   Result := TempCheckBox;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFCheckBox.GetCheckBox выполнена');
 end;
 
 procedure TMFCheckBox.OnClick(ProcedureOnClick: TNotifyEvent);
 begin
   TempCheckBox.OnClick := ProcedureOnClick;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFCheckBox.OnClick выполнена');
 end;
 
 procedure TMFCheckBox.Visible(i: boolean);
 begin
   TempCheckBox.Visible := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFCheckBox.Visible выполнена', i);
 end;
 
 procedure TMFCheckBox.WriteChecked(i: boolean);
 begin
   TempCheckBox.Checked := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFCheckBox.WriteChecked выполнена', i);
 end;
 
 end.

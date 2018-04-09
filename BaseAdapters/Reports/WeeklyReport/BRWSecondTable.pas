@@ -3,7 +3,7 @@ unit BRWSecondTable;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -55,10 +55,11 @@ begin
     TempQuery := TADOQuery.create(nil);
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWResultsOfTheProducts.create выполнена');
 end;
 
 procedure TBRWSecondTable.GetSQL(CSQL: String);
-
 begin
   Try
     With TempQuery do
@@ -74,6 +75,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWResultsOfTheProducts.GetSQL выполнена');
 end;
 
 function TBRWSecondTable.GetProductWholeBlood: string;
@@ -88,6 +91,8 @@ begin
     '[(Нужный) Сумма крови и тромб-в за пред неделю];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWResultsOfTheProducts.GetProductWholeBlood выполнена', result);
 end;
 
 function TBRWSecondTable.GetVolumeReinfusion: string;
@@ -101,6 +106,8 @@ begin
     '[(Нужный) Сумма крови и тромб-в за пред неделю];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTable.GetVolumeReinfusion выполнена', result);
 end;
 
 function TBRWSecondTable.GetPreparedFitProductionErSuspFiltr: string;
@@ -110,6 +117,8 @@ begin
     'FROM [Произведено годной Эр вз 1];';
   GetSQL(TempSQL);
   result := 'Эр вз фил - ' + VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTable.GetPreparedFitProductionErSuspFiltr выполнена', result);
 end;
 
 function TBRWSecondTable.GetPreparedFitProductionErSusp: string;
@@ -124,6 +133,7 @@ begin
   else
     result := 'Эр вз - ' + result;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTable.GetPreparedFitProductionErSusp выполнена', result);
 end;
 
 function TBRWSecondTable.GetPreparedFitProductionSZP: string;
@@ -136,6 +146,8 @@ begin
     '[(Нужный) Сумма крови и плазмы АПА за пред неделю], [К недельному объем плазмы];';
   GetSQL(TempSQL);
   result := 'СЗП - ' + VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWSecondTable.GetPreparedFitProductionSZP выполнена', result);
 end;
 
 //
@@ -152,6 +164,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWResultsOfTheProducts.GetOutingProductWholeBlood выполнена', result);
 end;
 
 function TBRWSecondTable.GetOutingPreparedFitProductionErSuspFiltr: string;
@@ -166,6 +180,8 @@ begin
     result := ' '
   else
     result := 'Эр вз фил - ' + VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWResultsOfTheProducts.GetOutingPreparedFitProductionErSuspFiltr выполнена', result);
 end;
 
 function TBRWSecondTable.GetOutingPreparedFitProductionErSusp: string;
@@ -181,6 +197,8 @@ begin
     result := ' '
   else
     result := 'Эр вз - ' + result;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWResultsOfTheProducts.GetOutingPreparedFitProductionErSusp выполнена', result);
 end;
 
 function TBRWSecondTable.GetOutingPreparedFitProductionSZP: string;
@@ -198,6 +216,8 @@ begin
     result := ' '
   else
     result := 'СЗП - ' + VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWResultsOfTheProducts.GetOutingPreparedFitProductionSZP выполнена', result);
 end;
 
 end.

@@ -3,7 +3,7 @@ unit BIETTheResultsInLPU;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, CodeSiteLogging, Data.Win.ADODB, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -113,6 +113,8 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIETTheResultsInLPU.GetContent выполнена');
 end;
 
 function TBIETTheResultsInLPU.GetReportDate(i: integer): string;
@@ -123,6 +125,8 @@ end;
 function TBIETTheResultsInLPU.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIETTheResultsInLPU.GetRowCount выполнена');
 end;
 
 function TBIETTheResultsInLPU.GetNumberOfDoses(i: integer): string;
@@ -159,5 +163,4 @@ function TBIETTheResultsInLPU.GetKod(i: integer): string;
 begin
   result := ResultMass[i].Kod;
 end;
-
 end.

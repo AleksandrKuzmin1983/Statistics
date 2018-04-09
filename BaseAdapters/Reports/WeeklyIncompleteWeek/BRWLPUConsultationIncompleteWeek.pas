@@ -3,7 +3,7 @@ unit BRWLPUConsultationIncompleteWeek;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -44,6 +44,8 @@ begin
     TempQuery := TADOQuery.create(nil);
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWLPUConsultationIncompleteWeek.create выполнена');
 end;
 
 procedure TBRWLPUConsultationIncompleteWeek.GetSQL(CSQL: String);
@@ -63,6 +65,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWLPUConsultationIncompleteWeek.GetSQL выполнена');
 end;
 
 function TBRWLPUConsultationIncompleteWeek.GetTransfusiolog: string;
@@ -72,6 +76,8 @@ begin
     'And (Consultations.ДатаКон)>=Date()-Weekday(Date())-5));';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWLPUConsultationIncompleteWeek.GetTransfusiolog выполнена', result);
 end;
 
 function TBRWLPUConsultationIncompleteWeek.GetLaboratory: string;
@@ -81,6 +87,8 @@ begin
     'And (Consultations.ДатаКон)>=Date()-Weekday(Date())-5));';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWLPUConsultationIncompleteWeek.GetLaboratory выполнена', result);
 end;
 
 function TBRWLPUConsultationIncompleteWeek.GetCheckLPU: string;
@@ -90,6 +98,8 @@ begin
     'And (Consultations.ДатаКон)>=Date()-Weekday(Date())-5));';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWLPUConsultationIncompleteWeek.GetCheckLPU выполнена', result);
 end;
 
 end.

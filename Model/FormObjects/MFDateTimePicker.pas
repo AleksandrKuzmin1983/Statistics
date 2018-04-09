@@ -3,7 +3,7 @@ unit MFDateTimePicker;
 interface
 
 uses
-  DateUtils, SysUtils, Vcl.ComCtrls, Forms;
+  DateUtils, SysUtils, Vcl.ComCtrls, CodeSiteLogging, Forms;
 
 type
   IMFDateTimePicker = interface
@@ -41,21 +41,29 @@ procedure TMFDateTimePicker.destroy;
 begin
   if Assigned(TempDTPicker) then
     FreeAndNil(TempDTPicker);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFDateTimePicker.destroy выполнена');
 end;
 
 procedure TMFDateTimePicker.Enabled(i: boolean);
 begin
   TempDTPicker.Enabled := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFDateTimePicker.Enabled выполнена', i);
 end;
 
 procedure TMFDateTimePicker.FontSize(Value: integer);
 begin
   TempDTPicker.Font.Size := Value;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFDateTimePicker.FontSize выполнена', Value);
 end;
 
 function TMFDateTimePicker.GetDate: Extended;
 begin
   Result := TempDTPicker.Date;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFDateTimePicker.GetDate выполнена', Result);
 end;
 
 function TMFDateTimePicker.GetDTPicker(Cleft, Сtop: integer; CDate: Extended;
@@ -76,21 +84,29 @@ begin
     end;
   end;
   Result := TempDTPicker;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFDateTimePicker.GetDTPicker выполнена');
 end;
 
 procedure TMFDateTimePicker.Visible(i: boolean);
 begin
   TempDTPicker.Visible := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFDateTimePicker.Visible выполнена', i);
 end;
 
 procedure TMFDateTimePicker.Width(Value: integer);
 begin
   TempDTPicker.Width := Value;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFDateTimePicker.Width выполнена', Value);
 end;
 
 procedure TMFDateTimePicker.WriteDateTime(DateTime: TDateTime);
 begin
   TempDTPicker.DateTime := DateTime;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFDateTimePicker.WriteDateTime выполнена', DateTime);
 end;
 
 end.

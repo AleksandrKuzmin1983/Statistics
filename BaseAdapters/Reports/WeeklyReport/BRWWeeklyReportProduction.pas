@@ -3,7 +3,7 @@ unit BRWWeeklyReportProduction;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -102,6 +102,8 @@ begin
     TempArray[i] := CheckNull.CheckedValue(TempQuery.Fields[i].value);
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWWeeklyReportProduction.create выполнена');
 end;
 
 function TBRWWeeklyReportProduction.GetValueLitr(i: integer): string;
@@ -111,6 +113,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0.000', TempArray[i] / 1000));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWWeeklyReportProduction.GetValueLitr выполнена', result);
 end;
 
 function TBRWWeeklyReportProduction.GetValuePlan(i: integer): string;
@@ -119,6 +123,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0.000', TempArray[i]));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWWeeklyReportProduction.GetValuePlan выполнена', result);
 end;
 
 function TBRWWeeklyReportProduction.GetValuePercent(i: integer): string;
@@ -127,6 +133,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0', TempArray[i] / 10)) + '%';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWWeeklyReportProduction.GetValuePercent выполнена', result);
 end;
 
 function TBRWWeeklyReportProduction.GetValueTromboPacketsDoses
@@ -136,6 +144,7 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0', TempArray[i]));
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWWeeklyReportProduction.GetValueTromboPacketsDoses выполнена', result);
+end;
 end.

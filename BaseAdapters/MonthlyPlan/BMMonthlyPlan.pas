@@ -3,7 +3,7 @@ unit BMMonthlyPlan;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -136,11 +136,15 @@ begin
       + chr(13) + 'Обратитесь к администратору!');
   End;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBMMonthlyPlan.GetContent выполнена');
 end;
 
 function TBMMonthlyPlan.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBMMonthlyPlan.GetRowCount выполнена');
 end;
 
 function TBMMonthlyPlan.GetVolumeStoredBlood(i: integer): string;

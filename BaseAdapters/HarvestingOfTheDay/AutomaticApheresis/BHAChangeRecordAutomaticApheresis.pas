@@ -3,7 +3,7 @@ unit BHAChangeRecordAutomaticApheresis;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, DateUtils,
+  SysUtils, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB, DateUtils,
   GetAdoConnect;
 
 type
@@ -66,6 +66,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHAChangeRecordAutomaticApheresis.ChangeRecordPlasma выполнена');
 end;
 
 procedure TBHAChangeRecordAutomaticApheresis.ChangeRecordPlasmaDoza
@@ -92,6 +94,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHAChangeRecordAutomaticApheresis.ChangeRecordPlasmaDoza выполнена');
 end;
 
 procedure TBHAChangeRecordAutomaticApheresis.GetTempId(Date: String);
@@ -123,6 +127,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHAChangeRecordAutomaticApheresis.CheckedValue выполнена');
 end;
 
 procedure TBHAChangeRecordAutomaticApheresis.ChangeRecordPlasmaComponents
@@ -150,6 +156,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHAChangeRecordAutomaticApheresis.ChangeRecordPlasmaComponents выполнена');
 end;
 
 procedure TBHAChangeRecordAutomaticApheresis.ChangeRecordPlasmaDefect
@@ -177,6 +185,7 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHAChangeRecordAutomaticApheresis.ChangeRecordPlasmaDefect выполнена');
+end;
 end.

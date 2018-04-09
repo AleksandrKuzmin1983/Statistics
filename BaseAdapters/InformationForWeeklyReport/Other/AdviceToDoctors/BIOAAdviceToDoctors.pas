@@ -3,7 +3,7 @@ unit BIOAAdviceToDoctors;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -92,11 +92,15 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOAAdviceToDoctors.GetContent выполнена');
 end;
 
 function TBIOAAdviceToDoctors.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOAAdviceToDoctors.GetRowCount выполнена');
 end;
 
 function TBIOAAdviceToDoctors.GetLaboratoryScientist(i: integer): string;

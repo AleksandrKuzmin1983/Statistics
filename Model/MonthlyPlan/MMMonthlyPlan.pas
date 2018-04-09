@@ -3,7 +3,7 @@ unit MMMonthlyPlan;
 interface
 
 uses
-  Vcl.ExtCtrls, WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  Vcl.ExtCtrls, WinProcs, SysUtils, StdCtrls, CodeSiteLogging, Buttons, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
 
   USCheckFillStringFields,
@@ -204,6 +204,8 @@ begin
   GetButtonDelete(form);
   GetButtonBlock(form);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.create выполнена');
   inherited;
 end;
 
@@ -254,6 +256,8 @@ begin
   ButtonDelete.destroy;
   ButtonEdit.destroy;
   ButtonBlock.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.destroy выполнена');
   inherited;
 end;
 
@@ -275,6 +279,8 @@ begin
   CBoxMonth.WriteItemIndex(MonthOf(Date()));
   CBoxYear.WriteItemIndex(2);
   OnChangeCbox(CBoxMonth);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.AfterSaving_Cancelling выполнена');
 end;
 
 // Добавление новой записи
@@ -309,6 +315,8 @@ begin
     StringGrid.Visible(True);
     AfterSaving_Cancelling;
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.ButtonAdded выполнена');
 end;
 
 // Разблокировка кнопок
@@ -329,6 +337,8 @@ begin
     ButtonDelete.ChangeEnabled(False);
     ButtonBlock.ChangeCaption(False);
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.ButtonBlocked выполнена');
 end;
 
 // Кнопка удаления
@@ -348,6 +358,8 @@ begin
     ShowMessage('Запись успешно удалена!');
   end;
   AfterSaving_Cancelling;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.ButtonDeleted выполнена');
 end;
 
 // Внесение изменений
@@ -473,6 +485,8 @@ begin
     ButtonEdit.ChangeCaption('Сохранить изменения')
   else
     ButtonEdit.ChangeCaption('Изменить');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.ButtonEdited выполнена');
 end;
 
 // Создание кнопок
@@ -481,6 +495,8 @@ begin
   if not Assigned(ButtonAdd) then
     ButtonAdd := TMFBitBtnAdd.create;
   Result := ButtonAdd.GetBitBtnAdd(670, 0, ButtonAdded, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetButtonAdd выполнена');
 end;
 
 function TMMMonthlyPlan.GetButtonBlock(NameForm: TForm): TBitBtn;
@@ -488,6 +504,8 @@ begin
   if not Assigned(ButtonBlock) then
     ButtonBlock := TMFBitBtnBlock.create;
   Result := ButtonBlock.GetBitBtnBlock(670, 0, ButtonBlocked, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetButtonBlock выполнена');
 end;
 
 function TMMMonthlyPlan.GetButtonDelete(NameForm: TForm): TBitBtn;
@@ -495,6 +513,8 @@ begin
   if not Assigned(ButtonDelete) then
     ButtonDelete := TMFBitBtnDelete.create;
   Result := ButtonDelete.GetBitBtnDelete(670, 0, ButtonDeleted, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetButtonDelete выполнена');
 end;
 
 function TMMMonthlyPlan.GetButtonEdit(NameForm: TForm): TBitBtn;
@@ -502,6 +522,8 @@ begin
   if not Assigned(ButtonEdit) then
     ButtonEdit := TMFBitBtnEdit.create;
   Result := ButtonEdit.GetBitBtnEdit(670, 0, ButtonEdited, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetButtonEdit выполнена');
 end;
 
 function TMMMonthlyPlan.CheckingBeforeSaving: boolean;
@@ -567,6 +589,8 @@ begin
     exit;
   end;
   Result := False;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.CheckingBeforeSaving выполнена');
 end;
 
 function TMMMonthlyPlan.GetLabelDate(NameForm: TForm): TLabel;
@@ -574,6 +598,8 @@ begin
   if not Assigned(LabelDate) then
     LabelDate := TMFLabel.create;
   Result := LabelDate.GetTempLabel(30, 60, 14, 'Плановый период: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.creaGetLabelDatete выполнена');
 end;
 
 function TMMMonthlyPlan.GetLabelVolumeWholeBlood(NameForm: TForm): TLabel;
@@ -582,6 +608,8 @@ begin
     LabelVolumeWholeBlood := TMFLabel.create;
   Result := LabelVolumeWholeBlood.GetTempLabel(30, 140, 14,
     'Объем цельной крови, мл: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLabelVolumeWholeBlood выполнена');
 end;
 
 function TMMMonthlyPlan.GetLabelVolumeStoredBlood(NameForm: TForm): TLabel;
@@ -590,6 +618,8 @@ begin
     LabelVolumeStoredBlood := TMFLabel.create;
   Result := LabelVolumeStoredBlood.GetTempLabel(30, 170, 14,
     'Объем консервированной крови, мл: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLabelVolumeStoredBlood выполнена');
 end;
 
 function TMMMonthlyPlan.GetLabelVolumePlasmaTotal(NameForm: TForm): TLabel;
@@ -598,6 +628,8 @@ begin
     LabelVolumePlasmaTotal := TMFLabel.create;
   Result := LabelVolumePlasmaTotal.GetTempLabel(30, 200, 14,
     'Объем плазмы (всего), мл: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLabelVolumePlasmaTotal выполнена');
 end;
 
 function TMMMonthlyPlan.GetLabelProceduresBlood(NameForm: TForm): TLabel;
@@ -606,6 +638,8 @@ begin
     LabelProceduresBlood := TMFLabel.create;
   Result := LabelProceduresBlood.GetTempLabel(30, 240, 14,
     'Количество процедур крови: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLabelProceduresBlood выполнена');
 end;
 
 function TMMMonthlyPlan.GetLabelProceduresPlasmaAPA(NameForm: TForm): TLabel;
@@ -614,6 +648,8 @@ begin
     LabelProceduresPlasmaAPA := TMFLabel.create;
   Result := LabelProceduresPlasmaAPA.GetTempLabel(30, 270, 14,
     'Количество процедур плазмафереза: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLabelProceduresPlasmaAPA выполнена');
 end;
 
 function TMMMonthlyPlan.GetLabelProceduresTrombo(NameForm: TForm): TLabel;
@@ -622,6 +658,8 @@ begin
     LabelProceduresTrombo := TMFLabel.create;
   Result := LabelProceduresTrombo.GetTempLabel(30, 300, 14,
     'Количество процедур цитофереза: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLabelProceduresTrombo выполнена');
 end;
 
 function TMMMonthlyPlan.GetLabelVolumePlasmaAPA(NameForm: TForm): TLabel;
@@ -630,6 +668,8 @@ begin
     LabelVolumePlasmaAPA := TMFLabel.create;
   Result := LabelVolumePlasmaAPA.GetTempLabel(30, 340, 14,
     'Объем плазмы АПА, мл: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLabelVolumePlasmaAPA выполнена');
 end;
 
 function TMMMonthlyPlan.GetLabelVolumeErSusp(NameForm: TForm): TLabel;
@@ -638,6 +678,8 @@ begin
     LabelVolumeErSusp := TMFLabel.create;
   Result := LabelVolumeErSusp.GetTempLabel(30, 370, 14, 'Объем эр. сред, мл: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLabelVolumeErSusp выполнена');
 end;
 
 function TMMMonthlyPlan.GetLabelVolumeTrombo(NameForm: TForm): TLabel;
@@ -646,6 +688,8 @@ begin
     LabelVolumeTrombo := TMFLabel.create;
   Result := LabelVolumeTrombo.GetTempLabel(30, 400, 14,
     'Количество ед. доз тромбоконцентрата: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLabelVolumeTrombo выполнена');
 end;
 
 function TMMMonthlyPlan.GetLabelNumberWorkDays(NameForm: TForm): TLabel;
@@ -654,6 +698,8 @@ begin
     LabelNumberWorkDays := TMFLabel.create;
   Result := LabelNumberWorkDays.GetTempLabel(30, 440, 14,
     'Количество рабочих дней: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLabelNumberWorkDays выполнена');
 end;
 
 function TMMMonthlyPlan.GetLabelWorkDays(NameForm: TForm): TLabel;
@@ -664,6 +710,8 @@ begin
     'Выбери рабочие дни в отчетном периоде (Нажми Ctrl+...). ', NameForm);
   LabelWorkDays.Width(200);
   LabelWorkDays.WordWrap(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLabelWorkDays выполнена');
 end;
 
 procedure TMMMonthlyPlan.OnChangeCbox(Sender: TObject);
@@ -671,10 +719,11 @@ begin
   LBoxCalendar.ContentListBox
     (StrToInt(CBoxYear.GetItemsValue(CBoxYear.GetItemIndex)),
     CBoxMonth.GetItemIndex + 1);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.OnChangeCbox выполнена');
 end;
 
 procedure TMMMonthlyPlan.Show;
-
 begin
   LabelDate.Visible(True);
   LabelVolumeWholeBlood.Visible(True);
@@ -718,20 +767,25 @@ begin
   ButtonAdd.Visible(True);
   ButtonDelete.Visible(True);
   ButtonBlock.Visible(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.Show выполнена');
 end;
 
 function TMMMonthlyPlan.GetPanelVert(NameForm: TForm): TPanel;
-
 begin
   if not Assigned(PanelVert) then
     PanelVert := TMFPanel.create;
   Result := PanelVert.GetTempPanel(360, 140, 323, 1, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetPanelVert выполнена');
 end;
 
 procedure TMMMonthlyPlan.GetPeriod;
 begin
   Period := EncodeDate(StrToInt(CBoxYear.GetItemsValue(CBoxYear.GetItemIndex)),
     CBoxMonth.GetItemIndex + 1, 1);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetPeriod выполнена');
 end;
 
 function TMMMonthlyPlan.GetPanelGor1(NameForm: TForm): TPanel;
@@ -739,6 +793,8 @@ begin
   if not Assigned(PanelGor1) then
     PanelGor1 := TMFPanel.create;
   Result := PanelGor1.GetTempPanel(150, 165, 1, 320, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetPanelGor1 выполнена');
 end;
 
 function TMMMonthlyPlan.GetPanelGor2(NameForm: TForm): TPanel;
@@ -746,6 +802,8 @@ begin
   if not Assigned(PanelGor2) then
     PanelGor2 := TMFPanel.create;
   Result := PanelGor2.GetTempPanel(150, 195, 1, 320, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetPanelGor2 выполнена');
 end;
 
 function TMMMonthlyPlan.GetPanelGor3(NameForm: TForm): TPanel;
@@ -753,6 +811,8 @@ begin
   if not Assigned(PanelGor3) then
     PanelGor3 := TMFPanel.create;
   Result := PanelGor3.GetTempPanel(150, 265, 1, 320, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetPanelGor3 выполнена');
 end;
 
 function TMMMonthlyPlan.GetPanelGor4(NameForm: TForm): TPanel;
@@ -760,6 +820,8 @@ begin
   if not Assigned(PanelGor4) then
     PanelGor4 := TMFPanel.create;
   Result := PanelGor4.GetTempPanel(150, 295, 1, 320, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetPanelGor4 выполнена');
 end;
 
 function TMMMonthlyPlan.GetPanelGor5(NameForm: TForm): TPanel;
@@ -767,6 +829,8 @@ begin
   if not Assigned(PanelGor5) then
     PanelGor5 := TMFPanel.create;
   Result := PanelGor5.GetTempPanel(150, 365, 1, 320, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetPanelGor5 выполнена');
 end;
 
 function TMMMonthlyPlan.GetPanelGor6(NameForm: TForm): TPanel;
@@ -774,6 +838,8 @@ begin
   if not Assigned(PanelGor6) then
     PanelGor6 := TMFPanel.create;
   Result := PanelGor6.GetTempPanel(150, 395, 1, 320, 0, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetPanelGor6 выполнена');
 end;
 
 function TMMMonthlyPlan.GetEditVolumeWholeBlood(NameForm: TForm): TEdit;
@@ -782,6 +848,8 @@ begin
     EditVolumeWholeBlood := TMFEdit.create;
   Result := EditVolumeWholeBlood.GetEdit(370, 140, 100, 10, False, NameForm);
   EditVolumeWholeBlood.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetEditVolumeWholeBlood выполнена');
 end;
 
 function TMMMonthlyPlan.GetEditVolumeStoredBlood(NameForm: TForm): TEdit;
@@ -790,6 +858,8 @@ begin
     EditVolumeStoredBlood := TMFEdit.create;
   Result := EditVolumeStoredBlood.GetEdit(370, 170, 100, 10, False, NameForm);
   EditVolumeStoredBlood.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetEditVolumeStoredBlood выполнена');
 end;
 
 function TMMMonthlyPlan.GetEditVolumePlasmaTotal(NameForm: TForm): TEdit;
@@ -798,6 +868,8 @@ begin
     EditVolumePlasmaTotal := TMFEdit.create;
   Result := EditVolumePlasmaTotal.GetEdit(370, 200, 100, 10, False, NameForm);
   EditVolumePlasmaTotal.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetEditVolumePlasmaTotal выполнена');
 end;
 
 function TMMMonthlyPlan.GetEditProceduresBlood(NameForm: TForm): TEdit;
@@ -806,6 +878,8 @@ begin
     EditProceduresBlood := TMFEdit.create;
   Result := EditProceduresBlood.GetEdit(370, 240, 100, 10, False, NameForm);
   EditProceduresBlood.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetEditProceduresBlood выполнена');
 end;
 
 function TMMMonthlyPlan.GetEditProceduresPlasmaAPA(NameForm: TForm): TEdit;
@@ -814,6 +888,8 @@ begin
     EditProceduresPlasmaAPA := TMFEdit.create;
   Result := EditProceduresPlasmaAPA.GetEdit(370, 270, 100, 10, False, NameForm);
   EditProceduresPlasmaAPA.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetEditProceduresPlasmaAPA выполнена');
 end;
 
 function TMMMonthlyPlan.GetEditProceduresTrombo(NameForm: TForm): TEdit;
@@ -822,6 +898,8 @@ begin
     EditProceduresTrombo := TMFEdit.create;
   Result := EditProceduresTrombo.GetEdit(370, 300, 100, 10, False, NameForm);
   EditProceduresTrombo.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetEditProceduresTrombo выполнена');
 end;
 
 function TMMMonthlyPlan.GetEditVolumePlasmaAPA(NameForm: TForm): TEdit;
@@ -830,6 +908,8 @@ begin
     EditVolumePlasmaAPA := TMFEdit.create;
   Result := EditVolumePlasmaAPA.GetEdit(370, 340, 100, 10, False, NameForm);
   EditVolumePlasmaAPA.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetEditVolumePlasmaAPA выполнена');
 end;
 
 function TMMMonthlyPlan.GetEditVolumeErSusp(NameForm: TForm): TEdit;
@@ -838,6 +918,8 @@ begin
     EditVolumeErSusp := TMFEdit.create;
   Result := EditVolumeErSusp.GetEdit(370, 370, 100, 10, False, NameForm);
   EditVolumeErSusp.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetEditVolumeErSusp выполнена');
 end;
 
 function TMMMonthlyPlan.GetEditVolumeTrombo(NameForm: TForm): TEdit;
@@ -846,6 +928,8 @@ begin
     EditVolumeTrombo := TMFEdit.create;
   Result := EditVolumeTrombo.GetEdit(370, 400, 100, 10, False, NameForm);
   EditVolumeTrombo.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetEditVolumeTrombo выполнена');
 end;
 
 function TMMMonthlyPlan.GetEditNumberWorkDays(NameForm: TForm): TEdit;
@@ -854,6 +938,8 @@ begin
     EditNumberWorkDays := TMFEdit.create;
   Result := EditNumberWorkDays.GetEdit(370, 440, 100, 10, False, NameForm);
   EditNumberWorkDays.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetEditNumberWorkDays выполнена');
 end;
 
 function TMMMonthlyPlan.GetCBoxMonth(NameForm: TForm): TComboBox;
@@ -875,6 +961,8 @@ begin
   CBoxMonth.AddItem('Декабрь');
   CBoxMonth.WriteItemIndex(MonthOf(Date()));
   CBoxMonth.GetOnChange(OnChangeCbox);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetCBoxMonth выполнена');
 end;
 
 function TMMMonthlyPlan.GetCBoxYear(NameForm: TForm): TComboBox;
@@ -889,6 +977,8 @@ begin
   CBoxYear.AddItem(IntToStr(YearOf(Date()) + 2));
   CBoxYear.WriteItemIndex(2);
   CBoxYear.GetOnChange(OnChangeCbox);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetCBoxYear выполнена');
 end;
 
 function TMMMonthlyPlan.GetLBoxCalendar(NameForm: TForm): TListBox;
@@ -899,6 +989,8 @@ begin
   LBoxCalendar.ContentListBox
     (StrToInt(CBoxYear.GetItemsValue(CBoxYear.GetItemIndex)),
     CBoxMonth.GetItemIndex + 1);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLBoxCalendar выполнена');
 end;
 
 // Label
@@ -907,6 +999,8 @@ begin
   if not Assigned(Title) then
     Title := TMFTitleLabel.create;
   Result := Title.GetTitleLabel(25, 'Ввод плановых показателей', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetLabelTitle выполнена');
 end;
 
 // StringGrid
@@ -974,6 +1068,7 @@ begin
         ContentForStringGrid.GetNumberWorkDays(j));
       j := j + 1;
     end;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.GetStringGrid выполнена');
+end;
 end.

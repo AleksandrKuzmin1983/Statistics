@@ -161,7 +161,6 @@ uses
   USCheckNull in '..\Systems\USCheckNull.pas',
   USContentOfTheList in '..\Systems\USContentOfTheList.pas',
   USGlobalVariant in '..\Systems\USGlobalVariant.pas',
-  USMoldCleaning in '..\Systems\USMoldCleaning.pas',
   USValueChecksOnTheAdequacy in '..\Systems\USValueChecksOnTheAdequacy.pas';
 
 {$R *.res}

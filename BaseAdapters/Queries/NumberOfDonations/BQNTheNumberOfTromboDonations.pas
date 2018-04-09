@@ -3,7 +3,7 @@ unit BQNTheNumberOfTromboDonations;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB,
+  SysUtils, Variants, CodeSiteLogging, Data.Win.ADODB,
   USCheckNull,
   GetAdoConnect;
 
@@ -46,11 +46,15 @@ begin
   TempQuery.Open;
   NumberOfTD := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQNTheNumberOfTromboDonations.create выполнена');
 end;
 
 function TBQNTheNumberOfTromboDonations.GetValue: string;
 begin
   result := NumberOfTD;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQNTheNumberOfTromboDonations.GetValue выполнена');
 end;
 
 end.

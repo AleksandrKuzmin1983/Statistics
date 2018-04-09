@@ -3,7 +3,7 @@ unit BQHBloodComponentsPlasma;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -85,26 +85,36 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHBloodComponentsPlasma.create выполнена');
 end;
 
 function TBQHBloodComponentsPlasma.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHBloodComponentsPlasma.GetRowCount выполнена');
 end;
 
 function TBQHBloodComponentsPlasma.GetVolume(i: integer): string;
 begin
   result := ResultMass[i].Volume;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHBloodComponentsPlasma.GetVolume выполнена');
 end;
 
 function TBQHBloodComponentsPlasma.GetName(i: integer): string;
 begin
   result := ResultMass[i].Name;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHBloodComponentsPlasma.GetName выполнена');
 end;
 
 function TBQHBloodComponentsPlasma.GetNumber(i: integer): string;
 begin
   result := ResultMass[i].Number;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHBloodComponentsPlasma.GetNumber выполнена');
 end;
 
 end.

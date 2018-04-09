@@ -3,7 +3,7 @@ unit MQHHarvestingOfBloodComponentsByTypes;
 interface
 
 uses
-  WinProcs, Vcl.Grids, SysUtils, StdCtrls, Buttons,
+  WinProcs, Vcl.Grids, SysUtils, StdCtrls, CodeSiteLogging, Buttons,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Vcl.ExtCtrls,
   BQHBloodComponents,
   BQHBloodComponentsPlasma,
@@ -76,6 +76,8 @@ begin
 
   GetButtonAction(CurrentForm);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQHHarvestingOfBloodComponentsByTypes.create выполнена');
 end;
 
 destructor TMQHHarvestingOfBloodComponentsByTypes.destroy;
@@ -91,6 +93,8 @@ begin
   TempStringGrid.destroy;
 
   ButtonAction.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQHHarvestingOfBloodComponentsByTypes.destroy выполнена');
   inherited;
 end;
 
@@ -176,6 +180,8 @@ begin
     Trombo := nil;
     ShowMessage('«апрос выполнен!');
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQHHarvestingOfBloodComponentsByTypes.ButtonAct выполнена');
 end;
 
 
@@ -189,6 +195,8 @@ begin
     ButtonAction := TMFBitBtn.create;
   Result := ButtonAction.GetBitBtn(360, 590, '—формировать', ButtonAct,
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQHHarvestingOfBloodComponentsByTypes.GetButtonAction выполнена');
 end;
 
 // DataTimePicker
@@ -210,6 +218,8 @@ begin
     StartDateCal := TMFDateTimePicker.create;
   Result := StartDateCal.GetDTPicker(250, 80, EncodeDate(CYear, CMonth, 1),
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQHHarvestingOfBloodComponentsByTypes.GetCalendarStartDate выполнена');
 end;
 
 function TMQHHarvestingOfBloodComponentsByTypes.GetCalendarEndDate
@@ -219,6 +229,8 @@ begin
     EndDateCal := TMFDateTimePicker.create;
   Result := EndDateCal.GetDTPicker(250, 120, EncodeDate(YearOf(Now),
     MonthOf(Now), 1) - 1, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQHHarvestingOfBloodComponentsByTypes.GetCalendarEndDate выполнена');
 end;
 
 // Edit
@@ -229,6 +241,8 @@ begin
   if not Assigned(StartDate) then
     StartDate := TMFLabel.create;
   Result := StartDate.GetTempLabel(50, 80, 20, 'Ќачальна€ дата:', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQHHarvestingOfBloodComponentsByTypes.GetLabelStartDate выполнена');
 end;
 
 function TMQHHarvestingOfBloodComponentsByTypes.GetLabelEndDate
@@ -237,6 +251,8 @@ begin
   if not Assigned(EndDate) then
     EndDate := TMFLabel.create;
   Result := EndDate.GetTempLabel(50, 120, 20, ' онечна€ дата:', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQHHarvestingOfBloodComponentsByTypes.GetLabelEndDate выполнена');
 end;
 
 function TMQHHarvestingOfBloodComponentsByTypes.GetLabelTitle
@@ -246,6 +262,8 @@ begin
     Title := TMFTitleLabel.create;
   Result := Title.GetTitleLabel(25, '«аготовка компонентов крови (по видам)',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQHHarvestingOfBloodComponentsByTypes.GetLabelTitle выполнена');
 end;
 
 // StringGrid
@@ -262,6 +280,8 @@ begin
   TempStringGrid.ColWidth(3, 90);
   TempStringGrid.ResultFormat(DT_CENTER, 0, DT_LEFT, 1, DT_RIGHT, 2, DT_RIGHT,
     3, DT_RIGHT, 5, DT_RIGHT);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQHHarvestingOfBloodComponentsByTypes.GetStringGrid выполнена');
 end;
 
 procedure TMQHHarvestingOfBloodComponentsByTypes.Show;
@@ -273,6 +293,7 @@ begin
   EndDateCal.Visible(true);
 
   ButtonAction.Visible(true);
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMQHHarvestingOfBloodComponentsByTypes.Show выполнена');
+end;
 end.

@@ -3,7 +3,7 @@ unit MFListBox;
 interface
 
 uses
-  Messages, SysUtils, Dialogs, Graphics, StdCtrls, Forms, Classes, Controls,
+  Messages, SysUtils, CodeSiteLogging, Dialogs, Graphics, StdCtrls, Forms, Classes, Controls,
   Data.Win.ADODB, Variants, DateUtils,
   USContentOfTheList;
 
@@ -17,7 +17,7 @@ type
     procedure Enabled(i: Boolean);
     procedure ContentListBox(Year: Word; Month: Word);
     function CheckSelected(i: integer): Boolean;
-    procedure SetSelected(i: integer; j: Boolean);
+    procedure SetSelected(index: integer; value: Boolean);
     function GetNumberSelectedString: integer;
     procedure Visible(i: Boolean);
     procedure destroy;
@@ -35,7 +35,7 @@ type
     procedure Enabled(i: Boolean);
     procedure ContentListBox(Year: Word; Month: Word);
     function CheckSelected(i: integer): Boolean;
-    procedure SetSelected(i: integer; j: Boolean);
+    procedure SetSelected(index: integer; value: Boolean);
     function GetNumberSelectedString: integer;
     procedure Visible(i: Boolean);
     procedure destroy;
@@ -54,17 +54,23 @@ begin
   begin
     TempListBox.Items.Add(DateToStr(EncodeDate(Year, Month, i)));
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFListBox.ContentListBox выполнена');
 end;
 
 procedure TMFListBox.destroy;
 begin
   if Assigned(TempListBox) then
     FreeAndNil(TempListBox);
+
+   CodeSite.Send(FormatDateTime('c', Now) + ' TMFListBox.destroy выполнена');
 end;
 
 procedure TMFListBox.Enabled(i: Boolean);
 begin
   TempListBox.Enabled := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFListBox.Enabled выполнена', i);
 end;
 
 function TMFListBox.GetListBox(Cleft, Сtop, CWidth, CHeight, FontSize: integer;
@@ -87,6 +93,8 @@ begin
     Visible := False;
   end;
   result := TempListBox;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFListBox.GetListBox выполнена');
 end;
 
 function TMFListBox.GetNumberSelectedString: integer;
@@ -99,36 +107,51 @@ begin
     if TempListBox.Selected[i] then
       result := result + 1;
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFListBox.GetNumberSelectedString выполнена', result);
 end;
 
-procedure TMFListBox.SetSelected(i: integer; j: Boolean);
+procedure TMFListBox.SetSelected(index: integer; value: Boolean);
 begin
-  TempListBox.Selected[i] := j;
+  TempListBox.Selected[index] := value;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFListBox.SetSelected выполнена', index);
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFListBox.SetSelected выполнена', value);
 end;
 
 function TMFListBox.CheckSelected(i: integer): Boolean;
 begin
   result := TempListBox.Selected[i];
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFListBox.CheckSelected выполнена', result);
 end;
 
 function TMFListBox.GetItemIndex: integer;
 begin
   result := TempListBox.ItemIndex;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFListBox.GetItemIndex выполнена', result);
 end;
 
 function TMFListBox.GetItemsCount: integer;
 begin
   result := TempListBox.Items.Count;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFListBox.GetItemsCount выполнена', result);
 end;
 
 function TMFListBox.GetItemsValue(i: integer): String;
 begin
   result := TempListBox.Items[i];
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFListBox.GetItemsValue выполнена', result);
 end;
 
 procedure TMFListBox.Visible(i: Boolean);
 begin
   TempListBox.Visible := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFListBox.Visible выполнена', i);
 end;
 
 end.

@@ -3,7 +3,7 @@ unit BHSAddRecordSitoferez;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, DateUtils,
+  SysUtils, Data.Win.ADODB, Dialogs, CodeSiteLogging, Data.DB, DateUtils,
   USCheckNull,
   GetAdoConnect;
 
@@ -69,6 +69,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHSAddRecordSitoferez.AddRecordTrombo выполнена');
 end;
 
 procedure TBHSAddRecordSitoferez.AddRecordTromboDoza(Date: Extended;
@@ -95,6 +97,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHSAddRecordSitoferez.AddRecordTromboDoza выполнена');
 end;
 
 procedure TBHSAddRecordSitoferez.AddRecordTromboComponents(VolumeTrombo: String;
@@ -126,6 +130,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHSAddRecordSitoferez.AddRecordTromboComponents выполнена');
 end;
 
 procedure TBHSAddRecordSitoferez.AddRecordTromboDefect(VolumeDefects: String;
@@ -151,6 +157,7 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHSAddRecordSitoferez.AddRecordTromboDefect выполнена');
+end;
 end.

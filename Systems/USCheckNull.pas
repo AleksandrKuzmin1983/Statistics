@@ -3,7 +3,7 @@ unit USCheckNull;
 interface
 
 uses
-  SysUtils, Variants;
+  Variants;
 
 type
   IUSCheckNull = interface

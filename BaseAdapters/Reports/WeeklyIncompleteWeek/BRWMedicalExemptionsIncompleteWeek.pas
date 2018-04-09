@@ -3,7 +3,7 @@ unit BRWMedicalExemptionsIncompleteWeek;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -160,23 +160,29 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWMedicalExemptionsIncompleteWeek.create выполнена');
 end;
 
 function TBRWMedicalExemptionsIncompleteWeek.GetValueNumber(i: Integer): string;
-
 begin
   result := IntToStr(TempArray[i].number);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWMedicalExemptionsIncompleteWeek.GetValueNumber выполнена', result);
 end;
 
 function TBRWMedicalExemptionsIncompleteWeek.GetValueName(i: Integer): string;
-
 begin
   result := TempArray[i].name;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWMedicalExemptionsIncompleteWeek.GetValueName выполнена', result);
 end;
 
 function TBRWMedicalExemptionsIncompleteWeek.GetValueOuting(i: Integer): string;
 begin
   result := IntToStr(TempArray[i].numberOuting);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWMedicalExemptionsIncompleteWeek.GetValueOuting выполнена', result);
 end;
 
 end.

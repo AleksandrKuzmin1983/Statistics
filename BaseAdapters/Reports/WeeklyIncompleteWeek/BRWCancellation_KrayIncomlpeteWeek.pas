@@ -3,7 +3,7 @@ unit BRWCancellation_KrayIncomlpeteWeek;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -79,15 +79,18 @@ begin
     TempArray[i] := CheckNull.CheckedValue(TempQuery.Fields[i].value);
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWCancellation_KrayIncomlpeteWeek.create выполнена');
 end;
 
 function TBRWCancellation_KrayIncomlpeteWeek.GetValueLitr(i: integer): string;
-
 begin
   if TempArray[i] = 0 then
     result := ' '
   else
     result := VarToStr(FormatFloat('0.000', TempArray[i] / 1000));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWCancellation_KrayIncomlpeteWeek.GetValueLitr выполнена', result);
 end;
 
 function TBRWCancellation_KrayIncomlpeteWeek.GetValueDoses(i: integer): string;
@@ -96,6 +99,8 @@ begin
     result := ' '
   else
     result := VarToStr(FormatFloat('0', TempArray[i]));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWCancellation_KrayIncomlpeteWeek.GetValueDoses выполнена', result);
 end;
 
 end.

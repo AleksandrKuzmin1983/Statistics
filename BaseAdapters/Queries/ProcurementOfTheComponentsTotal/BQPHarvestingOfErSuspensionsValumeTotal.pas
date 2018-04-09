@@ -3,7 +3,7 @@ unit BQPHarvestingOfErSuspensionsValumeTotal;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB,
+  SysUtils, Variants, CodeSiteLogging, Data.Win.ADODB,
   USCheckNull,
   GetAdoConnect;
 
@@ -50,11 +50,15 @@ begin
   ErSuspVolumeTotal :=
     VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value));
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQPHarvestingOfErSuspensionsValumeTotal.create выполнена');
 end;
 
 function TBQPHarvestingOfErSuspensionsValumeTotal.GetValue: string;
 begin
   result := ErSuspVolumeTotal;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQPHarvestingOfErSuspensionsValumeTotal.GetValue выполнена');
 end;
 
 end.

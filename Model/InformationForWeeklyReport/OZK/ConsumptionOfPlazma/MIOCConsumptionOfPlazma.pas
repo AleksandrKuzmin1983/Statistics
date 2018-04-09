@@ -3,7 +3,7 @@ unit MIOCConsumptionOfPlazma;
 interface
 
 uses
-  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  WinProcs, SysUtils, StdCtrls, Buttons, CodeSiteLogging, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
   USCheckFillStringFields,
   USBlockMainMenu,
@@ -117,6 +117,8 @@ begin
   GetButtonDelete(form);
   GetButtonBlock(form);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.create выполнена');
   inherited;
 end;
 
@@ -143,6 +145,8 @@ begin
   ButtonDelete.destroy;
   ButtonEdit.destroy;
   ButtonBlock.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.destroy выполнена');
   inherited;
 end;
 
@@ -182,6 +186,8 @@ begin
   ReasonConsumption.WriteItemIndex(-1);
   ProductList.WriteItemIndex(-1);
   CancellationDateCal.WriteDateTime(StartOfTheWeek(Date) - 3);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.ButtonAdded выполнена');
 end;
 
 // Разблокировка кнопок
@@ -202,6 +208,8 @@ begin
     ButtonDelete.ChangeEnabled(False);
     ButtonBlock.ChangeCaption(False);
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.ButtonBlocked выполнена');
 end;
 
 // Кнопка удаления
@@ -225,6 +233,8 @@ begin
   ProductList.WriteItemIndex(-1);
   ReasonConsumption.WriteItemIndex(-1);
   CancellationDateCal.WriteDateTime(StartOfTheWeek(Date) - 3);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.ButtonDeleted выполнена');
 end;
 
 // Внесение изменений
@@ -320,6 +330,8 @@ begin
     ButtonEdit.ChangeCaption('Сохранить изменения')
   else
     ButtonEdit.ChangeCaption('Изменить');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.ButtonEdited выполнена');
 end;
 
 // Создание кнопок
@@ -329,6 +341,8 @@ begin
   if not Assigned(ButtonAdd) then
     ButtonAdd := TMFBitBtnAdd.create;
   Result := ButtonAdd.GetBitBtnAdd(0, 0, ButtonAdded, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetButtonAdd выполнена');
 end;
 
 function TMIOCConsumptionOfPlazma.GetButtonBlock(NameForm: TForm): TBitBtn;
@@ -336,6 +350,8 @@ begin
   if not Assigned(ButtonBlock) then
     ButtonBlock := TMFBitBtnBlock.create;
   Result := ButtonBlock.GetBitBtnBlock(0, 0, ButtonBlocked, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetButtonBlock выполнена');
 end;
 
 function TMIOCConsumptionOfPlazma.GetButtonDelete(NameForm: TForm): TBitBtn;
@@ -343,6 +359,8 @@ begin
   if not Assigned(ButtonDelete) then
     ButtonDelete := TMFBitBtnDelete.create;
   Result := ButtonDelete.GetBitBtnDelete(0, 0, ButtonDeleted, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetButtonDelete выполнена');
 end;
 
 function TMIOCConsumptionOfPlazma.GetButtonEdit(NameForm: TForm): TBitBtn;
@@ -350,6 +368,8 @@ begin
   if not Assigned(ButtonEdit) then
     ButtonEdit := TMFBitBtnEdit.create;
   Result := ButtonEdit.GetBitBtnEdit(0, 0, ButtonEdited, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetButtonEdit выполнена');
 end;
 
 // TDateTimePicker
@@ -361,6 +381,8 @@ begin
     CancellationDateCal := TMFDateTimePicker.create;
   Result := CancellationDateCal.GetDTPicker(400, 80, StartOfTheWeek(Date) - 3,
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetCalendarReportDateCal выполнена');
 end;
 
 // Edit
@@ -371,6 +393,8 @@ begin
     EditVolume := TMFEdit.create;
   Result := EditVolume.GetEdit(400, 160, 185, 12, False, NameForm);
   EditVolume.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetEditVolume выполнена');
 end;
 
 function TMIOCConsumptionOfPlazma.GetEditNumberOfDoses(NameForm: TForm): TEdit;
@@ -379,6 +403,8 @@ begin
     EditNumberOfDoses := TMFEdit.create;
   Result := EditNumberOfDoses.GetEdit(400, 200, 185, 12, False, NameForm);
   EditNumberOfDoses.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetEditNumberOfDoses выполнена');
 end;
 
 // Label
@@ -388,6 +414,8 @@ begin
   if not Assigned(Title) then
     Title := TMFTitleLabel.create;
   Result := Title.GetTitleLabel(25, 'Расход плазмы', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetLabelTitle выполнена');
 end;
 
 function TMIOCConsumptionOfPlazma.GetLabelReportDate(NameForm: TForm): TLabel;
@@ -396,6 +424,8 @@ begin
     LabelCancellationDate := TMFLabel.create;
   Result := LabelCancellationDate.GetTempLabel(50, 80, 16, 'Дата расхода: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetLabelReportDate выполнена');
 end;
 
 function TMIOCConsumptionOfPlazma.GetLabelTheNameOfPlazma
@@ -405,6 +435,8 @@ begin
     LabelTheNameOfPlazma := TMFLabel.create;
   Result := LabelTheNameOfPlazma.GetTempLabel(50, 120, 14,
     'Наименование продукции: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetLabelTheNameOfPlazma выполнена');
 end;
 
 function TMIOCConsumptionOfPlazma.GetLabelVolume(NameForm: TForm): TLabel;
@@ -413,6 +445,8 @@ begin
     LabelVolume := TMFLabel.create;
   Result := LabelVolume.GetTempLabel(50, 160, 14, 'Объем продукции: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetLabelVolume выполнена');
 end;
 
 function TMIOCConsumptionOfPlazma.GetLabelNumberOfDoses
@@ -422,6 +456,8 @@ begin
     LabelNumberOfDoses := TMFLabel.create;
   Result := LabelNumberOfDoses.GetTempLabel(50, 200, 14, 'Количество доз: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetLabelNumberOfDoses выполнена');
 end;
 
 function TMIOCConsumptionOfPlazma.GetLabelReasonConsumption
@@ -431,6 +467,8 @@ begin
     LabelReasonConsumption := TMFLabel.create;
   Result := LabelReasonConsumption.GetTempLabel(50, 240, 14,
     'Причина списания: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetLabelReasonConsumption выполнена');
 end;
 
 // ComboBox
@@ -444,6 +482,8 @@ begin
     'FROM NameProducts ' +
     'WHERE (((NameProducts.TypeProduct)="Плазма") AND ((NameProducts.Visible)=True));';
   ProductList.TheContentOfTheList(SQL);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetProductList выполнена');
 end;
 
 function TMIOCConsumptionOfPlazma.GetReasonConsumption(NameForm: TForm)
@@ -457,6 +497,8 @@ begin
     'WHERE (((TypeOfDefects.Plasma)=True)) ' +
     'ORDER BY TypeOfDefects.TypeDef;';
   ReasonConsumption.TheContentOfTheList(SQL);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetReasonConsumption выполнена');
 end;
 
 // StringGrid
@@ -503,6 +545,8 @@ begin
         ContentForStringGrid.GetReasonConsumption(j));
       j := j + 1;
     end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.GetStringGrid выполнена');
 end;
 
 procedure TMIOCConsumptionOfPlazma.Show;
@@ -527,6 +571,8 @@ begin
   ButtonAdd.Visible(True);
   ButtonDelete.Visible(True);
   ButtonBlock.Visible(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCConsumptionOfPlazma.Show выполнена');
 end;
 
 end.

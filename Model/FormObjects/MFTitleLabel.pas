@@ -3,7 +3,7 @@ unit MFTitleLabel;
 interface
 
 uses
-  SysUtils, Graphics, StdCtrls, Forms, Classes, Controls;
+  SysUtils, Graphics, StdCtrls, CodeSiteLogging, Forms, Classes, Controls;
 
 type
   IMFTitleLabel = class
@@ -29,6 +29,8 @@ procedure TMFTitleLabel.destroy;
 begin
   if Assigned(TempLabel) then
     FreeAndNil(TempLabel);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFTitleLabel.destroy выполнена');
 end;
 
 function TMFTitleLabel.GetTitleLabel(FontSize: integer; CCaption: String;
@@ -51,6 +53,8 @@ begin
     Tag := 5;
   end;
   result := TempLabel;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFTitleLabel.GetTitleLabel выполнена');
 end;
 
 end.

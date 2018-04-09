@@ -3,7 +3,7 @@ unit BIOCurrentType;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -34,6 +34,8 @@ begin
   TempConnect := nil;
   if Assigned(TempQuery) then
     TempQuery.Free;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOCurrentType.destroy выполнена');
 end;
 
 function TBIOCurrentType.GetCurrentType(CBoxValue: string): string;
@@ -57,6 +59,7 @@ begin
   End;
   result := VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].value));
   TempQuery.Close;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBIOCurrentType.GetCurrentType выполнена');
+end;
 end.

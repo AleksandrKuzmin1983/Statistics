@@ -3,7 +3,7 @@ unit BQPHarvestingOfPlasmaDosesTotal;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB,
+  SysUtils, Variants, CodeSiteLogging, Data.Win.ADODB,
   GetAdoConnect,
   USCheckNull;
 
@@ -64,11 +64,15 @@ begin
     IntToStr(TempValue +
     StrToInt(VarToStr(CheckNull.CheckedValue(TempQuery.Fields[0].Value))));
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQPHarvestingOfPlasmaDosesTotal.create выполнена');
 end;
 
 function TBQPHarvestingOfPlasmaDosesTotal.GetValue: string;
 begin
   result := PlasmaDosesTotal;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQPHarvestingOfPlasmaDosesTotal.GetValue выполнена');
 end;
 
 end.

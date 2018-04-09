@@ -3,7 +3,7 @@ unit BRDDailyReportToTheKray;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -63,6 +63,8 @@ begin
     TempQuery := TADOQuery.create(nil);
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.create выполнена');
 end;
 
 procedure TBRDDailyReportToTheKray.GetSQL(CSQL: String);
@@ -82,6 +84,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetSQL выполнена');
 end;
 
 function TBRDDailyReportToTheKray.GetPercentWholeBlood: string;
@@ -95,6 +99,8 @@ begin
     + '[(Нужный) Сумма крови и тромб-в];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue * 100)) + '%';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetPercentWholeBlood выполнена', result);
 end;
 
 function TBRDDailyReportToTheKray.GetVolumeWholeBlood: string;
@@ -107,6 +113,8 @@ begin
     + '[(Нужный) Сумма крови и тромб-в];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetVolumeWholeBlood выполнена', result);
 end;
 
 function TBRDDailyReportToTheKray.GetPercentConsBlood: string;
@@ -120,6 +128,8 @@ begin
     + '[(Нужный) К ежедневному отчету (календарь)], [(Нужный) Сумма крови и тромб-в];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue * 100)) + '%';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetPercentConsBlood выполнена', result);
 end;
 
 function TBRDDailyReportToTheKray.GetVolumeConsBlood: string;
@@ -132,6 +142,8 @@ begin
     '[(Нужный) Сумма крови и плазмы АПА], [(Нужный) Сумма крови и тромб-в];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetVolumeConsBlood выполнена', result);
 end;
 
 function TBRDDailyReportToTheKray.GetPercentPlasmaTotal: string;
@@ -143,6 +155,8 @@ begin
     '[(Нужный) Сумма крови и плазмы АПА], [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue * 100)) + '%';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetPercentPlasmaTotal выполнена', result);
 end;
 
 function TBRDDailyReportToTheKray.GetVolumePlasmaTotal: string;
@@ -153,6 +167,8 @@ begin
     + 'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц], [(Нужный) Сумма крови и плазмы АПА] ';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetVolumePlasmaTotal выполнена', result);
 end;
 
 function TBRDDailyReportToTheKray.GetPercentPlasmaAPA: string;
@@ -162,6 +178,8 @@ begin
     + 'FROM [(Нужный) Сумма крови и плазмы АПА], [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue * 100)) + '%';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetPercentPlasmaAPA выполнена', result);
 end;
 
 function TBRDDailyReportToTheKray.GetVolumePlasmaAPA: string;
@@ -171,6 +189,8 @@ begin
     + 'FROM [(Нужный) Сумма крови и плазмы АПА] ';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetVolumePlasmaAPA выполнена', result);
 end;
 
 function TBRDDailyReportToTheKray.GetPercentErSusp: string;
@@ -180,6 +200,8 @@ begin
     + 'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц], [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue * 100)) + '%';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetPercentErSusp выполнена', result);
 end;
 
 function TBRDDailyReportToTheKray.GetVolumeErSusp: string;
@@ -189,6 +211,8 @@ begin
     + 'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц] ';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetVolumeErSusp выполнена', result);
 end;
 
 function TBRDDailyReportToTheKray.GetVolumeTrombo: string;
@@ -198,6 +222,8 @@ begin
     + 'FROM [(Нужный) Сумма крови и тромб-в]; ';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetVolumeTrombo выполнена', result);
 end;
 
 function TBRDDailyReportToTheKray.GetNumberDosesTromb: string;
@@ -206,6 +232,8 @@ begin
     'FROM [(Нужный) Сумма крови и тромб-в]; ';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue)) + ' д.';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetNumberDosesTromb выполнена', result);
 end;
 
 function TBRDDailyReportToTheKray.GetNumberPacketsTromb: string;
@@ -214,6 +242,8 @@ begin
     'FROM [(Нужный) Сумма крови и тромб-в]; ';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue)) + ' пак.';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDDailyReportToTheKray.GetNumberPacketsTromb выполнена', result);
 end;
 
 end.

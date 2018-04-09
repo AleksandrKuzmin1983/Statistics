@@ -3,7 +3,7 @@ unit USValueChecksOnTheAdequacy;
 interface
 
 uses
-  Data.DB, Dialogs, Data.Win.ADODB, SysUtils,
+  Data.DB, Dialogs, CodeSiteLogging, Data.Win.ADODB, SysUtils,
   USCheckNull,
   USCheckFillStringFields,
   GetAdoConnect;
@@ -39,6 +39,8 @@ begin
   end
   else
     result := false;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TUSValueChecksOnTheAdequacy.CheckingEqualities выполнена', result);
 end;
 
 function TUSValueChecksOnTheAdequacy.CheckZeroValues(Value: String;
@@ -59,6 +61,7 @@ begin
     on EConvertError do
       ShowMessage('Данное значение (' + Value + ') не является целым числом!');
   end;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TUSValueChecksOnTheAdequacy.CheckZeroValues выполнена', result);
+end;
 end.

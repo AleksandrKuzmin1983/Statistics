@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Variants,
-  Dialogs, Data.Win.ADODB, Data.DB,
+  Dialogs, Data.Win.ADODB, CodeSiteLogging, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -59,11 +59,15 @@ begin
     CheckNull.CheckedValue(TempQuery.Fields[1].value) + CheckNull.CheckedValue
     (TempQuery.Fields[0].value));
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQBTheNumberOfConservedBlood.create выполнена');
 end;
 
 function TBQBTheNumberOfConservedBlood.GetValue: string;
 begin
   result := NumberOfCB;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQBTheNumberOfConservedBlood.GetValue выполнена');
 end;
 
 end.

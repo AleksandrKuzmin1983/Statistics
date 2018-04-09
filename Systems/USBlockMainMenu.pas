@@ -3,7 +3,7 @@ unit USBlockMainMenu;
 interface
 
 Uses
-  Menus, Forms;
+  Menus, CodeSiteLogging, System.SysUtils, Forms;
 
 type
   IUSBlockMainMenu = interface
@@ -21,7 +21,7 @@ implementation
 
 procedure TUSBlockMainMenu.BlockMainMenu(i: Boolean; Form: TForm);
 var
-  k, j: integer; // в цикле должна быть именно локальная переменная
+  k, j: integer;
 begin
   For k := 0 to Form.ComponentCount - 1 do
   begin
@@ -32,6 +32,8 @@ begin
       exit;
     end;
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TUSBlockMainMenu.BlockMainMenu выполнена');
 end;
 
 end.

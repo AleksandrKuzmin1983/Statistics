@@ -3,7 +3,7 @@ unit MFBitBtnAdd;
 interface
 
 uses
-  SysUtils, Classes, Forms, Buttons;
+  SysUtils, Classes, Forms, CodeSiteLogging, Buttons;
 
 type
   IMFBitBtnAdd = interface
@@ -32,12 +32,16 @@ implementation
 procedure TMFBitBtnAdd.ChangeEnabled(i: Boolean);
 begin
   TempBitBtnAdd.Enabled := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnAdd.ChangeEnabled выполнена', i);
 end;
 
 procedure TMFBitBtnAdd.destroy;
 begin
   if Assigned(TempBitBtnAdd) then
     FreeAndNil(TempBitBtnAdd);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnAdd.destroy выполнена');
 end;
 
 function TMFBitBtnAdd.GetBitBtnAdd(CLeft, CTop: integer;
@@ -70,11 +74,15 @@ begin
     end;
   end;
   result := TempBitBtnAdd;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnAdd.GetBitBtnAdd выполнена');
 end;
 
 procedure TMFBitBtnAdd.Visible(i: Boolean);
 begin
   TempBitBtnAdd.Visible := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnAdd.Visible выполнена', i);
 end;
 
 end.

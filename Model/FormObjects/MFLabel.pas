@@ -3,7 +3,7 @@ unit MFLabel;
 interface
 
 uses
-  SysUtils, StdCtrls, Forms;
+  SysUtils, StdCtrls, CodeSiteLogging, Forms;
 
 type
   IMFLabel = interface
@@ -37,6 +37,8 @@ procedure TMFLabel.destroy;
 begin
   if Assigned(TempLabel) then
     FreeAndNil(TempLabel);
+
+   CodeSite.Send(FormatDateTime('c', Now) + ' TMFLabel.destroy выполнена');
 end;
 
 function TMFLabel.GetTempLabel(CLeft, CTop, FontSize: integer; CCaption: String;
@@ -56,26 +58,36 @@ begin
     Visible := False;
   end;
   result := TempLabel;
+
+   CodeSite.Send(FormatDateTime('c', Now) + ' TMFLabel.GetTempLabel выполнена');
 end;
 
 procedure TMFLabel.Height(i: integer);
 begin
   TempLabel.Height := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFLabel.Height выполнена', i);
 end;
 
 procedure TMFLabel.Visible(i: boolean);
 begin
   TempLabel.Visible := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFLabel.Visible выполнена', i);
 end;
 
 procedure TMFLabel.Width(i: integer);
 begin
   TempLabel.Width := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFLabel.Width выполнена', i);
 end;
 
 procedure TMFLabel.WordWrap(i: boolean);
 begin
   TempLabel.WordWrap := i;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFLabel.WordWrap выполнена', i);
 end;
 
 end.

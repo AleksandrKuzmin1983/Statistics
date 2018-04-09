@@ -3,7 +3,7 @@ unit BQHTrombo;
 interface
 
 uses
-  SysUtils, Variants, Data.Win.ADODB, Dialogs, Data.DB,
+  SysUtils, Variants, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB,
   USCheckNull,
   GetAdoConnect;
 
@@ -87,31 +87,43 @@ begin
     end;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHTrombo.create выполнена');
 end;
 
 function TBQHTrombo.GetRowCount: integer;
 begin
   result := Length(ResultMass);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHTrombo.GetRowCount выполнена');
 end;
 
 function TBQHTrombo.GetVolume(i: integer): string;
 begin
   result := ResultMass[i].Volume;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHTrombo.GetVolume выполнена');
 end;
 
 function TBQHTrombo.GetName(i: integer): string;
 begin
   result := ResultMass[i].Name;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHTrombo.GetName выполнена');
 end;
 
 function TBQHTrombo.GetNumber(i: integer): string;
 begin
   result := ResultMass[i].Number;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHTrombo.GetNumber выполнена');
 end;
 
 function TBQHTrombo.GetPacet(i: integer): string;
 begin
   result := ResultMass[i].Pacet;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBQHTrombo.GetPacet выполнена');
 end;
 
 end.

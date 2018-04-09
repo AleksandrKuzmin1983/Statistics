@@ -3,7 +3,7 @@ unit USCheckForExistenceOfRecord;
 interface
 
 uses
-  Data.DB, Dialogs, Data.Win.ADODB,
+  Data.DB, Dialogs, CodeSiteLogging, SysUtils, Data.Win.ADODB,
   USCheckNull,
   GetAdoConnect;
 
@@ -57,6 +57,8 @@ begin
     Result := true;
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TUSCheckForExistenceOfRecord.CheckForExistenceOfRecord выполнена');
 end;
 
 end.

@@ -3,7 +3,7 @@ unit BRDStatInfoDeilyReportToTheZav;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -68,6 +68,8 @@ begin
     TempQuery := TADOQuery.create(nil);
   TempQuery.Connection := TempConnect.GetConnect;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.create выполнена');
 end;
 
 procedure TBRDStatInfoDeilyReportToTheZav.GetSQL(CSQL: String);
@@ -87,6 +89,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetSQL выполнена');
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.GetBloodNumberProceduresDone: string;
@@ -96,6 +100,8 @@ begin
     + 'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetBloodNumberProceduresDone выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.
@@ -107,6 +113,8 @@ begin
     'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц], [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetBloodRestImplementationOfThePlan выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.
@@ -117,6 +125,8 @@ begin
     'FROM [(Нужный) Подсчет компонентов и крови за текущий месяц], [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue * 100)) + '%';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetBloodPercentageOfPlanProcedures выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.
@@ -132,6 +142,8 @@ begin
     '[(Нужный) К ежедневному отчету план], [(Нужный) К ежедневному отчету (календарь)]; ';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetBloodTheNumberOfTreatmentsPerDay выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.
@@ -156,6 +168,8 @@ begin
     result := 'План не выполнен!'
   else
     result := VarToStr(FormatFloat('0.0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetBloodTheNumberOfTreatmentsPerDayWholeBlood выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.
@@ -168,6 +182,8 @@ begin
     'WHERE (((Month([Plans].[ДатаПлан]))=Month(Now())) AND ((Year([Plans].[ДатаПлан]))=Year(Now())));';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.000', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetBloodNumberWholeBloodAtTheMomentToMatchThePlan выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.GetPlasmaNumberProceduresDone: string;
@@ -177,6 +193,8 @@ begin
     'FROM [(Нужный) Сумма крови и плазмы АПА];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetPlasmaNumberProceduresDone выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.
@@ -188,6 +206,8 @@ begin
     'FROM [(Нужный) Сумма крови и плазмы АПА], [(Нужный) К ежедневному отчету план] ';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetPlasmaRestImplementationOfThePlan выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.
@@ -198,6 +218,8 @@ begin
     + 'FROM [(Нужный) Сумма крови и плазмы АПА], [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue * 100)) + '%';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetPlasmaPercentageOfPlanProcedures выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.
@@ -213,6 +235,8 @@ begin
     + '[(Нужный) К ежедневному отчету (календарь)];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetPlasmaTheNumberOfTreatmentsPerDay выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.GetTromboNumberProceduresDone: string;
@@ -222,6 +246,8 @@ begin
     'FROM [(Нужный) Сумма крови и тромб-в]; ';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetTromboNumberProceduresDone выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.
@@ -232,6 +258,8 @@ begin
     + 'FROM [(Нужный) К ежедневному отчету план], [(Нужный) Сумма крови и тромб-в]; ';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetTromboRestImplementationOfThePlan выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.
@@ -242,6 +270,8 @@ begin
     + 'FROM [(Нужный) Сумма крови и тромб-в], [(Нужный) К ежедневному отчету план];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0', TempValue * 100) + '%');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetTromboPercentageOfPlanProcedures выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.
@@ -257,6 +287,8 @@ begin
     + '[(Нужный) Сумма крови и тромб-в];';
   GetSQL(TempSQL);
   result := VarToStr(FormatFloat('0.0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetTromboTheNumberOfTreatmentsPerDay выполнена', result);
 end;
 
 function TBRDStatInfoDeilyReportToTheZav.
@@ -275,6 +307,8 @@ begin
     result := 'План выполнен'
   else
     result := VarToStr(FormatFloat('0.0', TempValue));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRDStatInfoDeilyReportToTheZav.GetBloodTheNumberOfTreatmentsPerDayErSusp выполнена', result);
 end;
 
 end.

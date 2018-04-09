@@ -4,7 +4,7 @@ interface
 
 uses
   Graphics, Controls, SysUtils,
-  Forms, Vcl.ExtCtrls, Vcl.Menus, Classes, frxClass, frxDBSet, frxPreview;
+  Forms, Vcl.ExtCtrls, Vcl.Menus, CodeSiteLogging, Classes, frxClass, frxDBSet, frxPreview;
 
 type
   IMFMainMenu = interface
@@ -41,6 +41,8 @@ begin
     FreeAndNil(ExportPDF);
   if Assigned(TempMainMenu) then
     FreeAndNil(TempMainMenu);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFMainMenu.destroy выполнена');
 end;
 
 function TMFMainMenu.GetTempMainMenu(CurrentForm: TForm): TMainMenu;
@@ -60,21 +62,29 @@ begin
   TempMainMenu.Items.Add(PrintReport);
   TempMainMenu.Items.Add(CloseForm);
   result := TempMainMenu;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFMainMenu.GetTempMainMenu выполнена');
 end;
 
 procedure TMFMainMenu.OnClickCloseForm(ProcedureOnClick: TNotifyEvent);
 begin
   CloseForm.OnClick := ProcedureOnClick;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFMainMenu.OnClickCloseForm выполнена');
 end;
 
 procedure TMFMainMenu.OnClickExportPDF(ProcedureOnClick: TNotifyEvent);
 begin
   ExportPDF.OnClick := ProcedureOnClick;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFMainMenu.OnClickExportPDF выполнена');
 end;
 
 procedure TMFMainMenu.OnClickPrintReport(ProcedureOnClick: TNotifyEvent);
 begin
   PrintReport.OnClick := ProcedureOnClick;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFMainMenu.OnClickPrintReport выполнена');
 end;
 
 end.

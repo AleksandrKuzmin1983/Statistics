@@ -3,7 +3,7 @@ unit MRDDeilyReportToTheZav;
 interface
 
 uses
-  System.Classes, Winapi.Windows, System.SysUtils, Vcl.Controls, Vcl.Forms,
+  System.Classes, Winapi.Windows, System.SysUtils, CodeSiteLogging, Vcl.Controls, Vcl.Forms,
   Vcl.Menus, frxClass, frxDBSet, frxPreview, frxExportPDF, System.Win.Registry,
   BRDDeilyReportToTheZav,
   BRDPlanDeilyReportToTheZav,
@@ -57,6 +57,8 @@ begin
   GetReport(TempForm);
   frxTempReport.ShowReport;
   TempForm.ShowModal;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDeilyReportToTheZav.Create выполнена');
   inherited;
 end;
 
@@ -65,6 +67,8 @@ begin
   FreeAndNil(frxTempPreview);
   FreeAndNil(frxTempReport);
   MainMenu.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDeilyReportToTheZav.destroy выполнена');
   inherited;
 end;
 
@@ -76,6 +80,8 @@ begin
   MainMenu.OnClickCloseForm(OnClickMenuClose);
   MainMenu.OnClickPrintReport(OnClickPrintReport);
   MainMenu.OnClickExportPDF(OnClickExportPDF);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDeilyReportToTheZav.GetMainMenu выполнена');
 end;
 
 procedure TMRDDeilyReportToTheZav.GetReport(CurrentForm: TForm);
@@ -195,6 +201,8 @@ begin
   frxTempReport.Variables.Variables['BloodTheNumberOfTreatmentsPerDayErSusp'] :=
     '''' + StatInfoDeilyReportToTheZav.
     GetBloodTheNumberOfTreatmentsPerDayErSusp + '''';
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDeilyReportToTheZav.GetReport выполнена');
 end;
 
 procedure TMRDDeilyReportToTheZav.OnClickExportPDF(Sender: TObject);
@@ -206,16 +214,22 @@ begin
   frxTempExportPDF.DefaultPath := GetDesktopFolderPath + '\';
   frxTempReport.Export(frxTempExportPDF);
   frxTempReport.ShowReport;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDeilyReportToTheZav.OnClickExportPDF выполнена');
 end;
 
 procedure TMRDDeilyReportToTheZav.OnClickMenuClose(Sender: TObject);
 begin
   TempForm.ModalResult := mrOk;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDeilyReportToTheZav.OnClickMenuClose выполнена');
 end;
 
 procedure TMRDDeilyReportToTheZav.OnClickPrintReport(Sender: TObject);
 begin
   frxTempReport.Print;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDeilyReportToTheZav.OnClickPrintReport выполнена');
 end;
 
 function TMRDDeilyReportToTheZav.GetDesktopFolderPath: string;
@@ -229,6 +243,8 @@ begin
   Result := R.ReadString('Desktop');
   R.CloseKey;
   R.Free;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDeilyReportToTheZav.GetDesktopFolderPath выполнена');
 end;
 
 procedure TMRDDeilyReportToTheZav.PreviewMouseWheel(Sender: TObject;
@@ -236,6 +252,7 @@ procedure TMRDDeilyReportToTheZav.PreviewMouseWheel(Sender: TObject;
   var Handled: Boolean);
 begin
   frxTempPreview.MouseWheelScroll(WheelDelta);
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMRDDeilyReportToTheZav.PreviewMouseWheel выполнена');
+end;
 end.

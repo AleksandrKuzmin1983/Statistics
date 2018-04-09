@@ -3,7 +3,7 @@ unit BHMAddRecordManualHarvesting;
 interface
 
 uses
-  SysUtils, Data.Win.ADODB, Dialogs, Data.DB, DateUtils,
+  SysUtils, Data.Win.ADODB, CodeSiteLogging, Dialogs, Data.DB, DateUtils,
   USCheckNull,
   GetAdoConnect;
 
@@ -76,6 +76,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMAddRecordManualHarvesting.AddRecordBlood выполнена');
 end;
 
 procedure TBHMAddRecordManualHarvesting.AddRecordBloodDoze(Date: Extended;
@@ -104,6 +106,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMAddRecordManualHarvesting.AddRecordBloodDoze выполнена');
 end;
 
 procedure TBHMAddRecordManualHarvesting.AddRecordBloodErSusp
@@ -136,6 +140,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMAddRecordManualHarvesting.AddRecordBloodErSusp выполнена');
 end;
 
 procedure TBHMAddRecordManualHarvesting.AddRecordBloodPlazma
@@ -160,6 +166,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMAddRecordManualHarvesting.AddRecordBloodPlazma выполнена');
 end;
 
 procedure TBHMAddRecordManualHarvesting.AddRecordBloodFiltrat
@@ -185,6 +193,8 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMAddRecordManualHarvesting.AddRecordBloodFiltrat выполнена');
 end;
 
 procedure TBHMAddRecordManualHarvesting.AddRecordBloodDefect
@@ -209,6 +219,7 @@ begin
     On e: EDatabaseError do
       messageDlg(e.message, mtError, [mbOK], 0);
   End;
-end;
 
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBHMAddRecordManualHarvesting.AddRecordBloodDefect выполнена');
+end;
 end.

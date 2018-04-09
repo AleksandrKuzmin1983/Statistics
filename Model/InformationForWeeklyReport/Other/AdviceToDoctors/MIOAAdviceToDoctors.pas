@@ -3,7 +3,7 @@ unit MIOAAdviceToDoctors;
 interface
 
 uses
-  WinProcs, SysUtils, StdCtrls, Buttons, Vcl.Grids, Data.DB,
+  WinProcs, SysUtils, StdCtrls, CodeSiteLogging, Buttons, Vcl.Grids, Data.DB,
   Vcl.ComCtrls, DateUtils, Forms, Dialogs, Variants,
   USCheckFillStringFields,
   USBlockMainMenu,
@@ -98,6 +98,8 @@ begin
   GetButtonDelete(form);
   GetButtonBlock(form);
   Show;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.create выполнена');
   inherited;
 end;
 
@@ -119,6 +121,8 @@ begin
   ButtonDelete.destroy;
   ButtonEdit.destroy;
   ButtonBlock.destroy;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.destroy выполнена');
   inherited;
 end;
 
@@ -156,6 +160,8 @@ begin
   EditTheDoctorTransfuziolog.WriteText('0');
   EditMedicalLaboratoryScientist.WriteText('0');
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.ButtonAdded выполнена');
 end;
 
 // Разблокировка кнопок
@@ -176,6 +182,8 @@ begin
     ButtonDelete.ChangeEnabled(False);
     ButtonBlock.ChangeCaption(False);
   end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.ButtonBlocked выполнена');
 end;
 
 // Кнопка удаления
@@ -197,6 +205,8 @@ begin
   EditTheDoctorTransfuziolog.WriteText('0');
   EditMedicalLaboratoryScientist.WriteText('0');
   ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.ButtonDeleted выполнена');
 end;
 
 // Внесение изменений
@@ -272,6 +282,8 @@ begin
     ButtonEdit.ChangeCaption('Сохранить изменения')
   else
     ButtonEdit.ChangeCaption('Изменить');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.ButtonEdited выполнена');
 end;
 
 // Создание кнопок
@@ -281,6 +293,8 @@ begin
   if not Assigned(ButtonAdd) then
     ButtonAdd := TMFBitBtnAdd.create;
   Result := ButtonAdd.GetBitBtnAdd(0, 0, ButtonAdded, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.GetButtonAdd выполнена');
 end;
 
 function TMIOAAdviceToDoctors.GetButtonBlock(NameForm: TForm): TBitBtn;
@@ -288,6 +302,8 @@ begin
   if not Assigned(ButtonBlock) then
     ButtonBlock := TMFBitBtnBlock.create;
   Result := ButtonBlock.GetBitBtnBlock(0, 0, ButtonBlocked, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.GetButtonBlock выполнена');
 end;
 
 function TMIOAAdviceToDoctors.GetButtonDelete(NameForm: TForm): TBitBtn;
@@ -295,6 +311,8 @@ begin
   if not Assigned(ButtonDelete) then
     ButtonDelete := TMFBitBtnDelete.create;
   Result := ButtonDelete.GetBitBtnDelete(0, 0, ButtonDeleted, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.GetButtonDelete выполнена');
 end;
 
 function TMIOAAdviceToDoctors.GetButtonEdit(NameForm: TForm): TBitBtn;
@@ -302,6 +320,8 @@ begin
   if not Assigned(ButtonEdit) then
     ButtonEdit := TMFBitBtnEdit.create;
   Result := ButtonEdit.GetBitBtnEdit(0, 0, ButtonEdited, NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.GetButtonEdit выполнена');
 end;
 
 // TDateTimePicker
@@ -313,6 +333,8 @@ begin
     ReportDateCal := TMFDateTimePicker.create;
   Result := ReportDateCal.GetDTPicker(400, 80, StartOfTheWeek(Date) - 7,
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.GetCalendarReportDateCal выполнена');
 end;
 
 // Edit
@@ -325,6 +347,8 @@ begin
   Result := EditTheDoctorTransfuziolog.GetEdit(450, 130, 135, 12, False,
     NameForm);
   EditTheDoctorTransfuziolog.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.GetEditTheDoctorTransfuziolog выполнена');
 end;
 
 function TMIOAAdviceToDoctors.GetEditMedicalLaboratoryScientist
@@ -335,6 +359,8 @@ begin
   Result := EditMedicalLaboratoryScientist.GetEdit(450, 180, 135, 12, False,
     NameForm);
   EditMedicalLaboratoryScientist.NumberOnly(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.GetEditMedicalLaboratoryScientist выполнена');
 end;
 
 // Label
@@ -346,6 +372,8 @@ begin
     LabelMedicalLaboratoryScientist := TMFLabel.create;
   Result := LabelMedicalLaboratoryScientist.GetTempLabel(50, 180, 14,
     'Количество консультаций лаборантом: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.GetLabelMedicalLaboratoryScientist выполнена');
 end;
 
 function TMIOAAdviceToDoctors.GetLabelReportDate(NameForm: TForm): TLabel;
@@ -354,6 +382,8 @@ begin
     LabelReportDate := TMFLabel.create;
   Result := LabelReportDate.GetTempLabel(50, 80, 16, 'Отчетная неделя: ',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.GetLabelReportDate выполнена');
 end;
 
 function TMIOAAdviceToDoctors.GetLabelTheDoctorTransfuziolog
@@ -363,6 +393,8 @@ begin
     LabelTheDoctorTransfuziolog := TMFLabel.create;
   Result := LabelTheDoctorTransfuziolog.GetTempLabel(50, 130, 14,
     'Количество консультаций трансфузиологом: ', NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.GetLabelTheDoctorTransfuziolog выполнена');
 end;
 
 function TMIOAAdviceToDoctors.GetLabelTitle(NameForm: TForm): TLabel;
@@ -372,6 +404,8 @@ begin
   Result := Title.GetTitleLabel(16,
     'Количество проведенных консультаций врачем-трансфузиологом и врачем-лаборантом',
     NameForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.GetLabelTitle выполнена');
 end;
 
 // StringGrid
@@ -409,6 +443,8 @@ begin
         ContentForStringGrid.GetLaboratoryScientist(j));
       j := j + 1;
     end;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.GetStringGrid выполнена');
 end;
 
 procedure TMIOAAdviceToDoctors.Show;
@@ -428,6 +464,8 @@ begin
   ButtonAdd.Visible(True);
   ButtonDelete.Visible(True);
   ButtonBlock.Visible(True);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMIOAAdviceToDoctors.Show выполнена');
 end;
 
 end.

@@ -3,7 +3,7 @@ unit BRWDonorsAndProceduresIncompleteWeek;
 interface
 
 uses
-  SysUtils, Variants, Dialogs, Data.Win.ADODB, Data.DB,
+  SysUtils, Variants, Dialogs, CodeSiteLogging, Data.Win.ADODB, Data.DB,
   GetAdoConnect,
   USCheckNull;
 
@@ -119,11 +119,15 @@ begin
     TempArray[i] := CheckNull.CheckedValue(TempQuery.Fields[i].value);
   end;
   TempQuery.Close;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWDonorsAndProceduresIncompleteWeek.create выполнена');
 end;
 
 function TBRWDonorsAndProceduresIncompleteWeek.GetValue(i: integer): string;
 begin
   result := VarToStr(FormatFloat('0', TempArray[i]));
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TBRWDonorsAndProceduresIncompleteWeek.GetValueLitr выполнена', result);
 end;
 
 end.
