@@ -20,6 +20,14 @@
 			<param name="Name" value="&quot;&Dstrok;&oacute;&divide;&iacute;&agrave;&yuml;&quot; &ccedil;&agrave;&atilde;&icirc;&ograve;&icirc;&acirc;&ecirc;&agrave;">
 			<param name="Local" value="BloodProductionOfTheDay.htm">
 			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="&Agrave;&acirc;&ograve;&icirc;&igrave;&agrave;&ograve;&egrave;&divide;&aring;&ntilde;&ecirc;&egrave;&eacute; &agrave;&ocirc;&aring;&eth;&aring;&ccedil;">
+			<param name="Local" value="APAProduction.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="&Ouml;&egrave;&ograve;&icirc;&ocirc;&aring;&eth;&aring;&ccedil;">
+			<param name="Local" value="Sitoferez.htm">
+			</OBJECT>
 	</UL>
 </UL>
 </BODY></HTML>
