@@ -3,7 +3,7 @@ unit BloobStatLF;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, ShellApi, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ToolWin, ActnMan, ActnCtrls, DateUtils,
   ActnMenus, Menus, Vcl.Grids, Data.DB, Data.Win.ADODB, Vcl.DBGrids,
   Vcl.DBCtrls, Generics.Collections, Contnrs, Bde.DBTables,
@@ -397,7 +397,10 @@ begin
 end;
 
 procedure TMyMainForm.Help1Click(Sender: TObject);
+var
+  CurrentDir: String;
+  CurrentDirCHM: PChar;
 begin
-  //WinExec('hh.exe help.chm',SW_SHOW);
+  ShellExecute(Application.Handle,'Open','..\chm\Справка.chm',nil,nil,SW_SHOW);
 end;
 end.

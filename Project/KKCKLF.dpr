@@ -168,6 +168,7 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.HelpFile := '';
   Application.CreateForm(TMyMainForm, MyMainForm);
   Application.Run;
 
