@@ -46,11 +46,14 @@ end;
 
 function TMFBitBtnDelete.GetBitBtnDelete(CLeft, CTop: integer;
   ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
+var
+  CurrentDir: String;
 begin
   if not Assigned(TempBitBtnDelete) then
   begin
     TempBitBtnDelete := TBitBtn.create(CurrentForm);
     TempBitBtnDelete.parent := CurrentForm;
+    CurrentDir := ExtractFileDir(ExtractFileDir(ParamStr(0)));
     with TempBitBtnDelete do
     begin
       if CLeft = 0 then
@@ -63,11 +66,12 @@ begin
         Top := CTop;
       Font.name := 'Times New Roman';
       Font.Size := 14;
-      Kind:=bkCancel;
-      Caption := 'Удалить';
       Width := 200;
       Height := 30;
       Tag := 5;
+      NumGlyphs:=3;
+      Glyph.LoadFromFile(CurrentDir +
+        '\Systems\Img\BitBtnDelete.bmp');
       Enabled := false;
       OnClick := ProcedureOnClick;
       Visible := false;

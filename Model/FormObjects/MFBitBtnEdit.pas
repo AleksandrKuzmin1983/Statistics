@@ -21,11 +21,11 @@ type
   private
     TempBitBtnEdit: TBitBtn;
     CurrentDir: String;
+    function GetCurrentDir: string;
   public
     function GetBitBtnEdit(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent;
       CurrentForm: TForm): TBitBtn;
     function GetTag: Integer;
-    function GetCurrentDir: string;
     procedure ChangeEnabled(i: Boolean);
     procedure ChangeGlyph;
     procedure ChangeTag(CurrTag: Integer);
@@ -105,7 +105,6 @@ begin
       NumGlyphs:=3;
       Glyph.LoadFromFile(CurrentDir +
         'BitBtnEdit1.bmp');
-
       Visible := False;
     end;
   end;

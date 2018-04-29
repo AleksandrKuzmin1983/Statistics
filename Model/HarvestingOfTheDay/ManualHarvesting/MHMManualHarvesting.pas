@@ -617,19 +617,21 @@ end;
 
 procedure TMHMManualHarvesting.ButtonBlocked(Sender: TObject);
 begin
-  if ButtonBlock.GetCaption then
+  if ButtonBlock.GetTag=1 then
   begin
     ButtonEdit.ChangeEnabled(True);
     ButtonAdd.ChangeEnabled(True);
     ButtonDelete.ChangeEnabled(True);
-    ButtonBlock.ChangeCaption(True);
+    ButtonBlock.ChangeTag(2);
+    ButtonBlock.ChangeGlyph;
   end
   else
   begin
     ButtonEdit.ChangeEnabled(false);
     ButtonAdd.ChangeEnabled(false);
     ButtonDelete.ChangeEnabled(false);
-    ButtonBlock.ChangeCaption(false);
+    ButtonBlock.ChangeTag(1);
+    ButtonBlock.ChangeGlyph;
   end;
 
   CodeSite.Send(FormatDateTime('c', Now) + ' TMHMManualHarvesting.ButtonBlocked выполнена');

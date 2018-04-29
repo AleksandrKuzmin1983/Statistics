@@ -323,19 +323,21 @@ end;
 
 procedure TMMMonthlyPlan.ButtonBlocked(Sender: TObject);
 begin
-  if ButtonBlock.GetCaption then
+  if ButtonBlock.GetTag=1 then
   begin
     ButtonEdit.ChangeEnabled(True);
     ButtonAdd.ChangeEnabled(True);
     ButtonDelete.ChangeEnabled(True);
-    ButtonBlock.ChangeCaption(True);
+    ButtonBlock.ChangeTag(2);
+    ButtonBlock.ChangeGlyph;
   end
   else
   begin
     ButtonEdit.ChangeEnabled(False);
     ButtonAdd.ChangeEnabled(False);
     ButtonDelete.ChangeEnabled(False);
-    ButtonBlock.ChangeCaption(False);
+    ButtonBlock.ChangeTag(1);
+    ButtonBlock.ChangeGlyph;
   end;
 
   CodeSite.Send(FormatDateTime('c', Now) + ' TMMMonthlyPlan.ButtonBlocked выполнена');
