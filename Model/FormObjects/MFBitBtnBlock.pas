@@ -99,7 +99,6 @@ begin
       Height := 30;
       Tag := 5;
       OnClick := ProcedureOnClick;
-      name := 'BitBtnBlock';
       Visible := False;
     end;
   end;

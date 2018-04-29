@@ -183,6 +183,7 @@ begin
     BorderStyle := bsNone;
     FixedCols := 1;
     FixedRows := 1;
+    ParentColor:=true;
     Visible := false;
     Tag := 5;
     OnDrawCell := FormatTitleRowCell;

@@ -247,7 +247,7 @@ begin
     CheckFillStrFields := TUSCheckFillStringFields.create;
   if not Assigned(BlockMainMenu) then
     BlockMainMenu := TUSBlockMainMenu.create;
-  if ButtonEdit.GetCaption = 'Изменить' then
+  if ButtonEdit.GetTag = 1 then
   begin
     BlockMainMenu.BlockMainMenu(False, CurrentForm);
     ButtonBlock.ChangeEnabled(False);
@@ -272,7 +272,7 @@ begin
     EditNumberOfPackets.WriteText
       (VarToStr(StringGrid.GetValue(5, StringGrid.CurrentRow)));
   end;
-  if ButtonEdit.GetCaption = 'Сохранить изменения' then
+  if ButtonEdit.GetTag = 2 then
   begin
     EditVolume.WriteText(CheckFillStrFields.CheckStringFields
       (EditVolume.ReadText));
@@ -304,6 +304,14 @@ begin
       GetStringGrid(CurrentForm);
       StringGrid.Visible(True);
       Showmessage('Запись успешно изменена!');
+      EditVolume.WriteText('0');
+      EditNumberOfDoses.WriteText('0');
+      EditNumberOfPackets.WriteText('0');
+      ProductList.WriteItemIndex(-1);
+      ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+      ButtonEdit.ChangeTag(1);
+      ButtonEdit.ChangeGlyph;
+      exit;
     end
     else
     begin
@@ -312,7 +320,8 @@ begin
       EditNumberOfPackets.WriteText('0');
       ProductList.WriteItemIndex(-1);
       ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
-      ButtonEdit.ChangeCaption('Изменить');
+      ButtonEdit.ChangeTag(1);
+      ButtonEdit.ChangeGlyph;
       exit;
     end;
     EditVolume.WriteText('0');
@@ -320,11 +329,14 @@ begin
     EditNumberOfPackets.WriteText('0');
     ProductList.WriteItemIndex(-1);
     ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+    ButtonEdit.ChangeTag(1);
+    ButtonEdit.ChangeGlyph;
   end;
-  if ButtonEdit.GetCaption = 'Изменить' then
-    ButtonEdit.ChangeCaption('Сохранить изменения')
-  else
-    ButtonEdit.ChangeCaption('Изменить');
+  if ButtonEdit.GetTag = 1 then
+  begin
+    ButtonEdit.ChangeTag(2);
+    ButtonEdit.ChangeGlyph;
+  end;
 
   CodeSite.Send(FormatDateTime('c', Now) + ' TMIECCancellation.ButtonEdited выполнена');
 end;

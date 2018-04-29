@@ -235,7 +235,7 @@ begin
     CheckFillStrFields := TUSCheckFillStringFields.create;
   if not Assigned(BlockMainMenu) then
     BlockMainMenu := TUSBlockMainMenu.create;
-  if ButtonEdit.GetCaption = 'Изменить' then
+  if ButtonEdit.GetTag = 1 then
   begin
     BlockMainMenu.BlockMainMenu(False, CurrentForm);
     ButtonBlock.ChangeEnabled(False);
@@ -257,7 +257,7 @@ begin
       Showmessage('Причина расхода у изменяемой записи задана не верно!' +
         chr(13) + 'Обратитесь к администратору!');
   end;
-  if ButtonEdit.GetCaption = 'Сохранить изменения' then
+  if ButtonEdit.GetTag = 2 then
   begin
     EditVolume.WriteText(CheckFillStrFields.CheckStringFields
       (EditVolume.ReadText));
@@ -293,7 +293,8 @@ begin
       EditNumberOfDoses.WriteText('0');
       ReasonConsumption.WriteItemIndex(-1);
       CancellationDateCal.WriteDateTime(StartOfTheWeek(Date) - 3);
-      ButtonEdit.ChangeCaption('Изменить');
+      ButtonEdit.ChangeTag(1);
+      ButtonEdit.ChangeGlyph;
       exit;
     end;
     EditVolume.WriteText('0');
@@ -301,10 +302,16 @@ begin
     ReasonConsumption.WriteItemIndex(-1);
     CancellationDateCal.WriteDateTime(StartOfTheWeek(Date) - 3);
   end;
-  if ButtonEdit.GetCaption = 'Изменить' then
-    ButtonEdit.ChangeCaption('Сохранить изменения')
+  if ButtonEdit.GetTag = 1 then
+  begin
+    ButtonEdit.ChangeTag(2);
+    ButtonEdit.ChangeGlyph;
+  end
   else
-    ButtonEdit.ChangeCaption('Изменить');
+  begin
+    ButtonEdit.ChangeTag(1);
+    ButtonEdit.ChangeGlyph;
+  end;
 
   CodeSite.Send(FormatDateTime('c', Now) + ' TMIOFFlowRateOfWholeBlood.ButtonEdited выполнена');
 end;

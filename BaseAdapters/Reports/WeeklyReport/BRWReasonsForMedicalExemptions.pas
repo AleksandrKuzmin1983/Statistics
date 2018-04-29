@@ -160,7 +160,7 @@ begin
     end;
     TempQuery.Close;
   end;
-
+  TempQuery.Close;
   CodeSite.Send(FormatDateTime('c', Now) + ' TBRWReasonsForMedicalExemptions.create выполнена');
 end;
 

@@ -200,7 +200,7 @@ begin
     CheckFillStrFields := TUSCheckFillStringFields.create;
   if not Assigned(BlockMainMenu) then
     BlockMainMenu := TUSBlockMainMenu.create;
-  if ButtonEdit.GetCaption = 'Изменить' then
+  if ButtonEdit.GetTag = 1 then
   begin
     BlockMainMenu.BlockMainMenu(False, CurrentForm);
     ButtonBlock.ChangeEnabled(False);
@@ -212,7 +212,7 @@ begin
     EditCheckLPU.WriteText(VarToStr(StringGrid.GetValue(2,
       StringGrid.CurrentRow)));
   end;
-  if ButtonEdit.GetCaption = 'Сохранить изменения' then
+  if ButtonEdit.GetTag = 2 then
   begin
     EditCheckLPU.WriteText(CheckFillStrFields.CheckStringFields
       (EditCheckLPU.ReadText));
@@ -243,16 +243,23 @@ begin
     begin
       EditCheckLPU.WriteText('0');
       ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
-      ButtonEdit.ChangeCaption('Изменить');
+      ButtonEdit.ChangeTag(1);
+      ButtonEdit.ChangeGlyph;
       exit;
     end;
     EditCheckLPU.WriteText('0');
     ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
   end;
-  if ButtonEdit.GetCaption = 'Изменить' then
-    ButtonEdit.ChangeCaption('Сохранить изменения')
+  if ButtonEdit.GetTag = 1 then
+  begin
+    ButtonEdit.ChangeTag(2);
+    ButtonEdit.ChangeGlyph;
+  end
   else
-    ButtonEdit.ChangeCaption('Изменить');
+  begin
+    ButtonEdit.ChangeTag(1);
+    ButtonEdit.ChangeGlyph;
+  end;
 
   CodeSite.Send(FormatDateTime('c', Now) + ' TMIOCCheckLPU.ButtonEdited выполнена');
 end;

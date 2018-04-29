@@ -63,13 +63,13 @@ begin
         Top := CTop;
       Font.name := 'Times New Roman';
       Font.Size := 14;
+      Kind:=bkCancel;
       Caption := 'Удалить';
       Width := 200;
       Height := 30;
       Tag := 5;
       Enabled := false;
       OnClick := ProcedureOnClick;
-      name := 'BitBtnDelete';
       Visible := false;
     end;
   end;

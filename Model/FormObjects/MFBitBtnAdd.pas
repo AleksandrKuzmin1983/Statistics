@@ -46,11 +46,14 @@ end;
 
 function TMFBitBtnAdd.GetBitBtnAdd(CLeft, CTop: integer;
   ProcedureOnClick: TNotifyEvent; CurrentForm: TForm): TBitBtn;
+var
+  CurrentDir: String;
 begin
   if not Assigned(TempBitBtnAdd) then
   begin
     TempBitBtnAdd := TBitBtn.create(CurrentForm);
     TempBitBtnAdd.parent := CurrentForm;
+    CurrentDir := ExtractFileDir(ExtractFileDir(ParamStr(0)));
     with TempBitBtnAdd do
     begin
       if CLeft = 0 then
@@ -63,13 +66,14 @@ begin
         Top := CTop;
       Font.name := 'Times New Roman';
       Font.Size := 14;
-      Caption := 'Добавить';
       Width := 200;
       Height := 30;
+      NumGlyphs:=3;
+      Glyph.LoadFromFile(CurrentDir +
+        '\Systems\Img\BitBtnAdd.bmp');
       Tag := 5;
       Enabled := false;
       OnClick := ProcedureOnClick;
-      name := 'BitBtnAdd';
       Visible := false;
     end;
   end;

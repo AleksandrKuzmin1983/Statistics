@@ -3,15 +3,16 @@ unit MFBitBtnEdit;
 interface
 
 uses
-  SysUtils, Classes, Forms, CodeSiteLogging, Buttons;
+  SysUtils, Classes, Forms, CodeSiteLogging, dialogs, Buttons;
 
 type
   IMFBitBtnEdit = interface
     function GetBitBtnEdit(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent;
       CurrentForm: TForm): TBitBtn;
-    function GetCaption: String;
+    function GetTag: Integer;
     procedure ChangeEnabled(i: Boolean);
-    procedure ChangeCaption(Caption: string);
+    procedure ChangeGlyph;
+    procedure ChangeTag(CurrTag: Integer);
     procedure Visible(i: Boolean);
     procedure destroy;
   end;
@@ -19,12 +20,15 @@ type
   TMFBitBtnEdit = class(TInterfacedObject, IMFBitBtnEdit)
   private
     TempBitBtnEdit: TBitBtn;
+    CurrentDir: String;
   public
     function GetBitBtnEdit(CLeft, CTop: integer; ProcedureOnClick: TNotifyEvent;
       CurrentForm: TForm): TBitBtn;
-    function GetCaption: String;
+    function GetTag: Integer;
+    function GetCurrentDir: string;
     procedure ChangeEnabled(i: Boolean);
-    procedure ChangeCaption(Caption: string);
+    procedure ChangeGlyph;
+    procedure ChangeTag(CurrTag: Integer);
     procedure Visible(i: Boolean);
     procedure destroy;
   end;
@@ -33,11 +37,29 @@ implementation
 
 { TTempLabelTag5 }
 
-procedure TMFBitBtnEdit.ChangeCaption(Caption: string);
+function TMFBitBtnEdit.GetCurrentDir: string;
 begin
-  TempBitBtnEdit.Caption := Caption;
+  Result := ExtractFileDir(ExtractFileDir(ParamStr(0))) + '\Systems\Img\';
+end;
 
-  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnEdit.ChangeCaption выполнена', Caption);
+procedure TMFBitBtnEdit.ChangeGlyph;
+begin
+  CurrentDir := GetCurrentDir;
+  if TempBitBtnEdit.Tag=1 then
+    TempBitBtnEdit.Glyph.LoadFromFile(CurrentDir + 'BitBtnEdit1.bmp');
+  if TempBitBtnEdit.Tag=2 then
+    TempBitBtnEdit.Glyph.LoadFromFile(CurrentDir + 'BitBtnEdit2.bmp');
+  if (TempBitBtnEdit.Tag<>1) and (TempBitBtnEdit.Tag<>2) then
+    ShowMessage('ѕришло не правлильное значение Tag!');
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnEdit.ChangeGlyph выполнена', CurrentDir);
+end;
+
+procedure TMFBitBtnEdit.ChangeTag(CurrTag: Integer);
+begin
+  TempBitBtnEdit.Tag:=CurrTag;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnEdit.ChangeTag выполнена', CurrTag);
 end;
 
 procedure TMFBitBtnEdit.ChangeEnabled(i: Boolean);
@@ -62,6 +84,7 @@ begin
   begin
     TempBitBtnEdit := TBitBtn.create(CurrentForm);
     TempBitBtnEdit.parent := CurrentForm;
+    CurrentDir := GetCurrentDir;
     with TempBitBtnEdit do
     begin
       if CLeft = 0 then
@@ -74,13 +97,15 @@ begin
         Top := CTop;
       Font.name := 'Times New Roman';
       Font.Size := 14;
-      Caption := '»зменить';
       Width := 200;
       Height := 30;
-      Tag := 5;
+      Tag := 1;
       Enabled := False;
       OnClick := ProcedureOnClick;
-      name := 'BitBtnEdit';
+      NumGlyphs:=3;
+      Glyph.LoadFromFile(CurrentDir +
+        'BitBtnEdit1.bmp');
+
       Visible := False;
     end;
   end;
@@ -89,9 +114,9 @@ begin
   CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnEdit.GetBitBtnEdit выполнена');
 end;
 
-function TMFBitBtnEdit.GetCaption: String;
+function TMFBitBtnEdit.GetTag: Integer;
 begin
-  result := TempBitBtnEdit.Caption;
+  result := TempBitBtnEdit.Tag;
 
   CodeSite.Send(FormatDateTime('c', Now) + ' TMFBitBtnEdit.GetCaption выполнена', result);
 end;

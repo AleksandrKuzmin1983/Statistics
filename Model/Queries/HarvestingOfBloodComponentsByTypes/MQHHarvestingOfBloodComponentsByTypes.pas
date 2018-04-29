@@ -193,7 +193,7 @@ function TMQHHarvestingOfBloodComponentsByTypes.GetButtonAction
 begin
   if not Assigned(ButtonAction) then
     ButtonAction := TMFBitBtn.create;
-  Result := ButtonAction.GetBitBtn(360, 590, '—формировать', ButtonAct,
+  Result := ButtonAction.GetBitBtn(360, 590, ButtonAct,
     NameForm);
 
   CodeSite.Send(FormatDateTime('c', Now) + ' TMQHHarvestingOfBloodComponentsByTypes.GetButtonAction выполнена');

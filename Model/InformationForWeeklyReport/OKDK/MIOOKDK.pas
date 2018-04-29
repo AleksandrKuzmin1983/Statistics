@@ -271,7 +271,7 @@ begin
     CheckFillStrFields := TUSCheckFillStringFields.create;
   if not Assigned(BlockMainMenu) then
     BlockMainMenu := TUSBlockMainMenu.create;
-  if ButtonEdit.GetCaption = 'Изменить' then
+  if ButtonEdit.GetTag = 1 then
   begin
     BlockMainMenu.BlockMainMenu(False, CurrentForm);
     ButtonBlock.ChangeEnabled(False);
@@ -316,7 +316,7 @@ begin
       StringGrid.CurrentRow)));
   end;
 
-  if ButtonEdit.GetCaption = 'Сохранить изменения' then
+  if ButtonEdit.GetTag = 2 then
   begin
     EditVolume.WriteText(CheckFillStrFields.CheckStringFields
       (EditVolume.ReadText));
@@ -345,6 +345,14 @@ begin
           NameTapsList.GetItemsValue(NameTapsList.GetItemIndex),
           EditVolume.ReadText, StringGrid.GetValue(0, StringGrid.CurrentRow),
           TempCheckBox.CheckedString);
+        EditVolume.WriteText('0');
+        TypeOfTapList.WriteItemIndex(-1);
+        NameTapsList.Clear;
+        ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+        TempCheckBox.WriteChecked(False);
+        ButtonEdit.ChangeTag(1);
+        ButtonEdit.ChangeGlyph;
+        exit;
       end
       else
       begin
@@ -353,7 +361,8 @@ begin
         NameTapsList.Clear;
         ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
         TempCheckBox.WriteChecked(False);
-        ButtonEdit.ChangeCaption('Изменить');
+        ButtonEdit.ChangeTag(1);
+        ButtonEdit.ChangeGlyph;
         exit;
       end;
       GetStringGrid(CurrentForm);
@@ -369,10 +378,11 @@ begin
     ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
     TempCheckBox.WriteChecked(False);
   end;
-  if ButtonEdit.GetCaption = 'Изменить' then
-    ButtonEdit.ChangeCaption('Сохранить изменения')
-  else
-    ButtonEdit.ChangeCaption('Изменить');
+  if ButtonEdit.GetTag = 1 then
+  begin
+    ButtonEdit.ChangeTag(2);
+    ButtonEdit.ChangeGlyph;
+  end;
 
   CodeSite.Send(FormatDateTime('c', Now) + ' TMIOOKDK.ButtonEdited выполнена');
 end;

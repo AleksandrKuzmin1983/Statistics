@@ -95,7 +95,6 @@ begin
     TempArray[i] := CheckNull.CheckedValue(TempQuery.Fields[i].value);
   end;
   TempQuery.Close;
-
   CodeSite.Send(FormatDateTime('c', Now) + ' TBRWResultsOfTheProducts.create выполнена');
 end;
 

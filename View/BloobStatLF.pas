@@ -41,7 +41,7 @@ uses
   MRWWeeklyReport,
 
   USGlobalVariant,
-  BRWTableForDefect;
+  BRWTableForDefect, Vcl.Imaging.GIFImg;
 type
   TMyMainForm = class(TForm)
     MainMenu1: TMainMenu;
@@ -75,6 +75,8 @@ type
     QueryNumberOfDonations: TMenuItem;
     HarvestingBloodComponentsByTypes: TMenuItem;
     BloodProduction: TMenuItem;
+    Image1: TImage;
+    frxReport1: TfrxReport;
 
     procedure CloseButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -109,7 +111,7 @@ type
     procedure DeilyReportToTheZavClick(Sender: TObject);
     procedure WeeklyReportClick(Sender: TObject);
 
-    procedure Help1Click(Sender: TObject);  //Видимо не доживет
+    procedure Help1Click(Sender: TObject);
   private
     GlobalVariant: TUSGlobalVariant;
     TableForDefect: TBRWTableForDefect;
@@ -145,6 +147,7 @@ begin
   Windows.EnableMenuItem(SysMenu, SC_CLOSE, MF_DISABLED or MF_GRAYED);
   GetSystemMenu(Handle, false);
   Perform(WM_NCPAINT, Handle, 0);
+  MyMainForm.Color:=$ACFE98;
 
   CodeSite.Destination := TCodeSiteDestination.Create(CodeSite);
   CodeSite.Destination.LogFile.FilePath:=ExtractFilePath(Application.ExeName) + '/logs';
@@ -158,6 +161,7 @@ end;
 
 procedure TMyMainForm.HandlyHarvestingClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.HandlyHarvestingClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -168,6 +172,7 @@ end;
 
 procedure TMyMainForm.AutoAferezClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.AutoAferezClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -178,6 +183,7 @@ end;
 
 procedure TMyMainForm.CitoferezClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.CitoferezClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -188,6 +194,7 @@ end;
 
 procedure TMyMainForm.BCancellationClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.BCancellationClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -198,6 +205,7 @@ end;
 
 procedure TMyMainForm.ResultsInKrayClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.ResultsInKrayClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -208,6 +216,7 @@ end;
 
 procedure TMyMainForm.ResultsLPUClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.ResultsLPUClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -218,6 +227,7 @@ end;
 
 procedure TMyMainForm.VIO_OKDKClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.VIO_OKDKClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -228,6 +238,7 @@ end;
 
 procedure TMyMainForm.AdviceDoctorsClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.AdviceDoctorsClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -238,6 +249,7 @@ end;
 
 procedure TMyMainForm.AmountUsableErSuspClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.AmountUsableErSuspClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -248,6 +260,7 @@ end;
 
 procedure TMyMainForm.BCheckLPUClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.BCheckLPUClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -258,6 +271,7 @@ end;
 
 procedure TMyMainForm.ConsumptionErythrocyteEnvironmentsClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.ConsumptionErythrocyteEnvironmentsClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -268,6 +282,7 @@ end;
 
 procedure TMyMainForm.ConsumptionPlazmaClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.ConsumptionPlazmaClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -278,6 +293,7 @@ end;
 
 procedure TMyMainForm.ConsumptionTromboClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.ConsumptionTromboClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -288,6 +304,7 @@ end;
 
 procedure TMyMainForm.FlowRateWholeBloodClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.FlowRateWholeBloodClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -298,6 +315,7 @@ end;
 
 procedure TMyMainForm.MonthlyPlanClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.MonthlyPlanClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -308,6 +326,7 @@ end;
 
 procedure TMyMainForm.BloodProductionClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.BloodProductionClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -318,6 +337,7 @@ end;
 
 procedure TMyMainForm.HarvestingBloodComponentsByTypesClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.HarvestingBloodComponentsByTypesClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -328,6 +348,7 @@ end;
 
 procedure TMyMainForm.QueryNumberOfDonationsClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.QueryNumberOfDonationsClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -338,6 +359,7 @@ end;
 
 procedure TMyMainForm.ProcurementOfComponentsTotalClick(Sender: TObject);
 begin
+  Image1.Visible:=False;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.ProcurementOfComponentsTotalClick');
   if Assigned(GlobalVariant) then
     GlobalVariant.destroy;
@@ -348,6 +370,7 @@ end;
 
 procedure TMyMainForm.KrasnEveryDayClick(Sender: TObject);
 begin
+  Image1.Visible:=True;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.KrasnEveryDayClick');
   if not Assigned(ReportForm1) then
     Application.CreateForm(TForm, ReportForm1);
@@ -360,6 +383,7 @@ end;
 
 procedure TMyMainForm.DeilyReportToTheZavClick(Sender: TObject);
 begin
+  Image1.Visible:=True;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.DeilyReportToTheZavClick');
   if not Assigned(ReportForm1) then
     Application.CreateForm(TForm, ReportForm1);
@@ -372,20 +396,25 @@ end;
 
 procedure TMyMainForm.WeeklyReportClick(Sender: TObject);
 begin
+  Image1.Visible:=True;
   CodeSite.Send(FormatDateTime('c', Now) + ' Нажата TMyMainForm.WeeklyReportClick');
   if MonthOf(StartOfTheWeek(Date() - 7)) = MonthOf(EndOfTheWeek(Date() - 7))
   then
   begin
+    CodeSite.Send(FormatDateTime('c', Now) + ' Работаем с обычным недельным отчетом');
     if not Assigned(ReportForm1) then
       Application.CreateForm(TForm, ReportForm1);
     if Assigned(GlobalVariant) then
+    begin
       GlobalVariant.destroy;
-    CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
+      CodeSite.Send(FormatDateTime('c', Now) + ' Предыдущий GlobalVariant удален');
+    end;
     GlobalVariant := TMRWWeeklyReport.Create(ReportForm1);
     CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport - Создан');
   end
   else
   begin
+    CodeSite.Send(FormatDateTime('c', Now) + ' Работаем с переходящим недельным отчетом');
     if not Assigned(ReportForm1) then
       Application.CreateForm(TForm, ReportForm1);
     if Assigned(GlobalVariant) then

@@ -272,7 +272,7 @@ begin
     CheckFillStrFields := TUSCheckFillStringFields.create;
   if not Assigned(BlockMainMenu) then
     BlockMainMenu := TUSBlockMainMenu.create;
-  if ButtonEdit.GetCaption = 'Изменить' then
+  if ButtonEdit.GetTag = 1 then
   begin
     BlockMainMenu.BlockMainMenu(False, CurrentForm);
     ButtonBlock.ChangeEnabled(False);
@@ -306,7 +306,7 @@ begin
     EditNumberOfPackets.WriteText
       (VarToStr(StringGrid.GetValue(7, StringGrid.CurrentRow)));
   end;
-  if ButtonEdit.GetCaption = 'Сохранить изменения' then
+  if ButtonEdit.GetTag = 2 then
   begin
     EditVolume.WriteText(CheckFillStrFields.CheckStringFields
       (EditVolume.ReadText));
@@ -341,7 +341,17 @@ begin
         StringGrid.GetValue(0, StringGrid.CurrentRow));
       GetStringGrid(CurrentForm);
       StringGrid.Visible(True);
+      EditVolume.WriteText('0');
+      EditNumberOfDoses.WriteText('0');
+      EditPercentage.WriteText('0');
+      EditNumberOfPackets.WriteText('0');
+      ProductList.WriteItemIndex(-1);
+      TypeLPUList.WriteItemIndex(-1);
+      ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
+      ButtonEdit.ChangeTag(1);
+      ButtonEdit.ChangeGlyph;
       Showmessage('Запись успешно изменена!');
+      exit;
     end
     else
     begin
@@ -352,7 +362,8 @@ begin
       ProductList.WriteItemIndex(-1);
       TypeLPUList.WriteItemIndex(-1);
       ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
-      ButtonEdit.ChangeCaption('Изменить');
+      ButtonEdit.ChangeTag(1);
+      ButtonEdit.ChangeGlyph;
       exit;
     end;
     EditVolume.WriteText('0');
@@ -363,10 +374,11 @@ begin
     TypeLPUList.WriteItemIndex(-1);
     ReportDateCal.WriteDateTime(StartOfTheWeek(Date) - 7);
   end;
-  if ButtonEdit.GetCaption = 'Изменить' then
-    ButtonEdit.ChangeCaption('Сохранить изменения')
-  else
-    ButtonEdit.ChangeCaption('Изменить');
+  if ButtonEdit.GetTag = 1 then
+  begin
+    ButtonEdit.ChangeTag(2);
+    ButtonEdit.ChangeGlyph;
+  end;
 
   CodeSite.Send(FormatDateTime('c', Now) + ' TMIETTheResultsInLPU.ButtonEdited выполнена');
 end;

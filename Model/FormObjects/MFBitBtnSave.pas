@@ -59,7 +59,6 @@ begin
       Tag := 5;
       Enabled := False;
       OnClick := ProcedureOnClick;
-      name := 'BitBtnSave';
       Visible := False;
     end;
   end;

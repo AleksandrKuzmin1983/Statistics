@@ -3,7 +3,7 @@ unit MRWWeeklyReport;
 interface
 
 uses
-  Winapi.Windows, System.SysUtils, Vcl.Controls, CodeSiteLogging, Vcl.Forms, Vcl.Menus,
+  Winapi.Windows, System.SysUtils, CodeSiteLogging, Vcl.Controls, Vcl.Forms, Vcl.Menus,
   System.Classes,
   frxClass, frxDBSet, frxPreview, frxExportPDF, System.Win.Registry, dialogs,
   variants,
@@ -31,7 +31,7 @@ type
     frxTempMasterData: TfrxMasterData;
 
     TableForDefect: IBRWTableForDefect;
-    ar: array [0 .. 10, 0 .. 1] of string;
+    ar: array [0 .. 15, 0 .. 1] of string;
     WeeklyReportProduction: IBRWWeeklyReportProduction;
     TestResultsOfTheProducts: IBRWResultsOfTheProducts;
     DonorsAndProcedures: IBRWDonorsAndProcedures;
@@ -75,11 +75,18 @@ begin
     Height := 750;
     OnMouseWheel := PreviewMouseWheel;
   end;
-  GetReport(TempForm);
-  frxTempReport.ShowReport;
-  TempForm.ShowModal;
 
-  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.Create выполнена');
+  CodeSite.Send(FormatDateTime('c', Now) + ' Перед GetReport(TempForm)');
+
+  GetReport(TempForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' GetReport(TempForm) - Выполнена');
+
+  frxTempReport.ShowReport;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' frxTempReport.ShowReport - Выполнена');
+
+  TempForm.ShowModal;
   inherited;
 end;
 
@@ -88,8 +95,6 @@ begin
   FreeAndNil(frxTempPreview);
   FreeAndNil(frxTempReport);
   MainMenu.destroy;
-
-  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.destroy выполнена');
   inherited;
 end;
 
@@ -101,8 +106,6 @@ begin
   MainMenu.OnClickCloseForm(OnClickMenuClose);
   MainMenu.OnClickPrintReport(OnClickPrintReport);
   MainMenu.OnClickExportPDF(OnClickExportPDF);
-
-  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.GetMainMenu выполнена');
 end;
 
 procedure TMRWWeeklyReport.GetReport(CurrentForm: TForm);
@@ -112,10 +115,16 @@ var
 begin
   if not Assigned(frxTempPreview) then
     frxTempPreview := TfrxPreview.Create(CurrentForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' frxTempPreview := TfrxPreview.Create(CurrentForm) - Выполнена');
+
   frxTempPreview.Parent := CurrentForm;
   frxTempPreview.Align := alClient;
   if not Assigned(frxTempReport) then
     frxTempReport := TfrxReport.Create(CurrentForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' frxTempReport := TfrxReport.Create(CurrentForm); - Выполнена');
+
   frxTempReport.Clear;
   frxTempReport.Preview := frxTempPreview;
   CurrentDir := ExtractFileDir(ExtractFileDir(ParamStr(0)));
@@ -123,12 +132,19 @@ begin
     '\BaseAdapters\Reports\WeeklyReport\WeeklyReport.fr3');
   if not Assigned(frxDefect) then
     frxDefect := TfrxUserDataSet.Create(CurrentForm);
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' frxDefect := TfrxUserDataSet.Create(CurrentForm); - Выполнена');
+
   frxTempMasterData := frxTempReport.FindObject('MasterData1')
     as TfrxMasterData;
   frxTempMasterData.DataSet := frxDefect;
   frxTempReport.OnGetValue := frxDefectGetValue;
   if not Assigned(TableForDefect) then
     TableForDefect := TBRWTableForDefect.Create;
+
+  CodeSite.Send(FormatDateTime('c', Now) + ' TableForDefect := TBRWTableForDefect.Create - Выполнена');
+
+
   TableForDefect.GetContent;
   for i := 0 to TableForDefect.GetRowCount - 1 do
   begin
@@ -141,7 +157,9 @@ begin
   if not Assigned(WeeklyReportProduction) then
     WeeklyReportProduction := TBRWWeeklyReportProduction.Create;
   if not Assigned(SecondTable) then
+  begin
     SecondTable := TBRWSecondTable.Create;
+  end;
   // Заготовка план/факт
   frxTempReport.Variables.Variables['PlanVolumeWholeBlood'] :=
     '''' + WeeklyReportProduction.GetValuePlan(0) + '''';
@@ -192,12 +210,6 @@ begin
     '''' + SecondTable.GetPreparedFitProductionSZP + '''';
   frxTempReport.Variables.Variables['OutingProductWholeBlood'] :=
     '''' + SecondTable.GetOutingProductWholeBlood + '''';
-  frxTempReport.Variables.Variables['OutingPreparedFitProductionErSuspFiltr'] :=
-    '''' + SecondTable.GetOutingPreparedFitProductionErSuspFiltr + '''';
-  frxTempReport.Variables.Variables['OutingPreparedFitProductionErSusp'] :=
-    '''' + SecondTable.GetOutingPreparedFitProductionErSusp + '''';
-  frxTempReport.Variables.Variables['OutingPreparedFitProductionSZP'] :=
-    '''' + SecondTable.GetOutingPreparedFitProductionSZP + '''';
   // Выдача в ЛПУ
   if not Assigned(TestResultsOfTheProducts) then
     TestResultsOfTheProducts := TBRWResultsOfTheProducts.Create;
@@ -375,8 +387,6 @@ begin
       frxTempReport.Variables.Variables['Kray' + IntToStr(i + 1)] :=
         '''' + Cancellation_Kray.GetValueDoses(i) + '''';
   ShowMessage('Недельный отчет сформирован ... возможно даже успешно!');
-
-  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.GetReport выполнена');
 end;
 
 procedure TMRWWeeklyReport.frxDefectGetValue(const VarName: String;
@@ -386,8 +396,6 @@ begin
     Value := ar[frxDefect.RecNo, 0];
   if CompareText(VarName, 'Volume') = 0 then
     Value := ar[frxDefect.RecNo, 1];
-
-  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.frxDefectGetValue выполнена');
 end;
 
 procedure TMRWWeeklyReport.OnClickExportPDF(Sender: TObject);
@@ -399,22 +407,16 @@ begin
   frxTempExportPDF.DefaultPath := GetDesktopFolderPath + '\';
   frxTempReport.Export(frxTempExportPDF);
   frxTempReport.ShowReport;
-
-  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.OnClickExportPDF выполнена');
 end;
 
 procedure TMRWWeeklyReport.OnClickMenuClose(Sender: TObject);
 begin
   TempForm.ModalResult := mrOk;
-
-  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.OnClickMenuClose выполнена');
 end;
 
 procedure TMRWWeeklyReport.OnClickPrintReport(Sender: TObject);
 begin
   frxTempReport.Print;
-
-  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.OnClickPrintReport выполнена');
 end;
 
 procedure TMRWWeeklyReport.PreviewMouseWheel(Sender: TObject;
@@ -422,8 +424,6 @@ procedure TMRWWeeklyReport.PreviewMouseWheel(Sender: TObject;
   var Handled: Boolean);
 begin
   frxTempPreview.MouseWheelScroll(WheelDelta);
-
-  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.PreviewMouseWheel выполнена');
 end;
 
 function TMRWWeeklyReport.GetDesktopFolderPath: string;
@@ -437,8 +437,6 @@ begin
   Result := R.ReadString('Desktop');
   R.CloseKey;
   R.Free;
-
-  CodeSite.Send(FormatDateTime('c', Now) + ' TMRWWeeklyReport.GetDesktopFolderPath выполнена');
 end;
 
 end.
