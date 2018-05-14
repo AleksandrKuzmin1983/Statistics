@@ -271,7 +271,7 @@ function TMQNNumberOfDonations.GetLabelTitle(NameForm: TForm): TLabel;
 begin
   if not Assigned(Title) then
     Title := TMFTitleLabel.create;
-  Result := Title.GetTitleLabel(25, ' оличество донаций и заготовленной крови',
+  Result := Title.GetTitleLabel(25, ' оличество донаций',
     NameForm);
 
   CodeSite.Send(FormatDateTime('c', Now) + ' TMQNNumberOfDonations.GetLabelTitle выполнена');

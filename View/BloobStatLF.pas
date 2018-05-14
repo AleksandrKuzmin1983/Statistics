@@ -76,7 +76,6 @@ type
     HarvestingBloodComponentsByTypes: TMenuItem;
     BloodProduction: TMenuItem;
     Image1: TImage;
-    frxReport1: TfrxReport;
 
     procedure CloseButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);

@@ -4,7 +4,6 @@ interface
 
 uses
   SysUtils, Data.Win.ADODB, Dialogs, CodeSiteLogging, Data.DB, DateUtils,
-  USCheckNull,
   GetAdoConnect;
 
 type
@@ -17,7 +16,6 @@ type
   private
     TempConnect: ITempAdoQuery;
     TempQuery: TADOQuery;
-    CheckNull: TUSCheckNull;
   public
     procedure DeleteRecord(CurRecord: String);
   end;
@@ -30,8 +28,6 @@ procedure TBHMDeleteRecordManualHarvesting.DeleteRecord(CurRecord: String);
 begin
   if not Assigned(TempConnect) then
     TempConnect := TTempAdoQuery.create;
-  if not Assigned(CheckNull) then
-    CheckNull := TUSCheckNull.create;
   if not Assigned(TempQuery) then
     TempQuery := TADOQuery.create(nil);
   Try

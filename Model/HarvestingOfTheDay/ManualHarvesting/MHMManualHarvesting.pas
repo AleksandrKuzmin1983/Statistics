@@ -1017,7 +1017,7 @@ begin
     exit;
   end;
   if ValueChecksOnTheAdequacy.CheckZeroValues(EditSentToPreserving.ReadText,
-    'Количество отправленной крови на консервирование не может равняться нулю!')
+    'Объем отправленной крови на консервирование не может равняться нулю!')
   then
   begin
     Result := True;
@@ -1025,20 +1025,20 @@ begin
   end;
   if ValueChecksOnTheAdequacy.CheckZeroValues
     (EditForLaboratoryResearch.ReadText,
-    'Количество крови отправленной на лабораторные исследования не может равняться нулю!')
+    'Объем крови отправленной на лабораторные исследования не может равняться нулю!')
   then
   begin
     Result := True;
     exit;
   end;
   if ValueChecksOnTheAdequacy.CheckZeroValues(EditAllWholeBlood.ReadText,
-    'Количество цельной крови не может равняться нулю!') then
+    'Объем цельной крови не может равняться нулю!') then
   begin
     Result := True;
     exit;
   end;
   if ValueChecksOnTheAdequacy.CheckZeroValues(EditAllStoredBlood.ReadText,
-    'Количество консервированной крови не может равняться нулю!') then
+    'Объем консервированной крови не может равняться нулю!') then
   begin
     Result := True;
     exit;
@@ -1046,7 +1046,7 @@ begin
   if ValueChecksOnTheAdequacy.CheckingEqualities
     (StrToInt(EditForLaboratoryResearch.ReadText),
     20 * StrToInt(EditNumberOfDonors.ReadText),
-    'Количество крови на лабораторные исследования не соответствует количеству доноров!')
+    'Объем крови на лабораторные исследования не соответствует количеству доноров!')
   then
   begin
     Result := True;
@@ -1056,7 +1056,7 @@ begin
     StrToInt(EditForLaboratoryResearch.ReadText);
   if ValueChecksOnTheAdequacy.CheckingEqualities(value1,
     StrToInt(EditAllWholeBlood.ReadText),
-    'Количество цельной крови не совпадает с суммой "Отправлено на консервирование" и "На лабораторные иследования"!')
+    'Объем цельной крови не совпадает с суммой объемов "Отправлено на консервирование" и "На лабораторные иследования"!')
   then
   begin
     Result := True;
@@ -1080,7 +1080,7 @@ begin
           StrToInt(EditVolumeDefect.ReadText);
         if ValueChecksOnTheAdequacy.CheckingEqualities(value1,
           StrToInt(EditAllStoredBlood.ReadText),
-          'Количество консервированной крови не совпадает с суммой ее компонентов (скорее всего неправильно введен фильтрат или брак цельной крови)!')
+          'Объем консервированной крови не совпадает с суммой объемов ее компонентов (скорее всего неправильно введен фильтрат или брак цельной крови)!')
         then
         begin
           Result := True;
@@ -1090,7 +1090,7 @@ begin
           StrToInt(EditNumberDosesDefect.ReadText);
         if ValueChecksOnTheAdequacy.CheckingEqualities(value1,
           StrToInt(EditNumberOfDonors.ReadText),
-          'Количество донаций эр. взвеси не совпадает с количеством доноров!')
+          'Количество доз эр. взвеси не совпадает с количеством доноров!')
         then
         begin
           Result := True;
@@ -1100,7 +1100,7 @@ begin
           StrToInt(EditNumberDosesDefect.ReadText);
         if ValueChecksOnTheAdequacy.CheckingEqualities(value1,
           StrToInt(EditNumberOfDonors.ReadText),
-          'Количество донаций плазмы не совпадает с количеством доноров!') then
+          'Количество доз плазмы не совпадает с количеством доноров!') then
         begin
           Result := True;
           exit;

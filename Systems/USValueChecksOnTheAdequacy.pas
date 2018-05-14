@@ -4,9 +4,7 @@ interface
 
 uses
   Data.DB, Dialogs, CodeSiteLogging, Data.Win.ADODB, SysUtils,
-  USCheckNull,
-  USCheckFillStringFields,
-  GetAdoConnect;
+  USCheckFillStringFields;
 
 type
   IUSValueChecksOnTheAdequacy = interface
